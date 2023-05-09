@@ -2,6 +2,11 @@ from PyQt5.QtWidgets import (
     QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QStackedWidget, QSplitter,
     QTextEdit, QButtonGroup, QStyle
 )
+from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
+from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
+from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
+from NTU.fft.controller import MainWindow_controller as FFTWidget
+# from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
 
 class Config():
     def __init__(self) -> None:
@@ -57,5 +62,36 @@ class Config():
                         ]
                     },
                 ]
-            }
+            },
+            { 
+                "name": "NTU",
+                "navigation_list":
+                [
+                    {
+                        "name": "NTU",
+                        "widget_list":[
+                            {
+                                "name": "sharpness",
+                                "widget": SharpnessWidget()
+                            },
+                            {
+                                "name": "colorcheck",
+                                "widget": ColorcheckWidget()
+                            },
+                            {
+                                "name": "perceptual_distance",
+                                "widget": PerceptualDistancekWidget()
+                            },
+                            {
+                                "name": "fft",
+                                "widget": FFTWidget()
+                            },
+                            # {
+                            #     "name": "dxo_dead_leaves",
+                            #     "widget": DXO_DFWidget()
+                            # }
+                        ]
+                    }
+                ]
+            },
         ]
