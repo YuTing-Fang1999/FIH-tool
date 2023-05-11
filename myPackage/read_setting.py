@@ -14,3 +14,8 @@ def read_setting():
         return {
             "filefolder": "./"
         }
+        
+def write_setting(setting):
+    print('write_setting')
+    with open("setting.json", "w") as outfile:
+        outfile.write(json.dumps(setting, indent=4))

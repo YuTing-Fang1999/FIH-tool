@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence, QFont
 import numpy as np
-from myPackage.read_setting import read_setting, write_setting
+from myPackage.read_setting import read_setting
 
 class TableWidget(QTableWidget):
     def __init__(self):
@@ -45,7 +45,7 @@ class TableWidget(QTableWidget):
             for j, item in enumerate(row):
                 self.setItem(i, j, QTableWidgetItem(str(item)))
     
-        self.setFixedSize(80*len(data[0])+30, 20*len(data)+30)
+        self.setFixedSize(80*len(data[0])+50, 27*len(data)+35)
         
     def get_data(self)->np.ndarray:
         
@@ -69,9 +69,6 @@ class MyWidget(QWidget):
         self.load_txt_btn = QPushButton("Load txt")
         self.load_txt_btn.clicked.connect(self.open_txt)
         
-        self.transpose_btn = QPushButton("Transpose")
-        self.transpose_btn.clicked.connect(self.transpose)
-        
         self.export_txt_btn = QPushButton("Export to txt")
         self.export_txt_btn.clicked.connect(self.export_txt)
         
@@ -82,41 +79,39 @@ class MyWidget(QWidget):
         self.info_label.setFont(font)
         self.info_label.hide()
         
-        table_layout = QHBoxLayout()
-        origin_layout = QVBoxLayout()
+        tables_layout = QHBoxLayout()
+        tabel1_layout = QVBoxLayout()
         result_layout = QVBoxLayout()
         
-        self.origin_table = []
-        self.origin_title = []
-        self.gain_title = ['r_gain', 'gr_gain', 'gb_gain', 'b_gain']
-        for i in range(4):
-            label = QLabel(self.gain_title[i])
-            table = TableWidget()
-            table.itemChanged.connect(self.transpose)
-            self.origin_title.append(label)
-            self.origin_table.append(table)
-            origin_layout.addWidget(label)
-            origin_layout.addWidget(table)
+        # self.origin_table = []
+        # self.origin_title = []
+        # self.gain_title = ['r_gain', 'gr_gain', 'gb_gain', 'b_gain']
+        # for i in range(4):
+        #     label = QLabel(self.gain_title[i])
+        #     table = TableWidget()
+        #     table.itemChanged.connect(self.transpose)
+        #     self.origin_title.append(label)
+        #     self.origin_table.append(table)
+        #     origin_layout.addWidget(label)
+        #     origin_layout.addWidget(table)
             
-            
-            
-        verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        origin_layout.addItem(verticalSpacer)
+        # verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # origin_layout.addItem(verticalSpacer)
         
-        self.result_title = QLabel("Result")
-        result_layout.addWidget(self.result_title)
-        self.result_table = TableWidget()
-        self.result_table.setHorizontalHeaderLabels(self.gain_title)
-        result_layout.addWidget(self.result_table)
-        result_layout.addItem(verticalSpacer)
+        # self.result_title = QLabel("Result")
+        # result_layout.addWidget(self.result_title)
+        # self.result_table = TableWidget()
+        # self.result_table.setHorizontalHeaderLabels(self.gain_title)
+        # result_layout.addWidget(self.result_table)
+        # result_layout.addItem(verticalSpacer)
         
         
-        table_layout.addWidget(self.info_label)
-        table_layout.addLayout(origin_layout)
-        table_layout.addLayout(result_layout)
+        tables_layout.addWidget(self.info_label)
+        tables_layout.addLayout(tabel1_layout)
+        tables_layout.addLayout(result_layout)
 
         inner_widget = QWidget()
-        inner_widget.setLayout(table_layout)
+        inner_widget.setLayout(tables_layout)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -124,7 +119,6 @@ class MyWidget(QWidget):
 
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(self.load_txt_btn)
-        # main_layout.addWidget(self.transpose_btn)
         main_layout.addWidget(self.export_txt_btn)
         main_layout.addWidget(scroll_area)
         
@@ -141,18 +135,12 @@ class MyWidget(QWidget):
         if filepath == '':
             return
         
-        self.filefolder = '/'.join(filepath.split('/')[:-1])
-        self.update_filefolder(self.filefolder)
-        
         try:
-            gain_title, gain_arr = self.parse_txt(filepath)
-            for i in range(len(gain_title)):
-                self.origin_table[i].set_data(gain_arr[i])
-                self.origin_title[i].show()
-                self.origin_table[i].show()
+            gain_arr = self.parse_txt(filepath)
+            print(gain_arr)
             
-            self.transpose()
-            self.show_all_table()
+            # self.transpose()
+            # self.show_all_table()
         
         except:
             self.hide_all_table()
@@ -183,7 +171,7 @@ class MyWidget(QWidget):
         data = []
         for i in range(4):
             data.append(self.origin_table[i].get_data().flatten())
-        self.result_table.set_data(np.array(data, dtype=object).T)
+        self.result_table.set_data(np.array(data).T)
     
     def export_txt(self):
         filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.filefolder,"*.txt")
@@ -211,12 +199,6 @@ class MyWidget(QWidget):
         for i in range(4):
             self.origin_title[i].show()
             self.origin_table[i].show()
-            
-    def update_filefolder(self, filefolder):
-        if filefolder != "./" and filefolder != self.setting["filefolder"]:
-            self.setting["filefolder"] = filefolder
-            print('write ', filefolder, ' to filefolder setting')
-            write_setting(self.setting)
 
 
 if __name__ == '__main__':
@@ -225,4 +207,6 @@ if __name__ == '__main__':
     window = MyWidget()
     # 顯示窗口
     window.showMaximized()
+    # print(np.round([2.7059e-06, 5.3785e-01, 1.6905e-02, 9.9976e-01, 9.0184e-01, 1.7111e-08, 2.7976e-06], 4))
+
     sys.exit(app.exec_())
