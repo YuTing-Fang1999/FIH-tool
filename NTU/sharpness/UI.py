@@ -24,12 +24,10 @@ class Ui_MainWindow(object):
         self.score = []
         self.score_region = []
 
-        spacerItem = QtWidgets.QSpacerItem(
-            0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1000, 750)
+        spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.verticalLayout_parent = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
 
         self.horizontalLayout_upper = QtWidgets.QHBoxLayout()
         self.horizontalLayout_upper.addItem(spacerItem)
@@ -40,7 +38,7 @@ class Ui_MainWindow(object):
             self.horizontalLayout_upper.addWidget(open_img_btn)
             
         self.horizontalLayout_upper.addItem(spacerItem)
-        self.verticalLayout_parent.addLayout(self.horizontalLayout_upper)
+        self.main_layout.addLayout(self.horizontalLayout_upper)
 
         self.horizontalLayout_medium = QtWidgets.QHBoxLayout()
         # self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -62,7 +60,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_medium.setStretch(2, 1)
         self.horizontalLayout_medium.setStretch(3, 1)
 
-        self.verticalLayout_parent.addLayout(self.horizontalLayout_medium)
+        self.main_layout.addLayout(self.horizontalLayout_medium)
 
         self.horizontalLayout_lower = QtWidgets.QHBoxLayout()
         self.horizontalLayout_lower.addItem(spacerItem)
@@ -96,7 +94,7 @@ class Ui_MainWindow(object):
             self.horizontalLayout_lower.addWidget(gridLayout_wrapper)
             gridLayout_wrapper.hide()
         self.horizontalLayout_lower.addItem(spacerItem)
-        self.verticalLayout_parent.addLayout(self.horizontalLayout_lower)
+        self.main_layout.addLayout(self.horizontalLayout_lower)
         # self.verticalLayout_parent.addItem(spacerItem)
 
 
@@ -104,22 +102,6 @@ class Ui_MainWindow(object):
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
             "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 992, 25))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-
-        self.retranslateUi(MainWindow)
-        # self.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "sharpness"))
-
 
 if __name__ == "__main__":
     import sys

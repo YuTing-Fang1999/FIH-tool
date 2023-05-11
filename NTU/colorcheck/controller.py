@@ -39,17 +39,10 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.ui.img_block[i].clear()
             self.ui.tabWidget.setTabText(i, "PIC"+str(i+1))
 
-    def setup_open_img(self, i):
-        self.ui.open_img_btn[i].clicked.connect(lambda: self.open_img(i))
-
-    def open_img(self, tab_idx):
-        self.selectROI_window.open_img(tab_idx)
-
     def setup_control(self):
-        self.setup_open_img(0)  # 須個別賦值(不能用for迴圈)，否則都會用到同一個數值
-        self.setup_open_img(1)
-        self.setup_open_img(2)
-        self.setup_open_img(3)
+        # 要使用lambda checked, i=i :，否則都會用到同一個數值
+        for i in range(4):
+            self.ui.open_img_btn[i].clicked.connect(lambda checked, i=i :self.selectROI_window.open_img(i))
         self.ui.btn_compute.clicked.connect(self.compute)
 
         # 選好ROI後觸發

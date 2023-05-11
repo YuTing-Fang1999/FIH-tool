@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import (
 )
 from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
-from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
+# from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
+from QUL.OTPgolden.MyWidget import MyWidget as OTPgoldenWidget
 
 class Config():
     def __init__(self) -> None:
@@ -52,8 +53,8 @@ class Config():
                         "name": "AE",
                         "widget_list":[
                             {
-                                "name": "QUL AE1",
-                                "widget": QLabel("QUL AE1")
+                                "name": "OTPgolden",
+                                "widget": OTPgoldenWidget()
                             },
                             {
                                 "name": "QUL AE2",
@@ -78,10 +79,10 @@ class Config():
                                 "name": "colorcheck",
                                 "widget": ColorcheckWidget()
                             },
-                            {
-                                "name": "perceptual_distance",
-                                "widget": PerceptualDistancekWidget()
-                            },
+                            # {
+                            #     "name": "perceptual_distance",
+                            #     "widget": PerceptualDistancekWidget()
+                            # },
                             {
                                 "name": "fft",
                                 "widget": FFTWidget()

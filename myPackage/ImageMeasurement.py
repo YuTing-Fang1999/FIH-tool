@@ -82,26 +82,26 @@ def get_Imatest_any_sharp(img):
 
     return np.round(((H**2 + V**2)/2)**(0.5), 4)
 
-import lpips
-import torch
-## Initializing the model
-loss_fn = lpips.LPIPS(net='alex',version='0.1')
+# import lpips
+# import torch
+# ## Initializing the model
+# loss_fn = lpips.LPIPS(net='alex',version='0.1')
 
-if(torch.cuda.is_available()):
-	loss_fn.cuda()
+# if(torch.cuda.is_available()):
+# 	loss_fn.cuda()
 
-def get_perceptual_distance(img0, img1):
-    # Load images
-    img0 = lpips.im2tensor(img0) # RGB image from [-1,1]
-    img1 = lpips.im2tensor(img1)
+# def get_perceptual_distance(img0, img1):
+#     # Load images
+#     img0 = lpips.im2tensor(img0) # RGB image from [-1,1]
+#     img1 = lpips.im2tensor(img1)
 
-    if(torch.cuda.is_available()):
-        img0 = img0.cuda()
-        img1 = img1.cuda()
+#     if(torch.cuda.is_available()):
+#         img0 = img0.cuda()
+#         img1 = img1.cuda()
 
-    # Compute distance
-    dist01 = loss_fn.forward(img0, img1)
-    return float('%.4f'%dist01)
+#     # Compute distance
+#     dist01 = loss_fn.forward(img0, img1)
+#     return float('%.4f'%dist01)
 
 def get_Y(img_origin):
     img = copy.copy(img_origin)

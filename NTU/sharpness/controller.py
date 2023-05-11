@@ -21,12 +21,9 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         self.setup_control()
         
     def setup_control(self):
-        # 須個別賦值(不能用for迴圈)，否則都會用到同一個數值
-        self.ui.open_img_btn[0].clicked.connect(lambda: self.open_img(0))
-        self.ui.open_img_btn[1].clicked.connect(lambda: self.open_img(1))
-        self.ui.open_img_btn[2].clicked.connect(lambda: self.open_img(2))
-        self.ui.open_img_btn[3].clicked.connect(lambda: self.open_img(3))
-        # self.ui.open_img_btn.clicked.connect(self.open_img)
+        # 要使用lambda checked, i=i :，否則都會用到同一個數值
+        for i in range(4):
+            self.ui.open_img_btn[i].clicked.connect(lambda checked, i=i :self.selectROI_window.open_img(i))
         self.selectROI_window.to_main_window_signal.connect(self.set_roi_coordinate)
 
     def closeEvent(self, e):
@@ -34,16 +31,13 @@ class MainWindow_controller(QtWidgets.QMainWindow):
             self.ui.img_block[i].hide()
             self.ui.score_region[i].hide()
 
-    def open_img(self, tab_idx):
-        self.selectROI_window.open_img(tab_idx)
-
     def set_roi_coordinate(self, img_idx, img, roi_coordinate, filename):
         roi_img = get_roi_img(img, roi_coordinate)
         self.ui.img_block[img_idx].img = img
         self.ui.img_block[img_idx].roi_img = roi_img
 
         self.ui.img_block[img_idx].setPhoto(roi_img, filename)
-        self.ui.filename[img_idx].setText(filename)
+        self.ui.filename[img_idx].setText(str(img_idx+1)+'.'+filename)
         self.ui.img_block[img_idx].show()
         self.ui.score_region[img_idx].show()
         self.compute(img_idx)
