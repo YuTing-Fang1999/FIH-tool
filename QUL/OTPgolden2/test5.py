@@ -1,61 +1,31 @@
-from openpyxl import Workbook
-from openpyxl.chart import (
-    SurfaceChart,
-    SurfaceChart3D,
-    Reference,
-    Series,
-)
-from openpyxl.chart.axis import SeriesAxis
-
-wb = Workbook()
-ws = wb.active
-
-data = [
-    [ 15, 65, 105, 65, 15,],
-    [ 35, 105, 170, 105, 35,],
-    [ 55, 135, 215, 135, 55,],
-    [ 75, 155, 240, 155, 75,],
-    [ 80, 190, 245, 190, 80,],
-    [ 75, 155, 240, 155, 75,],
-    [ 55, 135, 215, 135, 55,],
-    [ 35, 105, 170, 105, 35,],
-    [ 15, 65, 105, 65, 15],
-]
-
-for row in data:
-    ws.append(row)
-
-
-c1 = SurfaceChart()
-ref = Reference(ws, min_col=1, max_col=6, min_row=1, max_row=10)
-labels = Reference(ws, min_col=1, min_row=2, max_row=10)
-c1.add_data(ref, titles_from_data=True)
-c1.set_categories(labels)
-c1.title = "Contour"
-
-ws.add_chart(c1, "A12")
-
 from copy import deepcopy
 
-# wireframe
-c2 = deepcopy(c1)
-c2.wireframe = True
-c2.title = "2D Wireframe"
+import openpyxl
+from openpyxl.chart import SurfaceChart, SurfaceChart3D, Reference
+from openpyxl.drawing.image import Image
+import numpy as np
 
-ws.add_chart(c2, "G12")
+# Load your workbook and sheet as you want, for example
+wb = openpyxl.load_workbook('GM2_分析.xlsx', data_only=True)
+ws = wb['Range1']
 
-# 3D Surface
-c3 = SurfaceChart3D()
-c3.add_data(ref, titles_from_data=True)
-c3.set_categories(labels)
-c3.title = "Surface"
+# 取得圖表資料
+data = ws['G1':'W13']
+# 將資料轉換為 NumPy 陣列
+# data = np.array([[cell.value for cell in row] for row in data])
 
-ws.add_chart(c3, "A29")
+# 創建 SurfaceChart3D 圖表
+chart = SurfaceChart3D()
+chart.title = ws['F1'].value
+data = Reference(ws, min_row=1, min_col=7, max_row=13, max_col=23)
+chart.add_data(data)
 
-c4 = deepcopy(c3)
-c4.wireframe = True
-c4.title = "3D Wireframe"
+# set the elevation to 90 degrees and the rotation to -90 degrees
+chart.elevation = 90
+chart.rotation = -90
 
-ws.add_chart(c4, "G29")
+# add the chart to the worksheet
+ws.add_chart(chart, "X58")
 
-wb.save("surface.xlsx")
+# save the workbook to a file
+wb.save("my_chart.xlsx")
