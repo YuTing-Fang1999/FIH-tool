@@ -19,6 +19,7 @@ class Navigation(QListWidget):
 
         self.btn_page_stack = QStackedWidget()
         self.widget_stack = QStackedWidget()
+        self.instruction_stack = QStackedWidget()
         self.total_btn_group = QButtonGroup()
         self.total_btn_group.setExclusive(True)
         idx = 0
@@ -34,9 +35,11 @@ class Navigation(QListWidget):
                 if j!=0: btn_page.addRightArowLabel()
                 self.total_btn_group.addButton(btn)
                 btn.clicked.connect(lambda checked, idx=idx: self.widget_stack.setCurrentIndex(idx))
+                btn.clicked.connect(lambda checked, idx=idx: self.instruction_stack.setCurrentIndex(idx))
                 idx+=1
                 btn_page.addBtn(btn)
                 self.widget_stack.addWidget(widget["widget"])
+                self.instruction_stack.addWidget(widget["instruction"])
             self.btn_page_stack.addWidget(btn_page)
 
         self.currentRowChanged.connect(self.display_btn_page)
@@ -89,8 +92,9 @@ class ToolSelection(QWidget):
     def __init__(self):
         super().__init__()
 
-    def set_widget_stack(self, widget_stack: QStackedWidget):
+    def setup_stack(self, widget_stack: QStackedWidget, instructions_stack: QStackedWidget):
         self.widget_stack = widget_stack
+        self.instructions_stack = instructions_stack
 
         main_config = Config().main_config
         main_layout = QVBoxLayout(self)
@@ -113,6 +117,7 @@ class ToolSelection(QWidget):
             side_navigation = Navigation(each_config["navigation_list"])
             self.btn_page_stack.addWidget(side_navigation.btn_page_stack)
             self.widget_stack.addWidget(side_navigation.widget_stack)
+            self.instructions_stack.addWidget(side_navigation.instruction_stack)
             self.side_navigation_stack.addWidget(side_navigation)
         
         splitter.addWidget(self.side_navigation_stack)
@@ -125,6 +130,7 @@ class ToolSelection(QWidget):
 
     def set_stack(self, idx):
         self.widget_stack.setCurrentIndex(idx)
+        self.instructions_stack.setCurrentIndex(idx)
         self.btn_page_stack.setCurrentIndex(idx)
         self.side_navigation_stack.setCurrentIndex(idx)
 
@@ -136,12 +142,21 @@ class MainWindow(QWidget):
         main_layout = QVBoxLayout(self)
         self.tool_selection_widget = ToolSelection()
         self.widget_stack = QStackedWidget()
+        self.instructions_stack = QStackedWidget()
+        self.tool_selection_widget.setup_stack(self.widget_stack)
+        self.tool_selection_widget.set_instructions_stack(self.instructions_stack)
+        
+        buttom_splitter = StyleSplitter()
+        buttom_splitter.setOrientation(Qt.Horizontal)
+        buttom_splitter.addWidget(self.instructions_stack)
+        buttom_splitter.addWidget(self.widget_stack)
+        buttom_splitter.setStretchFactor(0,1)
+        buttom_splitter.setStretchFactor(1,1)
 
         splitter = StyleSplitter()
         splitter.setOrientation(Qt.Vertical)
         splitter.addWidget(self.tool_selection_widget)
-        splitter.addWidget(self.widget_stack)
-        self.tool_selection_widget.set_widget_stack(self.widget_stack)
+        splitter.addWidget(buttom_splitter)
         splitter.setStretchFactor(0,1)
         splitter.setStretchFactor(1,1)
         main_layout.addWidget(splitter)
