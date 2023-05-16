@@ -1,41 +1,43 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QComboBox
 
-
-class Example(QWidget):
-
+class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
 
-    def initUI(self):
-        
-        # 創建兩個QPushButton和一個QLabel
-        button1 = QPushButton("Button 1", self)
-        button2 = QPushButton("Button 2", self)
-        label = QLabel("Label", self)
+        self.is_open = False  # 下拉式选单的状态，默认为关闭
 
-        # 將按鈕和標籤添加到一個垂直佈局中
-        vbox = QVBoxLayout()
-        vbox.addWidget(button1)
-        vbox.addWidget(button2)
-        vbox.addWidget(label)
+        layout = QVBoxLayout()
+        self.setLayout(layout)
 
-        # 將垂直佈局添加到水平佈局中
-        hbox = QHBoxLayout()
-        hbox.addLayout(vbox)
+        self.toggle_button = QPushButton("Toggle")
+        self.toggle_button.clicked.connect(self.toggle_dropdown)
+        layout.addWidget(self.toggle_button)
 
-        # 將水平佈局設置為將子控件對齊到頂部
-        hbox.setAlignment(Qt.AlignTop)
+        self.dropdown_widget = QWidget()
+        dropdown_layout = QVBoxLayout()
+        self.dropdown_widget.setLayout(dropdown_layout)
 
-        self.setLayout(hbox)
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle('QHBoxLayout Example')
-        self.show()
+        self.label1 = QLabel("Item 1")
+        self.label2 = QLabel("Item 2")
+        dropdown_layout.addWidget(self.label1)
+        dropdown_layout.addWidget(self.label2)
 
+    def toggle_dropdown(self):
+        if self.is_open:
+            self.close_dropdown()
+        else:
+            self.open_dropdown()
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
+    def open_dropdown(self):
+        self.layout().addWidget(self.dropdown_widget)
+        self.is_open = True
+
+    def close_dropdown(self):
+        self.layout().removeWidget(self.dropdown_widget)
+        self.is_open = False
+
+if __name__ == "__main__":
+    app = QApplication([])
+    widget = MyWidget()
+    widget.show()
+    app.exec()
