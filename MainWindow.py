@@ -2,7 +2,7 @@ import typing
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QSplitter,
-    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem
+    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem, QToolButton
 )
 from PyQt5.QtCore import Qt
 # from PyQt5.QtGui import 
@@ -110,6 +110,7 @@ class ButtonPage(QWidget):
 
     def addBtn(self, btn):
         self.main_layout.addWidget(btn)
+        
     def addRightArowLabel(self):
         self.main_layout.addWidget(RightArowLabel())
 
@@ -121,6 +122,15 @@ class RightArowLabel(QLabel):
         arrow_icon = style.standardIcon(QStyle.SP_MediaPlay)
         # Create a QLabel with the right arrow icon
         self.setPixmap(arrow_icon.pixmap(24, 24)) # set the size of the icon
+        
+class ButtonToggleOpen(QToolButton):
+
+    def __init__(self):
+        super().__init__()
+        self.setCheckable(True)                                  
+        self.setArrowType(Qt.UpArrow)
+        self.setAutoRaise(True)
+        self.setToolButtonStyle(Qt.ToolButtonIconOnly)
 
 
 class StyleSplitter(QSplitter):
@@ -188,7 +198,31 @@ class WidgetDisplay(QWidget):
     def display_widget(self, i):
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
-
+        
+class FoldMenu(QWidget):
+    def __init__(self, widget):
+        super().__init__()
+        vLayout = QVBoxLayout(self)
+        vLayout.addWidget(widget)
+        self.widget = widget
+        
+        # Create the QHBoxLayout
+        btn_layout = QHBoxLayout()
+        self.btn_toggle_open = ButtonToggleOpen()
+        btn_layout.addWidget(self.btn_toggle_open)
+        btn_layout.setAlignment(Qt.AlignRight)
+        vLayout.addLayout(btn_layout)
+        
+        self.btn_toggle_open.clicked.connect(self.toggle_open)
+        
+    def toggle_open(self):
+        if self.btn_toggle_open.isChecked():
+            self.widget.hide()
+            self.btn_toggle_open.setArrowType(Qt.DownArrow)
+        else:
+            self.widget.show()
+            self.btn_toggle_open.setArrowType(Qt.UpArrow)
+        
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -197,14 +231,6 @@ class MainWindow(QWidget):
         main_layout = QVBoxLayout(self)
         self.tool_selection = ToolSelection()
         self.widget_display = WidgetDisplay()
-        
-        splitter = StyleSplitter()
-        splitter.setOrientation(Qt.Vertical)
-        splitter.addWidget(self.tool_selection)
-        splitter.addWidget(self.widget_display)
-        splitter.setStretchFactor(0,1)
-        splitter.setStretchFactor(1,30)
-        main_layout.addWidget(splitter)
         
         main_config = Config().main_config
         self.tool_selection.platform_btn_group = QButtonGroup() # 要用self!
@@ -222,6 +248,14 @@ class MainWindow(QWidget):
             self.widget_display.widget_stack.add_stack_layout(function_list.widget_stack)
             button.clicked.connect(lambda checked, i=i: self.display_stack(i))
             self.tool_selection.platform_layout.addWidget(button)
+            
+        splitter = StyleSplitter()
+        splitter.setOrientation(Qt.Vertical)
+        splitter.addWidget(FoldMenu(self.tool_selection))
+        splitter.addWidget(self.widget_display)
+        splitter.setStretchFactor(0,1)
+        splitter.setStretchFactor(1,30)
+        main_layout.addWidget(splitter)
             
     def display_stack(self, i):
         self.tool_selection.function_stack.setCurrentIndex(i)

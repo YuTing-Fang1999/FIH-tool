@@ -1,30 +1,37 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QLabel
 import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton
 
-app = QApplication(sys.argv)
-window = QWidget()
-layout = QVBoxLayout()
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-# 创建一个 QListWidget
-list_widget = QListWidget()
+        self.setWindowTitle("摺疊收起示例")
+        self.setGeometry(200, 200, 300, 200)
 
-# 创建表头项
-header_item = QListWidgetItem()
-header_label = QLabel("表头")
-header_label.setStyleSheet("font-weight: bold;")
-header_item.setSizeHint(header_label.sizeHint())
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
-# 将表头项插入到 QListWidget 的第一行
-list_widget.insertItem(0, header_item)
-list_widget.setItemWidget(header_item, header_label)
+        self.layout = QVBoxLayout()
+        self.central_widget.setLayout(self.layout)
 
-# 添加其他项目
-list_widget.addItem("项目1")
-list_widget.addItem("项目2")
-list_widget.addItem("项目3")
+        self.widget = QWidget()
+        self.widget.setHidden(False)
+        self.layout.addWidget(self.widget)
 
-layout.addWidget(list_widget)
-window.setLayout(layout)
+        self.button = QPushButton("SpinBoxUp")
+        self.button.clicked.connect(self.toggle_widget)
+        self.layout.addWidget(self.button)
 
-window.show()
-sys.exit(app.exec_())
+    def toggle_widget(self):
+        if self.widget.isHidden():
+            self.widget.setHidden(False)
+            self.button.setText("SpinBoxUp")
+        else:
+            self.widget.setHidden(True)
+            self.button.setText("SpinBoxDown")
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
