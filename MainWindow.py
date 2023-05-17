@@ -2,7 +2,7 @@ import typing
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QSplitter,
-    QTextEdit, QButtonGroup, QStyle, QStackedLayout
+    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem
 )
 from PyQt5.QtCore import Qt
 # from PyQt5.QtGui import 
@@ -44,6 +44,16 @@ class FunctionList(QListWidget):
     def __init__(self, config) -> None:
         super().__init__()
         
+        # create header
+        header_item = QListWidgetItem()
+        header_label = QLabel("Function")
+        header_label.setStyleSheet("font-weight: bold;")
+        header_item.setSizeHint(header_label.sizeHint())
+
+        # 将表头项插入到 QListWidget 的第一行
+        self.insertItem(0, header_item)
+        self.setItemWidget(header_item, header_label)
+        
         self.action_stack = MyStackedLayout()
         self.pipeline_stack = MyStackedLayout()
         self.instruction_stack = MyStackedLayout()
@@ -57,9 +67,10 @@ class FunctionList(QListWidget):
             self.widget_stack.add_stack_layout(action_list.widget_stack)
         
         self.currentRowChanged.connect(self.display_stack)
-        self.item(0).setSelected(True)
+        self.item(1).setSelected(True) # 0 是header
 
     def display_stack(self, i):
+        i-=1 # 0 是header
         self.action_stack.setCurrentIndex(i)
         self.pipeline_stack.setCurrentIndex(i)
         self.instruction_stack.setCurrentIndex(i)

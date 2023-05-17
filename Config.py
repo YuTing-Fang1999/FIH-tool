@@ -19,7 +19,7 @@ class Config():
                         {
                             "name": "LSC分析小工具",
                             "instruction": QLabel("LSC golden: 將LSC golden資料轉換成高通C7讀檔格式"),
-                            "widget": QLabel("LSC分析小工具"),
+                            "widget": OTPgoldenWidget(),
                         },
                     ],
                     "Tuning":[

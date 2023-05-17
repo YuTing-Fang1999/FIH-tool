@@ -1,43 +1,30 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QLabel
+import sys
 
-class MyWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+app = QApplication(sys.argv)
+window = QWidget()
+layout = QVBoxLayout()
 
-        self.is_open = False  # 下拉式选单的状态，默认为关闭
+# 创建一个 QListWidget
+list_widget = QListWidget()
 
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+# 创建表头项
+header_item = QListWidgetItem()
+header_label = QLabel("表头")
+header_label.setStyleSheet("font-weight: bold;")
+header_item.setSizeHint(header_label.sizeHint())
 
-        self.toggle_button = QPushButton("Toggle")
-        self.toggle_button.clicked.connect(self.toggle_dropdown)
-        layout.addWidget(self.toggle_button)
+# 将表头项插入到 QListWidget 的第一行
+list_widget.insertItem(0, header_item)
+list_widget.setItemWidget(header_item, header_label)
 
-        self.dropdown_widget = QWidget()
-        dropdown_layout = QVBoxLayout()
-        self.dropdown_widget.setLayout(dropdown_layout)
+# 添加其他项目
+list_widget.addItem("项目1")
+list_widget.addItem("项目2")
+list_widget.addItem("项目3")
 
-        self.label1 = QLabel("Item 1")
-        self.label2 = QLabel("Item 2")
-        dropdown_layout.addWidget(self.label1)
-        dropdown_layout.addWidget(self.label2)
+layout.addWidget(list_widget)
+window.setLayout(layout)
 
-    def toggle_dropdown(self):
-        if self.is_open:
-            self.close_dropdown()
-        else:
-            self.open_dropdown()
-
-    def open_dropdown(self):
-        self.layout().addWidget(self.dropdown_widget)
-        self.is_open = True
-
-    def close_dropdown(self):
-        self.layout().removeWidget(self.dropdown_widget)
-        self.is_open = False
-
-if __name__ == "__main__":
-    app = QApplication([])
-    widget = MyWidget()
-    widget.show()
-    app.exec()
+window.show()
+sys.exit(app.exec_())
