@@ -1,6 +1,6 @@
 import sys
 import re
-sys.path.append('..')  # add parent folder to the system path
+sys.path.append('../..')  # add parent folder to the system path
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
     QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
@@ -9,6 +9,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence, QFont
 import numpy as np
 from myPackage.read_setting import read_setting
+from myPackage.ExcelWidget import open_and_save
+from openpyxl import load_workbook
 
 class TableWidget(QTableWidget):
     def __init__(self):
@@ -46,6 +48,37 @@ class TableWidget(QTableWidget):
             data.append(row_data)
         return np.array(data, dtype=object)
     
+class Left(QVBoxLayout):
+    def __init__(self):
+        super().__init__()
+
+        self.table = TableWidget()
+        self.addWidget(self.table)
+
+class Middle(QVBoxLayout):
+    def __init__(self):
+        super().__init__()
+        self.table = []
+        self.title = []
+        self.gain_title = ['r_gain', 'gr_gain', 'gb_gain', 'b_gain']
+        for i in range(4):
+            label = QLabel(self.gain_title[i])
+            table = TableWidget()
+            self.title.append(label)
+            self.table.append(table)
+            self.addWidget(label)
+            self.addWidget(table)
+
+        verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.addItem(verticalSpacer)
+
+class Right(QVBoxLayout):
+    def __init__(self):
+        super().__init__()
+        self.table = TableWidget()
+        self.addWidget(self.table)
+
+    
 class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
@@ -65,33 +98,20 @@ class MyWidget(QWidget):
         self.info_label.setFont(font)
         self.info_label.hide()
         
-        main_layout = QHBoxLayout()
-        
-        # self.origin_table = []
-        # self.origin_title = []
-        # self.gain_title = ['r_gain', 'gr_gain', 'gb_gain', 'b_gain']
-        # for i in range(4):
-        #     label = QLabel(self.gain_title[i])
-        #     table = TableWidget()
-        #     table.itemChanged.connect(self.transpose)
-        #     self.origin_title.append(label)
-        #     self.origin_table.append(table)
-        #     origin_layout.addWidget(label)
-        #     origin_layout.addWidget(table)
-            
-        # verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # origin_layout.addItem(verticalSpacer)
-        
-        # self.result_title = QLabel("Result")
-        # result_layout.addWidget(self.result_title)
-        # self.result_table = TableWidget()
-        # self.result_table.setHorizontalHeaderLabels(self.gain_title)
-        # result_layout.addWidget(self.result_table)
-        # result_layout.addItem(verticalSpacer)
-        
+        table_layout = QHBoxLayout()
+        self.left_layout = Left()
+        self.middle_layout = Middle()
+        self.right_layout = Right()
+        table_layout.addLayout(self.left_layout)
+        table_layout.addLayout(self.middle_layout)
+        table_layout.addLayout(self.right_layout)
 
+        # for i in range(4):
+        #     self.middle_layout.table[i].itemChanged.connect(self.set_transpose_table)
+        
+        # 內嵌到滾動軸
         inner_widget = QWidget()
-        inner_widget.setLayout(main_layout)
+        inner_widget.setLayout(table_layout)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -103,11 +123,55 @@ class MyWidget(QWidget):
         main_layout.addWidget(self.info_label)
         main_layout.addWidget(scroll_area)
         
-        
         self.hide_all_table()
+        # self.open_txt()
+
+    def set_transpose_table(self):
+        self.info_label.setText("transpose")
+        data = []
+        for i in range(4):
+            data.append(self.middle_layout.table[i].get_data().flatten())
+        self.right_layout.table.set_data(np.array(data, dtype=object).T)
+
+
+    def excel_input(self, data):
+        self.left_layout.table.set_data(data)
+        # 讀取 Excel 檔案
+        wb = load_workbook('template.xlsx')
+        sheet = wb["template"]
+        cells = sheet['A1':'D221']
+        assert len(cells) == len(data)
+        for i in range(221):
+            for j in range(4):
+                cells[i][j].value = data[i][j]
+
+        # # 儲存檔案
+        wb.save('result.xlsx')
+        pass
+
+    def excel_output(self):
+        open_and_save("result.xlsx")
+        # 讀取 Excel 檔案
+        wb = load_workbook('result.xlsx', data_only=True)
+        sheet = wb["template"]
+
+        min_row = 1
+        max_row = 13
+        min_col = 7
+        max_col = 23
         
+        for i in range(4):
+            # r_gain = sheet['G1':'W13']
+            gain = sheet.iter_rows(min_row=min_row, max_row=max_row, min_col=min_col, max_col=max_col)
+            gain = np.array([[cell.value for cell in row] for row in gain])
+            self.middle_layout.table[i].set_data(gain)
+            min_row+=14
+            max_row+=14
+            # print(gain)
+
         
     def open_txt(self):
+        filepath = "input.txt"
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
                                                          self.filefolder,  # start path
@@ -116,43 +180,32 @@ class MyWidget(QWidget):
         if filepath == '':
             return
         
-        try:
-            gain_arr = self.parse_txt(filepath)
-            print(gain_arr)
-            
-            # self.transpose()
-            # self.show_all_table()
+        # try:
+        self.info_label.setText("Ecel公式計算中，請稍後...")
+        self.hide_all_table()
+        # get data from input
+        data = self.parse_txt(filepath)
         
-        except:
-            self.hide_all_table()
-            self.info_label.setText("Failed to Load txt")
+        # input data to excel
+        self.excel_input(data)
+        # open excel and get output
+        self.excel_output()
+        
+        self.show_all_table()
+        
+        # except:
+        #     self.hide_all_table()
+        #     self.info_label.setText("Failed to Load txt")
             
         
     def parse_txt(self, fanme):
         
         with open(fanme) as f:
-            text = f.read() + '\n\n'
-
-            pattern = r"_gain:\n(.*?)\n\n"
-            result = re.findall(pattern, text, re.DOTALL|re.MULTILINE)
-            gain_arr = []
-            for gain_txt in result:
-                # Split the string by the newline character
-                lines = gain_txt.split("\n")
-                # Split each line by whitespace and convert to floats
-                data = [[float(x) for x in line.split()] for line in lines if line.strip()]
-                gain_arr.append(np.array(data))
-            pattern = r"\b\w+gain\b"
-            gain_title = re.findall(pattern, text)
-            assert len(gain_title) == 4
-        
-        return gain_title, gain_arr
-        
-    def transpose(self):
-        data = []
-        for i in range(4):
-            data.append(self.origin_table[i].get_data().flatten())
-        self.result_table.set_data(np.array(data).T)
+            text = f.read()
+            lines = text.split("\n")
+            # Split each line by whitespace and convert to floats
+            data = [[float(x) for x in line.split()] for line in lines if line.strip()]
+            return np.array(data)
     
     def export_txt(self):
         filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.filefolder,"*.txt")
@@ -167,19 +220,19 @@ class MyWidget(QWidget):
                 
     def hide_all_table(self):
         self.info_label.show()
-        self.result_title.hide()
-        self.result_table.hide()
+        self.left_layout.table.hide()
+        self.right_layout.table.hide()
         for i in range(4):
-            self.origin_title[i].hide()
-            self.origin_table[i].hide()
+            self.middle_layout.title[i].hide()
+            self.middle_layout.table[i].hide()
         
     def show_all_table(self):
         self.info_label.hide()
-        self.result_title.show()
-        self.result_table.show()
+        self.left_layout.table.show()
+        self.right_layout.table.show()
         for i in range(4):
-            self.origin_title[i].show()
-            self.origin_table[i].show()
+            self.middle_layout.title[i].show()
+            self.middle_layout.table[i].show()
 
 
 if __name__ == '__main__':
@@ -188,6 +241,5 @@ if __name__ == '__main__':
     window = MyWidget()
     # 顯示窗口
     window.showMaximized()
-    # print(np.round([2.7059e-06, 5.3785e-01, 1.6905e-02, 9.9976e-01, 9.0184e-01, 1.7111e-08, 2.7976e-06], 4))
 
     sys.exit(app.exec_())

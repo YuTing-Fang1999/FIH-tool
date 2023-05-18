@@ -1,6 +1,6 @@
 import sys
 import re
-sys.path.append('..')  # add parent folder to the system path
+sys.path.append('../..')  # add parent folder to the system path
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
     QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
