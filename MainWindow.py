@@ -1,12 +1,21 @@
 import typing
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
-    QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QSplitter,
-    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem, QToolButton
+    QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QSplitter, QFrame,
+    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem, QToolButton, QStyledItemDelegate, QSpacerItem, QSizePolicy
 )
 from PyQt5.QtCore import Qt
-# from PyQt5.QtGui import 
+from PyQt5.QtGui import QFont, QPen, QColor, QPalette
 from Config import Config
+
+class HLine(QFrame):
+    def __init__(self) -> None:
+        super().__init__()
+        self.setFrameShape(QFrame.HLine)
+        self.setFrameShadow(QFrame.Sunken)
+
+        # Set the color of the line using style sheet
+        self.setStyleSheet("background-color: rgb(13, 13, 13);")
 
 class MyStackedLayout(QStackedLayout):
     def __init__(self) -> None:
@@ -40,19 +49,28 @@ class ActionList(QListWidget):
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
             
+
+class CustomItemDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        if index.row() == 0:  # 第一個項目不產生懸停效果
+            option.state &= ~QStyle.State_MouseOver
+            pen = QPen(QColor(255, 255, 255))
+            pen.setWidth(1)
+            painter.setPen(pen)
+            painter.drawLine(option.rect.bottomLeft(), option.rect.bottomRight())
+        super().paint(painter, option, index)
+
 class FunctionList(QListWidget):
+
     def __init__(self, config) -> None:
         super().__init__()
-        
+        # # 設定自訂的 ItemDelegate
+        itemDelegate = CustomItemDelegate()
+        self.setItemDelegate(itemDelegate)
         # create header
-        header_item = QListWidgetItem()
-        header_label = QLabel("Function")
-        header_label.setStyleSheet("font-weight: bold;")
-        header_item.setSizeHint(header_label.sizeHint())
-
-        # 将表头项插入到 QListWidget 的第一行
+        header_item = QListWidgetItem("Function")
+        header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)
         self.insertItem(0, header_item)
-        self.setItemWidget(header_item, header_label)
         
         self.action_stack = MyStackedLayout()
         self.pipeline_stack = MyStackedLayout()
@@ -81,6 +99,15 @@ class StyleBytton(QPushButton):
     def __init__(self, text):
         super().__init__(text)
         self.setFixedSize(150, 50)
+        self.setStyleSheet(
+            """
+            QPushButton {
+                color:rgb(255, 255, 255);
+                background-color:rgb(255, 170, 0);
+                border-radius: 4px;
+            }
+            """
+        )
         
 class ButtonPage(QWidget):
     def __init__(self, config) -> None:
@@ -138,8 +165,7 @@ class StyleSplitter(QSplitter):
         super().__init__()
         self.setStyleSheet(
             "QSplitter::handle {"
-            "   background-color: #c2c2c2;"
-            "   border: 1px solid #8f8f91;"
+            "   border: 2px solid rgb(13, 13, 13);"
             "   border-radius: 4px;"
             "   width: 5px;"
             "}"
@@ -163,18 +189,21 @@ class ToolSelection(QWidget):
         
         main_layout = QVBoxLayout(self)
         self.platform_layout = QHBoxLayout()
+        Vplatform_layout = QVBoxLayout()
+        Vplatform_layout.addLayout(self.platform_layout)
+        Vplatform_layout.addWidget(HLine())
         
-        splitter = StyleSplitter()
-        splitter.setOrientation(Qt.Horizontal)
-        splitter.add_stack_layout(self.function_stack)
-        splitter.add_stack_layout(self.action_stack)
-        splitter.add_stack_layout(self.pipeline_stack)
-        splitter.setStretchFactor(0,1)
-        splitter.setStretchFactor(1,1)
-        splitter.setStretchFactor(2,10)
+        HLayout = QHBoxLayout()
+        # splitter.setOrientation(Qt.Horizontal)
+        HLayout.addLayout(self.function_stack)
+        HLayout.addLayout(self.action_stack)
+        HLayout.addLayout(self.pipeline_stack)
+        HLayout.setStretch(0,1)
+        HLayout.setStretch(1,1)
+        HLayout.setStretch(2,10)
         
-        main_layout.addLayout(self.platform_layout)
-        main_layout.addWidget(splitter)
+        main_layout.addLayout(Vplatform_layout)
+        main_layout.addLayout(HLayout)
         
     def add_function(self, widget):
         self.function_stack.addWidget(widget)
@@ -212,6 +241,7 @@ class FoldMenu(QWidget):
         btn_layout.addWidget(self.btn_toggle_open)
         btn_layout.setAlignment(Qt.AlignRight)
         vLayout.addLayout(btn_layout)
+        vLayout.addWidget(HLine())
         
         self.btn_toggle_open.clicked.connect(self.toggle_open)
         
@@ -222,6 +252,26 @@ class FoldMenu(QWidget):
         else:
             self.widget.show()
             self.btn_toggle_open.setArrowType(Qt.UpArrow)
+
+class PlatFormBtn(QPushButton):
+    def __init__(self, name):
+        super().__init__(name)
+        self.setStyleSheet(
+            """
+            QPushButton{
+                color:rgb(255, 255, 255);
+                background-color: rgb(127, 127, 127);
+                border: none;
+                padding: 10px;
+            }
+            """
+        )
+
+        palette = self.palette()
+        palette.setColor(QPalette.Button, QColor(0, 0, 255))  # Set blue color for the button
+
+        self.setAutoFillBackground(True)
+        self.setPalette(palette)
         
 class MainWindow(QWidget):
     def __init__(self):
@@ -236,7 +286,7 @@ class MainWindow(QWidget):
         self.tool_selection.platform_btn_group = QButtonGroup() # 要用self!
         self.tool_selection.platform_btn_group.setExclusive(True)
         for i, key in enumerate(main_config):
-            button = QPushButton(key)
+            button = PlatFormBtn(key)
             button.setCheckable(True)
             if i==0: button.setChecked(True)
             self.tool_selection.platform_btn_group.addButton(button)
@@ -248,14 +298,22 @@ class MainWindow(QWidget):
             self.widget_display.widget_stack.add_stack_layout(function_list.widget_stack)
             button.clicked.connect(lambda checked, i=i: self.display_stack(i))
             self.tool_selection.platform_layout.addWidget(button)
-            
-        splitter = StyleSplitter()
-        splitter.setOrientation(Qt.Vertical)
-        splitter.addWidget(FoldMenu(self.tool_selection))
-        splitter.addWidget(self.widget_display)
-        splitter.setStretchFactor(0,1)
-        splitter.setStretchFactor(1,30)
-        main_layout.addWidget(splitter)
+        self.tool_selection.platform_layout.addWidget(button)
+        spacerItem = QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.tool_selection.platform_layout.addItem(spacerItem)
+
+        # splitter = StyleSplitter()
+        # splitter.setOrientation(Qt.Vertical)
+        # splitter.addWidget(FoldMenu(self.tool_selection))
+        # splitter.addWidget(self.widget_display)
+        # splitter.setStretchFactor(1,1)
+        # main_layout.addWidget(splitter)
+        main_layout.addWidget(FoldMenu(self.tool_selection))
+        main_layout.addWidget(self.widget_display)
+        main_layout.setStretch(0, 1)
+        main_layout.setStretch(1, 100)
+
+        self.set_style()
             
     def display_stack(self, i):
         self.tool_selection.function_stack.setCurrentIndex(i)
@@ -263,6 +321,25 @@ class MainWindow(QWidget):
         self.tool_selection.pipeline_stack.setCurrentIndex(i)
         self.widget_display.instruction_stack.setCurrentIndex(i)
         self.widget_display.widget_stack.setCurrentIndex(i)
+
+    def set_style(self):
+        # # 创建一个QPalette对象
+        # palette = self.palette()
+
+        # # 设置QPalette的背景色
+        # palette.setColor(QPalette.Background, QColor(58, 57, 55))
+        
+        # # 将QPalette应用到窗口
+        # self.setPalette(palette)
+
+        self.setStyleSheet(
+            # background-color: rgb(58, 57, 55);
+            # color: rgb(255, 255, 255);
+            """
+            font-family:微軟正黑體;
+            font-weight: bold;
+            """
+        )
 
         
 

@@ -13,7 +13,7 @@ class Config():
     def __init__(self) -> None:
         self.main_config = \
         {
-            "QCT": { 
+            "Qualcomm": { 
                 "AE":{
                     "Calibration":[
                         {

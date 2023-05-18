@@ -23,20 +23,6 @@ class TableWidget(QTableWidget):
         # 設置表格的列寬和行高
         self.verticalHeader().setDefaultSectionSize(20)
         self.horizontalHeader().setDefaultSectionSize(80)
-
-    # def keyPressEvent(self, event):
-    #     # get the key sequence for the key event
-    #     key_seq = QKeySequence(event.key() | int(event.modifiers()))
-    #     # if the key sequence is Ctrl+C, exit the application
-    #     if key_seq == QKeySequence(Qt.CTRL + Qt.Key_V):
-    #         clipboard = QApplication.clipboard()
-    #         text = clipboard.text()
-    #         # Split the string by the newline character
-    #         lines = text.split("\n")
-    #         # Split each line by whitespace and convert to floats
-    #         data = [[float(x) for x in line.split()] for line in lines if line.strip()]
-    #         self.set_data(data)
-    #         print(data)
                     
     def set_data(self, data):
         self.setRowCount(len(data))
@@ -79,9 +65,7 @@ class MyWidget(QWidget):
         self.info_label.setFont(font)
         self.info_label.hide()
         
-        tables_layout = QHBoxLayout()
-        tabel1_layout = QVBoxLayout()
-        result_layout = QVBoxLayout()
+        main_layout = QHBoxLayout()
         
         # self.origin_table = []
         # self.origin_title = []
@@ -105,13 +89,9 @@ class MyWidget(QWidget):
         # result_layout.addWidget(self.result_table)
         # result_layout.addItem(verticalSpacer)
         
-        
-        tables_layout.addWidget(self.info_label)
-        tables_layout.addLayout(tabel1_layout)
-        tables_layout.addLayout(result_layout)
 
         inner_widget = QWidget()
-        inner_widget.setLayout(tables_layout)
+        inner_widget.setLayout(main_layout)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -120,6 +100,7 @@ class MyWidget(QWidget):
         main_layout = QVBoxLayout(self)
         main_layout.addWidget(self.load_txt_btn)
         main_layout.addWidget(self.export_txt_btn)
+        main_layout.addWidget(self.info_label)
         main_layout.addWidget(scroll_area)
         
         
