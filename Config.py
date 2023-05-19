@@ -2,12 +2,20 @@ from PyQt5.QtWidgets import (
     QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QStackedWidget, QSplitter,
     QTextEdit, QButtonGroup, QStyle
 )
+from PyQt5.QtCore import Qt
 from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 # from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
 from QUL.OTPgolden.MyWidget import MyWidget as OTPgoldenWidget
+from QUL.OTPgolden2.OpenExcelBtn import OpenExcelBtn
+
+class MyLabel(QLabel):
+    def __init__(self, text):
+        super().__init__(text)
+        self.setAlignment(Qt.AlignTop)
+        self.setWordWrap(True)
 
 class Config():
     def __init__(self) -> None:
@@ -18,15 +26,25 @@ class Config():
                     "Calibration":[
                         {
                             "name": "LSC分析小工具",
-                            "instruction": QLabel("LSC golden: 將LSC golden資料轉換成高通C7讀檔格式"),
+                            "instruction": MyLabel("LSC golden: 將LSC golden資料轉換成高通C7讀檔格式"),
                             "widget": OTPgoldenWidget(),
                         },
+                        # {
+                        #     "name": "LSC分析小工具2",
+                        #     "instruction": MyLabel("LSC2"),
+                        #     "widget": MyLabel("LSC2"),
+                        # },
                     ],
                     "Tuning":[
                         {
                             "name": "GM2_分析",
-                            "instruction": QLabel("LSC 補償:調整 LSC 補償程度並將資料轉成高通C7讀檔格式"),
-                            "widget": QLabel("GM2_分析"),
+                            "instruction": MyLabel("LSC 補償:調整 LSC 補償程度並將資料轉成高通C7讀檔格式"),
+                            "widget": OpenExcelBtn("Open Excel", "QUL/OTPgolden2/GM2_分析.xlsm"),
+                        },
+                        {
+                            "name": "AEsimulator",
+                            "instruction": MyLabel("求luma target, dark_high_target, bright_high_target, bright_low_target, bright_low_target, hist_dark_high_ref, hist_bright_high_ref, hist_bright_low_ref, hist_bright_low_ref, sat_ref_high, max_ADRC_gain,gamma"),
+                            "widget": MyLabel("AEsimulator"),
                         },
                     ]
                 },
@@ -34,9 +52,16 @@ class Config():
                     "Tuning":[
                         {
                             "name": "CCMsimulator",
-                            "instruction": QLabel("評估各顏色的Δlightness, Δchroma, Δhue並微調r_gain, b_gain, AWB, 亮度，後求CCM矩陣"),
-                            "widget": QLabel("CCMsimulator"),
+                            "instruction": MyLabel("評估各顏色的Δlightness, Δchroma, Δhue並微調r_gain, b_gain, AWB, 亮度，後求CCM矩陣"),
+                            "widget": MyLabel("CCMsimulator"),
                         },
+                    ],
+                    "Analysis":[
+                        {
+                            "name": "colorCheckerAnalysis",
+                            "instruction": MyLabel("評估AWB、CCM"),
+                            "widget": MyLabel("colorCheckerAnalysis"),
+                        }
                     ]
                 },
             },
@@ -45,12 +70,47 @@ class Config():
                     "Tuning":[
                         {
                             "name": "gammaSimulator_MTK",
-                            "instruction": QLabel("調整gamma"),
-                            "widget": QLabel("gammaSimulator_MTK"),
+                            "instruction": MyLabel("調整gamma"),
+                            "widget": MyLabel("gammaSimulator_MTK"),
                             
                         },
+                        {
+                            "name": "mtkAEanalysis",
+                            "instruction": MyLabel("調整 main_target、middle_tone、bright_tone….."),
+                            "widget": MyLabel("mtkAEanalysis"),
+                            
+                        },
+                        {
+                            "name": "mtkFaceAEanalysis",
+                            "instruction": MyLabel("針對人臉AE做調整 main_target、middle_tone、bright_tone….."),
+                            "widget": MyLabel("mtkFaceAEanalysis"),
+                            
+                        },
+                    ],
+                    "Analysis":[
+                        {
+                            "name": "mtkAEclassify",
+                            "instruction": MyLabel("照片打中的region分類"),
+                            "widget": MyLabel("mtkAEclassify"),
+                        }
                     ]
                 },
+                "AWB":{
+                    "Tuning":[
+                        {
+                            "name": "CCMsimulator",
+                            "instruction": MyLabel("評估各顏色的Δlightness, Δchroma, Δhue並微調r_gain, b_gain, AWB, 亮度後，調整CCM"),
+                            "widget": MyLabel("CCMsimulator"),
+                        },
+                    ],
+                    "Analysis":[
+                        {
+                            "name": "colorCalculate",
+                            "instruction": MyLabel("評估AWB、CCM"),
+                            "widget": MyLabel("colorCalculate"),
+                        }
+                    ]
+                }
             },
                     
                     # "AE2":{
@@ -58,12 +118,12 @@ class Config():
                     #         {
                     #             "name": "OTPgolden22",
                     #             "widget": OTPgoldenWidget(),
-                    #             "instruction": QLabel("OTPgolden instruction")
+                    #             "instruction": MyLabel("OTPgolden instruction")
                     #         },
                     #         {
                     #             "name": "QUL AE222",
-                    #             "widget": QLabel("QUL AE2"),
-                    #             "instruction": QLabel("QUL AE2 instruction")
+                    #             "widget": MyLabel("QUL AE2"),
+                    #             "instruction": MyLabel("QUL AE2 instruction")
                     #         },
                     #     ]
                     # }
@@ -77,7 +137,7 @@ class Config():
             #             "widget_list":[
             #                 {
             #                     "name": "MTK AE1",
-            #                     "widget": QLabel("MTK AE1")
+            #                     "widget": MyLabel("MTK AE1")
             #                 },
             #                 {
             #                     "name": "MTK AE2",
@@ -90,11 +150,11 @@ class Config():
             #             "widget_list":[
             #                 {
             #                     "name": "MTK AF1",
-            #                     "widget": QLabel("MTK AF1")
+            #                     "widget": MyLabel("MTK AF1")
             #                 },
             #                 {
             #                     "name": "MTK AF2",
-            #                     "widget": QLabel("MTK AF2")
+            #                     "widget": MyLabel("MTK AF2")
             #                 },
             #             ]
             #         },
@@ -111,12 +171,12 @@ class Config():
             #                 {
             #                     "name": "sharpness",
             #                     "widget": SharpnessWidget(),
-            #                     "instruction": QLabel("sharpness instruction")
+            #                     "instruction": MyLabel("sharpness instruction")
             #                 },
             #                 {
             #                     "name": "colorcheck",
             #                     "widget": ColorcheckWidget(),
-            #                     "instruction": QLabel("colorcheck instruction")
+            #                     "instruction": MyLabel("colorcheck instruction")
             #                 },
             #                 # {
             #                 #     "name": "perceptual_distance",
@@ -125,7 +185,7 @@ class Config():
             #                 {
             #                     "name": "fft",
             #                     "widget": FFTWidget(),
-            #                     "instruction": QLabel("fft instruction")
+            #                     "instruction": MyLabel("fft instruction")
             #                 },
             #                 # {
             #                 #     "name": "dxo_dead_leaves",

@@ -1,31 +1,17 @@
-from copy import deepcopy
+import sys
+from PyQt5.QtWidgets import QApplication, QFileDialog
 
-import openpyxl
-from openpyxl.chart import SurfaceChart, SurfaceChart3D, Reference
-from openpyxl.drawing.image import Image
-import numpy as np
+app = QApplication(sys.argv)
 
-# Load your workbook and sheet as you want, for example
-wb = openpyxl.load_workbook('GM2_分析.xlsx', data_only=True)
-ws = wb['Range1']
+file_dialog = QFileDialog()
+file_dialog.setAcceptMode(QFileDialog.AcceptSave)
+file_dialog.setNameFilter("All Files (*);;Text Files (*.txt)")
+file_dialog.setDirectory("./")
+file_dialog.exec_()
 
-# 取得圖表資料
-data = ws['G1':'W13']
-# 將資料轉換為 NumPy 陣列
-# data = np.array([[cell.value for cell in row] for row in data])
+selected_files = file_dialog.selectedFiles()
+if selected_files:
+    selected_file = selected_files[0]
+    print('Selected file:', selected_file)
 
-# 創建 SurfaceChart3D 圖表
-chart = SurfaceChart3D()
-chart.title = ws['F1'].value
-data = Reference(ws, min_row=1, min_col=7, max_row=13, max_col=23)
-chart.add_data(data)
-
-# set the elevation to 90 degrees and the rotation to -90 degrees
-chart.elevation = 90
-chart.rotation = -90
-
-# add the chart to the worksheet
-ws.add_chart(chart, "X58")
-
-# save the workbook to a file
-wb.save("my_chart.xlsx")
+sys.exit(app.exec_())

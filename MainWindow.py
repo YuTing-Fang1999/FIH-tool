@@ -2,7 +2,7 @@ import typing
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QSplitter, QFrame,
-    QTextEdit, QButtonGroup, QStyle, QStackedLayout, QListWidgetItem, QToolButton, QStyledItemDelegate, QSpacerItem, QSizePolicy
+    QTextEdit, QButtonGroup, QStyle, QStackedWidget, QListWidgetItem, QToolButton, QStyledItemDelegate, QSpacerItem, QSizePolicy
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPen, QColor, QPalette
@@ -16,84 +16,7 @@ class HLine(QFrame):
 
         # Set the color of the line using style sheet
         self.setStyleSheet("background-color: rgb(13, 13, 13);")
-
-class MyStackedLayout(QStackedLayout):
-    def __init__(self) -> None:
-        super().__init__()
         
-    def add_stack_layout(self, stack_layout):
-        temp_widget = QWidget()
-        temp_widget.setLayout(stack_layout)
-        self.addWidget(temp_widget)
-        
-
-class ActionList(QListWidget):
-    def __init__(self, config) -> None:
-        super().__init__()
-        
-        self.pipeline_stack = MyStackedLayout()
-        self.instruction_stack = MyStackedLayout()
-        self.widget_stack = MyStackedLayout()
-        for i, key in enumerate(config):
-            self.addItem(key)
-            pipeline_btn = ButtonPage(config[key])
-            self.pipeline_stack.addWidget(pipeline_btn)
-            self.instruction_stack.add_stack_layout(pipeline_btn.instruction_stack)
-            self.widget_stack.add_stack_layout(pipeline_btn.widget_stack)
-        
-        self.currentRowChanged.connect(self.display_stack)
-        self.item(0).setSelected(True)
-
-    def display_stack(self, i):
-        self.pipeline_stack.setCurrentIndex(i)
-        self.instruction_stack.setCurrentIndex(i)
-        self.widget_stack.setCurrentIndex(i)
-            
-
-class CustomItemDelegate(QStyledItemDelegate):
-    def paint(self, painter, option, index):
-        if index.row() == 0:  # 第一個項目不產生懸停效果
-            option.state &= ~QStyle.State_MouseOver
-            pen = QPen(QColor(255, 255, 255))
-            pen.setWidth(1)
-            painter.setPen(pen)
-            painter.drawLine(option.rect.bottomLeft(), option.rect.bottomRight())
-        super().paint(painter, option, index)
-
-class FunctionList(QListWidget):
-
-    def __init__(self, config) -> None:
-        super().__init__()
-        # # 設定自訂的 ItemDelegate
-        itemDelegate = CustomItemDelegate()
-        self.setItemDelegate(itemDelegate)
-        # create header
-        header_item = QListWidgetItem("Function")
-        header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)
-        self.insertItem(0, header_item)
-        
-        self.action_stack = MyStackedLayout()
-        self.pipeline_stack = MyStackedLayout()
-        self.instruction_stack = MyStackedLayout()
-        self.widget_stack = MyStackedLayout()
-        for i, key in enumerate(config):
-            self.addItem(key)
-            action_list = ActionList(config[key])
-            self.action_stack.addWidget(action_list)
-            self.pipeline_stack.add_stack_layout(action_list.pipeline_stack)
-            self.instruction_stack.add_stack_layout(action_list.instruction_stack)
-            self.widget_stack.add_stack_layout(action_list.widget_stack)
-        
-        self.currentRowChanged.connect(self.display_stack)
-        self.item(1).setSelected(True) # 0 是header
-
-    def display_stack(self, i):
-        i-=1 # 0 是header
-        self.action_stack.setCurrentIndex(i)
-        self.pipeline_stack.setCurrentIndex(i)
-        self.instruction_stack.setCurrentIndex(i)
-        self.widget_stack.setCurrentIndex(i)
-            
         
 class StyleBytton(QPushButton):
     def __init__(self, text):
@@ -102,7 +25,7 @@ class StyleBytton(QPushButton):
         self.setStyleSheet(
             """
             QPushButton {
-                color:rgb(255, 255, 255);
+                color:rgb(0, 0, 0);
                 background-color:rgb(255, 170, 0);
                 border-radius: 4px;
             }
@@ -115,8 +38,8 @@ class ButtonPage(QWidget):
         self.main_layout = QBoxLayout(QBoxLayout.LeftToRight, self)
         self.main_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft) # 從左上角開始排
         
-        self.instruction_stack = MyStackedLayout()
-        self.widget_stack = MyStackedLayout()
+        self.instruction_stack = QStackedWidget()
+        self.widget_stack = QStackedWidget()
         
         self.total_btn_group = QButtonGroup()
         self.total_btn_group.setExclusive(True)
@@ -150,6 +73,73 @@ class RightArowLabel(QLabel):
         # Create a QLabel with the right arrow icon
         self.setPixmap(arrow_icon.pixmap(24, 24)) # set the size of the icon
         
+class ActionList(QListWidget):
+    def __init__(self, config) -> None:
+        super().__init__()
+        
+        self.pipeline_stack = QStackedWidget()
+        self.instruction_stack = QStackedWidget()
+        self.widget_stack = QStackedWidget()
+        for i, key in enumerate(config):
+            self.addItem(key)
+            pipeline_btn = ButtonPage(config[key])
+            self.pipeline_stack.addWidget(pipeline_btn)
+            self.instruction_stack.addWidget(pipeline_btn.instruction_stack)
+            self.widget_stack.addWidget(pipeline_btn.widget_stack)
+        
+        self.currentRowChanged.connect(self.display_stack)
+        self.item(0).setSelected(True)
+
+    def display_stack(self, i):
+        self.pipeline_stack.setCurrentIndex(i)
+        self.instruction_stack.setCurrentIndex(i)
+        self.widget_stack.setCurrentIndex(i)
+            
+
+class CustomItemDelegate(QStyledItemDelegate):
+    def paint(self, painter, option, index):
+        if index.row() == 0:  # 第一個項目不產生懸停效果
+            option.state &= ~QStyle.State_MouseOver
+            pen = QPen(QColor(255, 255, 255))
+            pen.setWidth(1)
+            painter.setPen(pen)
+            painter.drawLine(option.rect.bottomLeft(), option.rect.bottomRight())
+        super().paint(painter, option, index)
+
+class FunctionList(QListWidget):
+
+    def __init__(self, config) -> None:
+        super().__init__()
+        # # 設定自訂的 ItemDelegate
+        itemDelegate = CustomItemDelegate()
+        self.setItemDelegate(itemDelegate)
+        # create header
+        header_item = QListWidgetItem("Function")
+        header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)
+        self.insertItem(0, header_item)
+        
+        self.action_stack = QStackedWidget()
+        self.pipeline_stack = QStackedWidget()
+        self.instruction_stack = QStackedWidget()
+        self.widget_stack = QStackedWidget()
+        for i, key in enumerate(config):
+            self.addItem(key)
+            action_list = ActionList(config[key])
+            self.action_stack.addWidget(action_list)
+            self.pipeline_stack.addWidget(action_list.pipeline_stack)
+            self.instruction_stack.addWidget(action_list.instruction_stack)
+            self.widget_stack.addWidget(action_list.widget_stack)
+        
+        self.currentRowChanged.connect(self.display_stack)
+        self.item(1).setSelected(True) # 0 是header
+
+    def display_stack(self, i):
+        i-=1 # 0 是header
+        self.action_stack.setCurrentIndex(i)
+        self.pipeline_stack.setCurrentIndex(i)
+        self.instruction_stack.setCurrentIndex(i)
+        self.widget_stack.setCurrentIndex(i)
+        
 class ButtonToggleOpen(QToolButton):
 
     def __init__(self):
@@ -173,19 +163,13 @@ class StyleSplitter(QSplitter):
             "   background-color: #787878;"
             "}"
         )
-        
-    def add_stack_layout(self, stack_layout):
-        temp_widget = QWidget()
-        temp_widget.setLayout(stack_layout)
-        self.addWidget(temp_widget)
-
     
 class ToolSelection(QWidget):
     def __init__(self):
         super().__init__()
-        self.function_stack = MyStackedLayout()
-        self.action_stack = MyStackedLayout()
-        self.pipeline_stack = MyStackedLayout()
+        self.function_stack = QStackedWidget()
+        self.action_stack = QStackedWidget()
+        self.pipeline_stack = QStackedWidget()
         
         main_layout = QVBoxLayout(self)
         self.platform_layout = QHBoxLayout()
@@ -195,9 +179,9 @@ class ToolSelection(QWidget):
         
         HLayout = QHBoxLayout()
         # splitter.setOrientation(Qt.Horizontal)
-        HLayout.addLayout(self.function_stack)
-        HLayout.addLayout(self.action_stack)
-        HLayout.addLayout(self.pipeline_stack)
+        HLayout.addWidget(self.function_stack)
+        HLayout.addWidget(self.action_stack)
+        HLayout.addWidget(self.pipeline_stack)
         HLayout.setStretch(0,1)
         HLayout.setStretch(1,1)
         HLayout.setStretch(2,10)
@@ -211,15 +195,15 @@ class ToolSelection(QWidget):
 class WidgetDisplay(QWidget):
     def __init__(self):
         super().__init__()
-        self.instruction_stack = MyStackedLayout()
-        self.widget_stack = MyStackedLayout()
+        self.instruction_stack = QStackedWidget()
+        self.widget_stack = QStackedWidget()
         
         main_layout = QVBoxLayout(self)
         
         splitter = StyleSplitter()
         splitter.setOrientation(Qt.Horizontal)
-        splitter.add_stack_layout(self.instruction_stack)
-        splitter.add_stack_layout(self.widget_stack)
+        splitter.addWidget(self.instruction_stack)
+        splitter.addWidget(self.widget_stack)
         splitter.setStretchFactor(0,1)
         splitter.setStretchFactor(1,8)
         main_layout.addWidget(splitter)
@@ -292,10 +276,10 @@ class MainWindow(QWidget):
             self.tool_selection.platform_btn_group.addButton(button)
             function_list = FunctionList(main_config[key])
             self.tool_selection.function_stack.addWidget(function_list)
-            self.tool_selection.action_stack.add_stack_layout(function_list.action_stack)
-            self.tool_selection.pipeline_stack.add_stack_layout(function_list.pipeline_stack)
-            self.widget_display.instruction_stack.add_stack_layout(function_list.instruction_stack)
-            self.widget_display.widget_stack.add_stack_layout(function_list.widget_stack)
+            self.tool_selection.action_stack.addWidget(function_list.action_stack)
+            self.tool_selection.pipeline_stack.addWidget(function_list.pipeline_stack)
+            self.widget_display.instruction_stack.addWidget(function_list.instruction_stack)
+            self.widget_display.widget_stack.addWidget(function_list.widget_stack)
             button.clicked.connect(lambda checked, i=i: self.display_stack(i))
             self.tool_selection.platform_layout.addWidget(button)
         self.tool_selection.platform_layout.addWidget(button)
@@ -323,14 +307,14 @@ class MainWindow(QWidget):
         self.widget_display.widget_stack.setCurrentIndex(i)
 
     def set_style(self):
-        # # 创建一个QPalette对象
-        # palette = self.palette()
+        # 创建一个QPalette对象
+        palette = self.palette()
 
-        # # 设置QPalette的背景色
-        # palette.setColor(QPalette.Background, QColor(58, 57, 55))
+        # 设置QPalette的背景色
+        palette.setColor(QPalette.Background, QColor(58, 57, 55))
         
-        # # 将QPalette应用到窗口
-        # self.setPalette(palette)
+        # 将QPalette应用到窗口
+        self.setPalette(palette)
 
         self.setStyleSheet(
             # background-color: rgb(58, 57, 55);
