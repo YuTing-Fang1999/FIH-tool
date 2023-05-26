@@ -8,8 +8,8 @@ from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 # from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
-from QUL.OTPgolden.MyWidget import MyWidget as OTPgoldenWidget
-from QUL.OTPgolden2.OpenExcelBtn import OpenExcelBtn
+from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
+from QUL.GM2.MyWidget import MyWidget as GM2Widget
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -39,7 +39,7 @@ class Config():
                         {
                             "name": "GM2_分析",
                             "instruction": MyLabel("LSC 補償:調整 LSC 補償程度並將資料轉成高通C7讀檔格式"),
-                            "widget": OpenExcelBtn("Open Excel", "QUL/OTPgolden2/GM2_分析.xlsm"),
+                            "widget": GM2Widget(),
                         },
                         {
                             "name": "AEsimulator",
