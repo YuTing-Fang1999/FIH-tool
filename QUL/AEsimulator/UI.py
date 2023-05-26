@@ -161,10 +161,7 @@ class Ui_Form(object):
         self.lineEdit_before_target.setText(_translate("Form", "60"))
         self.lineEdit_Ref19.setText(_translate("Form", "50"))
         self.lineEdit_Ref20.setText(_translate("Form", "50"))
-        self.label_cal_target19.setText(_translate("Form", "TextLabel"))
-        self.label_cal_target20.setText(_translate("Form", "TextLabel"))
         self.btn_compute.setText(_translate("Form", "Compute"))
-        self.label_info.setText(_translate("Form", "TextLabel"))
 
 
 if __name__ == "__main__":

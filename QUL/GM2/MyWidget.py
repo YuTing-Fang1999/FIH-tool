@@ -12,6 +12,7 @@ from myPackage.read_setting import read_setting
 from myPackage.ImageViewer import ImageViewer
 import os
 import cv2
+from myPackage.OpenExcelBtn import OpenExcelBtn
     
 class MyWidget(QWidget):
     info_signal = pyqtSignal(str)
@@ -46,6 +47,8 @@ class MyWidget(QWidget):
         scroll_area.setWidget(inner_widget)
 
         main_layout = QVBoxLayout(self)
+        self.excel_path = "C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/GM2/GM2_分析.xlsx"
+        main_layout.addWidget(OpenExcelBtn("Open Excel", self.excel_path))
         main_layout.addWidget(self.load_txt_btn)
         main_layout.addWidget(self.info_label)
         main_layout.addWidget(scroll_area)
@@ -79,7 +82,7 @@ class MyWidget(QWidget):
         # excel.Visible = False  # Set to True if you want to see the Excel application
         # excel.DisplayAlerts = False
         print(os.path.abspath("GM2_分析.xlsx"))
-        workbook = excel.Workbooks.Open("C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/GM2/GM2_分析.xlsx")
+        workbook = excel.Workbooks.Open(self.excel_path)
         sheet = workbook.Worksheets('Golden_LSC')
         
         # input data to excel

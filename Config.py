@@ -10,6 +10,7 @@ from NTU.fft.controller import MainWindow_controller as FFTWidget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
 from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
 from QUL.GM2.MyWidget import MyWidget as GM2Widget
+from QUL.AEsimulator.MyWidget import MyWidget as AEsimulatorWidget
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -44,7 +45,7 @@ class Config():
                         {
                             "name": "AEsimulator",
                             "instruction": MyLabel("求luma target, dark_high_target, bright_high_target, bright_low_target, bright_low_target, hist_dark_high_ref, hist_bright_high_ref, hist_bright_low_ref, hist_bright_low_ref, sat_ref_high, max_ADRC_gain,gamma"),
-                            "widget": MyLabel("AEsimulator"),
+                            "widget": AEsimulatorWidget(),
                         },
                     ]
                 },

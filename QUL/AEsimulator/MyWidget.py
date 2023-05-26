@@ -1,12 +1,16 @@
 from PyQt5.QtWidgets import QWidget, QApplication
-from UI import Ui_Form
+from .UI import Ui_Form
 import win32com.client as win32
+from myPackage.OpenExcelBtn import OpenExcelBtn
 
-class MainWindow_controller(QWidget):
+
+class MyWidget(QWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.excel_path = "C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/AEsimulator/AEsimulator.xlsm"
+        self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.controller()
         
     def controller(self):
@@ -15,8 +19,9 @@ class MainWindow_controller(QWidget):
     def compute(self):
         self.ui.label_info.setText("Ecel公式計算中，請稍後...")
         self.ui.label_info.repaint() # 馬上更新label
+        
         excel = win32.Dispatch("Excel.Application")
-        workbook = excel.Workbooks.Open("C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/AEsimulator/AEsimulator.xlsm")
+        workbook = excel.Workbooks.Open(self.excel_path)
         sheet = workbook.Worksheets('colorChecker')
         
         # input data to excel
@@ -40,6 +45,6 @@ class MainWindow_controller(QWidget):
 if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    Form = MainWindow_controller()
+    Form = MyWidget()
     Form.show()
     sys.exit(app.exec_())

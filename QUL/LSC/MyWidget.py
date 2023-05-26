@@ -10,6 +10,7 @@ from PyQt5.QtGui import QKeySequence, QFont
 import numpy as np
 from myPackage.read_setting import read_setting, write_setting
 
+
 class TableWidget(QTableWidget):
     def __init__(self):
         super().__init__(1, 1)
