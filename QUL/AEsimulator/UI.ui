@@ -15,6 +15,24 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="load_ref_btn">
+       <property name="text">
+        <string>Load Ref</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="load_ours_btn">
+       <property name="text">
+        <string>Load Ours</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <property name="leftMargin">
       <number>0</number>
@@ -96,7 +114,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>40</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -152,7 +170,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>40</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -171,7 +189,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>60</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -193,7 +211,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>50</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -212,7 +230,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>50</string>
+        <string/>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -225,7 +243,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>#</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -238,7 +256,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>#</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -255,13 +273,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_info">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -273,6 +284,13 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_info">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

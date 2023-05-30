@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QKeySequence, QFont
 import numpy as np
-from myPackage.read_setting import read_setting, write_setting
+from myPackage.ParentWidget import ParentWidget
 
 
 class TableWidget(QTableWidget):
@@ -61,12 +61,9 @@ class TableWidget(QTableWidget):
             data.append(row_data)
         return np.array(data, dtype=object)
     
-class MyWidget(QWidget):
+class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()
-        self.setting = read_setting()
-        self.filefolder = self.setting["filefolder"]
-        
         self.load_txt_btn = QPushButton("Load txt")
         self.load_txt_btn.clicked.connect(self.open_txt)
         
@@ -136,14 +133,14 @@ class MyWidget(QWidget):
     def open_txt(self):
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.filefolder,  # start path
+                                                         self.get_filefolder(),  # start path
                                                          '*.txt')
 
         if filepath == '':
             return
         
-        self.filefolder = '/'.join(filepath.split('/')[:-1])
-        self.update_filefolder(self.filefolder)
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_filefolder(filefolder)
         
         try:
             gain_title, gain_arr = self.parse_txt(filepath)
@@ -187,7 +184,7 @@ class MyWidget(QWidget):
         self.result_table.set_data(np.array(data, dtype=object).T)
     
     def export_txt(self):
-        filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.filefolder,"*.txt")
+        filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.get_filefolder(),"*.txt")
         if filepath == '': return
         data = self.result_table.get_data()
         def formater(num):
@@ -212,13 +209,6 @@ class MyWidget(QWidget):
         for i in range(4):
             self.origin_title[i].show()
             self.origin_table[i].show()
-            
-    def update_filefolder(self, filefolder):
-        if filefolder != "./" and filefolder != self.setting["filefolder"]:
-            self.setting["filefolder"] = filefolder
-            print('write ', filefolder, ' to filefolder setting')
-            write_setting(self.setting)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -1,20 +1,65 @@
-from PyQt5.QtWidgets import QWidget, QApplication
+from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog
 from .UI import Ui_Form
 import win32com.client as win32
 from myPackage.OpenExcelBtn import OpenExcelBtn
+from myPackage.ParentWidget import ParentWidget
+import cv2
+from colour_checker_detection import detect_colour_checkers_segmentation
+import os
 
-
-class MyWidget(QWidget):
+class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.excel_path = "C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/AEsimulator/AEsimulator.xlsm"
+        self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator.xlsm")
         self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.controller()
         
     def controller(self):
+        self.ui.load_ours_btn.clicked.connect(lambda: self.set_img_luma('ours'))
+        self.ui.load_ref_btn.clicked.connect(lambda: self.set_img_luma('ref'))
         self.ui.btn_compute.clicked.connect(self.compute)
+        
+    def read_img(self, img_path):
+        # to BGR to RGB
+        img = cv2.imread(img_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
+        return img
+    
+    def pixel_to_luma(self, pixel):
+        luma = 0.299*pixel[0] + 0.587*pixel[1] + 0.114*pixel[2]
+        return round(luma*255, 4)
+    
+    def set_img_luma(self, img_type):
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                         "Open file",
+                                                         self.get_filefolder(),  # start path
+                                                         'Image Files(*.png *.jpg *.jpeg *.bmp)')
+
+        if filepath == '':
+            return
+        
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_filefolder(filefolder)
+        
+        self.ui.label_info.setText("正在偵測color checker，請稍後...")
+        self.ui.label_info.repaint() # 馬上更新label
+        
+        img = self.read_img(filepath)
+        
+        colour_checker_swatches_data = detect_colour_checkers_segmentation(img, additional_data=True)[0]
+        swatch_colours, colour_checker_image, swatch_masks = (colour_checker_swatches_data.values)
+        
+        if img_type == "ours":
+            self.ui.lineEdit_before_Y19.setText(str(self.pixel_to_luma(swatch_colours[18])))
+            self.ui.lineEdit_before_Y20.setText(str(self.pixel_to_luma(swatch_colours[19])))
+        elif img_type == "ref":
+            self.ui.lineEdit_Ref19.setText(str(self.pixel_to_luma(swatch_colours[18])))
+            self.ui.lineEdit_Ref20.setText(str(self.pixel_to_luma(swatch_colours[19])))
+            
+        self.ui.label_info.setText("")
+        self.ui.label_info.repaint() # 馬上更新label
         
     def compute(self):
         self.ui.label_info.setText("Ecel公式計算中，請稍後...")

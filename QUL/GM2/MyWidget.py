@@ -8,21 +8,19 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QKeySequence, QFont, QPixmap
 import numpy as np
-from myPackage.read_setting import read_setting
+# from myPackage.read_setting import read_setting
+from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageViewer import ImageViewer
 import os
 import cv2
 from myPackage.OpenExcelBtn import OpenExcelBtn
     
-class MyWidget(QWidget):
+class MyWidget(ParentWidget):
     info_signal = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
         self.info_signal.connect(self.update_info_label)
-        self.setting = read_setting()
-        self.filefolder = self.setting["filefolder"]
-        
         self.load_txt_btn = QPushButton("Load txt")
         self.load_txt_btn.clicked.connect(self.open_txt)
         
@@ -47,7 +45,7 @@ class MyWidget(QWidget):
         scroll_area.setWidget(inner_widget)
 
         main_layout = QVBoxLayout(self)
-        self.excel_path = "C:/Users/s830s/OneDrive/文件/github/FIH tool整合/FIH-tool/QUL/GM2/GM2_分析.xlsx"
+        self.excel_path = os.path.abspath("QUL/GM2/GM2_分析.xlsx")
         main_layout.addWidget(OpenExcelBtn("Open Excel", self.excel_path))
         main_layout.addWidget(self.load_txt_btn)
         main_layout.addWidget(self.info_label)
@@ -62,11 +60,13 @@ class MyWidget(QWidget):
         # filepath = "input.txt"
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.filefolder,  # start path
+                                                         self.get_filefolder(),  # start path
                                                          '*.txt')
 
         if filepath == '':
             return
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_filefolder(filefolder)
         
         # try:
         self.hide_all()
