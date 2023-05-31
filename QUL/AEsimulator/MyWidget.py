@@ -6,6 +6,7 @@ from myPackage.ParentWidget import ParentWidget
 import cv2
 from colour_checker_detection import detect_colour_checkers_segmentation
 import os
+import numpy as np
 
 class MyWidget(ParentWidget):
     def __init__(self):
@@ -23,7 +24,8 @@ class MyWidget(ParentWidget):
         
     def read_img(self, img_path):
         # to BGR to RGB
-        img = cv2.imread(img_path)
+        # 讀中文檔名
+        img = cv2.imdecode(np.fromfile(file=img_path, dtype=np.uint8), cv2.IMREAD_COLOR)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
         return img
     
