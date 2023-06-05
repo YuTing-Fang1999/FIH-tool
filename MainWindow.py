@@ -15,22 +15,22 @@ class HLine(QFrame):
         self.setFrameShadow(QFrame.Sunken)
 
         # Set the color of the line using style sheet
-        self.setStyleSheet("background-color: rgb(13, 13, 13);")
+        # self.setStyleSheet("background-color: rgb(13, 13, 13);")
         
         
 class StyleBytton(QPushButton):
     def __init__(self, text):
         super().__init__(text)
         self.setFixedSize(150, 50)
-        self.setStyleSheet(
-            """
-            QPushButton {
-                color:rgb(0, 0, 0);
-                background-color:rgb(255, 170, 0);
-                border-radius: 4px;
-            }
-            """
-        )
+        # self.setStyleSheet(
+        #     """
+        #     QPushButton {
+        #         color:rgb(0, 0, 0);
+        #         background-color:rgb(255, 170, 0);
+        #         border-radius: 4px;
+        #     }
+        #     """
+        # )
         
 class ButtonPage(QWidget):
     def __init__(self, config) -> None:
@@ -153,16 +153,16 @@ class ButtonToggleOpen(QToolButton):
 class StyleSplitter(QSplitter):
     def __init__(self) -> None:
         super().__init__()
-        self.setStyleSheet(
-            "QSplitter::handle {"
-            "   border: 2px solid rgb(13, 13, 13);"
-            "   border-radius: 4px;"
-            "   width: 5px;"
-            "}"
-            "QSplitter::handle:hover {"
-            "   background-color: #787878;"
-            "}"
-        )
+        # self.setStyleSheet(
+        #     "QSplitter::handle {"
+        #     "   border: 2px solid rgb(13, 13, 13);"
+        #     "   border-radius: 4px;"
+        #     "   width: 5px;"
+        #     "}"
+        #     "QSplitter::handle:hover {"
+        #     "   background-color: #787878;"
+        #     "}"
+        # )
     
 class ToolSelection(QWidget):
     def __init__(self):
@@ -240,16 +240,16 @@ class FoldMenu(QWidget):
 class PlatFormBtn(QPushButton):
     def __init__(self, name):
         super().__init__(name)
-        self.setStyleSheet(
-            """
-            QPushButton{
-                color:rgb(255, 255, 255);
-                background-color: rgb(127, 127, 127);
-                border: none;
-                padding: 10px;
-            }
-            """
-        )
+        # self.setStyleSheet(
+        #     """
+        #     QPushButton{
+        #         color:rgb(255, 255, 255);
+        #         background-color: rgb(127, 127, 127);
+        #         border: none;
+        #         padding: 10px;
+        #     }
+        #     """
+        # )
 
         palette = self.palette()
         palette.setColor(QPalette.Button, QColor(0, 0, 255))  # Set blue color for the button
