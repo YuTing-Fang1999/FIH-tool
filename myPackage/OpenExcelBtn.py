@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
 )
 import win32com.client as win32
+# from win32gui import SetForegroundWindow
 
 class OpenExcelBtn(QPushButton):
     def __init__(self, text, fname):
@@ -18,12 +19,13 @@ class OpenExcelBtn(QPushButton):
         # Open the Excel file in read-only mode
         workbook = excel.Workbooks.Open(fname, ReadOnly=True)
 
-        # Set Excel window as the foreground window
+        # Set Excel window to Maximized
         excel.Visible = True
         excel.WindowState = win32.constants.xlMaximized
         
         # Set the Excel window as the foreground window
         workbook.Activate()
+        # SetForegroundWindow(excel.Hwnd)
 
         
 if __name__ == '__main__':
