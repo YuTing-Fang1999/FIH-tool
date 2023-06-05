@@ -7,6 +7,10 @@ git clone https://github.com/YuTing-Fang1999/FIH-tool.git
 ```
 cd FIH-tool
 ```
+下載其他package
+```
+pip install -r requirement.txt
+```
 更新  
 ```
 git pull
