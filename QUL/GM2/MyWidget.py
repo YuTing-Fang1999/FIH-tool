@@ -75,13 +75,12 @@ class MyWidget(ParentWidget):
 
         # get data from input
         data = self.parse_txt(filepath)
-        print(data.shape)
+        # print(data.shape)
 
         # open excel
         excel = win32.Dispatch("Excel.Application")
-        # excel.Visible = False  # Set to True if you want to see the Excel application
-        # excel.DisplayAlerts = False
-        print(os.path.abspath("GM2_分析.xlsx"))
+        excel.Visible = False  # Set to True if you want to see the Excel application
+        excel.DisplayAlerts = False
         workbook = excel.Workbooks.Open(self.excel_path)
         sheet = workbook.Worksheets('Golden_LSC')
         
@@ -96,13 +95,13 @@ class MyWidget(ParentWidget):
         os.makedirs(output_folder, exist_ok=True)
 
         for i, chart in enumerate(sheet.ChartObjects()):
-            print(chart.Chart.ChartTitle.Text)
+            # print(chart.Chart.ChartTitle.Text)
             # 要Activate才能存!!!
             chart.Activate()
             chart.Width = 400  
             chart.Height = 250  
             # Export each chart as .png
-            print(chart.Chart.Export(os.path.join(os.getcwd(), output_folder, chart.Chart.ChartTitle.Text)+".png"))
+            chart.Chart.Export(os.path.join(os.getcwd(), output_folder, chart.Chart.ChartTitle.Text)+".png")
 
         # check NG
         node = [(4, 7), (4, 23), (16, 7), (16, 23)]

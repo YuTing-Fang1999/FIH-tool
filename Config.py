@@ -7,10 +7,12 @@ from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 # from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
+# from NTU.Tuning4.controller import MainWindow_controller as Tuning4Widget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
 from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
 from QUL.GM2.MyWidget import MyWidget as GM2Widget
-from QUL.AEsimulator.MyWidget import MyWidget as AEsimulatorWidget
+from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
+from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -43,9 +45,14 @@ class Config():
                             "widget": GM2Widget(),
                         },
                         {
-                            "name": "AEsimulator",
-                            "instruction": MyLabel("求luma target, dark_high_target, bright_high_target, bright_low_target, bright_low_target, hist_dark_high_ref, hist_bright_high_ref, hist_bright_low_ref, hist_bright_low_ref, sat_ref_high, max_ADRC_gain,gamma"),
-                            "widget": AEsimulatorWidget(),
+                            "name": "colorChecker\n(求luma target)",
+                            "instruction": MyLabel("求luma target"),
+                            "widget": colorCheckerWidget(),
+                        },
+                        {
+                            "name": "verifyColorChecker",
+                            "instruction": MyLabel("驗證colorChecker"),
+                            "widget": verifyColorCheckerWidget(),
                         },
                     ]
                 },
@@ -113,6 +120,18 @@ class Config():
                     ]
                 }
             },
+            # "NTU": { 
+            #     "NTU":{
+            #         "參數推薦(傳統算法)":[
+            #             {
+            #                 "name": "參數推薦(傳統算法)",
+            #                 "instruction": MyLabel("參數推薦(傳統算法)"),
+            #                 "widget": Tuning4Widget(),
+                            
+            #             },
+            #         ],
+            #     },
+            # },
                     
                     # "AE2":{
                     #     "Calibration2":[

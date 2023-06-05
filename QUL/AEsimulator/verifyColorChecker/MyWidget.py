@@ -54,8 +54,8 @@ class MyWidget(ParentWidget):
         swatch_colours, colour_checker_image, swatch_masks = (colour_checker_swatches_data.values)
         
         if img_type == "ours":
-            self.ui.lineEdit_before_Y19.setText(str(self.pixel_to_luma(swatch_colours[18])))
-            self.ui.lineEdit_before_Y20.setText(str(self.pixel_to_luma(swatch_colours[19])))
+            self.ui.lineEdit_Ours19.setText(str(self.pixel_to_luma(swatch_colours[18])))
+            self.ui.lineEdit_Ours20.setText(str(self.pixel_to_luma(swatch_colours[19])))
         elif img_type == "ref":
             self.ui.lineEdit_Ref19.setText(str(self.pixel_to_luma(swatch_colours[18])))
             self.ui.lineEdit_Ref20.setText(str(self.pixel_to_luma(swatch_colours[19])))
@@ -68,23 +68,26 @@ class MyWidget(ParentWidget):
         self.ui.label_info.repaint() # 馬上更新label
         
         excel = win32.Dispatch("Excel.Application")
+        # excel.Visible = False  # Set to True if you want to see the Excel application
+        # excel.DisplayAlerts = False
         workbook = excel.Workbooks.Open(self.excel_path)
-        sheet = workbook.Worksheets('colorChecker')
+        colorChecker_sheet = workbook.Worksheets('colorChecker')
         
         # input data to excel
-        sheet.Range('E14').Value = self.ui.lineEdit_Ref19.text()
-        sheet.Range('E15').Value = self.ui.lineEdit_Ref20.text()
-        sheet.Range('H14').Value = self.ui.lineEdit_before_target.text()
-        sheet.Range('I14').Value = self.ui.lineEdit_before_Y19.text()
-        sheet.Range('I15').Value = self.ui.lineEdit_before_Y20.text()
+        colorChecker_sheet.Range('E14').Value = self.ui.lineEdit_Ref19.text()
+        colorChecker_sheet.Range('E15').Value = self.ui.lineEdit_Ref20.text()
+        colorChecker_sheet.Range('D14').Value = self.ui.lineEdit_Ours19.text() 
+        colorChecker_sheet.Range('D15').Value = self.ui.lineEdit_Ours20.text()
         workbook.Save()
         
-        print(sheet.Range('L14').Value)
-        self.ui.label_cal_target19.setText(str(round(sheet.Range('L14').Value, 4)))
-        self.ui.label_cal_target20.setText(str(round(sheet.Range('L15').Value, 4)))
+        self.ui.label_dif19.setText(str(round(colorChecker_sheet.Range('F14').Value, 4)))
+        self.ui.label_dif20.setText(str(round(colorChecker_sheet.Range('F15').Value, 4)))
         
         workbook.Save()
-        excel.Quit()
+        workbook.Close()
+        # 關閉當前Excel實例
+        if excel.Workbooks.Count == 0:
+            excel.Quit()
         
         self.ui.label_info.setText("")
         self.ui.label_info.repaint() # 馬上更新label
