@@ -1,0 +1,12 @@
+__pycache__
+.ipynb_checkpoints
+best_photo
+log
+*.bin
+*.pptx
+setting.json
+capture.jpg
+Ref_Pic
+target_ROI
+Result*
+*.jpg

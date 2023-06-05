@@ -13,6 +13,8 @@ from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
 from QUL.GM2.MyWidget import MyWidget as GM2Widget
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
+from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
+from myPackage.OpenToolBtn import OpenToolBtn
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -120,18 +122,18 @@ class Config():
                     ]
                 }
             },
-            # "NTU": { 
-            #     "NTU":{
-            #         "參數推薦(傳統算法)":[
-            #             {
-            #                 "name": "參數推薦(傳統算法)",
-            #                 "instruction": MyLabel("參數推薦(傳統算法)"),
-            #                 "widget": Tuning4Widget(),
+            "NTU": { 
+                "NTU":{
+                    "參數推薦(傳統算法)":[
+                        {
+                            "name": "參數推薦(傳統算法)",
+                            "instruction": MyLabel("參數推薦(傳統算法)"),
+                            "widget": TraditionalParamTuningWidget(),
                             
-            #             },
-            #         ],
-            #     },
-            # },
+                        },
+                    ],
+                },
+            },
                     
                     # "AE2":{
                     #     "Calibration2":[
