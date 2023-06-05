@@ -133,14 +133,14 @@ class MyWidget(ParentWidget):
     def open_txt(self):
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.get_filefolder(),  # start path
+                                                         self.get_filefolder("QUL_filefolder"),  # start path
                                                          '*.txt')
 
         if filepath == '':
             return
         
         filefolder = '/'.join(filepath.split('/')[:-1])
-        self.set_filefolder(filefolder)
+        self.set_filefolder("QUL_filefolder", filefolder)
         
         try:
             gain_title, gain_arr = self.parse_txt(filepath)
@@ -184,7 +184,7 @@ class MyWidget(ParentWidget):
         self.result_table.set_data(np.array(data, dtype=object).T)
     
     def export_txt(self):
-        filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.get_filefolder(),"*.txt")
+        filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.get_filefolder("QUL_filefolder"),"*.txt")
         if filepath == '': return
         data = self.result_table.get_data()
         def formater(num):

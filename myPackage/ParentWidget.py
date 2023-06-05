@@ -11,37 +11,38 @@ class ParentWidget(QWidget):
         super().__init__()
         self.setting = None
         
+    def read_json(self, filepath):
+        with open(filepath, 'r') as f:
+            return json.load(f)
+        
     def read_setting(self):
         if os.path.exists('setting.json'):
-            with open('setting.json', 'r') as f:
-                setting = json.load(f)
-                if not os.path.exists(setting["filefolder"]):
-                    setting["filefolder"] = "./"
-                return setting
+            setting = self.read_json('setting.json')
+            return setting
             
         else:
             print("找不到設定檔，重新生成一個新的設定檔")
-            return {
-                "filefolder": "./"
-            }
+            return {}
             
     def write_setting(self, setting):
         print('write_setting')
         with open("setting.json", "w") as outfile:
             outfile.write(json.dumps(setting, indent=4))
             
-    def get_filefolder(self):
+    def get_filefolder(self, key):
         if self.setting == None:
             self.setting = self.read_setting()
-        if os.path.exists(self.setting["filefolder"]):
-            return self.setting["filefolder"]
+        if key not in self.setting:
+            self.setting[key] = "./"
+        if os.path.exists(self.setting[key]):
+            return self.setting[key]
         return "./"
     
-    def set_filefolder(self, filefolder):
+    def set_filefolder(self, key, filefolder):
         if self.setting == None:
             self.setting = self.read_setting()
-        if "filefolder" in self.setting and self.setting["filefolder"] != filefolder:
-            self.setting["filefolder"] = filefolder
+        if key in self.setting and self.setting[key] != filefolder:
+            self.setting[key] = filefolder
             self.write_setting(self.setting)
         
     # def closeEvent(self, e):
