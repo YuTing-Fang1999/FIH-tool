@@ -1,0 +1,50 @@
+{
+    "trigger_idx": 2,
+    "exe_path": "C:/Users/s830s/OneDrive/\u6587\u4ef6/github/FIH/Tuning/oem/qcom/tuning/ParameterParser.exe",
+    "bin_name": "com.qti.tuned.shinetech_s5k3l6.bin",
+    "platform": "c7project",
+    "project_path": "C:/Users/s830s/OneDrive/\u6587\u4ef6/github/FIH/Tuning/oem/qcom/tuning/s5k3l6_c7project_copy",
+    "step": 0.1,
+    "gen_num": 50,
+    "param": {
+        "WNR": {
+            "file_path": "/Scenario.Default/XML/OPE/wnr24_ope.xml",
+            "xml_node": "chromatix_wnr24_core/mod_wnr24_post_scale_ratio_data/post_scale_ratio_data/mod_wnr24_pre_scale_ratio_data/pre_scale_ratio_data/mod_wnr24_total_scale_ratio_data/total_scale_ratio_data/mod_wnr24_drc_gain_data/drc_gain_data/mod_wnr24_hdr_aec_data/hdr_aec_data/mod_wnr24_aec_data",
+            "data_node": "wnr24_rgn_data",
+            "param_names": [
+                "denoise_weight_y",
+                "denoise_weight_chroma"
+            ],
+            "bounds": [
+                [
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    0.5
+                ],
+                [
+                    0,
+                    0.5
+                ],
+                [
+                    0,
+                    0.5
+                ],
+                [
+                    0,
+                    0.5
+                ]
+            ]
+        }
+    }
+}
