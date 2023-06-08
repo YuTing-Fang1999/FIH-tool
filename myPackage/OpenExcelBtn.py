@@ -21,7 +21,7 @@ class OpenExcelBtn(QPushButton):
 
         # Set Excel window to Maximized
         excel.Visible = True
-        excel.WindowState = win32.constants.xlMaximized
+        # excel.WindowState = win32.constants.xlMaximized
         
         # Set the Excel window as the foreground window
         workbook.Activate()
