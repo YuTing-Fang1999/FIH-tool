@@ -21,7 +21,7 @@ class HLine(QFrame):
 class StyleBytton(QPushButton):
     def __init__(self, text):
         super().__init__(text)
-        self.setFixedSize(150, 50)
+        self.setFixedSize(250, 80)
         # self.setStyleSheet(
         #     """
         #     QPushButton {
@@ -322,6 +322,7 @@ class MainWindow(QWidget):
             """
             font-family:微軟正黑體;
             font-weight: bold;
+            font-size: 14pt;
             """
         )
 

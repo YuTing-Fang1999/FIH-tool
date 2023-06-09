@@ -36,14 +36,14 @@ class MyWidget(ParentWidget):
     def set_img_luma(self, img_type):
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.get_filefolder("QUL_filefolder"),  # start path
+                                                         self.get_path("QUL_filefolder"),  # start path
                                                          'Image Files(*.png *.jpg *.jpeg *.bmp)')
 
         if filepath == '':
             return
         
         filefolder = '/'.join(filepath.split('/')[:-1])
-        self.set_filefolder("QUL_filefolder", filefolder)
+        self.set_path("QUL_filefolder", filefolder)
         
         self.ui.label_info.setText("正在偵測color checker，請稍後...")
         self.ui.label_info.repaint() # 馬上更新label

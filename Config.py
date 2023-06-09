@@ -15,7 +15,7 @@ from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 # from myPackage.OpenToolBtn import OpenToolBtn
-from NTU.MLGenDataset.Init.MyWidget import MyWidget as MLGenDatasetInitWidget
+from NTU.MLGenDataset.MyWidget import MyWidget as MLGenDatasetInitWidget
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -135,8 +135,8 @@ class Config():
                     ],
                     "ML資料集生成":[
                         {
-                            "name": "Load Config",
-                            "instruction": MyLabel("Load Config"),
+                            "name": "產生資料集",
+                            "instruction": MyLabel("產生資料集"),
                             "widget": MLGenDatasetInitWidget(),
                             
                         },

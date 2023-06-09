@@ -7,29 +7,30 @@ import os
 import json
 
 class ParentWidget(QWidget):
-    def __init__(self):
+    def __init__(self, setting_folder="./"):
         super().__init__()
-        self.setting = None
+        self.setting_folder = setting_folder
+        self.setting = self.read_setting(setting_folder + 'setting.json')
         
     def read_json(self, filepath):
         with open(filepath, 'r') as f:
             return json.load(f)
         
-    def read_setting(self):
-        if os.path.exists('setting.json'):
-            setting = self.read_json('setting.json')
+    def read_setting(self, setting_path):
+        if os.path.exists(setting_path):
+            setting = self.read_json(setting_path)
             return setting
             
         else:
             print("找不到設定檔，重新生成一個新的設定檔")
             return {}
             
-    def write_setting(self, setting):
+    def write_setting(self, setting_path):
         print('write_setting')
-        with open("setting.json", "w") as outfile:
-            outfile.write(json.dumps(setting, indent=4))
+        with open(setting_path, "w") as outfile:
+            outfile.write(json.dumps(self.setting, indent=4))
             
-    def get_filefolder(self, key):
+    def get_path(self, key):
         if self.setting == None:
             self.setting = self.read_setting()
         if key not in self.setting:
@@ -38,12 +39,12 @@ class ParentWidget(QWidget):
             return self.setting[key]
         return "./"
     
-    def set_filefolder(self, key, filefolder):
+    def set_path(self, key, path):
         if self.setting == None:
             self.setting = self.read_setting()
-        if key in self.setting and self.setting[key] != filefolder:
-            self.setting[key] = filefolder
-            self.write_setting(self.setting)
+        if key not in self.setting or (key in self.setting and self.setting[key] != path):
+            self.setting[key] = path
+            self.write_setting(self.setting_folder + "setting.json")
         
     # def closeEvent(self, e):
     #     print("closeEvent")
