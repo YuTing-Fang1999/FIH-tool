@@ -4,25 +4,25 @@ from PyQt5.QtGui import QGuiApplication
 from MainWindow import MainWindow
 import qdarktheme
 
-# if __name__ == '__main__':
-#     # 高分辨率屏幕自適應
-#     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-#     # 設置支持小數放大比例（適應如125%的縮放比）  
-#     QGuiApplication.setAttribute(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)  
-#     app = QApplication([])
-#     # Apply the complete dark theme to your Qt App.
-#     qdarktheme.setup_theme()
-#     widget = MainWindow()
-#     widget.showMaximized()
-#     app.exec_()
+if __name__ == '__main__':
+    # 高分辨率屏幕自適應
+    QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    # 設置支持小數放大比例（適應如125%的縮放比）  
+    QGuiApplication.setAttribute(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)  
+    app = QApplication([])
+    # Apply the complete dark theme to your Qt App.
+    qdarktheme.setup_theme()
+    widget = MainWindow()
+    widget.showMaximized()
+    app.exec_()
 
-##### MLGenDataset #####
-import sys
-from NTU.MLGenDataset.MyWidget import MyWidget
-app = QApplication(sys.argv)
-Form = MyWidget()
-Form.show()
-sys.exit(app.exec_())
+# ##### MLGenDataset #####
+# import sys
+# from NTU.MLGenDataset.MyWidget import MyWidget
+# app = QApplication(sys.argv)
+# Form = MyWidget()
+# Form.show()
+# sys.exit(app.exec_())
     
 ##### TraditionalParamTuning #####
 # from PyQt5 import QtCore, QtWidgets, QtGui
