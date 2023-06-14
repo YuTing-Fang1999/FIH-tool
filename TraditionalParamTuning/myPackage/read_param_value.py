@@ -35,9 +35,9 @@ def read_param_value_c7(key, key_config, file_path, trigger_idx):
                                     "noise_prsv_hi"]:
                     p = [p[0]]
 
-                # WNR 暫定2取1
-                if param_name in ["denoise_weight_chroma"]:
-                    p = [p[0],p[2]]
+                # # WNR 暫定2取1
+                # if param_name in ["denoise_weight_chroma"]:
+                #     p = [p[0],p[2]]
 
                 param_value.append(p)
             break
