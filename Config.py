@@ -13,6 +13,7 @@ from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
 from QUL.GM2.MyWidget import MyWidget as GM2Widget
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
+from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.MLGenDataset.MyWidget import MyWidget as MLGenDatasetInitWidget
@@ -56,6 +57,11 @@ class Config():
                             "name": "verifyColorChecker",
                             "instruction": MyLabel("驗證colorChecker"),
                             "widget": verifyColorCheckerWidget(),
+                        },
+                        {
+                            "name": "stepChart",
+                            "instruction": MyLabel("stepChart"),
+                            "widget": stepChartWidget(),
                         },
                     ]
                 },

@@ -16,6 +16,13 @@ if __name__ == '__main__':
     widget.showMaximized()
     app.exec_()
 
+# import sys
+# from QUL.AEsimulator.stepChart.MyWidget import MyWidget
+# app = QApplication(sys.argv)
+# Form = MyWidget()
+# Form.show()
+# sys.exit(app.exec_())
+
 # ##### MLGenDataset #####
 # import sys
 # from NTU.MLGenDataset.MyWidget import MyWidget

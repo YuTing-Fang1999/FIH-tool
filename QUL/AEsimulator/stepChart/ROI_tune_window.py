@@ -150,7 +150,7 @@ class ImageViewer(QtWidgets.QGraphicsView):
 
 
 class ROI_tune_window(QtWidgets.QWidget):
-    to_main_window_signal = pyqtSignal(int, np.ndarray)
+    to_main_window_signal = pyqtSignal(int, np.ndarray, np.ndarray)
 
     def __init__(self):
         super(ROI_tune_window, self).__init__()
@@ -223,7 +223,7 @@ class ROI_tune_window(QtWidgets.QWidget):
         roi_coordinate = np.array(roi_coordinate)
         w = self.viewer.img.shape[1]
         self.viewer.roi_coordinate_rate = roi_coordinate/w
-        self.to_main_window_signal.emit(self.tab_idx, roi_coordinate.astype(int))
+        self.to_main_window_signal.emit(self.tab_idx, roi_coordinate.astype(int), self.viewer.img)
         self.close()
 
 

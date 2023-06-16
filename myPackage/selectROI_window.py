@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QFileDialog
+from myPackage.ParentWidget import ParentWidget
 import cv2
 import numpy as np
 import os 
@@ -136,13 +137,11 @@ class ImageViewer(QtWidgets.QGraphicsView):
         self.setPhoto(QPixmap(qimg))
 
 
-class SelectROI_window(QtWidgets.QWidget):
+class SelectROI_window(ParentWidget):
     to_main_window_signal = pyqtSignal(int, np.ndarray, ROI_coordinate, str, str)
 
     def __init__(self):
         super(SelectROI_window, self).__init__()
-        self.setting = self.read_setting()
-        self.filefolder = self.setting["filefolder"]
 
         # Widgets
         self.viewer = ImageViewer(self)
@@ -209,7 +208,7 @@ class SelectROI_window(QtWidgets.QWidget):
         self.tab_idx = tab_idx
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.filefolder,  # start path
+                                                         self.get_path("filefolder"),  # start path
                                                          'Image Files(*.png *.jpg *.jpeg *.bmp)')
 
         if filepath == '':
@@ -217,7 +216,7 @@ class SelectROI_window(QtWidgets.QWidget):
 
         # filepath = '../test img/grid2.jpg'
         self.filefolder = '/'.join(filepath.split('/')[:-1])
-        self.update_filefolder(self.filefolder)
+        self.set_path("filefolder", self.filefolder)
         self.filename = filepath.split('/')[-1]
         
         # load img
@@ -279,31 +278,6 @@ class SelectROI_window(QtWidgets.QWidget):
 
         self.close()
         self.to_main_window_signal.emit(self.tab_idx, img, roi_coordinate, self.filename, self.filefolder)
-
-    def update_filefolder(self, filefolder):
-        if filefolder != "./" and filefolder != self.setting["filefolder"]:
-            self.setting["filefolder"] = filefolder
-            print('write ', filefolder, ' to filefolder setting')
-            self.write_setting()
-
-    def read_setting(self):
-        if os.path.exists('setting.json'):
-            with open('setting.json', 'r') as f:
-                setting = json.load(f)
-                if not os.path.exists(setting["filefolder"]):
-                    setting["filefolder"] = "./"
-                return setting
-            
-        else:
-            print("找不到設定檔，重新生成一個新的設定檔")
-            return {
-                "filefolder": "./"
-            }
-
-    def write_setting(self):
-        print('write_setting')
-        with open("setting.json", "w") as outfile:
-            outfile.write(json.dumps(self.setting, indent=4))
             
 if __name__ == '__main__':
     import sys

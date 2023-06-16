@@ -49,7 +49,9 @@ class C7ProjectManager(ProjectManager):
         return self.setting["project_path"] + file_path
     
     def get_trigger_data(self):
-        print(self.setting)
+        # print(self.setting)
+        aec_trigger_datas = []
+        congfig_key = None
         for key in self.config:
             file_path = self.get_file_path(self.config[key]["file_path"])
             tree = ET.parse(file_path)
@@ -62,16 +64,20 @@ class C7ProjectManager(ProjectManager):
             # 其中 aec_trigger 代表在甚麼樣的ISO光源下觸發
             # wnr24_rgn_data 代表所觸發的參數
 
-            aec_trigger_datas = []
-            for ele in mod_wnr24_aec_datas:
+            for i, ele in enumerate(mod_wnr24_aec_datas):
                 data = []
                 aec_trigger = ele.find("aec_trigger")
                 data.append(aec_trigger.find("lux_idx_start").text)
                 data.append(aec_trigger.find("lux_idx_end").text)
                 data.append(aec_trigger.find("gain_start").text)
                 data.append(aec_trigger.find("gain_end").text)
-                aec_trigger_datas.append(data)
-            print(aec_trigger_datas)
+                if i == len(aec_trigger_datas):
+                    aec_trigger_datas.append(data)
+                    congfig_key = key
+                else:
+                    if aec_trigger_datas[i][2]!=data[2] or aec_trigger_datas[i][3]!=data[3]:
+                        print("Error", congfig_key, "與", key, "的 gain trigger 配置不同")
+            # print(aec_trigger_datas)
         return aec_trigger_datas
 
     def set_param_value(self, param_value):

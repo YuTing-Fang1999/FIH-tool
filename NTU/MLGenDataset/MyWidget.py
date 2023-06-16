@@ -12,14 +12,12 @@ from time import sleep
 import threading
 import ctypes, inspect
 
-
 class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__("NTU/MLGenDataset/") 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()
-        
         cmd = CMDRunner()
         self.camera = Camera("c7project", cmd)
         self.projectMgr = C7ProjectManager(self.setting, cmd)
@@ -27,6 +25,7 @@ class MyWidget(ParentWidget):
         
         self.setupSettingUI()
         
+    # def set_layout_hidden(self):
         
         
         
@@ -143,7 +142,8 @@ class MyWidget(ParentWidget):
             self.projectMgr.build_and_push()
             sleep(7)
             self.camera.capture(path="{}/{}".format(self.get_path("saved_dir"),i), focus_time = 5, save_time = 0.5, transfer_time = 0.5, capture_num = 1)
-            
+        
+        self.finish()
         
     def start(self):
         if self.check_setting() == False: return
