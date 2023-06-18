@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1047</width>
-    <height>1090</height>
+    <width>1062</width>
+    <height>620</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,13 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0" columnstretch="1,5,5,1,10,1">
-     <item row="4" column="4">
-      <widget class="QPushButton" name="pushButton_3">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,10" columnstretch="1,5,5,1,10,1">
+     <item row="1" column="1" colspan="2">
+      <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>Load
-final photo
-</string>
+        <string>PushButton</string>
        </property>
       </widget>
      </item>
@@ -34,30 +32,37 @@ final photo
         </sizepolicy>
        </property>
        <property name="text">
-        <string>luna target</string>
+        <string>before</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item row="0" column="4" rowspan="2">
-      <widget class="QPushButton" name="pushButton_5">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>執行規劃求解</string>
+        <string>PushButton</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" colspan="2">
-      <widget class="QLineEdit" name="lineEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="0" column="4">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>after</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>#</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
      </item>
@@ -74,6 +79,27 @@ final photo
        </property>
       </widget>
      </item>
+     <item row="4" column="4">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>Load
+final photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="load_ref_btn">
+       <property name="text">
+        <string>Load 
+ref photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QTextEdit" name="textEdit"/>
+     </item>
      <item row="2" column="4">
       <widget class="QLabel" name="label_3">
        <property name="sizePolicy">
@@ -84,21 +110,6 @@ final photo
        </property>
        <property name="text">
         <string>規劃求解後輸出Gamme</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QTextEdit" name="textEdit"/>
-     </item>
-     <item row="3" column="4">
-      <widget class="QTextEdit" name="textEdit_2"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="load_ref_btn">
-       <property name="text">
-        <string>Load 
-ref photo
-</string>
        </property>
       </widget>
      </item>
@@ -113,6 +124,38 @@ ori photo
      </item>
      <item row="5" column="1" colspan="2">
       <widget class="QTableWidget" name="tableWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>20</number>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>25</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>25</number>
+       </attribute>
        <row>
         <property name="text">
          <string>A</string>
@@ -230,8 +273,82 @@ ori photo
        </column>
       </widget>
      </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item row="5" column="4">
       <widget class="QTableWidget" name="tableWidget_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAsNeeded</enum>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="horizontalScrollMode">
+        <enum>QAbstractItemView::ScrollPerItem</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderHighlightSections">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderStretchLastSection">
+        <bool>false</bool>
+       </attribute>
        <row>
         <property name="text">
          <string>A</string>
@@ -349,38 +466,10 @@ ori photo
        </column>
       </widget>
      </item>
-     <item row="6" column="4">
-      <widget class="QPushButton" name="pushButton_4">
-       <property name="text">
-        <string>compute</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
+     <item row="1" column="5">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1" colspan="2">
-      <widget class="QPushButton" name="compute_btn">
-       <property name="text">
-        <string>compute</string>
        </property>
       </widget>
      </item>
