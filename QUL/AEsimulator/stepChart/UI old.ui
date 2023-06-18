@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1047</width>
+    <height>1090</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0,0,0" columnstretch="1,5,5,1,10,1">
+     <item row="4" column="4">
+      <widget class="QPushButton" name="pushButton_3">
+       <property name="text">
+        <string>Load
+final photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>luna target</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="4" rowspan="2">
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>執行規劃求解</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>初始輸入Gamma</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>規劃求解後輸出Gamme</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QTextEdit" name="textEdit"/>
+     </item>
+     <item row="3" column="4">
+      <widget class="QTextEdit" name="textEdit_2"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="load_ref_btn">
+       <property name="text">
+        <string>Load 
+ref photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QPushButton" name="load_ours_btn">
+       <property name="text">
+        <string>Load
+ori photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="2">
+      <widget class="QTableWidget" name="tableWidget">
+       <row>
+        <property name="text">
+         <string>A</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>M</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>15</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>B</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>17</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>18</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>19</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>target Y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>origin Y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>lightness</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="5" column="4">
+      <widget class="QTableWidget" name="tableWidget_2">
+       <row>
+        <property name="text">
+         <string>A</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>6</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>M</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>9</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>11</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>12</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>13</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>14</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>15</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>B</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>17</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>18</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>19</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>final Y</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>lightness</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Criteria</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="6" column="4">
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="text">
+        <string>compute</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="5">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QPushButton" name="compute_btn">
+       <property name="text">
+        <string>compute</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
