@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1062</width>
-    <height>620</height>
+    <width>1071</width>
+    <height>939</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,31 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,10" columnstretch="1,5,5,1,10,1">
+     <item row="4" column="2">
+      <widget class="QPushButton" name="load_ours_btn">
+       <property name="text">
+        <string>Load
+ori photo
+</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QTextEdit" name="textEdit"/>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>規劃求解後輸出Gamme</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="1" colspan="2">
       <widget class="QPushButton" name="pushButton">
        <property name="text">
@@ -39,13 +64,6 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="4">
       <widget class="QLabel" name="label_7">
        <property name="text">
@@ -53,16 +71,6 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>#</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
      </item>
@@ -79,12 +87,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="4">
-      <widget class="QPushButton" name="pushButton_3">
+     <item row="1" column="4">
+      <widget class="QPushButton" name="pushButton_2">
        <property name="text">
-        <string>Load
-final photo
-</string>
+        <string>PushButton</string>
        </property>
       </widget>
      </item>
@@ -97,28 +103,26 @@ ref photo
        </property>
       </widget>
      </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QTextEdit" name="textEdit"/>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item row="4" column="4">
+      <widget class="QPushButton" name="load_final_btn">
        <property name="text">
-        <string>規劃求解後輸出Gamme</string>
+        <string>Load
+final photo
+</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="2">
-      <widget class="QPushButton" name="load_ours_btn">
+     <item row="1" column="3">
+      <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Load
-ori photo
-</string>
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -273,20 +277,6 @@ ori photo
        </column>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="4">
       <widget class="QTableWidget" name="tableWidget_2">
        <property name="sizePolicy">
@@ -294,6 +284,11 @@ ori photo
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>8</pointsize>
+        </font>
        </property>
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
@@ -345,6 +340,12 @@ ori photo
        </attribute>
        <attribute name="verticalHeaderCascadingSectionResizes">
         <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>25</number>
+       </attribute>
+       <attribute name="verticalHeaderMinimumSectionSize">
+        <number>25</number>
        </attribute>
        <attribute name="verticalHeaderStretchLastSection">
         <bool>false</bool>
@@ -470,6 +471,22 @@ ori photo
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QPlainTextEdit" name="plainTextEdit">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="plainText">
+        <string>123</string>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextSelectableByMouse</set>
        </property>
       </widget>
      </item>
