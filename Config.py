@@ -14,6 +14,7 @@ from QUL.GM2.MyWidget import MyWidget as GM2Widget
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
+from QUL.AEsimulator.stepChart.Intro import Intro as stepChartIntro
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.MLGenDataset.MyWidget import MyWidget as MLGenDatasetInitWidget
@@ -59,8 +60,8 @@ class Config():
                             "widget": verifyColorCheckerWidget(),
                         },
                         {
-                            "name": "stepChart",
-                            "instruction": MyLabel("stepChart"),
+                            "name": "stepChart\n(計算 Gamma)",
+                            "instruction": stepChartIntro(),
                             "widget": stepChartWidget(),
                         },
                     ]

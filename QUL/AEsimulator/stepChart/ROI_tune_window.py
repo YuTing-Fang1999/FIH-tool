@@ -223,8 +223,8 @@ class ROI_tune_window(QtWidgets.QWidget):
         roi_coordinate = np.array(roi_coordinate)
         w = self.viewer.img.shape[1]
         self.viewer.roi_coordinate_rate = roi_coordinate/w
-        self.to_main_window_signal.emit(self.tab_idx, roi_coordinate.astype(int), self.viewer.img)
         self.close()
+        self.to_main_window_signal.emit(self.tab_idx, roi_coordinate.astype(int), self.viewer.img)
 
 
 if __name__ == '__main__':

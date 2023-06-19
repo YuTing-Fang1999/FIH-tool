@@ -137,11 +137,12 @@ class ImageViewer(QtWidgets.QGraphicsView):
         self.setPhoto(QPixmap(qimg))
 
 
-class SelectROI_window(ParentWidget):
+class SelectROI_window(QtWidgets.QWidget):
     to_main_window_signal = pyqtSignal(int, np.ndarray, ROI_coordinate, str, str)
 
-    def __init__(self):
+    def __init__(self, filefolder):
         super(SelectROI_window, self).__init__()
+        self.filefolder = filefolder
 
         # Widgets
         self.viewer = ImageViewer(self)
@@ -208,7 +209,7 @@ class SelectROI_window(ParentWidget):
         self.tab_idx = tab_idx
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.get_path("filefolder"),  # start path
+                                                         self.filefolder,  # start path
                                                          'Image Files(*.png *.jpg *.jpeg *.bmp)')
 
         if filepath == '':
@@ -216,7 +217,6 @@ class SelectROI_window(ParentWidget):
 
         # filepath = '../test img/grid2.jpg'
         self.filefolder = '/'.join(filepath.split('/')[:-1])
-        self.set_path("filefolder", self.filefolder)
         self.filename = filepath.split('/')[-1]
         
         # load img
