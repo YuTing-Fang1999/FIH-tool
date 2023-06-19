@@ -3,37 +3,30 @@
 # arr[3:] /= 2
 # print(arr.tolist())
 
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTextEdit
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtWidgets import QApplication, QTextBrowser
+import markdown
 
-class TextEditWithChangeEvent(QTextEdit):
-    change_event = pyqtSignal()
+app = QApplication([])
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+text = """
+# Heading 1
+This is a **bold** text.
+<br><br>
+## Heading 2
+This is an *italic* text.
 
-    def keyPressEvent(self, event):
-        # Call the base class implementation
-        super().keyPressEvent(event)
-        # Emit the change_event signal whenever a key is pressed
-        self.change_event.emit()
+### Heading 3
+This is a bullet list:
+- Item 1
+- Item 2
+- Item 3
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+"""
 
-        self.text_edit = TextEditWithChangeEvent(self)
-        self.text_edit.change_event.connect(self.handle_change_event)
+html = markdown.markdown(text)
+browser = QTextBrowser()
+browser.setHtml(html)
+browser.show()
 
-        self.setCentralWidget(self.text_edit)
+app.exec_()
 
-    def handle_change_event(self):
-        # Handle the change event here
-        print("Text changed!")
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())

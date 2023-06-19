@@ -1,3 +1,4 @@
 pyqtdarktheme
 colour-checker-detection
 pywin32
+markdown
