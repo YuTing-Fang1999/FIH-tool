@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1071</width>
-    <height>939</height>
+    <width>1045</width>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,507 +15,546 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,10" columnstretch="1,5,5,1,10,1">
-     <item row="4" column="2">
-      <widget class="QPushButton" name="load_ori_btn">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>Load
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1000</width>
+        <height>860</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,10,0" columnstretch="1,5,5,1,10,1">
+         <item row="3" column="1" colspan="2">
+          <widget class="QPushButton" name="pushButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Load gamma.xml</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QPushButton" name="load_ori_btn">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Load
 ori photo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>規劃求解後輸出Gamme</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1" colspan="2">
-      <widget class="QPushButton" name="export_and_open_excel_btn">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Export data to excel 
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="label_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>規劃求解後輸出Gamme</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QLabel" name="label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>before</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>after</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="2">
+          <widget class="QPushButton" name="export_and_open_excel_btn">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Export data to excel 
  &amp; Open excel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1" colspan="2">
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>before</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>after</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>初始輸入Gamma</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="reload_excel_btn">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Reload excel data</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="load_ref_btn">
-       <property name="text">
-        <string>Load 
-ref photo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="4">
-      <widget class="QPushButton" name="load_final_btn">
-       <property name="text">
-        <string>Load
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>初始輸入Gamma</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="4">
+          <widget class="QPushButton" name="load_final_btn">
+           <property name="text">
+            <string>Load
 final photo</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1" colspan="2">
-      <widget class="QTableWidget" name="before_table">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
-       </property>
-       <property name="dragEnabled">
-        <bool>false</bool>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <attribute name="horizontalHeaderCascadingSectionResizes">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>100</number>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>20</number>
-       </attribute>
-       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>25</number>
-       </attribute>
-       <row>
-        <property name="text">
-         <string>A</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>6</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>M</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>9</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>10</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>11</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>12</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>13</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>14</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>15</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>17</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>18</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>19</string>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string>target Y</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>origin Y</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>lightness</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item row="5" column="4">
-      <widget class="QTableWidget" name="after_table">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAsNeeded</enum>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="alternatingRowColors">
-        <bool>true</bool>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-       <property name="horizontalScrollMode">
-        <enum>QAbstractItemView::ScrollPerItem</enum>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-       <attribute name="horizontalHeaderVisible">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="horizontalHeaderCascadingSectionResizes">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>100</number>
-       </attribute>
-       <attribute name="horizontalHeaderHighlightSections">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>100</number>
-       </attribute>
-       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="horizontalHeaderStretchLastSection">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderVisible">
-        <bool>true</bool>
-       </attribute>
-       <attribute name="verticalHeaderCascadingSectionResizes">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderMinimumSectionSize">
-        <number>25</number>
-       </attribute>
-       <attribute name="verticalHeaderStretchLastSection">
-        <bool>false</bool>
-       </attribute>
-       <row>
-        <property name="text">
-         <string>A</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>6</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>M</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>9</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>10</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>11</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>12</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>13</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>14</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>15</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>B</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>17</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>18</string>
-        </property>
-       </row>
-       <row>
-        <property name="text">
-         <string>19</string>
-        </property>
-       </row>
-       <column>
-        <property name="text">
-         <string>final Y</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>lightness</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Criteria</string>
-        </property>
-       </column>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QPlainTextEdit" name="reload_gamma_plainEdit">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-       <property name="plainText">
-        <string>#</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::TextSelectableByMouse</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1" colspan="2">
-      <widget class="QPlainTextEdit" name="gamma_plainEdit"/>
-     </item>
-    </layout>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QPushButton" name="reload_excel_btn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Reload excel data</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QPushButton" name="load_ref_btn">
+           <property name="text">
+            <string>Load 
+ref photo</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1" colspan="2">
+          <widget class="QTableWidget" name="before_table">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>600</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>100</number>
+           </attribute>
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>20</number>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>25</number>
+           </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>25</number>
+           </attribute>
+           <row>
+            <property name="text">
+             <string>A</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>4</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>M</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>8</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>9</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>11</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>12</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>13</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>14</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>B</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>17</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>18</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>19</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>target Y</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>origin Y</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>ΔY</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item row="6" column="4">
+          <widget class="QTableWidget" name="after_table">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>600</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAsNeeded</enum>
+           </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustToContents</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="horizontalScrollMode">
+            <enum>QAbstractItemView::ScrollPerItem</enum>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <attribute name="horizontalHeaderVisible">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="horizontalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>100</number>
+           </attribute>
+           <attribute name="horizontalHeaderHighlightSections">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="horizontalHeaderMinimumSectionSize">
+            <number>100</number>
+           </attribute>
+           <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderCascadingSectionResizes">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>25</number>
+           </attribute>
+           <attribute name="verticalHeaderMinimumSectionSize">
+            <number>25</number>
+           </attribute>
+           <attribute name="verticalHeaderStretchLastSection">
+            <bool>false</bool>
+           </attribute>
+           <row>
+            <property name="text">
+             <string>A</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>3</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>4</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>6</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>M</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>8</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>9</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>11</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>12</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>13</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>14</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>B</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>17</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>18</string>
+            </property>
+           </row>
+           <row>
+            <property name="text">
+             <string>19</string>
+            </property>
+           </row>
+           <column>
+            <property name="text">
+             <string>final Y</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>ΔY</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>ΔCriteria</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item row="1" column="5">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="4" rowspan="2">
+          <widget class="QPlainTextEdit" name="reload_gamma_plainEdit">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="plainText">
+            <string>#</string>
+           </property>
+           <property name="textInteractionFlags">
+            <set>Qt::TextSelectableByMouse</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1" colspan="2">
+          <widget class="QComboBox" name="comboBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

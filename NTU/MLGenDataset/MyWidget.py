@@ -122,6 +122,8 @@ class MyWidget(ParentWidget):
             else:
                 bounds = np.concatenate((bounds, np.array(self.config[key]["bounds"])))
         print('範圍設定', bounds)
+        self.finish()
+        return
     
         param_generater = ParamGenerater(bounds=bounds, gen_num=Config().gen_num)
         param_norm = param_generater.gen_param()

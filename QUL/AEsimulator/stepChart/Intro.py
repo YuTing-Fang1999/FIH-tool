@@ -10,7 +10,7 @@ class Intro(QTextBrowser):
 調整gamma
 <br>
 ### 操作 
-(1)輸入初始資料:  將before的參數和照片填入後點下方 ”Export data to excel & Open excel” 按鈕
+(1)輸入初始資料: 將before的參數"初始輸入Gamma"填入，並按 "load ref photo"、"load Ori photo"選參考機的照片與調整前的照片後，點上方 ”Export data to excel & Open excel” 按鈕
 
 (2)規劃求解:
 到 excel 上執行、微調規劃求解

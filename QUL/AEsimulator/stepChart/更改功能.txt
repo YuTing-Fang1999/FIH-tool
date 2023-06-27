@@ -1,0 +1,20 @@
+藍色的title"初始輸入gamma"這個不變
+要改的是紅色的
+新增一個按鈕跟下拉式選單
+
+做法跟 trevor打得LSC一樣
+
+使用者點"load gamma .xml "按鈕後
+選gamma.xml的檔案
+
+去讀取這隻檔案內 使用者設定的region 以這個code為例:
+有分4組
+
+R、G、B gamma會貼一樣的 所以挑其中一個就OK
+
+然後根據不同region的關鍵字創建不同分頁
+
+第一組: flash_0_lux_1_120
+
+1.在每個分頁內容都先複製原本stepChart 分頁內容
+2.並在對應分頁內把在xml檔案內讀取到的初始gamma自動填入excel中的初始輸入gamma

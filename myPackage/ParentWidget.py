@@ -1,7 +1,4 @@
-from PyQt5.QtWidgets import (
-    QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
-    QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
-)
+from PyQt5.QtWidgets import QWidget
 
 import os
 import json

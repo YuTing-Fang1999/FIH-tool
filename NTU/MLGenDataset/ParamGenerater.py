@@ -48,27 +48,27 @@ class ParamGenerater:
             writer = csv.writer(file)
             writer.writerows(param)
 
-if __name__ == "__main__":
-    # 參數範圍
-    config_path = "config/c7project.json"
-    with open(config_path, 'r') as f:
-            config = json.load(f)
-    bounds = None
-    for key in config["param"]:
-        if bounds is None:
-            bounds = np.array(config["param"][key]["bounds"])
-        else:
-            bounds = np.concatenate((bounds, np.array(config["param"][key]["bounds"])))
-    print(bounds)
+# if __name__ == "__main__":
+#     # 參數範圍
+#     config_path = "config/c7project.json"
+#     with open(config_path, 'r') as f:
+#             config = json.load(f)
+#     bounds = None
+#     for key in config["param"]:
+#         if bounds is None:
+#             bounds = np.array(config["param"][key]["bounds"])
+#         else:
+#             bounds = np.concatenate((bounds, np.array(config["param"][key]["bounds"])))
+#     print(bounds)
     
-    param_generater = ParamGenerater(bounds=bounds, gen_num=int(config["gen_num"]))
-    param_norm = param_generater.gen_param()
-    param_norm[0] = [0]*len(bounds)
-    param_norm[1] = [1]*len(bounds)
-    param_denorm = param_generater.denorm_param(param_norm, step=float(config["step"]))
-    param_norm = param_generater.norm_param(param_denorm)
-    param_generater.save_to_csv('param_norm.csv', param_norm)
-    param_generater.save_to_csv('param_denorm.csv', param_denorm)
+#     param_generater = ParamGenerater(bounds=bounds, gen_num=int(config["gen_num"]))
+#     param_norm = param_generater.gen_param()
+#     param_norm[0] = [0]*len(bounds)
+#     param_norm[1] = [1]*len(bounds)
+#     param_denorm = param_generater.denorm_param(param_norm, step=float(config["step"]))
+#     param_norm = param_generater.norm_param(param_denorm)
+#     param_generater.save_to_csv('param_norm.csv', param_norm)
+#     param_generater.save_to_csv('param_denorm.csv', param_denorm)
 
 
 

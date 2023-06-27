@@ -18,7 +18,7 @@ class MyWidget(ParentWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator_Ver2.xlsm")
-        self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
+        # self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.selectROI_window = SelectROI_window(self.get_path("QUL_stepChart_filefolder"))
         self.ROI_tune_window = ROI_tune_window()
         self.our_roi = None
@@ -82,7 +82,7 @@ class MyWidget(ParentWidget):
         # Call the base class implementation
         QPlainTextEdit.keyPressEvent(self.ui.gamma_plainEdit, event)
         # print(len(self.ui.gamma_plainEdit.toPlainText().split()))
-        if(len(self.ui.gamma_plainEdit.toPlainText().split()) == 257):
+        if(len(self.ui.gamma_plainEdit.toPlainText().split()) > 2):
             self.update_before_status_ok("gamma", True)
         else:
             self.ui.export_and_open_excel_btn.setEnabled(False)
@@ -164,7 +164,7 @@ class MyWidget(ParentWidget):
         # self.ui.label_info.setText("正在偵測step chart，請稍後...")
         # self.ui.label_info.repaint() # 馬上更新label
         
-        self.selectROI_window.open_img(img_type)
+        # self.selectROI_window.open_img(img_type)
             
             
         # self.ui.label_info.setText("")
