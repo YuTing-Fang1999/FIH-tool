@@ -9,7 +9,9 @@ from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 # from NTU.Tuning4.controller import MainWindow_controller as Tuning4Widget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
-from QUL.LSC.MyWidget import MyWidget as OTPgoldenWidget
+from QUL.LSC.MyWidget import MyWidget as LSCWidget
+from QUL.LSC.Intro import Intro as LSCIntro
+
 from QUL.GM2.MyWidget import MyWidget as GM2Widget
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
@@ -34,8 +36,8 @@ class Config():
                     "Calibration":[
                         {
                             "name": "LSC分析小工具",
-                            "instruction": MyLabel("LSC golden: 將LSC golden資料轉換成高通C7讀檔格式"),
-                            "widget": OTPgoldenWidget(),
+                            "instruction": LSCIntro(),
+                            "widget": LSCWidget(),
                         },
                         # {
                         #     "name": "LSC分析小工具2",

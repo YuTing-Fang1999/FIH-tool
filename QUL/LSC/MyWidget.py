@@ -125,14 +125,14 @@ class MyWidget(ParentWidget):
 
     def load_txt(self):
 
-        # filepath, filetype = QFileDialog.getOpenFileName(self,
-        #                                                     "Open file",
-        #                                                     self.get_path("QUL_LSC_filefolder"),  # start path
-        #                                                     '*.txt')
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                            "Open file",
+                                                            self.get_path("QUL_LSC_filefolder"),  # start path
+                                                            '*.txt')
 
-        # if filepath == '':
-        #     return
-        filepath = "QUL/LSC/shinetech_fm24c6d_s5k3l6_lsc_OTP.txt"
+        if filepath == '':
+            return
+        # filepath = "QUL/LSC/shinetech_fm24c6d_s5k3l6_lsc_OTP.txt"
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("QUL_LSC_filefolder", filefolder)
         
@@ -210,13 +210,24 @@ class MyWidget(ParentWidget):
 
     
     def load_xml(self):
+        # Open file dialog
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                            "Open file",
+                                                            self.get_path("QUL_LSC_filefolder"),  # start path
+                                                            '*.xml')
+
+        if filepath == '':
+            return
+        # filepath = "QUL/LSC/lsc34_bps.xml"
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_path("QUL_LSC_filefolder", filefolder)
+
         self.statusBar.showMessage("正在生成excel中，請稍後", 3000)
         self.statusBar.repaint() # 馬上更新
-        # Open file dialog
-        file_path = "QUL/LSC/lsc34_bps.xml"
-        print(f"Selected file: {file_path}")
+        
+        print(f"Selected file: {filepath}")
 
-        tree = ET.parse(file_path)
+        tree = ET.parse(filepath)
         root = tree.getroot()
 
         data = []
@@ -342,7 +353,7 @@ class MyWidget(ParentWidget):
         workbook.Save()
         excel.Quit()
         print("LSCcheck is ok!")
-        time.sleep(1)
+        time.sleep(2)
 
         index = self.ui.select_result.findText("LSC golden OTP")
         self.ui.select_result.clear()
@@ -354,7 +365,6 @@ class MyWidget(ParentWidget):
             self.ui.select_result.addItem(item_name)
 
         self.statusBar.showMessage("LSCcheck is ok!", 3000)
-        self.statusBar.repaint() # 馬上更新
 
     def open_excel(self):
         if self.xml_excel_path == None:

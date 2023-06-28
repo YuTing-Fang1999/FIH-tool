@@ -45,6 +45,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 2, 4, 1, 1)
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
@@ -70,6 +71,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
         self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 2, 1, 1, 2)
         self.load_final_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
@@ -381,7 +383,7 @@ class Ui_Form(object):
         item = self.after_table.horizontalHeaderItem(1)
         item.setText(_translate("Form", "ΔY"))
         item = self.after_table.horizontalHeaderItem(2)
-        item.setText(_translate("Form", "ΔCriteria"))
+        item.setText(_translate("Form", "ΔY Criteria"))
         self.reload_gamma_plainEdit.setPlainText(_translate("Form", "#"))
 
 

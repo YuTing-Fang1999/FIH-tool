@@ -34,7 +34,7 @@ class MyWidget(ParentWidget):
         self.ui.load_final_btn.clicked.connect(lambda: self.selectROI_window.open_img(2))
         self.ui.export_and_open_excel_btn.clicked.connect(self.export_and_open_excel)
         self.ui.reload_excel_btn.clicked.connect(self.reload_excel)
-        self.ui.gamma_plainEdit.keyPressEvent = self.text_edit_keyPressEvent
+        # self.ui.gamma_plainEdit.keyPressEvent = self.text_edit_keyPressEvent
 
     
     def reload_excel(self):
