@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QStatusBar, QMessageBox, QLabel
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 import win32com.client as win32
 from myPackage.ParentWidget import ParentWidget
@@ -8,9 +9,150 @@ import numpy as np
 import re
 import xml.etree.ElementTree as ET
 import time
-import openpyxl
-import xlwings as xw
 import cv2
+import threading
+
+class ExcelWorkerThread(QThread):
+        update_list_signal = pyqtSignal(list)   
+        update_status_bar_signal = pyqtSignal(str)
+        excel_worker = None
+        is_processing = False
+        filepath = ""
+        excel_path = ""
+
+        def __init__(self):
+            super().__init__()
+
+        def run(self):
+            print(f"Selected file: {self.filepath}")
+
+            self.is_processing = True
+
+            tree = ET.parse(self.filepath)
+            root = tree.getroot()
+
+            data = []
+            golden_data = []
+
+            lsc34_golden_rgn_data = root.find('.//lsc34_golden_rgn_data')
+            r_gain_values = lsc34_golden_rgn_data.find('r_gain_tab/r_gain').text
+            r_gain_list = [float(value) for value in r_gain_values.split()]
+            gr_gain_values = lsc34_golden_rgn_data.find('gr_gain_tab/gr_gain').text
+            gr_gain_list = [float(value) for value in gr_gain_values.split()]
+            gb_gain_values = lsc34_golden_rgn_data.find('gb_gain_tab/gb_gain').text
+            gb_gain_list = [float(value) for value in gb_gain_values.split()]
+            b_gain_values = lsc34_golden_rgn_data.find('b_gain_tab/b_gain').text
+            b_gain_list = [float(value) for value in b_gain_values.split()]
+
+            golden_data = {
+                "r_gain": r_gain_list,
+                "gr_gain": gr_gain_list,
+                "gb_gain": gb_gain_list,
+                "b_gain": b_gain_list
+            }
+
+            for i, mod_lsc34_aec_data in enumerate(root.findall('.//mod_lsc34_aec_data')):
+                aec_trigger = mod_lsc34_aec_data.find('aec_trigger')
+                lux_idx_start = aec_trigger.find('lux_idx_start').text
+                lux_idx_end = aec_trigger.find('lux_idx_end').text
+
+                for mod_lsc34_cct_data in mod_lsc34_aec_data.findall('.//mod_lsc34_cct_data'):
+                    cct_trigger = mod_lsc34_cct_data.find('cct_trigger')
+                    start = cct_trigger.find('start').text
+                    end = cct_trigger.find('end').text
+                    
+                    lsc34_rgn_data = mod_lsc34_cct_data.find('lsc34_rgn_data')
+                    r_gain = lsc34_rgn_data.find('r_gain_tab/r_gain').text
+                    gr_gain = lsc34_rgn_data.find('gr_gain_tab/gr_gain').text
+                    gb_gain = lsc34_rgn_data.find('gb_gain_tab/gb_gain').text
+                    b_gain = lsc34_rgn_data.find('b_gain_tab/b_gain').text
+
+                    data.append({
+                        "lux_idx_start": lux_idx_start,
+                        "lux_idx_end": lux_idx_end,
+                        "cct_data": {
+                            "start": start,
+                            "end": end,
+                            "r_gain": r_gain,
+                            "gr_gain": gr_gain,
+                            "gb_gain": gb_gain,
+                            "b_gain": b_gain,
+                        }
+                    })
+
+            localtime = time.localtime()
+            clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
+        
+            self.xml_excel_path = os.path.join(os.getcwd(), f'LSC_checkTool_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
+
+            # open excel
+            excel = win32.Dispatch("Excel.Application")
+            excel.Visible = False  # Set to True if you want to see the Excel application
+            excel.DisplayAlerts = False
+            workbook = excel.Workbooks.Open(self.excel_path)
+            workbook.SaveAs(self.xml_excel_path)
+            print(f"Save file: {self.xml_excel_path}")
+
+            for i, item in enumerate(data, start=2):
+                print(f'region {str(i).rjust(3)}: '
+                    f'lux_idx_start: {str(item["lux_idx_start"]).rjust(5)}, '
+                    f'lux_idx_end: {str(item["lux_idx_end"]).rjust(5)}, '
+                    f'start: {str(item["cct_data"]["start"]).rjust(5)}, '
+                    f'end: {str(item["cct_data"]["end"]).rjust(5)}')
+                
+                sheet_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
+                self.update_status_bar_signal.emit(sheet_name)
+
+                # 獲取要複製的工作表
+                source_sheet = workbook.Sheets(2)  # 第二個工作表的索引為 2
+                # 複製工作表
+                source_sheet.Copy(After=workbook.Sheets(workbook.Sheets.Count))
+                # 獲取新建立的工作表的引用
+                new_sheet = workbook.Sheets(workbook.Sheets.Count)
+                # 重新命名工作表
+                new_sheet.Name = sheet_name
+                # 將data輸入到sheet
+                r_gain_values = item["cct_data"]["r_gain"].split()
+                gr_gain_values = item["cct_data"]["gr_gain"].split()
+                gb_gain_values = item["cct_data"]["gb_gain"].split()
+                b_gain_values = item["cct_data"]["b_gain"].split()
+
+                r_gain_values = [round(float(value), 3) for value in r_gain_values]
+                gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
+                gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
+                b_gain_values = [round(float(value), 3) for value in b_gain_values]
+
+                gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
+                new_sheet.Range('C3:F223').Value = gain_arr.T.tolist()
+
+            sheet = workbook.Sheets(1)
+            r_gain_values = golden_data["r_gain"]
+            gr_gain_values = golden_data["gr_gain"]
+            gb_gain_values = golden_data["gb_gain"]
+            b_gain_values = golden_data["b_gain"]
+
+            r_gain_values = [round(float(value), 3) for value in r_gain_values]
+            gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
+            gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
+            b_gain_values = [round(float(value), 3) for value in b_gain_values]
+            gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
+            sheet.Range('C3:F223').Value = gain_arr.T.tolist()
+
+            workbook.Save()
+            excel.Quit()
+
+            self.update_status_bar_signal.emit("LSCcheck is ok!")
+            print("LSCcheck is ok!")
+            time.sleep(1)
+            
+            self.is_processing = False
+
+            item_list = []
+            for i, item in enumerate(data, start=2):
+                item_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
+                item_list.append(item_name)
+
+            self.update_list_signal.emit(item_list)
 
 
 class MyWidget(ParentWidget):
@@ -30,6 +172,7 @@ class MyWidget(ParentWidget):
 
         self.excel_path = os.path.abspath("QUL/LSC/LSC_checkTool.xlsm")
         self.xml_excel_path = None
+        self.excel_worker = ExcelWorkerThread()
         self.controller()
         # self.load_xml()
         
@@ -40,9 +183,15 @@ class MyWidget(ParentWidget):
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
         self.ui.select_result.currentIndexChanged[str].connect(self.set_chart)
 
+        self.excel_worker.update_list_signal.connect(self.update_item_list)
+        self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
+
+    def update_status_bar(self, text):
+        self.statusBar.showMessage(text, 3000)
+
     def set_chart(self, text):
         self.statusBar.showMessage("load 資料中，請稍後", 3000)
-        self.statusBar.repaint() # 馬上更新
+        self.statusBar.repaint() # 重繪statusBar
 
         if text == "LSC golden OTP":
             # open excel
@@ -53,12 +202,12 @@ class MyWidget(ParentWidget):
             sheet = workbook.Worksheets('goldenOTP_check')
 
         else:
-            if self.xml_excel_path == None: return
+            if self.excel_worker.xml_excel_path == None: return
             # open excel
             excel = win32.Dispatch("Excel.Application")
             excel.Visible = False  # Set to True if you want to see the Excel application
             excel.DisplayAlerts = False
-            workbook = excel.Workbooks.Open(self.xml_excel_path)
+            workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path)
             sheet = workbook.Worksheets(text)
             print(text)
 
@@ -209,7 +358,12 @@ class MyWidget(ParentWidget):
                 f.write('\n')
 
     
+
     def load_xml(self):
+        if self.excel_worker.is_processing:
+            QMessageBox.about(self, "請等目前的excel生成完", "請等目前的excel生成完，再load新的xml")
+            return
+
         # Open file dialog
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                             "Open file",
@@ -222,149 +376,18 @@ class MyWidget(ParentWidget):
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("QUL_LSC_filefolder", filefolder)
 
-        self.statusBar.showMessage("正在生成excel中，請稍後", 3000)
-        self.statusBar.repaint() # 馬上更新
-        
-        print(f"Selected file: {filepath}")
+        self.excel_worker.excel_path = self.excel_path
+        self.excel_worker.filepath = filepath
+        self.excel_worker.start()
 
-        tree = ET.parse(filepath)
-        root = tree.getroot()
 
-        data = []
-        golden_data = []
-
-        lsc34_golden_rgn_data = root.find('.//lsc34_golden_rgn_data')
-        r_gain_values = lsc34_golden_rgn_data.find('r_gain_tab/r_gain').text
-        r_gain_list = [float(value) for value in r_gain_values.split()]
-        gr_gain_values = lsc34_golden_rgn_data.find('gr_gain_tab/gr_gain').text
-        gr_gain_list = [float(value) for value in gr_gain_values.split()]
-        gb_gain_values = lsc34_golden_rgn_data.find('gb_gain_tab/gb_gain').text
-        gb_gain_list = [float(value) for value in gb_gain_values.split()]
-        b_gain_values = lsc34_golden_rgn_data.find('b_gain_tab/b_gain').text
-        b_gain_list = [float(value) for value in b_gain_values.split()]
-
-        golden_data = {
-            "r_gain": r_gain_list,
-            "gr_gain": gr_gain_list,
-            "gb_gain": gb_gain_list,
-            "b_gain": b_gain_list
-        }
-
-        for i, mod_lsc34_aec_data in enumerate(root.findall('.//mod_lsc34_aec_data')):
-            aec_trigger = mod_lsc34_aec_data.find('aec_trigger')
-            lux_idx_start = aec_trigger.find('lux_idx_start').text
-            lux_idx_end = aec_trigger.find('lux_idx_end').text
-
-            for mod_lsc34_cct_data in mod_lsc34_aec_data.findall('.//mod_lsc34_cct_data'):
-                cct_trigger = mod_lsc34_cct_data.find('cct_trigger')
-                start = cct_trigger.find('start').text
-                end = cct_trigger.find('end').text
-                
-                lsc34_rgn_data = mod_lsc34_cct_data.find('lsc34_rgn_data')
-                r_gain = lsc34_rgn_data.find('r_gain_tab/r_gain').text
-                gr_gain = lsc34_rgn_data.find('gr_gain_tab/gr_gain').text
-                gb_gain = lsc34_rgn_data.find('gb_gain_tab/gb_gain').text
-                b_gain = lsc34_rgn_data.find('b_gain_tab/b_gain').text
-
-                data.append({
-                    "lux_idx_start": lux_idx_start,
-                    "lux_idx_end": lux_idx_end,
-                    "cct_data": {
-                        "start": start,
-                        "end": end,
-                        "r_gain": r_gain,
-                        "gr_gain": gr_gain,
-                        "gb_gain": gb_gain,
-                        "b_gain": b_gain,
-                    }
-                })
-
-        localtime = time.localtime()
-        clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
-    
-        self.xml_excel_path = os.path.join(os.getcwd(), f'LSC_checkTool_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
-
-        # open excel
-        excel = win32.Dispatch("Excel.Application")
-        excel.Visible = False  # Set to True if you want to see the Excel application
-        excel.DisplayAlerts = False
-        workbook = excel.Workbooks.Open(self.excel_path)
-        workbook.SaveAs(self.xml_excel_path)
-        print(f"Save file: {self.xml_excel_path}")
-
-        for i, item in enumerate(data, start=2):
-            print(f'region {str(i).rjust(3)}: '
-                f'lux_idx_start: {str(item["lux_idx_start"]).rjust(5)}, '
-                f'lux_idx_end: {str(item["lux_idx_end"]).rjust(5)}, '
-                f'start: {str(item["cct_data"]["start"]).rjust(5)}, '
-                f'end: {str(item["cct_data"]["end"]).rjust(5)}')
-            
-            sheet_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
-            # 獲取要複製的工作表
-            source_sheet = workbook.Sheets(2)  # 第二個工作表的索引為 2
-            # 複製工作表
-            source_sheet.Copy(After=workbook.Sheets(workbook.Sheets.Count))
-            # 獲取新建立的工作表的引用
-            new_sheet = workbook.Sheets(workbook.Sheets.Count)
-            # 重新命名工作表
-            new_sheet.Name = sheet_name
-            # 將data輸入到sheet
-            r_gain_values = item["cct_data"]["r_gain"].split()
-            gr_gain_values = item["cct_data"]["gr_gain"].split()
-            gb_gain_values = item["cct_data"]["gb_gain"].split()
-            b_gain_values = item["cct_data"]["b_gain"].split()
-
-            r_gain_values = [round(float(value), 3) for value in r_gain_values]
-            gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
-            gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
-            b_gain_values = [round(float(value), 3) for value in b_gain_values]
-
-            gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
-            new_sheet.Range('C3:F223').Value = gain_arr.T.tolist()
-
-        sheet = workbook.Sheets(1)
-        r_gain_values = golden_data["r_gain"]
-        gr_gain_values = golden_data["gr_gain"]
-        gb_gain_values = golden_data["gb_gain"]
-        b_gain_values = golden_data["b_gain"]
-
-        r_gain_values = [round(float(value), 3) for value in r_gain_values]
-        gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
-        gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
-        b_gain_values = [round(float(value), 3) for value in b_gain_values]
-        gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
-        sheet.Range('C3:F223').Value = gain_arr.T.tolist()
-
-        # for i, item in enumerate(data, start=3):
-        #     sheet = workbook.Sheets(i)
-        #     r_gain_values = item["cct_data"]["r_gain"].split()
-        #     gr_gain_values = item["cct_data"]["gr_gain"].split()
-        #     gb_gain_values = item["cct_data"]["gb_gain"].split()
-        #     b_gain_values = item["cct_data"]["b_gain"].split()
-
-        #     r_gain_values = [round(float(value), 3) for value in r_gain_values]
-        #     gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
-        #     gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
-        #     b_gain_values = [round(float(value), 3) for value in b_gain_values]
-
-        #     gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
-        #     sheet.Range('C3:F223').Value = gain_arr.T.tolist()
-
-        workbook.Save()
-        excel.Quit()
-        print("LSCcheck is ok!")
-        time.sleep(2)
-
+    def update_item_list(self, item_name):
         index = self.ui.select_result.findText("LSC golden OTP")
         self.ui.select_result.clear()
         if index >= 0:
             self.ui.select_result.addItem("LSC golden OTP")
-        
-        for i, item in enumerate(data, start=2):
-            item_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
-            self.ui.select_result.addItem(item_name)
 
-        self.statusBar.showMessage("LSCcheck is ok!", 3000)
+        self.ui.select_result.addItems(item_name)
 
     def open_excel(self):
         if self.xml_excel_path == None:

@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # Apply the complete dark theme to your Qt App.
     qdarktheme.setup_theme()
     widget = MainWindow()
-    widget.show()
+    widget.showMaximized()
     app.exec_()
 
 # import sys
