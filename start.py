@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # Apply the complete dark theme to your Qt App.
     qdarktheme.setup_theme()
     widget = MainWindow()
-    widget.showMaximized()
+    widget.show()
     app.exec_()
 
 # import sys
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 # sys.exit(app.exec_())
 
 # import sys
-# from QUL.AEsimulator.stepChart.MyWidget import MyWidget
+# from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget
 # app = QApplication(sys.argv)
 # Form = MyWidget()
 # Form.show()

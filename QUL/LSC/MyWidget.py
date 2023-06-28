@@ -20,7 +20,7 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         # Create the status bar
         self.statusBar = QStatusBar()
-        self.ui.verticalLayout_4.addWidget(self.statusBar)
+        self.ui.verticalLayout_3.addWidget(self.statusBar)
 
         self.img_viewer = []
         for i in range(4):

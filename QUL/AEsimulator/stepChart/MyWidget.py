@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QPlainTextEdit, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QPlainTextEdit, QTableWidget, QTableWidgetItem, QHeaderView
 from PyQt5.QtGui import QKeyEvent
 from .UI import Ui_Form
 from .ROI_tune_window import ROI_tune_window
@@ -17,6 +17,8 @@ class MyWidget(ParentWidget):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.ui.before_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.ui.after_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator_Ver2.xlsm")
         # self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.selectROI_window = SelectROI_window(self.get_path("QUL_stepChart_filefolder"))
