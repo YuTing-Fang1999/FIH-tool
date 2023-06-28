@@ -186,10 +186,19 @@ class MyWidget(ParentWidget):
         self.excel_worker.update_list_signal.connect(self.update_item_list)
         self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
 
+    def update_item_list(self, item_name):
+        # index = self.ui.select_result.findText("LSC golden OTP")
+        self.ui.select_result.clear()
+        # if index >= 0:
+        #     self.ui.select_result.addItem("LSC golden OTP")
+
+        self.ui.select_result.addItems(item_name)
+
     def update_status_bar(self, text):
         self.statusBar.showMessage(text, 3000)
 
     def set_chart(self, text):
+        if text == "": return
         self.statusBar.showMessage("load 資料中，請稍後", 3000)
         self.statusBar.repaint() # 重繪statusBar
 
@@ -307,6 +316,8 @@ class MyWidget(ParentWidget):
             index = self.ui.select_result.findText("LSC golden OTP")
             if index < 0:
                 self.ui.select_result.addItem("LSC golden OTP")
+
+            self.ui.select_result.setCurrentText("LSC golden OTP")
         
         except:
             self.statusBar.showMessage("Failed to Load txt", 3000)
@@ -381,13 +392,7 @@ class MyWidget(ParentWidget):
         self.excel_worker.start()
 
 
-    def update_item_list(self, item_name):
-        index = self.ui.select_result.findText("LSC golden OTP")
-        self.ui.select_result.clear()
-        if index >= 0:
-            self.ui.select_result.addItem("LSC golden OTP")
-
-        self.ui.select_result.addItems(item_name)
+    
 
     def open_excel(self):
         if self.xml_excel_path == None:
