@@ -1,2 +1,8 @@
 __pycache__
 setting.json
+*.xml
+*.xlsm
+*.bin
+Ref_Pic/*
+*.jpg
+log

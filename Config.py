@@ -49,11 +49,6 @@ class Config():
                     ],
                     "Tuning":[
                         {
-                            "name": "LSC補償",
-                            "instruction": MyLabel("LSC 補償:調整 LSC 補償程度並將資料轉成高通C7讀檔格式"),
-                            "widget": GM2Widget(),
-                        },
-                        {
                             "name": "colorChecker\n(求luma target)",
                             "instruction": MyLabel("求luma target"),
                             "widget": colorCheckerWidget(),

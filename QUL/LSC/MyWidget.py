@@ -15,7 +15,7 @@ import threading
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
         update_status_bar_signal = pyqtSignal(str)
-        excel_worker = None
+        xml_excel_path = None
         is_processing = False
         filepath = ""
         excel_path = ""
@@ -171,7 +171,6 @@ class MyWidget(ParentWidget):
         
 
         self.excel_path = os.path.abspath("QUL/LSC/LSC_checkTool.xlsm")
-        self.xml_excel_path = None
         self.excel_worker = ExcelWorkerThread()
         self.controller()
         # self.load_xml()
@@ -395,13 +394,13 @@ class MyWidget(ParentWidget):
     
 
     def open_excel(self):
-        if self.xml_excel_path == None:
+        if self.excel_worker.xml_excel_path == None:
             QMessageBox.about(self, "請先load xml", "請先load xml，才能打開所產生的excel")
             return
         # Open Excel application
         excel = win32.Dispatch("Excel.Application")
         # Open the Excel file in read-only mode
-        workbook = excel.Workbooks.Open(self.xml_excel_path, ReadOnly=True)
+        workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path, ReadOnly=True)
         # Set Excel window to Maximized
         excel.Visible = True
         # excel.WindowState = win32.constants.xlMaximized
