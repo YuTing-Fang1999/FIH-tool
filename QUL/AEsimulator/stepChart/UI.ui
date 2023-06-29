@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1045</width>
+    <width>1105</width>
     <height>721</height>
    </rect>
   </property>
@@ -24,13 +24,13 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1000</width>
-        <height>860</height>
+        <width>1068</width>
+        <height>813</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,1,1,1,10,0" columnstretch="1,5,5,1,10,1">
+        <layout class="QGridLayout" name="gridLayout">
          <item row="3" column="1" colspan="2">
           <widget class="QPushButton" name="pushButton">
            <property name="sizePolicy">
@@ -55,22 +55,6 @@ ori photo</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="4">
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>規劃求解後輸出Gamme</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1" colspan="2">
           <widget class="QLabel" name="label">
            <property name="sizePolicy">
@@ -87,6 +71,22 @@ ori photo</string>
            </property>
           </widget>
          </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="label_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>規劃求解後輸出Gamme</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="4">
           <widget class="QLabel" name="label_7">
            <property name="text">
@@ -97,14 +97,18 @@ ori photo</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" colspan="2">
-          <widget class="QPushButton" name="export_and_open_excel_btn">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_5">
            <property name="text">
-            <string>Export data to excel 
- &amp; Open excel</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="4">
+          <widget class="QPushButton" name="load_final_btn">
+           <property name="text">
+            <string>Load
+final photo</string>
            </property>
           </widget>
          </item>
@@ -124,21 +128,6 @@ ori photo</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="4">
-          <widget class="QPushButton" name="load_final_btn">
-           <property name="text">
-            <string>Load
-final photo</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="4">
           <widget class="QPushButton" name="reload_excel_btn">
            <property name="sizePolicy">
@@ -152,11 +141,14 @@ final photo</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QPushButton" name="load_ref_btn">
+         <item row="1" column="1" colspan="2">
+          <widget class="QPushButton" name="export_and_open_excel_btn">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
-            <string>Load 
-ref photo</string>
+            <string>Export data to excel 
+ &amp; Open excel</string>
            </property>
           </widget>
          </item>
@@ -164,6 +156,14 @@ ref photo</string>
           <widget class="QLabel" name="label_4">
            <property name="text">
             <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QPushButton" name="load_ref_btn">
+           <property name="text">
+            <string>Load 
+ref photo</string>
            </property>
           </widget>
          </item>
@@ -555,6 +555,111 @@ ref photo</string>
             </sizepolicy>
            </property>
           </widget>
+         </item>
+         <item row="6" column="6">
+          <layout class="QVBoxLayout" name="img_layout"/>
+         </item>
+         <item row="0" column="6" rowspan="5">
+          <layout class="QGridLayout" name="summary_grid">
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Gamma</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>target / final</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Lightness error abs avg</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>AE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Contrast ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Color summary (target / original)</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLabel" name="label_21">
+             <property name="text">
+              <string>#</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

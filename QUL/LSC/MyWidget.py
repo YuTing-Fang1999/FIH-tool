@@ -87,8 +87,8 @@ class ExcelWorkerThread(QThread):
 
             # open excel
             excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
-            excel.DisplayAlerts = False
+            # excel.Visible = False  # Set to True if you want to see the Excel application
+            # excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_path)
             workbook.SaveAs(self.xml_excel_path)
             print(f"Save file: {self.xml_excel_path}")
@@ -139,7 +139,7 @@ class ExcelWorkerThread(QThread):
             sheet.Range('C3:F223').Value = gain_arr.T.tolist()
 
             workbook.Save()
-            excel.Quit()
+            workbook.Close()
 
             self.update_status_bar_signal.emit("LSCcheck is ok!")
             print("LSCcheck is ok!")
@@ -204,8 +204,8 @@ class MyWidget(ParentWidget):
         if text == "LSC golden OTP":
             # open excel
             excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
-            excel.DisplayAlerts = False
+            # excel.Visible = False  # Set to True if you want to see the Excel application
+            # excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_path)
             sheet = workbook.Worksheets('goldenOTP_check')
 
@@ -213,8 +213,8 @@ class MyWidget(ParentWidget):
             if self.excel_worker.xml_excel_path == None: return
             # open excel
             excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
-            excel.DisplayAlerts = False
+            # excel.Visible = False  # Set to True if you want to see the Excel application
+            # excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path)
             sheet = workbook.Worksheets(text)
             print(text)
@@ -273,7 +273,7 @@ class MyWidget(ParentWidget):
                 #     break
 
         workbook.Save()
-        excel.Quit()
+        workbook.Close()
 
     def set_chart_img(self, fname, idx):
         img = cv2.imdecode( np.fromfile( file = fname, dtype = np.uint8 ), cv2.IMREAD_COLOR )
@@ -303,13 +303,13 @@ class MyWidget(ParentWidget):
 
             # open excel
             excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
-            excel.DisplayAlerts = False
+            # excel.Visible = False  # Set to True if you want to see the Excel application
+            # excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_path)
             sheet = workbook.Worksheets('goldenOTP_check')
             sheet.Range('C3:F223').Value = gain_arr
             workbook.Save()
-            excel.Quit()
+            workbook.Close()
 
             self.statusBar.showMessage("Load txt successfully", 3000)
             index = self.ui.select_result.findText("LSC golden OTP")
@@ -349,13 +349,13 @@ class MyWidget(ParentWidget):
             return
         # open excel
         excel = win32.Dispatch("Excel.Application")
-        excel.Visible = False  # Set to True if you want to see the Excel application
-        excel.DisplayAlerts = False
+        # excel.Visible = False  # Set to True if you want to see the Excel application
+        # excel.DisplayAlerts = False
         workbook = excel.Workbooks.Open(self.excel_path)
         sheet = workbook.Worksheets('goldenOTP_check')
         gain_arr = sheet.Range('C3:F223').Value
         workbook.Save()
-        excel.Quit()
+        workbook.Close()
 
         # localtime = time.localtime()
         filepath, filetype=QFileDialog.getSaveFileName(self,'save file',self.get_path("QUL_LSC_filefolder")+"/goldenOTP_check.txt","*.txt")
@@ -389,24 +389,21 @@ class MyWidget(ParentWidget):
         self.excel_worker.excel_path = self.excel_path
         self.excel_worker.filepath = filepath
         self.excel_worker.start()
-
-
     
 
     def open_excel(self):
         if self.excel_worker.xml_excel_path == None:
             QMessageBox.about(self, "請先load xml", "請先load xml，才能打開所產生的excel")
             return
-        # Open Excel application
-        excel = win32.Dispatch("Excel.Application")
-        # Open the Excel file in read-only mode
-        workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path, ReadOnly=True)
-        # Set Excel window to Maximized
-        excel.Visible = True
-        # excel.WindowState = win32.constants.xlMaximized
+        self.statusBar.showMessage("開啟中，請稍後", 3000)
+        import xlwings as xw
+        app = xw.App(visible=True)
+        app.books[0].close()
+        # Maximize the Excel window
+        app.api.WindowState = xw.constants.WindowState.xlMaximized
+        wb = app.books.open(self.excel_worker.xml_excel_path)
         # Set the Excel window as the foreground window
-        workbook.Activate()
-        # SetForegroundWindow(excel.Hwnd)
+        wb.app.activate(steal_focus=True)
         
 if __name__ == "__main__":
     import sys
