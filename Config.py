@@ -58,16 +58,16 @@ class Config():
                             "instruction": MyLabel("驗證colorChecker"),
                             "widget": verifyColorCheckerWidget(),
                         },
-                        # {
-                        #     "name": "stepChart\n(計算 Gamma)",
-                        #     "instruction": stepChartIntro(),
-                        #     "widget": stepChartWidget(),
-                        # },
-                        # {
-                        #     "name": "verifyStepChart\n(復驗 Gamma)",
-                        #     "instruction": verifyGammaIntro(),
-                        #     "widget": verifyGammaWidget(),
-                        # },
+                        {
+                            "name": "stepChart\n(計算 Gamma)",
+                            "instruction": stepChartIntro(),
+                            "widget": stepChartWidget(),
+                        },
+                        {
+                            "name": "verifyStepChart\n(復驗 Gamma)",
+                            "instruction": verifyGammaIntro(),
+                            "widget": verifyGammaWidget(),
+                        },
                     ]
                 },
                 "CCM":{

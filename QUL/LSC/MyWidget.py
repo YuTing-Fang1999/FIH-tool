@@ -10,7 +10,6 @@ import re
 import xml.etree.ElementTree as ET
 import time
 import cv2
-import threading
 
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
@@ -234,8 +233,8 @@ class MyWidget(ParentWidget):
             # Export each chart as .png
             chart.Chart.Export(os.path.join(os.getcwd(), output_folder, chart.Chart.ChartTitle.Text)+".png")
 
-            self.set_chart_img("charts/"+chart.Chart.ChartTitle.Text+".png", i)
-
+            img = cv2.imdecode( np.fromfile( file = "charts/"+chart.Chart.ChartTitle.Text+".png", dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            self.img_viewer[i].setPhoto(img)
 
         # Function to remove a widget from the grid layout by row and column
         def remove_widget(row, col):
@@ -275,9 +274,6 @@ class MyWidget(ParentWidget):
         workbook.Save()
         workbook.Close()
 
-    def set_chart_img(self, fname, idx):
-        img = cv2.imdecode( np.fromfile( file = fname, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-        self.img_viewer[idx].setPhoto(img)
         
 
     def load_txt(self):

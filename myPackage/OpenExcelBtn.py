@@ -13,19 +13,28 @@ class OpenExcelBtn(QPushButton):
         self.clicked.connect(lambda: self.open_excel(fname))
 
     def open_excel(self, fname):
-        # Open Excel application
-        excel = win32.Dispatch("Excel.Application")
-
-        # Open the Excel file in read-only mode
-        workbook = excel.Workbooks.Open(fname, ReadOnly=True)
-
-        # Set Excel window to Maximized
-        excel.Visible = True
-        # excel.WindowState = win32.constants.xlMaximized
-        
+        import xlwings as xw
+        app = xw.App(visible=True)
+        app.books[0].close()
+        # Maximize the Excel window
+        app.api.WindowState = xw.constants.WindowState.xlMaximized
+        wb = app.books.open(self.excel_worker.xml_excel_path)
         # Set the Excel window as the foreground window
-        workbook.Activate()
-        # SetForegroundWindow(excel.Hwnd)
+        wb.app.activate(steal_focus=True)
+
+        # # Open Excel application
+        # excel = win32.Dispatch("Excel.Application")
+
+        # # Open the Excel file in read-only mode
+        # workbook = excel.Workbooks.Open(fname, ReadOnly=True)
+
+        # # Set Excel window to Maximized
+        # excel.Visible = True
+        # # excel.WindowState = win32.constants.xlMaximized
+        
+        # # Set the Excel window as the foreground window
+        # workbook.Activate()
+        # # SetForegroundWindow(excel.Hwnd)
 
         
 if __name__ == '__main__':
