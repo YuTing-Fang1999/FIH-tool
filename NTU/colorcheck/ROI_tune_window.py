@@ -188,7 +188,7 @@ class ROI_tune_window(QtWidgets.QWidget):
         self.setStyleSheet(
             "QWidget{background-color: rgb(66, 66, 66);}"
             "QLabel{font-size:20pt; font-family:微軟正黑體; color:white;}"
-            "QPushButton{font-size:20pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
+            "QPushButton{font-size:20pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:black;}")
 
     def keyPressEvent(self, event: QtGui.QKeyEvent) -> None:
         super(ImageViewer, self.viewer).keyPressEvent(event)
