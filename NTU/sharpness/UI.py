@@ -26,13 +26,12 @@ class Ui_MainWindow(object):
 
         spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.main_layout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.main_layout = QtWidgets.QVBoxLayout(MainWindow)
 
         self.horizontalLayout_upper = QtWidgets.QHBoxLayout()
         self.horizontalLayout_upper.addItem(spacerItem)
         for i in range(4):
-            open_img_btn = QtWidgets.QPushButton(self.centralwidget)
+            open_img_btn = QtWidgets.QPushButton(MainWindow)
             open_img_btn.setText("Load Pic"+str(i+1))
             self.open_img_btn.append(open_img_btn)
             self.horizontalLayout_upper.addWidget(open_img_btn)
@@ -41,7 +40,7 @@ class Ui_MainWindow(object):
         self.main_layout.addLayout(self.horizontalLayout_upper)
 
         self.horizontalLayout_medium = QtWidgets.QHBoxLayout()
-        # self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        # self.tabWidget = QtWidgets.QTabWidget(MainWindow)
         for i in range(4):
             tab = QtWidgets.QWidget()
             img_block = ImageViewer()
@@ -73,18 +72,18 @@ class Ui_MainWindow(object):
             # create the frame object.
             gridLayout_wrapper = QtWidgets.QFrame()
             gridLayout = QtWidgets.QGridLayout()
-            label = QtWidgets.QLabel(self.centralwidget)
+            label = QtWidgets.QLabel(MainWindow)
             label.setText("PIC"+str(i+1))
             self.filename.append(label)
             gridLayout.addWidget(label, 0, 0)
             score = []
             for j in range(len(self.type_name)):
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
                 label.setText(self.type_name[j])
                 label.setToolTip(self.tip[self.type_name[j]])
                 gridLayout.addWidget(label, j+1, 0)
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 label.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
                 score.append(label)
                 gridLayout.addWidget(label, j+1, 1)
@@ -100,8 +99,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setStyleSheet(
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
-            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
-        MainWindow.setCentralWidget(self.centralwidget)
+            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
 
 if __name__ == "__main__":
     import sys

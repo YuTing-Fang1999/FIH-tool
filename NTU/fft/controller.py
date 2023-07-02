@@ -11,6 +11,7 @@ from .UI import Ui_MainWindow
 import sys
 sys.path.append("..")
 from myPackage.selectROI_window import SelectROI_window
+from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageMeasurement import get_roi_img
 
 class MplCanvas(FigureCanvasQTAgg):
@@ -20,12 +21,12 @@ class MplCanvas(FigureCanvasQTAgg):
         self.axes = self.fig.add_subplot(111)
         super(MplCanvas, self).__init__(self.fig)
 
-class MainWindow_controller(QtWidgets.QMainWindow):
+class MainWindow_controller(ParentWidget):
     def __init__(self):
         super().__init__() # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.selectROI_window = SelectROI_window()
+        self.selectROI_window = SelectROI_window(self.get_path("NTU_fft_filefolder"))
 
         # Create the maptlotlib FigureCanvas object,
         # which defines a single set of axes as self.axes.

@@ -90,7 +90,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setStyleSheet(
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
-            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
+            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setObjectName("menubar")

@@ -26,13 +26,12 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 750)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.verticalLayout_parent = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout_parent = QtWidgets.QVBoxLayout(MainWindow)
 
         self.horizontalLayout_upper = QtWidgets.QHBoxLayout()
         self.horizontalLayout_upper.addItem(spacerItem)
         for i in range(4):
-            open_img_btn = QtWidgets.QPushButton(self.centralwidget)
+            open_img_btn = QtWidgets.QPushButton(MainWindow)
             if i==0:
                 open_img_btn.setText("Load Ref Pic")
             else:
@@ -41,12 +40,12 @@ class Ui_MainWindow(object):
             self.open_img_btn.append(open_img_btn)
             self.horizontalLayout_upper.addWidget(open_img_btn)
             
-        self.btn_compute = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_compute = QtWidgets.QPushButton(MainWindow)
         self.btn_compute.setText("Compute(直接裁切成相同大小)")
         self.btn_compute.setToolTip("直接以左上角為原點做裁減，適合用於有一致解析度的情況")
         self.horizontalLayout_upper.addWidget(self.btn_compute)
 
-        self.btn_compute_resize = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_compute_resize = QtWidgets.QPushButton(MainWindow)
         self.btn_compute_resize.setText("Compute (resize成相同大小)")
         self.btn_compute_resize.setToolTip("會先將Ref與Pic resize成同等長再做裁減，適合用於兩隻不同手機做比較")
         self.horizontalLayout_upper.addWidget(self.btn_compute_resize)
@@ -77,16 +76,16 @@ class Ui_MainWindow(object):
             # create the frame object.
             gridLayout_wrapper = QtWidgets.QFrame()
             gridLayout = QtWidgets.QGridLayout()
-            label = QtWidgets.QLabel(self.centralwidget)
+            label = QtWidgets.QLabel(MainWindow)
             self.filename.append(label)
             label.setText("PIC"+str(i+1))
             gridLayout.addWidget(label, 0, 0)
             score = []
             for j in range(len(self.name)):
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 label.setText(self.name[j])
                 gridLayout.addWidget(label, j+1, 0)
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 score.append(label)
                 gridLayout.addWidget(label, j+1, 1)
             gridLayout_wrapper.setLayout(gridLayout)
@@ -99,14 +98,7 @@ class Ui_MainWindow(object):
 
         MainWindow.setStyleSheet(
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
-            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

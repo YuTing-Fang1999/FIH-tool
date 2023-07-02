@@ -68,7 +68,7 @@ class SNR_window(QtWidgets.QMainWindow):
                                     border: black solid 1px
                                 }
                                 QPushButton{
-                                    font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);
+                                    font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);
                                 }
                                 """
         )

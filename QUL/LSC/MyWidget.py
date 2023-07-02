@@ -175,8 +175,9 @@ class MyWidget(ParentWidget):
         # self.load_xml()
         
     def controller(self):
-        self.ui.load_txt_btn.clicked.connect(self.load_txt)
-        self.ui.expor_txt_btn.clicked.connect(self.export_txt)
+        # self.ui.load_txt_btn.clicked.connect(self.load_txt)
+        # self.ui.expor_txt_btn.clicked.connect(self.export_txt)
+        self.ui.load_and_export_txt_btn.clicked.connect(self.load_and_export_txt)
         self.ui.load_xml_btn.clicked.connect(self.load_xml)
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
         self.ui.select_result.currentIndexChanged[str].connect(self.set_chart)
@@ -275,6 +276,9 @@ class MyWidget(ParentWidget):
         workbook.Close()
 
         
+    def load_and_export_txt(self):
+        self.load_txt()
+        self.export_txt()
 
     def load_txt(self):
 

@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(832, 353)
+        Form.resize(832, 469)
         Form.setStyleSheet("font-family:微軟正黑體;\n"
 "font-weight: bold;")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
@@ -115,6 +115,8 @@ class Ui_Form(object):
         self.start_capture_btn.setObjectName("start_capture_btn")
         self.capture_layout.addWidget(self.start_capture_btn)
         self.verticalLayout_2.addLayout(self.capture_layout)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

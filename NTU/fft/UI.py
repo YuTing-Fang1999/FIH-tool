@@ -46,8 +46,7 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.VLayout_parent = QVBoxLayout(self.centralwidget)
+        self.VLayout_parent = QVBoxLayout(MainWindow)
         self.VLayout_parent.setContentsMargins(0, -10, 0, -10)
         self.VLayout_parent.setSpacing(0)
 
@@ -71,8 +70,6 @@ class Ui_MainWindow(object):
             self.VLayout_parent.addWidget(fft_block)
             self.fft_block.append(fft_block)
        
-        MainWindow.setCentralWidget(self.centralwidget)
-
         MainWindow.setStyleSheet("QMainWindow {background-color: rgb(66, 66, 66);}"
                                  """
                                 QLabel {
@@ -83,7 +80,7 @@ class Ui_MainWindow(object):
                                     border-style:inset;
                                     }
                                 """
-                                 "QPushButton {font-size:14pt; font-family:微軟正黑體; font-weight: bold; background-color:rgb(255, 170, 0);}")
+                                 "QPushButton {font-size:14pt; font-family:微軟正黑體; font-weight: bold; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
 
 
         self.retranslateUi(MainWindow)

@@ -287,16 +287,49 @@ class WidgetDisplay(QWidget):
         main_layout = QVBoxLayout(self)
         
         splitter = StyleSplitter()
-        splitter.setOrientation(Qt.Horizontal)
-        splitter.addWidget(self.instruction_stack)
+        splitter.setOrientation(Qt.Vertical)
         splitter.addWidget(self.widget_stack)
+        splitter.addWidget(self.instruction_stack)
         splitter.setStretchFactor(0,1)
         splitter.setStretchFactor(1,8)
         main_layout.addWidget(splitter)
+        # main_layout.addWidget(self.widget_stack)
+        # main_layout.addWidget(FoldMenu2(self.instruction_stack))
         
     def display_widget(self, i):
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
+
+class FoldMenu2(QWidget): # 方向與FoldMenu相反
+    def __init__(self, widget):
+        super().__init__()
+        vLayout = QVBoxLayout(self)
+
+        # # Create the QHBoxLayout
+        # btn_layout = QHBoxLayout()
+        # self.btn_toggle_open = ButtonToggleOpen()
+        # self.btn_toggle_open.setArrowType(Qt.DownArrow)
+        # btn_layout.addWidget(self.btn_toggle_open)
+        # btn_layout.setAlignment(Qt.AlignRight)
+
+        # vLayout.addLayout(btn_layout)
+        # vLayout.addWidget(HLine())
+        vLayout.addWidget(widget)
+        self.widget = widget
+
+        self.widget.setMinimumHeight(300)
+        
+        self.btn_toggle_open.clicked.connect(self.toggle_open)
+        
+    def toggle_open(self):
+        if self.btn_toggle_open.isChecked():
+            self.widget.hide()
+            self.btn_toggle_open.setArrowType(Qt.UpArrow)
+
+        else:
+            self.widget.show()
+            self.btn_toggle_open.setArrowType(Qt.DownArrow)
+
         
 class FoldMenu(QWidget):
     def __init__(self, widget):
@@ -393,14 +426,14 @@ class MainWindow(QWidget):
         self.widget_display.widget_stack.setCurrentIndex(i)
 
     def set_style(self):
-        # 创建一个QPalette对象
-        palette = self.palette()
+        # # 创建一个QPalette对象
+        # palette = self.palette()
 
-        # 设置QPalette的背景色
-        palette.setColor(QPalette.Background, QColor(58, 57, 55))
+        # # 设置QPalette的背景色
+        # palette.setColor(QPalette.Background, QColor(58, 57, 55))
         
-        # 将QPalette应用到窗口
-        self.setPalette(palette)
+        # # 将QPalette应用到窗口
+        # self.setPalette(palette)
 
         self.setStyleSheet(
             # background-color: rgb(58, 57, 55);

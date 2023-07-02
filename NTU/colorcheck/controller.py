@@ -7,6 +7,7 @@ import numpy as np
 from .UI import Ui_MainWindow
 from .SNR_window import SNR_window
 from .ROI_tune_window import ROI_tune_window
+from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageMeasurement import get_roi_img, get_signal_to_noise
 
 import csv
@@ -14,13 +15,13 @@ import sys
 sys.path.append("..")
 
 
-class MainWindow_controller(QtWidgets.QMainWindow):
+class MainWindow_controller(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.selectROI_window = SelectROI_window()
+        self.selectROI_window = SelectROI_window(self.get_path("NTU_colorcheck_filefolder"))
         self.ROI_tune_window = ROI_tune_window()
         
         self.SNR_window = []

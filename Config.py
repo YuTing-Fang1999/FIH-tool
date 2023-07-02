@@ -5,14 +5,13 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
-# from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
+from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 # from NTU.Tuning4.controller import MainWindow_controller as Tuning4Widget
 # from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
 from QUL.LSC.MyWidget import MyWidget as LSCWidget
 from QUL.LSC.Intro import Intro as LSCIntro
 
-from QUL.GM2.MyWidget import MyWidget as GM2Widget
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
@@ -91,12 +90,6 @@ class Config():
                 "AE":{
                     "Tuning":[
                         {
-                            "name": "gammaSimulator_MTK",
-                            "instruction": MyLabel("調整gamma"),
-                            "widget": MyLabel("gammaSimulator_MTK"),
-                            
-                        },
-                        {
                             "name": "mtkAEanalysis",
                             "instruction": MyLabel("調整 main_target、middle_tone、bright_tone….."),
                             "widget": MyLabel("mtkAEanalysis"),
@@ -136,6 +129,32 @@ class Config():
             },
             "NTU": { 
                 "NTU":{
+                    "影像分析工具":[
+                        {
+                            "name": "頻譜分析",
+                            "instruction": MyLabel("頻譜分析"),
+                            "widget": FFTWidget(),
+                            
+                        },
+                        {
+                            "name": "colorcheck",
+                            "instruction": MyLabel("colorcheck"),
+                            "widget": ColorcheckWidget(),
+                            
+                        },
+                        {
+                            "name": "sharpness/noise",
+                            "instruction": MyLabel("sharpness/noise"),
+                            "widget": SharpnessWidget(),
+                            
+                        },
+                        {
+                            "name": "perceptual_distance",
+                            "instruction": MyLabel("perceptual_distance"),
+                            "widget": PerceptualDistancekWidget(),
+                            
+                        },
+                    ],
                     "參數推薦(傳統算法)":[
                         {
                             "name": "參數推薦(傳統算法)",
@@ -143,6 +162,7 @@ class Config():
                             "widget": TraditionalParamTuningWidget(),
                             
                         },
+                       
                     ],
                     "ML資料集生成":[
                         {

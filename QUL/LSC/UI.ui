@@ -27,8 +27,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>814</width>
-        <height>365</height>
+        <width>818</width>
+        <height>369</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -40,7 +40,7 @@
             <number>10</number>
            </property>
            <item>
-            <widget class="QPushButton" name="load_txt_btn">
+            <widget class="QPushButton" name="load_and_export_txt_btn">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -60,32 +60,8 @@ background:rgb(68, 114, 196);
 color:rgb(255, 255, 255);</string>
              </property>
              <property name="text">
-              <string>Load LSC
- golden OTP txt
-</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="expor_txt_btn">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>70</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font:13px ;
-text-align:bottom;
-background:rgb(68, 114, 196); 
-color:rgb(255, 255, 255);</string>
-             </property>
-             <property name="text">
-              <string>Export LSC 
- golden OTP txt
+              <string>Load amd Export
+LSC golden OTP txt
 </string>
              </property>
             </widget>

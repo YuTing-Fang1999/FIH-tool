@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from .UI import Ui_MainWindow
 from myPackage.selectROI_window import SelectROI_window
+from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageMeasurement import get_perceptual_distance, get_roi_img
 
 
@@ -13,12 +14,12 @@ import numpy as np
 sys.path.append("..")
 
 
-class MainWindow_controller(QtWidgets.QMainWindow):
+class MainWindow_controller(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.selectROI_window = SelectROI_window()
+        self.selectROI_window = SelectROI_window(self.get_path("NTU_PD_filefolder"))
         self.tab_idx = 0
         
     def showEvent(self, event):

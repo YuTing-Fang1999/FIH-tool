@@ -17,6 +17,13 @@ if __name__ == '__main__':
     app.exec_()
 
 # import sys
+# from NTU.perceptual_distance.controller import MainWindow_controller
+# app = QApplication(sys.argv)
+# Form = MainWindow_controller()
+# Form.show()
+# sys.exit(app.exec_())
+
+# import sys
 # from QUL.LSC.MyWidget import MyWidget
 # app = QApplication(sys.argv)
 # Form = MyWidget()

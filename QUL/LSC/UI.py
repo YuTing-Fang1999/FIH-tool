@@ -22,7 +22,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 814, 365))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 818, 369))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -31,28 +31,19 @@ class Ui_Form(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.load_txt_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.load_and_export_txt_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.load_txt_btn.sizePolicy().hasHeightForWidth())
-        self.load_txt_btn.setSizePolicy(sizePolicy)
-        self.load_txt_btn.setMinimumSize(QtCore.QSize(100, 70))
-        self.load_txt_btn.setStyleSheet("font:13px ;\n"
+        sizePolicy.setHeightForWidth(self.load_and_export_txt_btn.sizePolicy().hasHeightForWidth())
+        self.load_and_export_txt_btn.setSizePolicy(sizePolicy)
+        self.load_and_export_txt_btn.setMinimumSize(QtCore.QSize(100, 70))
+        self.load_and_export_txt_btn.setStyleSheet("font:13px ;\n"
 "text-align:bottom;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
-        self.load_txt_btn.setObjectName("load_txt_btn")
-        self.verticalLayout.addWidget(self.load_txt_btn)
-        self.expor_txt_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.expor_txt_btn.setEnabled(True)
-        self.expor_txt_btn.setMinimumSize(QtCore.QSize(100, 70))
-        self.expor_txt_btn.setStyleSheet("font:13px ;\n"
-"text-align:bottom;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
-        self.expor_txt_btn.setObjectName("expor_txt_btn")
-        self.verticalLayout.addWidget(self.expor_txt_btn)
+        self.load_and_export_txt_btn.setObjectName("load_and_export_txt_btn")
+        self.verticalLayout.addWidget(self.load_and_export_txt_btn)
         self.load_xml_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.load_xml_btn.setMinimumSize(QtCore.QSize(100, 70))
         self.load_xml_btn.setStyleSheet("font:13px ;\n"
@@ -199,11 +190,8 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.load_txt_btn.setText(_translate("Form", "Load LSC\n"
-" golden OTP txt\n"
-""))
-        self.expor_txt_btn.setText(_translate("Form", "Export LSC \n"
-" golden OTP txt\n"
+        self.load_and_export_txt_btn.setText(_translate("Form", "Load amd Export\n"
+"LSC golden OTP txt\n"
 ""))
         self.load_xml_btn.setText(_translate("Form", "\n"
 " Load lsc .xml\n"

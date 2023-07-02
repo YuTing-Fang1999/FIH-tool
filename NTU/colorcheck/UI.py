@@ -25,17 +25,16 @@ class Ui_MainWindow(object):
             0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(992, 762)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.verticalLayout_parent = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout_parent = QtWidgets.QVBoxLayout(MainWindow)
 
         self.horizontalLayout_btn = QtWidgets.QHBoxLayout()
         self.horizontalLayout_btn.addItem(spacerItem)
         for i in range(4):
-            open_img_btn = QtWidgets.QPushButton(self.centralwidget)
+            open_img_btn = QtWidgets.QPushButton(MainWindow)
             open_img_btn.setText("Load Pic"+str(i+1))
             self.open_img_btn.append(open_img_btn)
             self.horizontalLayout_btn.addWidget(open_img_btn)
-        self.btn_compute = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_compute = QtWidgets.QPushButton(MainWindow)
         self.btn_compute.setText("Compute")
         self.horizontalLayout_btn.addWidget(self.btn_compute)
         self.horizontalLayout_btn.addItem(spacerItem)
@@ -44,7 +43,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_imgTab = QtWidgets.QHBoxLayout()
         # self.horizontalLayout_imgTab.addItem(spacerItem)
-        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget = QtWidgets.QTabWidget(MainWindow)
         for i in range(4):
             tab = QtWidgets.QWidget()
             img_block = ImageViewer()
@@ -73,14 +72,7 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(
             # "background-color: rgb(66, 66, 66);\n"
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
-            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+            "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
