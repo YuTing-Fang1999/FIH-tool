@@ -39,11 +39,6 @@ class Config():
                             "instruction": LSCIntro(),
                             "widget": LSCWidget(),
                         },
-                        # {
-                        #     "name": "LSC分析小工具2",
-                        #     "instruction": MyLabel("LSC2"),
-                        #     "widget": MyLabel("LSC2"),
-                        # },
                     ],
                     "Tuning":[
                         {

@@ -8,19 +8,22 @@ import win32com.client as win32
 # from win32gui import SetForegroundWindow
 
 class OpenExcelBtn(QPushButton):
-    def __init__(self, text, fname):
+    def __init__(self, text, fname, sheet_name=None):
         super().__init__(text)
-        self.clicked.connect(lambda: self.open_excel(fname))
+        self.clicked.connect(lambda: self.open_excel(fname, sheet_name))
 
-    def open_excel(self, fname):
+    def open_excel(self, fname, sheet_name=None):
         import xlwings as xw
         app = xw.App(visible=True)
         app.books[0].close()
         # Maximize the Excel window
         app.api.WindowState = xw.constants.WindowState.xlMaximized
-        wb = app.books.open(self.excel_worker.xml_excel_path)
+        wb = app.books.open(fname)
         # Set the Excel window as the foreground window
         wb.app.activate(steal_focus=True)
+        
+        if sheet_name is not None:
+            wb.sheets[sheet_name].activate()
 
         # # Open Excel application
         # excel = win32.Dispatch("Excel.Application")

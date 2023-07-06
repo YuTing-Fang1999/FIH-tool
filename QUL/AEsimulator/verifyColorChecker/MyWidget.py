@@ -14,7 +14,7 @@ class MyWidget(ParentWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator_Ver2.xlsm")
-        self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
+        self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path, "colorChecker"))
         self.controller()
         
     def controller(self):

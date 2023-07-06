@@ -116,7 +116,6 @@ class MyWidget(ParentWidget):
         self.ui.img_layout.addWidget(self.img_viewer)
 
         self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator_Ver2.xlsm")
-        # self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.selectROI_window = SelectROI_window(self.get_path("QUL_stepChart_filefolder"))
         self.ROI_tune_window = ROI_tune_window()
         self.our_roi = None

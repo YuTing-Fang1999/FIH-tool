@@ -3,7 +3,6 @@ from PyQt5.QtGui import QKeyEvent
 from .UI import Ui_Form
 from .ROI_tune_window import ROI_tune_window
 import win32com.client as win32
-from myPackage.OpenExcelBtn import OpenExcelBtn
 from myPackage.ParentWidget import ParentWidget
 from myPackage.selectROI_window import SelectROI_window
 from .ROI_tune_window import ROI_tune_window
