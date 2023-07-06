@@ -22,7 +22,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 818, 369))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 814, 365))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -190,7 +190,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.load_and_export_txt_btn.setText(_translate("Form", "Load amd Export\n"
+        self.load_and_export_txt_btn.setText(_translate("Form", "Load and Export\n"
 "LSC golden OTP txt\n"
 ""))
         self.load_xml_btn.setText(_translate("Form", "\n"

@@ -13,7 +13,7 @@ class MyWidget(ParentWidget):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator.xlsm")
+        self.excel_path = os.path.abspath("QUL/AEsimulator/AEsimulator_Ver2.xlsm")
         self.ui.verticalLayout.insertWidget(0, OpenExcelBtn("Open Excel", self.excel_path))
         self.controller()
         
