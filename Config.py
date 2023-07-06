@@ -12,7 +12,11 @@ from QUL.LSC.MyWidget import MyWidget as LSCWidget
 from QUL.LSC.Intro import Intro as LSCIntro
 
 from QUL.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
+from QUL.AEsimulator.colorChecker.Intro import Intro as colorCheckerIntro
+
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
+from QUL.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorCheckerIntro
+
 from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
 from QUL.AEsimulator.stepChart.Intro import Intro as stepChartIntro
 from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
@@ -43,12 +47,12 @@ class Config():
                     "Tuning":[
                         {
                             "name": "colorChecker\n(求luma target)",
-                            "instruction": MyLabel("求luma target"),
+                            "instruction": colorCheckerIntro(),
                             "widget": colorCheckerWidget(),
                         },
                         {
                             "name": "verifyColorChecker",
-                            "instruction": MyLabel("驗證colorChecker"),
+                            "instruction": verifyColorCheckerIntro(),
                             "widget": verifyColorCheckerWidget(),
                         },
                         {
