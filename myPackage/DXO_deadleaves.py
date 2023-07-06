@@ -43,9 +43,9 @@ def get_rec_roi(im, p, w):
     return rec_roi
 
 def get_roi_img_and_coor(im, TEST):
-    resize_im = ResizeWithAspectRatio(im, height=1000)
+    resize_im = ResizeWithAspectRatio(im, height=1200)
     resize_gray_im = cv2.cvtColor(resize_im, cv2.COLOR_BGR2GRAY)
-    edged = cv2.Canny(resize_gray_im, 350, 490)
+    edged = cv2.Canny(resize_gray_im, 100, 490)
     kernel = np.ones((2,2), np.uint8) 
     morph = cv2.dilate(edged, kernel, iterations = 1)
     # morph = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel)
@@ -53,22 +53,22 @@ def get_roi_img_and_coor(im, TEST):
     backgroundSkeleton = skeletonize(np.where(morph==255,1,0))
     backgroundSkeleton = np.where(backgroundSkeleton==1,255,0).astype('uint8') 
 
-    # if TEST:
-    #     cv2.imshow("resize_im", resize_im)
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+    if TEST:
+        # cv2.imshow("resize_im", ResizeWithAspectRatio(resize_im, height=800))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
-    #     cv2.imshow("edged", ResizeWithAspectRatio(edged, height=800))
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+        # cv2.imshow("edged", ResizeWithAspectRatio(edged, height=800))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
-    #     cv2.imshow("dilate", ResizeWithAspectRatio(edged, height=800))
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+        # cv2.imshow("dilate", ResizeWithAspectRatio(edged, height=800))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
-    #     cv2.imshow("backgroundSkeleton", ResizeWithAspectRatio(backgroundSkeleton, height=800))
-    #     cv2.waitKey(0)
-    #     cv2.destroyAllWindows()
+        cv2.imshow("backgroundSkeleton", ResizeWithAspectRatio(backgroundSkeleton, height=800))
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     cnts, _ = cv2.findContours(backgroundSkeleton.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     coor = []
@@ -116,7 +116,10 @@ def get_roi_img_and_coor(im, TEST):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
             
-    assert len(coor) == 4
+    # assert len(coor) == 4
+    if len(coor) != 4:
+        print("len(coor) =", len(coor))
+        return None, None
 
     new_coor = np.zeros((4,3))
     coor = sorted(coor, key=lambda x: x[0], reverse=True)
@@ -240,6 +243,8 @@ def cal_mean_OECF_patch(OECF_patch):
 
 def get_dxo_roi_img(img, TEST):
     crop_dxo_im, coor = get_roi_img_and_coor(img.copy(), TEST)
+    if crop_dxo_im is None:
+        return None, None
     roi_img, OECF_patch = get_roi_region(crop_dxo_im.copy(), coor, "", TEST)
     return roi_img, cal_mean_OECF_patch(OECF_patch)
 

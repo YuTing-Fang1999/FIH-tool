@@ -7,8 +7,7 @@ from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
-# from NTU.Tuning4.controller import MainWindow_controller as Tuning4Widget
-# from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DFWidget
+from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DLWidget
 from QUL.LSC.MyWidget import MyWidget as LSCWidget
 from QUL.LSC.Intro import Intro as LSCIntro
 
@@ -140,6 +139,12 @@ class Config():
                             "name": "colorcheck",
                             "instruction": MyLabel("colorcheck"),
                             "widget": ColorcheckWidget(),
+                            
+                        },
+                        {
+                            "name": "dxo_dead_leaves",
+                            "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算\n但很容易偵測失敗"),
+                            "widget": DXO_DLWidget(),
                             
                         },
                         {

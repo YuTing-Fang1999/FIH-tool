@@ -1,9 +1,10 @@
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from .UI import Ui_MainWindow
 from myPackage.DXO_deadleaves import get_dxo_roi_img
+from myPackage.ParentWidget import ParentWidget
 
 import sys
 import cv2
@@ -11,12 +12,12 @@ import numpy as np
 sys.path.append("..")
 
 
-class MainWindow_controller(QtWidgets.QMainWindow):
+class MainWindow_controller(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.filefolder = ""
+        self.filefolder = self.get_path("NTU_dxo_dead_leaves_filefolder")
         
     def showEvent(self, event):
         self.setup_control()
@@ -46,11 +47,15 @@ class MainWindow_controller(QtWidgets.QMainWindow):
         # filepath = '../test img/grid2.jpg'
         self.filefolder = '/'.join(filepath.split('/')[:-1])
         filename = filepath.split('/')[-1]
+        self.set_path("NTU_dxo_dead_leaves_filefolder", self.filefolder)
 
         # load img
         img = cv2.imdecode(np.fromfile(file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
 
         dxo_roi_img, _ = get_dxo_roi_img(img, TEST=True)
+        if dxo_roi_img is None:
+            QMessageBox.about(self, "失敗", "自動偵測ROI失敗")
+            return
         self.ui.img_block[img_idx].dxo_roi_img = dxo_roi_img
 
         self.ui.img_block[img_idx].setPhoto(dxo_roi_img, filename)

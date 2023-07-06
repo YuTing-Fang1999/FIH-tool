@@ -27,13 +27,12 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1000, 750)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.verticalLayout_parent = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout_parent = QtWidgets.QVBoxLayout(MainWindow)
 
         self.horizontalLayout_upper = QtWidgets.QHBoxLayout()
         self.horizontalLayout_upper.addItem(spacerItem)
         for i in range(4):
-            open_img_btn = QtWidgets.QPushButton(self.centralwidget)
+            open_img_btn = QtWidgets.QPushButton(MainWindow)
             open_img_btn.setText("Load Pic"+str(i+1))
             self.open_img_btn.append(open_img_btn)
             self.horizontalLayout_upper.addWidget(open_img_btn)
@@ -67,17 +66,17 @@ class Ui_MainWindow(object):
             # create the frame object.
             gridLayout_wrapper = QtWidgets.QFrame()
             gridLayout = QtWidgets.QGridLayout()
-            label = QtWidgets.QLabel(self.centralwidget)
+            label = QtWidgets.QLabel(MainWindow)
             self.filename.append(label)
             label.setText("PIC"+str(i+1))
             gridLayout.addWidget(label, 0, 0)
             score = []
             for j in range(len(self.type_name)):
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 label.setText(self.type_name[j])
                 label.setToolTip(self.tip[j])
                 gridLayout.addWidget(label, j+1, 0)
-                label = QtWidgets.QLabel(self.centralwidget)
+                label = QtWidgets.QLabel(MainWindow)
                 score.append(label)
                 gridLayout.addWidget(label, j+1, 1)
             gridLayout_wrapper.setLayout(gridLayout)
@@ -91,13 +90,6 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(
             "QLabel{font-size:12pt; font-family:微軟正黑體;}"
             "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:rgb(0, 0, 0);}")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
