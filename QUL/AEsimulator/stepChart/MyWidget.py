@@ -299,21 +299,25 @@ class MyWidget(ParentWidget):
             self.update_before_status_ok("ref", True)
             self.set_table_data(self.ui.before_table, patchs, 0)
             range_data = sheet.Range('C12:C31')
+            range_data.Value = patchs
             if self.before_status_ok[1]:
+                workbook.Save()
                 self.set_table_data(self.ui.before_table, sheet.Range('M12:M31').Value, 2)
         elif tab_idx==1: # ori
             self.update_before_status_ok("ori", True)
             self.set_table_data(self.ui.before_table, patchs, 1)
             range_data = sheet.Range('I12:I31')
+            range_data.Value = patchs
             if self.before_status_ok[0]:
+                workbook.Save()
                 self.set_table_data(self.ui.before_table, sheet.Range('M12:M31').Value, 2)
         elif tab_idx==2: # final
             self.set_table_data(self.ui.after_table, patchs, 0)
             self.set_table_data(self.ui.after_table, sheet.Range('N12:N31').Value, 1)
             self.set_table_data(self.ui.after_table, sheet.Range('P12:P31').Value, 2)
             range_data = sheet.Range('K12:K31')
-
-        range_data.Value = patchs
+            range_data.Value = patchs
+        
         workbook.Save()
         workbook.Close()
     
