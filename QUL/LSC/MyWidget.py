@@ -10,6 +10,8 @@ import re
 import xml.etree.ElementTree as ET
 import time
 import cv2
+import openpyxl
+import xlwings as xw
 
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
@@ -21,6 +23,11 @@ class ExcelWorkerThread(QThread):
 
         def __init__(self):
             super().__init__()
+
+        def create_xls(self, fn):
+            wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
+            wb.active = 0
+            return wb
 
         def run(self):
             print(f"Selected file: {self.filepath}")
@@ -84,13 +91,14 @@ class ExcelWorkerThread(QThread):
         
             self.xml_excel_path = os.path.join(os.getcwd(), f'LSC_checkTool_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
 
-            # open excel
-            excel = win32.Dispatch("Excel.Application")
-            # excel.Visible = False  # Set to True if you want to see the Excel application
-            # excel.DisplayAlerts = False
-            workbook = excel.Workbooks.Open(self.excel_path)
-            workbook.SaveAs(self.xml_excel_path)
-            print(f"Save file: {self.xml_excel_path}")
+
+            wb = self.create_xls(self.excel_path)
+            wb.active = 0
+            wb.save(self.xml_excel_path)
+
+            app = xw.App(visible=False)
+            wb = xw.Book(self.xml_excel_path)
+            macro_vba = wb.app.macro('CopySheetWithChart')
 
             for i, item in enumerate(data, start=2):
                 print(f'region {str(i).rjust(3)}: '
@@ -98,47 +106,49 @@ class ExcelWorkerThread(QThread):
                     f'lux_idx_end: {str(item["lux_idx_end"]).rjust(5)}, '
                     f'start: {str(item["cct_data"]["start"]).rjust(5)}, '
                     f'end: {str(item["cct_data"]["end"]).rjust(5)}')
-                
                 sheet_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
+                macro_vba(sheet_name)
                 self.update_status_bar_signal.emit(sheet_name)
 
-                # 獲取要複製的工作表
-                source_sheet = workbook.Sheets(2)  # 第二個工作表的索引為 2
-                # 複製工作表
-                source_sheet.Copy(After=workbook.Sheets(workbook.Sheets.Count))
-                # 獲取新建立的工作表的引用
-                new_sheet = workbook.Sheets(workbook.Sheets.Count)
-                # 重新命名工作表
-                new_sheet.Name = sheet_name
-                # 將data輸入到sheet
+            wb.sheets[0].activate()
+            wb.save()
+            app.quit()
+
+            wb = openpyxl.load_workbook(self.xml_excel_path, read_only=False, keep_vba=True)
+            for i, item in enumerate(data, start=2):
+                wb.active = i
+                ws = wb.active
+                self.update_status_bar_signal.emit(ws.title)
                 r_gain_values = item["cct_data"]["r_gain"].split()
                 gr_gain_values = item["cct_data"]["gr_gain"].split()
                 gb_gain_values = item["cct_data"]["gb_gain"].split()
                 b_gain_values = item["cct_data"]["b_gain"].split()
+                for j, r_gain in enumerate(r_gain_values, start=3):
+                    ws.cell(row=j, column=3).value = round(float(r_gain_values[j - 3]), 3)
+                for j, gr_gain in enumerate(gr_gain_values, start=3):
+                    ws.cell(row=j, column=4).value = round(float(gr_gain_values[j - 3]), 3)
+                for j, gb_gain in enumerate(gb_gain_values, start=3):
+                    ws.cell(row=j, column=5).value = round(float(gb_gain_values[j - 3]), 3)
+                for j, b_gain in enumerate(b_gain_values, start=3):
+                    ws.cell(row=j, column=6).value = round(float(b_gain_values[j - 3]), 3)
 
-                r_gain_values = [round(float(value), 3) for value in r_gain_values]
-                gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
-                gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
-                b_gain_values = [round(float(value), 3) for value in b_gain_values]
 
-                gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
-                new_sheet.Range('C3:F223').Value = gain_arr.T.tolist()
-
-            sheet = workbook.Sheets(1)
+            wb.active = 0
+            ws = wb.active
             r_gain_values = golden_data["r_gain"]
             gr_gain_values = golden_data["gr_gain"]
             gb_gain_values = golden_data["gb_gain"]
             b_gain_values = golden_data["b_gain"]
+            for j in range(3, 3 + len(r_gain_values)):
+                ws.cell(row=j, column=3).value = r_gain_values[j - 3]
+            for j in range(3, 3 + len(gr_gain_values)):
+                ws.cell(row=j, column=4).value = gr_gain_values[j - 3]
+            for j in range(3, 3 + len(gb_gain_values)):
+                ws.cell(row=j, column=5).value = gb_gain_values[j - 3]
+            for j in range(3, 3 + len(b_gain_values)):
+                ws.cell(row=j, column=6).value = b_gain_values[j - 3]
 
-            r_gain_values = [round(float(value), 3) for value in r_gain_values]
-            gr_gain_values = [round(float(value), 3) for value in gr_gain_values]
-            gb_gain_values = [round(float(value), 3) for value in gb_gain_values]
-            b_gain_values = [round(float(value), 3) for value in b_gain_values]
-            gain_arr = np.array([r_gain_values, gr_gain_values, gb_gain_values, b_gain_values])
-            sheet.Range('C3:F223').Value = gain_arr.T.tolist()
-
-            workbook.Save()
-            workbook.Close()
+            wb.save(self.xml_excel_path)
 
             self.update_status_bar_signal.emit("LSCcheck is ok!")
             print("LSCcheck is ok!")
