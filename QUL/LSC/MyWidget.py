@@ -160,7 +160,7 @@ class ExcelWorkerThread(QThread):
             for i, item in enumerate(data, start=2):
                 item_name = f'lux_{item["lux_idx_start"]}_{item["lux_idx_end"]}_cct_{item["cct_data"]["start"]}_{item["cct_data"]["end"]}'
                 item_list.append(item_name)
-
+            item_list.append("LSC golden OTP(xml)")
             self.update_list_signal.emit(item_list)
 
 
@@ -196,12 +196,13 @@ class MyWidget(ParentWidget):
         self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
 
     def update_item_list(self, item_name):
-        index = self.ui.select_result.findText("LSC golden OTP")
+        index = self.ui.select_result.findText("LSC golden OTP(txt)")
         self.ui.select_result.clear()
         if index >= 0:
-            self.ui.select_result.addItem("LSC golden OTP")
+            self.ui.select_result.addItem("LSC golden OTP(txt)")
 
         self.ui.select_result.addItems(item_name)
+        self.ui.select_result.setCurrentText(item_name[0])
 
     def update_status_bar(self, text):
         self.statusBar.showMessage(text, 3000)
@@ -211,7 +212,7 @@ class MyWidget(ParentWidget):
         self.statusBar.showMessage("load 資料中，請稍後", 3000)
         self.statusBar.repaint() # 重繪statusBar
 
-        if text == "LSC golden OTP":
+        if text == "LSC golden OTP(txt)":
             # open excel
             excel = win32.Dispatch("Excel.Application")
             # excel.Visible = False  # Set to True if you want to see the Excel application
@@ -221,6 +222,7 @@ class MyWidget(ParentWidget):
 
         else:
             if self.excel_worker.xml_excel_path == None: return
+            if text == "LSC golden OTP(xml)": text = "goldenOTP_check"
             # open excel
             excel = win32.Dispatch("Excel.Application")
             # excel.Visible = False  # Set to True if you want to see the Excel application
@@ -322,11 +324,11 @@ class MyWidget(ParentWidget):
             workbook.Close()
 
             self.statusBar.showMessage("Load txt successfully", 3000)
-            index = self.ui.select_result.findText("LSC golden OTP")
+            index = self.ui.select_result.findText("LSC golden OTP(txt)")
             if index < 0:
-                self.ui.select_result.addItem("LSC golden OTP")
+                self.ui.select_result.addItem("LSC golden OTP(txt)")
 
-            self.ui.select_result.setCurrentText("LSC golden OTP")
+            self.ui.select_result.setCurrentText("LSC golden OTP(txt)")
         
         except Exception as error:
             print(error)
@@ -355,7 +357,7 @@ class MyWidget(ParentWidget):
         return gain_title, gain_arr
     
     def export_txt(self):
-        if self.ui.select_result.findText("LSC golden OTP") < 0:
+        if self.ui.select_result.findText("LSC golden OTP(txt)") < 0:
             QMessageBox.about(self, "請先load golden OTP txt", "請先load golden OTP txt，再 export golden OTP txt")
             return
         # open excel
