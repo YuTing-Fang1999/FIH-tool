@@ -14,17 +14,26 @@ import numpy as np
 import time
 import xlwings as xw
 import cv2
+import openpyxl
+import xlwings as xw
+import shutil
+
 
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
         update_status_bar_signal = pyqtSignal(str)
         xml_excel_path = None
         is_processing = False
-        filepath = ""
-        excel_path = ""
+        filepath = None
+        excel_path = None
 
         def __init__(self):
             super().__init__()
+
+        def create_xls(self, fn):
+            wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
+            wb.active = 0
+            return wb
 
         def run(self):
             print(f"Selected file: {self.filepath}")
@@ -60,38 +69,29 @@ class ExcelWorkerThread(QThread):
             clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
         
             self.xml_excel_path = os.path.join(os.getcwd(), f'stepChart_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
-
-            # open excel
-            excel = win32.Dispatch("Excel.Application")
-            # excel.Visible = False  # Set to True if you want to see the Excel application
-            # excel.DisplayAlerts = False
-            workbook = excel.Workbooks.Open(self.excel_path)
-            workbook.SaveAs(self.xml_excel_path)
             print(f"Save file: {self.xml_excel_path}")
+            
+            # copy sheet
+            shutil.copyfile(self.excel_path, self.xml_excel_path)
+
+            app = xw.App(visible=False)
+            wb = xw.Book(self.xml_excel_path)
+            macro_vba = wb.app.macro('CopySheetWithChart')
 
             for i, item in enumerate(data, start=2):
-                print(item["name"])
-                
                 sheet_name = item["name"]
+
+                print(sheet_name)
                 self.update_status_bar_signal.emit(sheet_name)
+                macro_vba(sheet_name)
+                wb.sheets[sheet_name].range("T2").value=item["gamma"]
 
-                # 獲取要複製的工作表
-                source_sheet = workbook.Sheets(3)  # 第二個工作表的索引為 3
-                # 複製工作表
-                source_sheet.Copy(After=workbook.Sheets(workbook.Sheets.Count))
-                # 獲取新建立的工作表的引用
-                new_sheet = workbook.Sheets(workbook.Sheets.Count)
-                # 重新命名工作表
-                new_sheet.Name = sheet_name
-                # 將data輸入到sheet
-                new_sheet.Range("T2").Value = item["gamma"]
-
-            workbook.Save()
-            workbook.Close()
+            wb.sheets[0].activate()
+            wb.save()
+            app.quit()
 
             self.update_status_bar_signal.emit("stepChar is ok!")
             print("stepChar is ok!")
-            time.sleep(1)
             
             self.is_processing = False
 
