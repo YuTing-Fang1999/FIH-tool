@@ -196,10 +196,10 @@ class MyWidget(ParentWidget):
         self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
 
     def update_item_list(self, item_name):
-        # index = self.ui.select_result.findText("LSC golden OTP")
+        index = self.ui.select_result.findText("LSC golden OTP")
         self.ui.select_result.clear()
-        # if index >= 0:
-        #     self.ui.select_result.addItem("LSC golden OTP")
+        if index >= 0:
+            self.ui.select_result.addItem("LSC golden OTP")
 
         self.ui.select_result.addItems(item_name)
 
@@ -328,7 +328,8 @@ class MyWidget(ParentWidget):
 
             self.ui.select_result.setCurrentText("LSC golden OTP")
         
-        except:
+        except Exception as error:
+            print(error)
             self.statusBar.showMessage("Failed to Load txt", 3000)
             
         
