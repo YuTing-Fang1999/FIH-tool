@@ -238,14 +238,38 @@ class MyWidget(ParentWidget):
     def export_and_open_excel(self):
         self.statusBar.showMessage("開啟中，請稍後...", 3000)
         
-        app = xw.App(visible=True)
-        app.books[0].close()
-        # Maximize the Excel window
-        app.api.WindowState = xw.constants.WindowState.xlMaximized
-        wb = app.books.open(self.excel_worker.xml_excel_path)
+        def get_excel_addin_path(addin_name):
+            try:
+                excel = win32.Dispatch("Excel.Application")
+                addins = excel.AddIns
+                
+                # Iterate through the add-ins collection
+                for addin in addins:
+                    # print(addin.Name)
+                    if addin.Name == addin_name:
+                        # Retrieve the add-in file path
+                        return os.path.join(addin.Path, addin_name)
+                
+                # If add-in not found, return None
+                return None
+            except Exception as e:
+                print("Error: ", str(e))
+                return None
+        
+        # Open Excel application
+        excel = win32.Dispatch("Excel.Application")
+
+        # Open the Excel file in read-only mode
+        excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
+        workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path)
+
+        # Set Excel window to Maximized
+        excel.Visible = True
+        # excel.WindowState = win32.constants.xlMaximized
+        
         # Set the Excel window as the foreground window
-        wb.app.activate(steal_focus=True)
-        wb.sheets[self.now_sheet].activate()
+        workbook.Sheets[self.now_sheet].Activate()
+        # SetForegroundWindow(excel.Hwnd)
 
     def update_before_status_ok(self, name, status):
         if name == "ref":

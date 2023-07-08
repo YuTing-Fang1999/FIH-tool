@@ -29,9 +29,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-112</y>
-        <width>1068</width>
-        <height>813</height>
+        <y>0</y>
+        <width>1060</width>
+        <height>860</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
