@@ -40,7 +40,6 @@ class MainWindow_controller(ParentWidget):
             wrapper.setContentsMargins(2, 2, 2, 2)
             self.fft_his_layout.append(wrapper)
             
-    def showEvent(self, event):
         self.setup_control()
         
     def closeEvent(self, e):
@@ -65,12 +64,13 @@ class MainWindow_controller(ParentWidget):
     def open_img(self, tab_idx):
         self.selectROI_window.open_img(tab_idx)
 
-    def set_roi_coordinate(self, img_idx, img, roi_coordinate, filename):
+    def set_roi_coordinate(self, img_idx, img, roi_coordinate, filename, filefolder):
         # print(tab_idx, img, roi_coordinate)
         roi_img = get_roi_img(img, roi_coordinate)
         self.ui.fft_block[img_idx].img_viewer.roi_img = roi_img
         self.ui.fft_block[img_idx].img_viewer.setPhoto(roi_img, text = filename)
         self.put_to_chart(img_idx)
+        self.set_path("NTU_fft_filefolder", filefolder)
     
     def get_fft(self, img):
         # to gray

@@ -18,7 +18,6 @@ class MainWindow_controller(ParentWidget):
         self.selectROI_window = SelectROI_window(self.get_path("NTU_sharpness_filefolder"))
         self.tab_idx = 0
         
-    def showEvent(self, event):
         self.setup_control()
         
     def setup_control(self):
@@ -32,7 +31,8 @@ class MainWindow_controller(ParentWidget):
             self.ui.img_block[i].hide()
             self.ui.score_region[i].hide()
 
-    def set_roi_coordinate(self, img_idx, img, roi_coordinate, filename):
+    def set_roi_coordinate(self, img_idx, img, roi_coordinate, filename, filefolder):
+        self.set_path("NTU_sharpness_filefolder", filefolder)
         roi_img = get_roi_img(img, roi_coordinate)
         self.ui.img_block[img_idx].img = img
         self.ui.img_block[img_idx].roi_img = roi_img

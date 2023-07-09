@@ -27,7 +27,6 @@ class MainWindow_controller(ParentWidget):
         for i in range(4):
             self.SNR_window.append(SNR_window(tab_idx=i))
 
-    def showEvent(self, event):
         self.setup_control()
         
     def closeEvent(self, event) -> None:
@@ -53,6 +52,7 @@ class MainWindow_controller(ParentWidget):
         # print(tab_idx, img, roi_coordinate)
         self.ui.tabWidget.setTabText(tab_idx, filename)
         self.SNR_window[tab_idx].set_window_title(filefolder, filename)
+        self.set_path("NTU_colorcheck_filefolder", filefolder)
 
         roi_img = get_roi_img(img, roi_coordinate)
         self.ui.img_block[tab_idx].img = img

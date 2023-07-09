@@ -19,7 +19,6 @@ class MainWindow_controller(ParentWidget):
         self.ui.setupUi(self)
         self.filefolder = self.get_path("NTU_dxo_dead_leaves_filefolder")
         
-    def showEvent(self, event):
         self.setup_control()
 
     def closeEvent(self, event):

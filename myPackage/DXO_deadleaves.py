@@ -53,7 +53,7 @@ def get_roi_img_and_coor(im, TEST):
     backgroundSkeleton = skeletonize(np.where(morph==255,1,0))
     backgroundSkeleton = np.where(backgroundSkeleton==1,255,0).astype('uint8') 
 
-    if TEST:
+    # if TEST:
         # cv2.imshow("resize_im", ResizeWithAspectRatio(resize_im, height=800))
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
@@ -66,9 +66,9 @@ def get_roi_img_and_coor(im, TEST):
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
-        cv2.imshow("backgroundSkeleton", ResizeWithAspectRatio(backgroundSkeleton, height=800))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.imshow("backgroundSkeleton", ResizeWithAspectRatio(backgroundSkeleton, height=800))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
     cnts, _ = cv2.findContours(backgroundSkeleton.copy(), cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
     coor = []
@@ -159,10 +159,10 @@ def get_roi_img_and_coor(im, TEST):
         print('not right angle, rotate 180')
         crop_dxo_im=rotate_img(crop_dxo_im,180)
 
-    if TEST:
-        cv2.imshow("crop_im_by_mark", ResizeWithAspectRatio(crop_dxo_im, height=600))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+    # if TEST:
+    #     cv2.imshow("crop_im_by_mark", ResizeWithAspectRatio(crop_dxo_im, height=600))
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
 
     return crop_dxo_im, coor - topLeft
 
