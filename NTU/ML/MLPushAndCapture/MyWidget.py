@@ -1,11 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QFrame
-from NTU.MLGenDataset.UI import Ui_Form
+from NTU.ML.MLPushAndCapture.UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
-from NTU.MLGenDataset.ProjectManager import C7ProjectManager
-from NTU.MLGenDataset.ParamGenerater import ParamGenerater
-from NTU.MLGenDataset.CMDRunner import CMDRunner
-from NTU.MLGenDataset.Camara import Camera
-from NTU.MLGenDataset.Config import Config
+from NTU.ML.ProjectManager import C7ProjectManager
+from NTU.ML.ParamGenerater import ParamGenerater
+from NTU.ML.CMDRunner import CMDRunner
+from NTU.ML.Camara import Camera
+from NTU.ML.Config import Config
 import numpy as np
 from tqdm import tqdm
 from time import sleep
@@ -14,7 +14,7 @@ import ctypes, inspect
 
 class MyWidget(ParentWidget):
     def __init__(self):
-        super().__init__("NTU/MLGenDataset/") 
+        super().__init__("NTU/ML/MLPushAndCapture/") 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()
@@ -22,12 +22,9 @@ class MyWidget(ParentWidget):
         self.camera = Camera("c7project", cmd)
         self.projectMgr = C7ProjectManager(self.setting, cmd)
         self.config = Config().c7_config
+        self.param_norm = None
         
         self.setupSettingUI()
-        
-    # def set_layout_hidden(self):
-        
-        
         
     def setupSettingUI(self):
         if self.get_path("project_path") != "./": 
@@ -46,6 +43,7 @@ class MyWidget(ParentWidget):
         self.ui.load_project_btn.clicked.connect(lambda: self.load_project())
         self.ui.load_exe_btn.clicked.connect(lambda: self.load_exe())
         self.ui.set_saved_dir_btn.clicked.connect(lambda: self.set_saved_dir())
+        self.ui.load_txt_btn.clicked.connect(lambda: self.load_txt())
         self.ui.start_capture_btn.clicked.connect(lambda: self.run())
         
     def load_project(self):
@@ -85,6 +83,31 @@ class MyWidget(ParentWidget):
         
         self.set_path('saved_dir', path)
         
+    def load_txt(self):
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                            "Open file",
+                                                            self.get_path("param_txt_folder"),  # start path
+                                                            '*.txt')
+
+        if filepath == '':
+            return
+        # filepath = "QUL/LSC/shinetech_fm24c6d_s5k3l6_lsc_OTP.txt"
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_path("param_txt_folder", filefolder)
+        self.ui.txt_path_label.setText(filepath)
+        self.img_name = filepath.split('/')[-1].split('.')[0] +".jpg"
+        self.ui.img_path_label.setText(self.img_name)
+        
+        with open(filepath) as f:
+            text = f.read().replace('[', '').replace(']', '').replace(',', ' ')
+            text = text.split()
+            # print(text)
+            param_norm = [float(t) for t in text if t != '']
+            
+        self.ui.param_label.setText("{}".format(param_norm))
+        self.param_norm = param_norm
+        # print(param_norm)
+        
     def check_setting(self):
         if self.get_path("project_path") == "./":
             QMessageBox.about(self, "Notice", "project路徑未填")
@@ -100,6 +123,10 @@ class MyWidget(ParentWidget):
         
         if self.ui.bin_name_edit.text() == "":
             QMessageBox.about(self, "Notice", "bin檔名未填")
+            return False
+        
+        if self.ui.txt_path_label.text() == "":
+            QMessageBox.about(self, "Notice", "param.txt 還沒load")
             return False
         
         self.setting["bin_name"] = self.ui.bin_name_edit.text()
@@ -121,30 +148,23 @@ class MyWidget(ParentWidget):
                 bounds = np.array(self.config[key]["bounds"])
             else:
                 bounds = np.concatenate((bounds, np.array(self.config[key]["bounds"])))
-        print('範圍設定', bounds)
-        self.finish()
-        return
+        print('範圍設定\n', bounds, len(bounds))
+        # self.finish()
+        # return
+        param_generater = ParamGenerater(bounds=bounds, gen_num=0)
+        # param_norm = [0]*12
+        param_norm = self.param_norm
+        assert len(param_norm) == len(bounds)
+        param_denorm = param_generater.denorm_param(param_norm, step=0.0001)
+        
+        self.camera.clear_camera_folder()
+        sleep(2)
+        
+        self.projectMgr.set_param_value(param_denorm)
+        self.projectMgr.build_and_push()
+        sleep(7)
+        self.camera.capture(path="{}/{}".format(self.get_path("saved_dir"), self.img_name), focus_time = 5, save_time = 0.5, transfer_time = 0.5, capture_num = 1)
     
-        param_generater = ParamGenerater(bounds=bounds, gen_num=Config().gen_num)
-        param_norm = param_generater.gen_param()
-        param_norm[0] = [0]*len(bounds)
-        param_norm[1] = [1]*len(bounds)
-        param_denorm = param_generater.denorm_param(param_norm, step=Config().step)
-        param_norm = param_generater.norm_param(param_denorm)
-        
-        param_generater.save_to_csv(self.get_path("saved_dir")+'/param_norm.csv', param_norm)
-        param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
-        
-        for  i, param in enumerate(tqdm(param_denorm)):
-            param = [float(x) for x in param]
-            if i % 10 == 0:
-                self.camera.clear_camera_folder()
-                sleep(2)
-            self.projectMgr.set_param_value(param)
-            self.projectMgr.build_and_push()
-            sleep(7)
-            self.camera.capture(path="{}/{}".format(self.get_path("saved_dir"),i), focus_time = 5, save_time = 0.5, transfer_time = 0.5, capture_num = 1)
-        
         self.finish()
         
     def start(self):

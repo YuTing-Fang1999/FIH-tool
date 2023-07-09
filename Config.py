@@ -23,7 +23,10 @@ from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
 from QUL.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 # from myPackage.OpenToolBtn import OpenToolBtn
-from NTU.MLGenDataset.MyWidget import MyWidget as MLGenDatasetInitWidget
+from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
+from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
+from NTU.ML.MLPushAndCapture.Intro import Intro as MLPushAndCaptureIntro
+
 
 class MyLabel(QLabel):
     def __init__(self, text):
@@ -159,22 +162,25 @@ class Config():
                             
                         },
                     ],
-                    "參數推薦(傳統算法)":[
+                    "參數推薦(傳統)":[
                         {
                             "name": "參數推薦(傳統算法)",
                             "instruction": MyLabel("參數推薦(傳統算法)"),
                             "widget": TraditionalParamTuningWidget(),
-                            
                         },
                        
                     ],
-                    "ML資料集生成":[
+                    "參數推薦(ML)":[
                         {
                             "name": "產生資料集",
                             "instruction": MyLabel("產生資料集"),
-                            "widget": MLGenDatasetInitWidget(),
-                            
+                            "widget": MLGenDatasetWidget(),
                         },
+                        {
+                            "name": "推入參數\n拍攝結果照片",
+                            "instruction": MLPushAndCaptureIntro(),
+                            "widget": MLPushAndCaptureWidget(),
+                        }
                     ],
                 },
             },

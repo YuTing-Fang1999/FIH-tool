@@ -2,8 +2,8 @@ import os
 import xml.etree.ElementTree as ET
 import json
 import numpy as np
-from NTU.MLGenDataset.CMDRunner import CMDRunner
-from NTU.MLGenDataset.Config import Config
+from NTU.ML.CMDRunner import CMDRunner
+from NTU.ML.Config import Config
 
 from abc import ABC, abstractmethod
 
