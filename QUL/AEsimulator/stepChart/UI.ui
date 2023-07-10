@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>1060</width>
-        <height>860</height>
+        <height>829</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -202,17 +202,6 @@ ori photo</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="2">
-          <widget class="QPushButton" name="load_final_btn">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Load
-final photo</string>
            </property>
           </widget>
          </item>
@@ -623,7 +612,20 @@ ref photo</string>
            </column>
           </widget>
          </item>
-         <item row="3" column="2" rowspan="2">
+         <item row="4" column="0" colspan="2">
+          <widget class="QComboBox" name="trigger_selecter">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="3">
+          <layout class="QVBoxLayout" name="img_layout"/>
+         </item>
+         <item row="3" column="2" rowspan="3">
           <widget class="QPlainTextEdit" name="reload_gamma_plainEdit">
            <property name="enabled">
             <bool>true</bool>
@@ -641,19 +643,6 @@ ref photo</string>
             <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
-         </item>
-         <item row="4" column="0" colspan="2">
-          <widget class="QComboBox" name="trigger_selecter">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="3">
-          <layout class="QVBoxLayout" name="img_layout"/>
          </item>
         </layout>
        </item>

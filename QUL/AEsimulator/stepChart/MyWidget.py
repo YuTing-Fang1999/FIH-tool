@@ -131,7 +131,6 @@ class MyWidget(ParentWidget):
         self.ui.load_xml_btn.clicked.connect(self.load_xml)
         self.ui.load_ref_btn.clicked.connect(lambda: self.selectROI_window.open_img(0))
         self.ui.load_ori_btn.clicked.connect(lambda: self.selectROI_window.open_img(1))
-        self.ui.load_final_btn.clicked.connect(lambda: self.selectROI_window.open_img(2))
         self.ui.export_and_open_excel_btn.clicked.connect(self.export_and_open_excel)
         self.ui.reload_excel_btn.clicked.connect(self.reload_excel)
         # self.ui.gamma_plainEdit.keyPressEvent = self.text_edit_keyPressEvent
@@ -144,11 +143,10 @@ class MyWidget(ParentWidget):
         self.ui.trigger_selecter.clear()
         self.ui.trigger_selecter.addItems(item_name)
         self.update_before_status_ok("xml", True)
-        self.ui.load_final_btn.setEnabled(True)
-        self.ui.reload_excel_btn.setEnabled(True)
 
     def update_status_bar(self, text):
         self.statusBar.showMessage(text, 3000)
+        self.statusBar.repaint()
 
     def set_sheet(self, text):
         self.now_sheet = text
@@ -183,9 +181,12 @@ class MyWidget(ParentWidget):
         self.excel_worker.excel_path = self.excel_path
         self.excel_worker.filepath = filepath
         self.excel_worker.start()
+        
+    def round_float(self, num):
+        return [[round(float(n[0]), 4)] for n in num]
     
     def reload_excel(self):
-        self.statusBar.showMessage("load資料中，請稍後...", 3000)
+        self.update_status_bar("load資料中，請稍後...")
         # open excel
         excel = win32.Dispatch("Excel.Application")
         # excel.Visible = False  # Set to True if you want to see the Excel application
@@ -193,6 +194,9 @@ class MyWidget(ParentWidget):
         workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path)
         sheet = workbook.Worksheets(self.now_sheet)
 
+        self.set_table_data(self.ui.after_table, self.round_float(sheet.Range('K12:K31').Value), 0)
+        self.set_table_data(self.ui.after_table, self.round_float(sheet.Range('N12:N31').Value), 1)
+        self.set_table_data(self.ui.after_table, sheet.Range('P12:P31').Value, 2)
         self.ui.reload_gamma_plainEdit.setPlainText(sheet.Range('Y2').Value)
 
         # Function to remove a widget from the grid layout by row and column
@@ -236,7 +240,7 @@ class MyWidget(ParentWidget):
         workbook.Close()
 
     def export_and_open_excel(self):
-        self.statusBar.showMessage("開啟中，請稍後...", 3000)
+        self.update_status_bar("開啟中，請稍後...")
         
         def get_excel_addin_path(addin_name):
             try:
@@ -270,6 +274,8 @@ class MyWidget(ParentWidget):
         # Set the Excel window as the foreground window
         workbook.Sheets[self.now_sheet].Activate()
         # SetForegroundWindow(excel.Hwnd)
+        self.ui.reload_excel_btn.setEnabled(True)
+        
 
     def update_before_status_ok(self, name, status):
         if name == "ref":
@@ -322,25 +328,18 @@ class MyWidget(ParentWidget):
         if tab_idx==0: # ref
             self.update_before_status_ok("ref", True)
             self.set_table_data(self.ui.before_table, patchs, 0)
-            range_data = sheet.Range('C12:C31')
-            range_data.Value = patchs
+            sheet.Range('C12:C31').Value = patchs
             if self.before_status_ok[1]:
                 workbook.Save()
-                self.set_table_data(self.ui.before_table, sheet.Range('M12:M31').Value, 2)
+                self.set_table_data(self.ui.before_table, self.round_float(sheet.Range('M12:M31').Value), 2)
+
         elif tab_idx==1: # ori
             self.update_before_status_ok("ori", True)
             self.set_table_data(self.ui.before_table, patchs, 1)
-            range_data = sheet.Range('I12:I31')
-            range_data.Value = patchs
+            sheet.Range('I12:I31').Value = patchs
             if self.before_status_ok[0]:
                 workbook.Save()
-                self.set_table_data(self.ui.before_table, sheet.Range('M12:M31').Value, 2)
-        elif tab_idx==2: # final
-            self.set_table_data(self.ui.after_table, patchs, 0)
-            self.set_table_data(self.ui.after_table, sheet.Range('N12:N31').Value, 1)
-            self.set_table_data(self.ui.after_table, sheet.Range('P12:P31').Value, 2)
-            range_data = sheet.Range('K12:K31')
-            range_data.Value = patchs
+                self.set_table_data(self.ui.before_table, self.round_float(sheet.Range('M12:M31').Value), 2)
         
         workbook.Save()
         workbook.Close()
