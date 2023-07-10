@@ -183,7 +183,13 @@ class MyWidget(ParentWidget):
         self.excel_worker.start()
         
     def round_float(self, num):
-        return [[round(float(n[0]), 4)] for n in num]
+        num = np.asarray(num)
+        # print(num)
+        
+        for i in range(len(num)):
+            for j in range(len(num[i])):
+                num[i][j] = round(float(num[i][j]), 4)
+        return num
     
     def reload_excel(self):
         self.update_status_bar("load資料中，請稍後...")
@@ -212,7 +218,7 @@ class MyWidget(ParentWidget):
                 # Delete the widget
                 widget.deleteLater()
 
-        summary = sheet.Range('O6:P9').Value
+        summary = self.round_float(sheet.Range('O6:P9').Value)
         for r, row in enumerate(summary):
             for c, val in enumerate(row):
                 remove_widget(r+1, c+1)

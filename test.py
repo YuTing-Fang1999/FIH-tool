@@ -6,6 +6,10 @@
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
-num = [[0.11111111113],[1.33333333],[2],[3],[4],[5],[6],[7],[8],[9]]
-num = [[round(float(n[0]), 4)] for n in num]
+import numpy as np
+num = [(0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,)]
+num = np.asarray(num)
+for i in range(len(num)):
+    for j in range(len(num[i])):
+        num[i][j] = round(float(num[i][j]), 4)
 print(num)
