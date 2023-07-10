@@ -7,6 +7,7 @@ from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
+from NTU.perceptual_distance.Intro import Intro as PerceptualDistancekIntro
 from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DLWidget
 from QUL.LSC.MyWidget import MyWidget as LSCWidget
 from QUL.LSC.Intro import Intro as LSCIntro
@@ -157,7 +158,7 @@ class Config():
                         },
                         {
                             "name": "perceptual_distance",
-                            "instruction": MyLabel("perceptual_distance"),
+                            "instruction": PerceptualDistancekIntro(),
                             "widget": PerceptualDistancekWidget(),
                             
                         },
