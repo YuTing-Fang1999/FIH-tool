@@ -1,0 +1,10 @@
+{
+    "project_name": "SX",
+    "previous_second_to_start_log": 3,
+    "log_keyword": [
+        "AFAlgo"
+    ],
+    "save_keyword": [
+        "getThumbnailFromExif END"
+    ]
+}

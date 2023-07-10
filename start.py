@@ -15,6 +15,13 @@ if __name__ == '__main__':
     widget = MainWindow()
     widget.showMaximized()
     app.exec_()
+    
+# import sys
+# from MTK.AF.MyWidget import MyWidget
+# app = QApplication(sys.argv)
+# Form = MyWidget()
+# Form.show()
+# sys.exit(app.exec_())
 
 # import sys
 # from NTU.perceptual_distance.controller import MainWindow_controller
