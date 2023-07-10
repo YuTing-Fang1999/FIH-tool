@@ -7,9 +7,9 @@
 # cv2.destroyAllWindows()
 
 import numpy as np
-num = [(0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,)]
+num = [(0.033333333333333,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,), (0.0,)]
 num = np.asarray(num)
-for i in range(len(num)):
-    for j in range(len(num[i])):
-        num[i][j] = round(float(num[i][j]), 4)
-print(num)
+# for i in range(len(num)):
+#     for j in range(len(num[i])):
+#         num[i][j] = round(float(num[i][j]), 4)
+print()

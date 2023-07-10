@@ -184,12 +184,7 @@ class MyWidget(ParentWidget):
         
     def round_float(self, num):
         num = np.asarray(num)
-        # print(num)
-        
-        for i in range(len(num)):
-            for j in range(len(num[i])):
-                num[i][j] = round(float(num[i][j]), 4)
-        return num
+        return np.round(num,4)
     
     def reload_excel(self):
         self.update_status_bar("load資料中，請稍後...")
