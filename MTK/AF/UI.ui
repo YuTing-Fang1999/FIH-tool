@@ -221,7 +221,7 @@ text-align:center;</string>
          <item>
           <widget class="QProgressBar" name="executeParserProgressBar">
            <property name="value">
-            <number>50</number>
+            <number>20</number>
            </property>
            <property name="textVisible">
             <bool>false</bool>
