@@ -18,6 +18,9 @@ from QUL.AEsimulator.colorChecker.Intro import Intro as colorCheckerIntro
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorCheckerIntro
 
+from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
+from MTK.AF.Intro import Intro as MTK_AFIntro
+
 from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
 from QUL.AEsimulator.stepChart.Intro import Intro as stepChartIntro
 from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
@@ -89,6 +92,16 @@ class Config():
                 },
             },
             "MTK": { 
+                "AF":{
+                    "Analysis":[
+                        {
+                            "name": "AF",
+                            "instruction": MTK_AFIntro(),
+                            "widget": MTK_AFWidget(),
+                            
+                        },
+                    ],
+                },
                 "AE":{
                     "Tuning":[
                         {

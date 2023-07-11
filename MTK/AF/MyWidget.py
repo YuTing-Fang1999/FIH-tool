@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import os
@@ -8,11 +9,17 @@ import threading
 import time
 
 class MyWidget(ParentWidget):
+    update_executeParser_state_signal = pyqtSignal(str)   
+    update_statusLabel_signal = pyqtSignal(str)
+    update_executeParserProgressBar_signal = pyqtSignal(int)
+    show_error_message_signal = pyqtSignal(str)
+    
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.controller()
+        self.ui.executeParserProgressBar.hide()
+        self.ui.prevSecClipSpinbox.wheelEvent = lambda e: e.ignore()
         
         #global variable
         self.CONFIG_FOLDER = "MTK\\AF\\config\\"
@@ -22,6 +29,10 @@ class MyWidget(ParentWidget):
         self.PROJECT_NAME = ""
         self.isConfig = False
         
+        self.controller()
+        self.stateUpdate("")
+        self.detectParserReady()
+
     def controller(self):
         self.ui.configButton.clicked.connect(self.writeNewConfig)
         self.ui.readImagesDirButton.clicked.connect(self.showPhotoFileDialog)
@@ -30,18 +41,88 @@ class MyWidget(ParentWidget):
         self.ui.executeParserButton.clicked.connect(self.executeParser)
         
         self.ui.projectNameEntry.textChanged.connect(self.stateUpdate)
+        self.update_executeParser_state_signal.connect(self.update_executeParser_state)
+        self.update_executeParserProgressBar_signal.connect(self.update_executeParserProgressBar)
+        self.update_statusLabel_signal.connect(self.update_statusLabel)
+        self.show_error_message_signal.connect(self.show_error_message)
         
+    def show_error_message(self, message):
+        QMessageBox.about(self, "解析錯誤", message)
         
-    def textchanged(self, text):
-        print("Changed: " + text)
+    def set_btn_enable(self, b):
+        if b:
+            style =  "QPushButton {background:rgb(248, 203, 173); color: black;}"
+        else:
+            style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
+        
+        # projectNameEntry["state"] = "disable"
+        self.ui.projectNameEntry.setEnabled(b)
+        # prevSecClipSpinbox["state"] = "disable"
+        self.ui.prevSecClipSpinbox.setEnabled(b)
+        # filterKeywordText["state"] = "disable"
+        self.ui.filterKeywordText.setEnabled(b)
+        # filterKeywordText["bg"] = "#F0F0F0"
+        # filterKeywordText["fg"] = "#777777"
+        # endKeywordEntry["state"] = "disable"
+        self.ui.endKeywordEntry.setEnabled(b)
+        # configButton["state"] = "disable"
+        self.ui.configButton.setEnabled(b)
+        self.ui.configButton.setStyleSheet(style)
+        # readImagesDirButton["state"] = "disable"
+        self.ui.readImagesDirButton.setEnabled(b)
+        self.ui.readImagesDirButton.setStyleSheet(style)
+        # readLogDirButton["state"] = "disable"
+        self.ui.readLogDirButton.setEnabled(b)
+        self.ui.readLogDirButton.setStyleSheet(style)
+        # outputDirButton["state"] = "disable"
+        self.ui.outputDirButton.setEnabled(b)
+        self.ui.outputDirButton.setStyleSheet(style)
+        # executeParserButton["state"] = "disable"
+        self.ui.executeParserButton.setEnabled(b)
+        self.ui.executeParserButton.setStyleSheet(style)
+        
+    def update_executeParser_state(self, text):
+        if text == "Log解析中":
+            #block all user-type widget when parsing logs
+            self.set_btn_enable(False)
+            # executeParserButton["text"] = "Log解析中"
+            self.ui.executeParserButton.setText("Log解析中")
+            # executeParserProgressBar.grid(row = 12, column = 0, pady = 5, columnspan=2)
+            self.ui.executeParserProgressBar.show()
+        elif text == "解析錯誤":
+            # tk.messagebox.showwarning("解析錯誤", parser.parseErrorMessage)
+            self.set_btn_enable(True)
+            # executeParserButton["text"] = "執行"
+            self.ui.executeParserButton.setText("執行")
+            # executeParserProgressBar.grid_forget()
+            self.ui.executeParserProgressBar.hide()
+        elif text == "處理完成":
+            self.set_btn_enable(True)
+            # executeParserButton["text"] = "執行"
+            self.ui.executeParserButton.setText("執行")
+            # executeParserProgressBar.grid_forget()
+            self.ui.executeParserProgressBar.hide()
+            # statusLabel["text"] = "處理完成。"
+            self.ui.statusLabel.setText("處理完成。")
+        else:
+            self.ui.statusLabel.setText("ERROR")
+            
+    
+    def update_executeParserProgressBar(self, value):
+        self.ui.executeParserProgressBar.setValue(value)
+        
+    def update_statusLabel(self, text):
+        self.ui.statusLabel.setText(text)
         
     #function setup
     def detectParserReady(self):
         if self.isConfig and self.PHOTO_DIR != "" and self.LOG_DIR != "" and self.OUTPUT_DIR != "":
             self.ui.executeParserButton.setEnabled(True)
+            self.ui.executeParserButton.setStyleSheet("QPushButton {background:rgb(248, 203, 173); color: black;}")
             # executeParserButton["state"] = tk.NORMAL
         else:
             self.ui.executeParserButton.setEnabled(False)
+            self.ui.executeParserButton.setStyleSheet("QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}")
             # executeParserButton["state"] = tk.DISABLED
 
     def showPhotoFileDialog(self):
@@ -57,6 +138,9 @@ class MyWidget(ParentWidget):
         self.set_path('MTK_AF_folder', '/'.join(self.PHOTO_DIR.split('/')[:-1]))
         self.detectParserReady()
         
+        self.ui.photo_list_label.setText("")
+        for f in os.listdir(self.PHOTO_DIR):
+            self.ui.photo_list_label.setText(self.ui.photo_list_label.text() + f + '\n')
         
     def showLogFileDialog(self):
         # global LOG_DIR
@@ -70,6 +154,10 @@ class MyWidget(ParentWidget):
         self.ui.readLogDirLabel.setText(self.LOG_DIR)
         self.set_path('MTK_AF_folder', '/'.join(self.LOG_DIR.split('/')[:-1]))
         self.detectParserReady()
+        
+        self.ui.log_list_label.setText("")
+        for f in os.listdir(self.LOG_DIR):
+            self.ui.log_list_label.setText(self.ui.log_list_label.text() + f + '\n')
 
     def showOutputFileDialog(self):
         # global OUTPUT_DIR
@@ -83,7 +171,6 @@ class MyWidget(ParentWidget):
         self.ui.outputDirLabel.setText(self.OUTPUT_DIR)
         self.set_path('MTK_AF_output_folder', self.OUTPUT_DIR)
         self.detectParserReady()
-
 
     def writeNewConfig(self):
         # global PROJECT_NAME, isConfig
@@ -144,6 +231,7 @@ class MyWidget(ParentWidget):
         self.ui.statusLabel.setText("")
         if len(text) == 0:
             self.ui.configButton.setEnabled(False)
+            self.ui.configButton.setStyleSheet("QPushButton {background:rgb(150, 150, 150); color: rgb(100, 100, 100);}")
             # filterKeywordText.delete(1.0, 'end-1c')
             # endKeywordEntry.delete(0, tk.END)
             self.ui.filterKeywordText.setText("")
@@ -151,6 +239,7 @@ class MyWidget(ParentWidget):
         else:
             # configButton["state"] = tk.NORMAL
             self.ui.configButton.setEnabled(True)
+            self.ui.configButton.setStyleSheet("background:rgb(248, 203, 173); color: black;")
         
         # configStatusLabel["text"] = "請先填入專案名稱與相關設定"
         self.ui.configStatusLabel.setText("請先填入專案名稱與相關設定")
@@ -192,64 +281,19 @@ class MyWidget(ParentWidget):
                 break
 
     def executeProgress(self, parser):
-        #block all user-type widget when parsing logs
-        # projectNameEntry["state"] = "disable"
-        self.ui.projectNameEntry.setEnabled(False)
-        # prevSecClipSpinbox["state"] = "disable"
-        self.ui.prevSecClipSpinbox.setEnabled(False)
-        # filterKeywordText["state"] = "disable"
-        self.ui.filterKeywordText.setEnabled(False)
-        # filterKeywordText["bg"] = "#F0F0F0"
-        # filterKeywordText["fg"] = "#777777"
-        # endKeywordEntry["state"] = "disable"
-        self.ui.endKeywordEntry.setEnabled(False)
-        # configButton["state"] = "disable"
-        self.ui.configButton.setEnabled(False)
-        # readImagesDirButton["state"] = "disable"
-        self.ui.readImagesDirButton.setEnabled(False)
-        # readLogDirButton["state"] = "disable"
-        self.ui.readLogDirButton.setEnabled(False)
-        # outputDirButton["state"] = "disable"
-        self.ui.outputDirButton.setEnabled(False)
-        # executeParserButton["state"] = "disable"
-        self.ui.executeParserButton.setEnabled(False)
-        # executeParserButton["text"] = "Log解析中"
-        self.ui.executeParserButton.setText("Log解析中")
-        # executeParserProgressBar.grid(row = 12, column = 0, pady = 5, columnspan=2)
+        print("executeProgress")
+        self.update_executeParser_state_signal.emit("Log解析中")
         
         prev = 0
         # executeParserProgressBar["value"] = prev
-        self.ui.executeParserProgressBar.setValue(prev)
+        # self.ui.executeParserProgressBar.setValue(prev)
+        self.update_executeParserProgressBar_signal.emit(prev)
         i=0
         while(True):
             #config UI when parse error
             if parser.isParseError:
-                # tk.messagebox.showwarning("解析錯誤", parser.parseErrorMessage)
-                QMessageBox.about(self, "解析錯誤", parser.parseErrorMessage)
-                # projectNameEntry["state"] = "normal"
-                self.ui.projectNameEntry.setEnabled(True)
-                # prevSecClipSpinbox["state"] = "normal"
-                self.ui.prevSecClipSpinbox.setEnabled(True)
-                # filterKeywordText["state"] = "normal"
-                self.ui.filterKeywordText.setEnabled(True)
-                # filterKeywordText["bg"] = "SystemWindow"
-                # filterKeywordText["fg"] = "SystemWindowText"
-                # endKeywordEntry["state"] = "normal"
-                self.ui.endKeywordEntry.setEnabled(True)
-                # configButton["state"] = "normal"
-                self.ui.configButton.setEnabled(True)
-                # readImagesDirButton["state"] = "normal"
-                self.ui.readImagesDirButton.setEnabled(True)
-                # readLogDirButton["state"] = "normal"
-                self.ui.readLogDirButton.setEnabled(True)
-                # outputDirButton["state"] = "normal"
-                self.ui.outputDirButton.setEnabled(True)
-                # executeParserButton["state"] = "normal"
-                self.ui.executeParserButton.setEnabled(True)
-                # executeParserButton["text"] = "執行"
-                self.ui.executeParserButton.setText("執行")
-                # executeParserProgressBar.grid_forget()
-                self.ui.executeParserProgressBar.hide()
+                self.update_executeParser_state_signal.emit("解析錯誤")
+                self.show_error_message_signal.emit(parser.parseErrorMessage)
                 break
             
             #update progress bar
@@ -259,41 +303,18 @@ class MyWidget(ParentWidget):
                 for i in range(prev, progressAtWork+1):
                     time.sleep(0.001) #shorter makes progress update more frequently
                     # executeParserProgressBar["value"] = i
-                    self.ui.executeParserProgressBar.setValue(i)
+                    # self.ui.executeParserProgressBar.setValue(i)
+                    self.update_executeParserProgressBar_signal.emit(i)
                 prev = progressAtWork
             
             #update status when parsing
             # statusLabel["text"] = "".join(parser.parseState)
-            self.ui.statusLabel.setText("".join(parser.parseState))
+            # self.ui.statusLabel.setText("".join(parser.parseState))
+            self.update_statusLabel_signal.emit("".join(parser.parseState))
             
             #log parse complete
             if parser.currentProcessPhotoNum == parser.totalPhotoNum:
-                # projectNameEntry["state"] = "normal"
-                self.ui.projectNameEntry.setEnabled(True)
-                # prevSecClipSpinbox["state"] = "normal"
-                self.ui.prevSecClipSpinbox.setEnabled(True)
-                # filterKeywordText["state"] = "normal"
-                self.ui.filterKeywordText.setEnabled(True)
-                # filterKeywordText["bg"] = "SystemWindow"
-                # filterKeywordText["fg"] = "SystemWindowText"
-                # endKeywordEntry["state"] = "normal"
-                self.ui.endKeywordEntry.setEnabled(True)
-                # configButton["state"] = "normal"
-                self.ui.configButton.setEnabled(True)
-                # readImagesDirButton["state"] = "normal"
-                self.ui.readImagesDirButton.setEnabled(True)
-                # readLogDirButton["state"] = "normal"
-                self.ui.readLogDirButton.setEnabled(True)
-                # outputDirButton["state"] = "normal"
-                self.ui.outputDirButton.setEnabled(True)
-                # executeParserButton["state"] = "normal"
-                self.ui.executeParserButton.setEnabled(True)
-                # executeParserButton["text"] = "執行"
-                self.ui.executeParserButton.setText("執行")
-                # executeParserProgressBar.grid_forget()
-                self.ui.executeParserProgressBar.hide()
-                # statusLabel["text"] = "處理完成。"
-                self.ui.statusLabel.setText("處理完成。")
+                self.update_executeParser_state_signal.emit("處理完成")
                 break
 
     def executeParser(self):
@@ -309,7 +330,7 @@ class MyWidget(ParentWidget):
             UIparserThread.daemon = True #cannot actually stop this thread when exit window
             UIparserThread.start()
             
-            progressThread = threading.Thread(target = self.executeProgress, args = (parser,))
+            progressThread = threading.Thread(target = self.executeProgress, args=(parser,))
             progressThread.daemon = True
             progressThread.start()
         

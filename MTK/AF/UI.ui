@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>926</width>
+    <width>972</width>
     <height>545</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>902</width>
+        <width>948</width>
         <height>521</height>
        </rect>
       </property>
@@ -41,7 +41,8 @@
            </property>
            <property name="styleSheet">
             <string notr="true">background:rgb(255, 217, 102); 
-text-align:center;</string>
+text-align:center;
+color: black;</string>
            </property>
            <property name="text">
             <string>請先填入專案名稱與相關設定</string>
@@ -78,6 +79,9 @@ text-align:center;</string>
            </item>
            <item row="1" column="1">
             <widget class="QSpinBox" name="prevSecClipSpinbox">
+             <property name="keyboardTracking">
+              <bool>false</bool>
+             </property>
              <property name="value">
               <number>3</number>
              </property>
@@ -124,7 +128,8 @@ text-align:center;</string>
          <item>
           <widget class="QPushButton" name="configButton">
            <property name="styleSheet">
-            <string notr="true">background:rgb(248, 203, 173); </string>
+            <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
            </property>
            <property name="text">
             <string>寫入設定檔</string>
@@ -132,7 +137,7 @@ text-align:center;</string>
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,3">
+          <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0">
            <item row="0" column="0">
             <widget class="QPushButton" name="readImagesDirButton">
              <property name="sizePolicy">
@@ -142,7 +147,8 @@ text-align:center;</string>
               </sizepolicy>
              </property>
              <property name="styleSheet">
-              <string notr="true">background:rgb(248, 203, 173); </string>
+              <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
              </property>
              <property name="text">
               <string>選擇圖片資料夾</string>
@@ -179,7 +185,8 @@ text-align:center;</string>
            <item row="1" column="0">
             <widget class="QPushButton" name="readLogDirButton">
              <property name="styleSheet">
-              <string notr="true">background:rgb(248, 203, 173); </string>
+              <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
              </property>
              <property name="text">
               <string>選擇 log 資料夾</string>
@@ -189,7 +196,8 @@ text-align:center;</string>
            <item row="2" column="0">
             <widget class="QPushButton" name="outputDirButton">
              <property name="styleSheet">
-              <string notr="true">background:rgb(248, 203, 173); </string>
+              <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
              </property>
              <property name="text">
               <string>選擇匯出資料夾</string>
@@ -201,7 +209,8 @@ text-align:center;</string>
          <item>
           <widget class="QPushButton" name="executeParserButton">
            <property name="styleSheet">
-            <string notr="true">background:rgb(248, 203, 173); </string>
+            <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
            </property>
            <property name="text">
             <string>執行</string>
@@ -259,6 +268,12 @@ text-align:center;</string>
            </item>
            <item>
             <widget class="QScrollArea" name="scrollArea">
+             <property name="minimumSize">
+              <size>
+               <width>180</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="verticalScrollBarPolicy">
               <enum>Qt::ScrollBarAsNeeded</enum>
              </property>
@@ -270,23 +285,15 @@ text-align:center;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>212</width>
-                <height>181</height>
+                <width>224</width>
+                <height>219</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <item>
-                <widget class="QLabel" name="label_13">
+                <widget class="QLabel" name="photo_list_label">
                  <property name="text">
-                  <string>IMG_xxx1.jpg
-IMG_xxx2.jpg
-IMG_xxx3.jpg
-…
-…
-…
-…
-IMG_x100.jpg
-</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -319,23 +326,15 @@ IMG_x100.jpg
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>212</width>
-                <height>181</height>
+                <width>224</width>
+                <height>219</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
                <item>
-                <widget class="QLabel" name="label_14">
+                <widget class="QLabel" name="log_list_label">
                  <property name="text">
-                  <string>alog
-alog.001
-alog.002
-…
-…
-…
-…
-alog_system
-</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -344,19 +343,6 @@ alog_system
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </item>

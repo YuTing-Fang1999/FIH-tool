@@ -14,14 +14,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(926, 545)
+        Form.resize(972, 545)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.scrollArea_3 = QtWidgets.QScrollArea(Form)
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollArea_3.setObjectName("scrollArea_3")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 902, 521))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 948, 521))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -30,7 +30,8 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         self.label.setMinimumSize(QtCore.QSize(0, 40))
         self.label.setStyleSheet("background:rgb(255, 217, 102); \n"
-"text-align:center;")
+"text-align:center;\n"
+"color: black;")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
@@ -48,6 +49,7 @@ class Ui_Form(object):
         self.filterKeywordText.setObjectName("filterKeywordText")
         self.gridLayout.addWidget(self.filterKeywordText, 2, 1, 1, 1)
         self.prevSecClipSpinbox = QtWidgets.QSpinBox(self.scrollAreaWidgetContents_3)
+        self.prevSecClipSpinbox.setKeyboardTracking(False)
         self.prevSecClipSpinbox.setProperty("value", 3)
         self.prevSecClipSpinbox.setObjectName("prevSecClipSpinbox")
         self.gridLayout.addWidget(self.prevSecClipSpinbox, 1, 1, 1, 1)
@@ -71,7 +73,8 @@ class Ui_Form(object):
         self.configStatusLabel.setObjectName("configStatusLabel")
         self.verticalLayout.addWidget(self.configStatusLabel)
         self.configButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
-        self.configButton.setStyleSheet("background:rgb(248, 203, 173); ")
+        self.configButton.setStyleSheet("background:rgb(248, 203, 173); \n"
+"color: black;")
         self.configButton.setObjectName("configButton")
         self.verticalLayout.addWidget(self.configButton)
         self.gridLayout_2 = QtWidgets.QGridLayout()
@@ -82,7 +85,8 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.readImagesDirButton.sizePolicy().hasHeightForWidth())
         self.readImagesDirButton.setSizePolicy(sizePolicy)
-        self.readImagesDirButton.setStyleSheet("background:rgb(248, 203, 173); ")
+        self.readImagesDirButton.setStyleSheet("background:rgb(248, 203, 173); \n"
+"color: black;")
         self.readImagesDirButton.setObjectName("readImagesDirButton")
         self.gridLayout_2.addWidget(self.readImagesDirButton, 0, 0, 1, 1)
         self.readLogDirLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
@@ -100,18 +104,19 @@ class Ui_Form(object):
         self.outputDirLabel.setObjectName("outputDirLabel")
         self.gridLayout_2.addWidget(self.outputDirLabel, 2, 1, 1, 1)
         self.readLogDirButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
-        self.readLogDirButton.setStyleSheet("background:rgb(248, 203, 173); ")
+        self.readLogDirButton.setStyleSheet("background:rgb(248, 203, 173); \n"
+"color: black;")
         self.readLogDirButton.setObjectName("readLogDirButton")
         self.gridLayout_2.addWidget(self.readLogDirButton, 1, 0, 1, 1)
         self.outputDirButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
-        self.outputDirButton.setStyleSheet("background:rgb(248, 203, 173); ")
+        self.outputDirButton.setStyleSheet("background:rgb(248, 203, 173); \n"
+"color: black;")
         self.outputDirButton.setObjectName("outputDirButton")
         self.gridLayout_2.addWidget(self.outputDirButton, 2, 0, 1, 1)
-        self.gridLayout_2.setColumnStretch(0, 1)
-        self.gridLayout_2.setColumnStretch(1, 3)
         self.verticalLayout.addLayout(self.gridLayout_2)
         self.executeParserButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
-        self.executeParserButton.setStyleSheet("background:rgb(248, 203, 173); ")
+        self.executeParserButton.setStyleSheet("background:rgb(248, 203, 173); \n"
+"color: black;")
         self.executeParserButton.setObjectName("executeParserButton")
         self.verticalLayout.addWidget(self.executeParserButton)
         self.statusLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
@@ -119,7 +124,7 @@ class Ui_Form(object):
         self.statusLabel.setObjectName("statusLabel")
         self.verticalLayout.addWidget(self.statusLabel)
         self.executeParserProgressBar = QtWidgets.QProgressBar(self.scrollAreaWidgetContents_3)
-        self.executeParserProgressBar.setProperty("value", 50)
+        self.executeParserProgressBar.setProperty("value", 20)
         self.executeParserProgressBar.setTextVisible(False)
         self.executeParserProgressBar.setObjectName("executeParserProgressBar")
         self.verticalLayout.addWidget(self.executeParserProgressBar)
@@ -135,17 +140,19 @@ class Ui_Form(object):
         self.label_11.setObjectName("label_11")
         self.verticalLayout_3.addWidget(self.label_11)
         self.scrollArea = QtWidgets.QScrollArea(self.scrollAreaWidgetContents_3)
+        self.scrollArea.setMinimumSize(QtCore.QSize(180, 0))
         self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 212, 181))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 224, 219))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.label_13 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label_13.setObjectName("label_13")
-        self.verticalLayout_2.addWidget(self.label_13)
+        self.photo_list_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.photo_list_label.setText("")
+        self.photo_list_label.setObjectName("photo_list_label")
+        self.verticalLayout_2.addWidget(self.photo_list_label)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout_3.addWidget(self.scrollArea)
         self.verticalLayout_6.addLayout(self.verticalLayout_3)
@@ -160,18 +167,17 @@ class Ui_Form(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 212, 181))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 224, 219))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.label_14 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
-        self.label_14.setObjectName("label_14")
-        self.verticalLayout_4.addWidget(self.label_14)
+        self.log_list_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.log_list_label.setText("")
+        self.log_list_label.setObjectName("log_list_label")
+        self.verticalLayout_4.addWidget(self.log_list_label)
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout_5.addWidget(self.scrollArea_2)
         self.verticalLayout_6.addLayout(self.verticalLayout_5)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem1)
         self.horizontalLayout_2.addLayout(self.verticalLayout_6)
         self.horizontalLayout_2.setStretch(0, 3)
         self.horizontalLayout_2.setStretch(1, 1)
@@ -200,25 +206,7 @@ class Ui_Form(object):
         self.executeParserButton.setText(_translate("Form", "執行"))
         self.statusLabel.setText(_translate("Form", "(顯示路徑)"))
         self.label_11.setText(_translate("Form", "圖片資料夾:"))
-        self.label_13.setText(_translate("Form", "IMG_xxx1.jpg\n"
-"IMG_xxx2.jpg\n"
-"IMG_xxx3.jpg\n"
-"…\n"
-"…\n"
-"…\n"
-"…\n"
-"IMG_x100.jpg\n"
-""))
         self.label_12.setText(_translate("Form", "log 資料夾:"))
-        self.label_14.setText(_translate("Form", "alog\n"
-"alog.001\n"
-"alog.002\n"
-"…\n"
-"…\n"
-"…\n"
-"…\n"
-"alog_system\n"
-""))
 
 
 if __name__ == "__main__":
