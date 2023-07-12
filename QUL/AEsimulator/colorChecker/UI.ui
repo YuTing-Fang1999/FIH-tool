@@ -282,6 +282,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item row="1" column="1">
           <widget class="QPushButton" name="load_ref_btn">
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
+           </property>
            <property name="toolTip">
             <string>Load 完colorchecker後會將值填入Ref. 
 (分別為colorchecker第19格與第20格的luma value)</string>
@@ -293,6 +296,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item row="1" column="3">
           <widget class="QPushButton" name="load_ours_btn">
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
+           </property>
            <property name="toolTip">
             <string>Load 完colorchecker後會將值填入Ours
 (分別為colorchecker第19格與第20格的luma value)</string>
@@ -327,6 +333,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item>
         <widget class="QPushButton" name="btn_compute">
+         <property name="cursor">
+          <cursorShape>OpenHandCursor</cursorShape>
+         </property>
          <property name="text">
           <string>Compute</string>
          </property>

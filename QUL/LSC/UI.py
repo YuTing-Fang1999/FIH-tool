@@ -38,6 +38,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.load_and_export_txt_btn.sizePolicy().hasHeightForWidth())
         self.load_and_export_txt_btn.setSizePolicy(sizePolicy)
         self.load_and_export_txt_btn.setMinimumSize(QtCore.QSize(100, 70))
+        self.load_and_export_txt_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_and_export_txt_btn.setStyleSheet("font:13px ;\n"
 "text-align:bottom;\n"
 "background:rgb(68, 114, 196); \n"
@@ -46,6 +47,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.load_and_export_txt_btn)
         self.load_xml_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.load_xml_btn.setMinimumSize(QtCore.QSize(100, 70))
+        self.load_xml_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_xml_btn.setStyleSheet("font:13px ;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
@@ -53,6 +55,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.load_xml_btn)
         self.open_excel_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.open_excel_btn.setMinimumSize(QtCore.QSize(100, 70))
+        self.open_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.open_excel_btn.setStyleSheet("font:13px ;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")

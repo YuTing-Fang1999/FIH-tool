@@ -147,6 +147,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Load gamma.xml</string>
            </property>
@@ -156,6 +159,9 @@
           <widget class="QPushButton" name="load_ori_btn">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="text">
             <string>Load
@@ -232,6 +238,9 @@ ori photo</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
+           </property>
            <property name="text">
             <string>Reload excel data</string>
            </property>
@@ -241,6 +250,9 @@ ori photo</string>
           <widget class="QPushButton" name="export_and_open_excel_btn">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="text">
             <string>Export data to excel 
@@ -252,6 +264,9 @@ ori photo</string>
           <widget class="QPushButton" name="load_ref_btn">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="text">
             <string>Load 

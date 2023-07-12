@@ -53,6 +53,9 @@
                <height>70</height>
               </size>
              </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">font:13px ;
 text-align:bottom;
@@ -74,6 +77,9 @@ LSC golden OTP txt
                <height>70</height>
               </size>
              </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
               <string notr="true">font:13px ;
 background:rgb(68, 114, 196); 
@@ -93,6 +99,9 @@ color:rgb(255, 255, 255);</string>
                <width>100</width>
                <height>70</height>
               </size>
+             </property>
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
              </property>
              <property name="styleSheet">
               <string notr="true">font:13px ;
