@@ -21,6 +21,9 @@ from QUL.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorChecker
 from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Intro import Intro as MTK_AFIntro
 
+from QUL.AF.MyWidget import MyWidget as QUL_AFWidget
+from QUL.AF.Intro import Intro as QUL_AFIntro
+
 from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
 from QUL.AEsimulator.stepChart.Intro import Intro as stepChartIntro
 from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
@@ -43,6 +46,16 @@ class Config():
         self.main_config = \
         {
             "Qualcomm": { 
+                "AF":{
+                    "Analysis":[
+                        {
+                            "name": "AF log parser",
+                            "instruction": QUL_AFIntro(),
+                            "widget": QUL_AFWidget(),
+                            
+                        },
+                    ],
+                },
                 "AE":{
                     "Calibration":[
                         {
@@ -95,7 +108,7 @@ class Config():
                 "AF":{
                     "Analysis":[
                         {
-                            "name": "AF",
+                            "name": "AF log parser",
                             "instruction": MTK_AFIntro(),
                             "widget": MTK_AFWidget(),
                             

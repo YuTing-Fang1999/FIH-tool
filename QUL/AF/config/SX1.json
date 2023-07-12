@@ -1,0 +1,10 @@
+{
+    "project_name": "SX1",
+    "previous_second_to_start_log": 3,
+    "log_keyword": [
+        "STATS_AF"
+    ],
+    "save_keyword": [
+        "MediaProvider: Moving"
+    ]
+}
