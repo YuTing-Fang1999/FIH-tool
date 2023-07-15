@@ -2,3 +2,11 @@ pyqtdarktheme
 colour-checker-detection
 pywin32
 markdown
+PyQt5
+opencv-python
+matplotlib
+scikit-image
+openpyxl
+xlwings
+kornia
+tqdm
