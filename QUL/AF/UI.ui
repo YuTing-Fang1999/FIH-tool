@@ -54,7 +54,7 @@ text-align:center;
 color: black;</string>
            </property>
            <property name="text">
-            <string>請先填入專案名稱與相關設定(QUL)</string>
+            <string>請先填入專案名稱與相關設定(QC)</string>
            </property>
            <property name="scaledContents">
             <bool>false</bool>
@@ -153,7 +153,7 @@ color: black;</string>
 color: black;</string>
            </property>
            <property name="text">
-            <string>寫入設定檔(QUL)</string>
+            <string>寫入設定檔(QC)</string>
            </property>
           </widget>
          </item>
@@ -285,7 +285,7 @@ color: black;</string>
 color: black;</string>
            </property>
            <property name="text">
-            <string>執行(QUL)</string>
+            <string>執行(QC)</string>
            </property>
           </widget>
          </item>

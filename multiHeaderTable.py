@@ -6,7 +6,7 @@ QTableWidgets... DataTableView for the DataFrame's contents, and two HeaderView 
 from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtCore import QAbstractItemModel, QModelIndex, QSize, QRect, Qt, QPoint, QItemSelectionModel
 from PyQt5.QtGui import QPainter, QFont, QFontMetrics, QPalette, QBrush, QColor, QTransform
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QSizePolicy, QPushButton
 import pandas as pd
 import numpy as np
 import datetime
@@ -262,7 +262,6 @@ class DataTableModel(QtCore.QAbstractTableModel):
             if isinstance(cell, (float, np.floating)):
                 if not role == QtCore.Qt.ToolTipRole:
                     return "{:.4f}".format(cell)
-
             return str(cell)
 
         elif role == QtCore.Qt.ToolTipRole:
@@ -273,7 +272,6 @@ class DataTableModel(QtCore.QAbstractTableModel):
             # NaN case
             if pd.isnull(cell):
                 return "NaN"
-
             return str(cell)
 
     def flags(self, index):
@@ -421,6 +419,7 @@ class HeaderModel(QtCore.QAbstractTableModel):
     def data(self, index, role=None):
         row = index.row()
         col = index.column()
+        
 
         if role == QtCore.Qt.DisplayRole or role == QtCore.Qt.ToolTipRole:
 
@@ -469,7 +468,8 @@ class HeaderView(QtWidgets.QTableView):
         self.df = df
         self.parent = parent
         self.table = parent.dataView
-        self.setModel(HeaderModel(df, orientation))
+        self.hmodel = HeaderModel(df, orientation)
+        self.setModel(self.hmodel)
         # These are used during column resizing
         self.header_being_resized = None
         self.resize_start_position = None
@@ -492,7 +492,7 @@ class HeaderView(QtWidgets.QTableView):
         self.selectionModel().selectionChanged.connect(self.on_selectionChanged)
         self.setSpans()
         self.initSize()
-
+        
         # Orientation specific settings
         if orientation == Qt.Horizontal:
             self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)  # Scrollbar is replaced in DataFrameViewer
@@ -501,6 +501,10 @@ class HeaderView(QtWidgets.QTableView):
             self.verticalHeader().setHighlightSections(False)  # Selection lags a lot without this
 
         else:
+            # for i in range(self.hmodel.rowCount()):
+            #     viewButton = QtWidgets.QCheckBox()   
+            #     self.setIndexWidget(self.hmodel.index(i,0), viewButton)
+        
             self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             self.verticalHeader().hide()
             self.horizontalHeader().setDisabled(True)
@@ -832,9 +836,8 @@ if __name__ == '__main__':
 
     # from pandasgui.datasets import multidf
     df=pd.DataFrame([[1,2,3,4],[6,7,8,9]])
-    header=[['A','A','B','B'],
+    header=[['A','A','B','A'],
         ['A','B','C','D'],
-        ['A','B','C','D']
     ]
     df.columns=header
 

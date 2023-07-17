@@ -93,13 +93,13 @@ class MyWidget(ParentWidget):
             # tk.messagebox.showwarning("解析錯誤", parser.parseErrorMessage)
             self.set_btn_enable(True)
             # executeParserButton["text"] = "執行"
-            self.ui.executeParserButton.setText("執行(QUL)")
+            self.ui.executeParserButton.setText("執行(QC)")
             # executeParserProgressBar.grid_forget()
             self.ui.executeParserProgressBar.hide()
         elif text == "處理完成":
             self.set_btn_enable(True)
             # executeParserButton["text"] = "執行"
-            self.ui.executeParserButton.setText("執行(QUL)")
+            self.ui.executeParserButton.setText("執行(QC)")
             # executeParserProgressBar.grid_forget()
             self.ui.executeParserProgressBar.hide()
             # statusLabel["text"] = "處理完成。"
@@ -163,7 +163,7 @@ class MyWidget(ParentWidget):
             self.ui.log_list_label.setText(self.ui.log_list_label.text() + f + '\n')
             
         if not_alog:
-            QMessageBox.about(self, "Log資料夾錯誤", "QUL的log通常以alog開頭，請確認是否選到錯誤的資料夾")
+            QMessageBox.about(self, "Log資料夾錯誤", "QC的log通常以alog開頭，請確認是否選到錯誤的資料夾")
 
     def showOutputFileDialog(self):
         # global OUTPUT_DIR
