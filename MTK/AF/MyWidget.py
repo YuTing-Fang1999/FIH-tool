@@ -93,13 +93,13 @@ class MyWidget(ParentWidget):
             # tk.messagebox.showwarning("解析錯誤", parser.parseErrorMessage)
             self.set_btn_enable(True)
             # executeParserButton["text"] = "執行"
-            self.ui.executeParserButton.setText("執行")
+            self.ui.executeParserButton.setText("執行(MTK)")
             # executeParserProgressBar.grid_forget()
             self.ui.executeParserProgressBar.hide()
         elif text == "處理完成":
             self.set_btn_enable(True)
             # executeParserButton["text"] = "執行"
-            self.ui.executeParserButton.setText("執行")
+            self.ui.executeParserButton.setText("執行(MTK)")
             # executeParserProgressBar.grid_forget()
             self.ui.executeParserProgressBar.hide()
             # statusLabel["text"] = "處理完成。"

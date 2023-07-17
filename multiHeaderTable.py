@@ -24,8 +24,8 @@ class DataFrameViewer(QtWidgets.QWidget):
 
     def __init__(self, df, inplace=True):
 
-        if not inplace:
-            df = df.copy()
+        # if not inplace:
+        #     df = df.copy()
 
         super().__init__()
         # Indicates whether the widget has been shown yet. Set to True in
@@ -211,10 +211,10 @@ class DataFrameViewer(QtWidgets.QWidget):
     #         self.debug()
     #         print('Ctrl + D')
 
-    def debug(self):
-        print(self.columnHeader.sizeHint())
-        print(self.dataView.sizeHint())
-        print(self.dataView.horizontalScrollBar().sizeHint())
+    # def debug(self):
+    #     print(self.columnHeader.sizeHint())
+    #     print(self.dataView.sizeHint())
+    #     print(self.dataView.horizontalScrollBar().sizeHint())
 
 
 # Remove dotted border on cell focus.  https://stackoverflow.com/a/55252650/3620725
@@ -345,8 +345,8 @@ class DataTableView(QtWidgets.QTableView):
             indexHeader.selectionModel().select(selection,
                                                 QItemSelectionModel.Rows | QItemSelectionModel.ClearAndSelect)
 
-    def print(self):
-        print(self.model().df)
+    # def print(self):
+    #     print(self.model().df)
 
     # def copy(self):
     #     """
@@ -369,15 +369,15 @@ class DataTableView(QtWidgets.QTableView):
 
     #     clipboard.setText(text)
 
-    def paste(self):
-        # Set up clipboard object
-        app = QtWidgets.QApplication.instance()
-        if not app:
-            app = QtWidgets.QApplication(sys.argv)
-        clipboard = app.clipboard()
+    # def paste(self):
+    #     # Set up clipboard object
+    #     app = QtWidgets.QApplication.instance()
+    #     if not app:
+    #         app = QtWidgets.QApplication(sys.argv)
+    #     clipboard = app.clipboard()
 
-        # TODO
-        print(clipboard.text())
+    #     # TODO
+    #     print(clipboard.text())
 
     def sizeHint(self):
         # Set width and height based on number of columns in model
@@ -833,7 +833,9 @@ if __name__ == '__main__':
     # from pandasgui.datasets import multidf
     df=pd.DataFrame([[1,2,3,4],[6,7,8,9]])
     header=[['A','A','B','B'],
-        ['A','B','C','D']]
+        ['A','B','C','D'],
+        ['A','B','C','D']
+    ]
     df.columns=header
 
     view2 = DataFrameViewer(df)
