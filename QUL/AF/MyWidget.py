@@ -156,8 +156,14 @@ class MyWidget(ParentWidget):
         self.detectParserReady()
         
         self.ui.log_list_label.setText("")
+        not_alog = False
         for f in os.listdir(self.LOG_DIR):
+            if "alog" not in f:
+                not_alog = True
             self.ui.log_list_label.setText(self.ui.log_list_label.text() + f + '\n')
+            
+        if not_alog:
+            QMessageBox.about(self, "Log資料夾錯誤", "QUL的log通常以alog開頭，請確認是否選到錯誤的資料夾")
 
     def showOutputFileDialog(self):
         # global OUTPUT_DIR

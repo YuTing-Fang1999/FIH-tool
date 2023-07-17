@@ -156,8 +156,14 @@ class MyWidget(ParentWidget):
         self.detectParserReady()
         
         self.ui.log_list_label.setText("")
+        not_main_log = False
         for f in os.listdir(self.LOG_DIR):
+            if "main_log" not in f:
+                not_main_log = True
             self.ui.log_list_label.setText(self.ui.log_list_label.text() + f + '\n')
+            
+        if not_main_log:
+            QMessageBox.about(self, "Log資料夾錯誤", "MTK的log通常以main_log開頭，請確認是否選到錯誤的資料夾")
 
     def showOutputFileDialog(self):
         # global OUTPUT_DIR
