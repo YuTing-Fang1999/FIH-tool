@@ -1,17 +1,8 @@
-from PyQt5.QtWidgets import QApplication, QTableView, QWidget, QVBoxLayout, QPushButton, QStyledItemDelegate, QAbstractItemView
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+import sys
+from PyQt5.QtWidgets import QApplication
 
-
-if __name__ == '__main__':
-    import sys
-    app = QApplication(sys.argv)
-    app.setStyle("fusion")
-    tab = QTableView()
-    sti = QStandardItemModel()
-    sti.appendRow([QStandardItem(str(i)) for i in range(4)])
-    tab.setModel(sti)
-    tab.setEditTriggers(QAbstractItemView.NoEditTriggers)
-    tab.setIndexWidget(sti.index(0, 3), QPushButton("button"))
-    tab.show()
-    sys.exit(app.exec_())
+from MTK.AE.mtkFaceAEanalysis.MyWidget import MyWidget
+app = QApplication(sys.argv)
+Form = MyWidget()
+Form.show()
+sys.exit(app.exec_())
