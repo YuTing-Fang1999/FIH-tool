@@ -3,6 +3,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import win32com.client as win32
+from .mtkFaceAEanalysis import parse_code
 
 
 class MyWidget(ParentWidget):
@@ -11,6 +12,7 @@ class MyWidget(ParentWidget):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()
+        self.setupUi()
         
     def setupUi(self):
         self.set_btn_enable(self.ui.del_btn, False)
@@ -44,25 +46,57 @@ class MyWidget(ParentWidget):
     def load_exif(self):
         self.set_btn_enable(self.ui.load_code_btn, True)
         
+    
+    def set_code_date(self, data):
+        # for i in range(self.ui.link_normal_grid.rowCount()):
+        #     print(i)
+        #     for j in range(self.ui.link_normal_grid.columnCount()):
+        #         if self.ui.link_normal_grid.itemAtPosition(i, j) is not None:
+        #             print(self.ui.link_normal_grid.itemAtPosition(i, j).widget())
+        #     print()
+        for j in range(10):
+            self.ui.link_normal_grid.itemAtPosition(1, 1+j).widget().setText(data["flt_bv"][j])
+            self.ui.link_normal_grid.itemAtPosition(2, 1+j).widget().setText(data["flt_dr"][j])
+            self.ui.link_normal_grid.itemAtPosition(5+j, 0).widget().setText(data["flt_bv"][j])
+            self.ui.link_normal_grid.itemAtPosition(4, 1+j).widget().setText(data["flt_dr"][j])
+            
+            self.ui.link_low_grid.itemAtPosition(1, 1+j).widget().setText(data["flt_ns_bv"][j])
+            self.ui.link_low_grid.itemAtPosition(2, 1+j).widget().setText(data["flt_ns_dr"][j])
+            self.ui.link_low_grid.itemAtPosition(5+j, 0).widget().setText(data["flt_ns_bv"][j])
+            self.ui.link_low_grid.itemAtPosition(4, 1+j).widget().setText(data["flt_ns_dr"][j])
+            
+        for j in range(10):
+            for i in range(10):
+                self.ui.link_normal_grid.itemAtPosition(5+i, 1+j).widget().setText(data["TH_tbl_5"][i][j])
+                self.ui.link_low_grid.itemAtPosition(5+i, 1+j).widget().setText(data["TH_tbl_7"][i][j])
+        
     def load_code(self):
-        filename = "test.xlsm"
+        self.code_data = parse_code("MTK/AE/mtkFaceAEanalysis/AE.cpp")
+        self.set_code_date(self.code_data)
+        # print(data)
         
-        excel = win32.Dispatch("Excel.Application")
-        # excel.Visible = False  # Set to True if you want to see the Excel application
-        # excel.DisplayAlerts = False
-        workbook = excel.Workbooks.Open(self.excel_path)
-        sheet = workbook.Worksheets('0.mtkFaceAEdetect')
+        # filename = "test.xlsm"
+        
+        # excel = win32.Dispatch("Excel.Application")
+        # # excel.Visible = False  # Set to True if you want to see the Excel application
+        # # excel.DisplayAlerts = False
+        # workbook = excel.Workbooks.Open(self.excel_path)
+        # sheet = workbook.Worksheets('0.mtkFaceAEdetect')
         
         
         
-        workbook.Save()
-        workbook.Close()
+            
         
         
-        self.set_btn_enable(self.ui.del_btn, True)
-        self.set_btn_enable(self.ui.optimize_btn, True)
-        self.set_btn_enable(self.ui.restore_btn, True)
-        self.set_btn_enable(self.ui.export_code_btn, True)
+        
+        # workbook.Save()
+        # workbook.Close()
+        
+        
+        # self.set_btn_enable(self.ui.del_btn, True)
+        # self.set_btn_enable(self.ui.optimize_btn, True)
+        # self.set_btn_enable(self.ui.restore_btn, True)
+        # self.set_btn_enable(self.ui.export_code_btn, True)
 
     def optimize(self):
         pass

@@ -20,59 +20,110 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QGridLayout" name="normal_link_grid">
-       <item row="15" column="8">
-        <widget class="QLineEdit" name="lineEdit_98"/>
+      <layout class="QGridLayout" name="link_normal_grid" rowstretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+       <item row="6" column="3">
+        <widget class="QLineEdit" name="lineEdit_19"/>
        </item>
-       <item row="8" column="3">
-        <widget class="QLineEdit" name="lineEdit_21"/>
+       <item row="13" column="3">
+        <widget class="QLineEdit" name="lineEdit_14"/>
        </item>
-       <item row="9" column="3">
-        <widget class="QLineEdit" name="lineEdit_20"/>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLineEdit" name="lineEdit_23"/>
-       </item>
-       <item row="15" column="6">
-        <widget class="QLineEdit" name="lineEdit_95"/>
-       </item>
-       <item row="15" column="3">
-        <widget class="QLineEdit" name="lineEdit_15"/>
-       </item>
-       <item row="8" column="2">
-        <widget class="QLineEdit" name="lineEdit_7"/>
-       </item>
-       <item row="10" column="2">
-        <widget class="QLineEdit" name="lineEdit_8"/>
-       </item>
-       <item row="11" column="2">
-        <widget class="QLineEdit" name="lineEdit_6"/>
-       </item>
-       <item row="9" column="2">
-        <widget class="QLineEdit" name="lineEdit_9"/>
-       </item>
-       <item row="13" column="2">
-        <widget class="QLineEdit" name="lineEdit_10"/>
-       </item>
-       <item row="15" column="2">
-        <widget class="QLineEdit" name="lineEdit_16"/>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="lineEdit_32"/>
        </item>
        <item row="12" column="3">
-        <widget class="QLineEdit" name="lineEdit_12"/>
+        <widget class="QLineEdit" name="lineEdit_13"/>
        </item>
-       <item row="6" column="3">
-        <widget class="QLineEdit" name="lineEdit_5"/>
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="lineEdit_4"/>
        </item>
-       <item row="6" column="10">
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="lineEdit_11"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="lineEdit_22"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="lineEdit_2"/>
+       </item>
+       <item row="10" column="1">
+        <widget class="QLineEdit" name="lineEdit_24"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QLineEdit" name="lineEdit_25"/>
+       </item>
+       <item row="13" column="2">
+        <widget class="QLineEdit" name="lineEdit_30"/>
+       </item>
+       <item row="14" column="1">
+        <widget class="QLineEdit" name="lineEdit_29"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item row="12" column="1">
+        <widget class="QLineEdit" name="lineEdit_27"/>
+       </item>
+       <item row="13" column="1">
+        <widget class="QLineEdit" name="lineEdit_28"/>
+       </item>
+       <item row="11" column="2">
+        <widget class="QLineEdit" name="lineEdit_26"/>
+       </item>
+       <item row="8" column="3">
+        <widget class="QLineEdit" name="lineEdit_20"/>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLineEdit" name="lineEdit_23"/>
+       </item>
+       <item row="7" column="3">
+        <widget class="QLineEdit" name="lineEdit_21"/>
+       </item>
+       <item row="14" column="8">
+        <widget class="QLineEdit" name="lineEdit_98"/>
+       </item>
+       <item row="14" column="6">
+        <widget class="QLineEdit" name="lineEdit_95"/>
+       </item>
+       <item row="14" column="3">
+        <widget class="QLineEdit" name="lineEdit_15"/>
+       </item>
+       <item row="7" column="2">
+        <widget class="QLineEdit" name="lineEdit_7"/>
+       </item>
+       <item row="9" column="2">
+        <widget class="QLineEdit" name="lineEdit_8"/>
+       </item>
+       <item row="10" column="2">
+        <widget class="QLineEdit" name="lineEdit_6"/>
+       </item>
+       <item row="5" column="10">
         <widget class="QLineEdit" name="lineEdit_35"/>
        </item>
-       <item row="6" column="9">
+       <item row="14" column="2">
+        <widget class="QLineEdit" name="lineEdit_16"/>
+       </item>
+       <item row="8" column="2">
+        <widget class="QLineEdit" name="lineEdit_9"/>
+       </item>
+       <item row="11" column="3">
+        <widget class="QLineEdit" name="lineEdit_12"/>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLineEdit" name="lineEdit_5"/>
+       </item>
+       <item row="12" column="2">
+        <widget class="QLineEdit" name="lineEdit_10"/>
+       </item>
+       <item row="6" column="6">
+        <widget class="QLineEdit" name="lineEdit_51"/>
+       </item>
+       <item row="5" column="9">
         <widget class="QLineEdit" name="lineEdit_31"/>
        </item>
-       <item row="6" column="8">
+       <item row="5" column="8">
         <widget class="QLineEdit" name="lineEdit_39"/>
        </item>
-       <item row="6" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>TextLabel</string>
@@ -82,22 +133,10 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="6">
-        <widget class="QLineEdit" name="lineEdit_51"/>
-       </item>
-       <item row="6" column="2">
+       <item row="5" column="2">
         <widget class="QLineEdit" name="lineEdit_3"/>
        </item>
-       <item row="6" column="5">
-        <widget class="QLineEdit" name="lineEdit_37"/>
-       </item>
-       <item row="6" column="7">
-        <widget class="QLineEdit" name="lineEdit_34"/>
-       </item>
-       <item row="6" column="6">
-        <widget class="QLineEdit" name="lineEdit_38"/>
-       </item>
-       <item row="7" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>TextLabel</string>
@@ -107,100 +146,52 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="3">
-        <widget class="QLineEdit" name="lineEdit_13"/>
+       <item row="5" column="6">
+        <widget class="QLineEdit" name="lineEdit_38"/>
        </item>
-       <item row="7" column="3">
-        <widget class="QLineEdit" name="lineEdit_19"/>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLineEdit" name="lineEdit_4"/>
-       </item>
-       <item row="14" column="3">
-        <widget class="QLineEdit" name="lineEdit_14"/>
-       </item>
-       <item row="6" column="4">
-        <widget class="QLineEdit" name="lineEdit_32"/>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLineEdit" name="lineEdit_25"/>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLineEdit" name="lineEdit_11"/>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLineEdit" name="lineEdit_2"/>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="lineEdit_22"/>
-       </item>
-       <item row="11" column="1">
-        <widget class="QLineEdit" name="lineEdit_24"/>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item row="14" column="1">
-        <widget class="QLineEdit" name="lineEdit_28"/>
-       </item>
-       <item row="12" column="2">
-        <widget class="QLineEdit" name="lineEdit_26"/>
-       </item>
-       <item row="13" column="1">
-        <widget class="QLineEdit" name="lineEdit_27"/>
-       </item>
-       <item row="15" column="1">
-        <widget class="QLineEdit" name="lineEdit_29"/>
-       </item>
-       <item row="14" column="2">
-        <widget class="QLineEdit" name="lineEdit_30"/>
-       </item>
-       <item row="8" column="8">
-        <widget class="QLineEdit" name="lineEdit_40"/>
-       </item>
-       <item row="8" column="7">
-        <widget class="QLineEdit" name="lineEdit_42"/>
-       </item>
-       <item row="7" column="7">
-        <widget class="QLineEdit" name="lineEdit_49"/>
-       </item>
-       <item row="8" column="10">
-        <widget class="QLineEdit" name="lineEdit_41"/>
-       </item>
-       <item row="7" column="8">
-        <widget class="QLineEdit" name="lineEdit_47"/>
-       </item>
-       <item row="8" column="5">
-        <widget class="QLineEdit" name="lineEdit_44"/>
-       </item>
-       <item row="7" column="4">
-        <widget class="QLineEdit" name="lineEdit_36"/>
-       </item>
-       <item row="8" column="6">
-        <widget class="QLineEdit" name="lineEdit_43"/>
-       </item>
-       <item row="7" column="10">
-        <widget class="QLineEdit" name="lineEdit_48"/>
-       </item>
-       <item row="7" column="5">
-        <widget class="QLineEdit" name="lineEdit_33"/>
-       </item>
-       <item row="7" column="9">
-        <widget class="QLineEdit" name="lineEdit_50"/>
-       </item>
-       <item row="10" column="3">
-        <widget class="QLineEdit" name="lineEdit_18"/>
-       </item>
-       <item row="8" column="4">
-        <widget class="QLineEdit" name="lineEdit_46"/>
-       </item>
-       <item row="11" column="3">
-        <widget class="QLineEdit" name="lineEdit_17"/>
-       </item>
-       <item row="8" column="9">
-        <widget class="QLineEdit" name="lineEdit_45"/>
+       <item row="5" column="5">
+        <widget class="QLineEdit" name="lineEdit_37"/>
        </item>
        <item row="5" column="7">
+        <widget class="QLineEdit" name="lineEdit_34"/>
+       </item>
+       <item row="7" column="10">
+        <widget class="QLineEdit" name="lineEdit_41"/>
+       </item>
+       <item row="6" column="8">
+        <widget class="QLineEdit" name="lineEdit_47"/>
+       </item>
+       <item row="6" column="7">
+        <widget class="QLineEdit" name="lineEdit_49"/>
+       </item>
+       <item row="7" column="8">
+        <widget class="QLineEdit" name="lineEdit_40"/>
+       </item>
+       <item row="7" column="7">
+        <widget class="QLineEdit" name="lineEdit_42"/>
+       </item>
+       <item row="7" column="6">
+        <widget class="QLineEdit" name="lineEdit_43"/>
+       </item>
+       <item row="7" column="5">
+        <widget class="QLineEdit" name="lineEdit_44"/>
+       </item>
+       <item row="6" column="10">
+        <widget class="QLineEdit" name="lineEdit_48"/>
+       </item>
+       <item row="6" column="4">
+        <widget class="QLineEdit" name="lineEdit_36"/>
+       </item>
+       <item row="6" column="5">
+        <widget class="QLineEdit" name="lineEdit_33"/>
+       </item>
+       <item row="9" column="3">
+        <widget class="QLineEdit" name="lineEdit_18"/>
+       </item>
+       <item row="7" column="4">
+        <widget class="QLineEdit" name="lineEdit_46"/>
+       </item>
+       <item row="4" column="7">
         <widget class="QLabel" name="label_21">
          <property name="text">
           <string>TextLabel</string>
@@ -210,30 +201,16 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="5">
-        <widget class="QLabel" name="label_15">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
+       <item row="7" column="9">
+        <widget class="QLineEdit" name="lineEdit_45"/>
        </item>
-       <item row="5" column="8">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
+       <item row="10" column="3">
+        <widget class="QLineEdit" name="lineEdit_17"/>
        </item>
-       <item row="5" column="6">
+       <item row="6" column="9">
+        <widget class="QLineEdit" name="lineEdit_50"/>
+       </item>
+       <item row="4" column="6">
         <widget class="QLabel" name="label_16">
          <property name="enabled">
           <bool>true</bool>
@@ -246,7 +223,17 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="9">
+       <item row="4" column="8">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="9">
         <widget class="QLabel" name="label_18">
          <property name="text">
           <string>TextLabel</string>
@@ -256,10 +243,32 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="10">
+       <item row="4" column="5">
+        <widget class="QLabel" name="label_15">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="7">
+        <widget class="QLineEdit" name="lineEdit_97"/>
+       </item>
+       <item row="14" column="10">
         <widget class="QLineEdit" name="lineEdit_99"/>
        </item>
-       <item row="9" column="0">
+       <item row="14" column="9">
+        <widget class="QLineEdit" name="lineEdit_96"/>
+       </item>
+       <item row="14" column="5">
+        <widget class="QLineEdit" name="lineEdit_94"/>
+       </item>
+       <item row="8" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>TextLabel</string>
@@ -269,49 +278,7 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="7">
-        <widget class="QLineEdit" name="lineEdit_97"/>
-       </item>
-       <item row="15" column="9">
-        <widget class="QLineEdit" name="lineEdit_96"/>
-       </item>
-       <item row="15" column="5">
-        <widget class="QLineEdit" name="lineEdit_94"/>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="13" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="4">
-        <widget class="QLineEdit" name="lineEdit_100"/>
-       </item>
-       <item row="14" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>TextLabel</string>
@@ -321,11 +288,21 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="5">
-        <widget class="QLineEdit" name="lineEdit_53"/>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_11">
+       <item row="14" column="4">
+        <widget class="QLineEdit" name="lineEdit_100"/>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
           <string>TextLabel</string>
          </property>
@@ -335,6 +312,19 @@
         </widget>
        </item>
        <item row="12" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="5">
+        <widget class="QLineEdit" name="lineEdit_53"/>
+       </item>
+       <item row="11" column="0">
         <widget class="QLabel" name="label_8">
          <property name="text">
           <string>TextLabel</string>
@@ -344,46 +334,56 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="7">
-        <widget class="QLineEdit" name="lineEdit_57"/>
-       </item>
-       <item row="9" column="8">
+       <item row="8" column="8">
         <widget class="QLineEdit" name="lineEdit_52"/>
        </item>
-       <item row="9" column="4">
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="7">
+        <widget class="QLineEdit" name="lineEdit_57"/>
+       </item>
+       <item row="8" column="4">
         <widget class="QLineEdit" name="lineEdit_58"/>
        </item>
-       <item row="9" column="9">
-        <widget class="QLineEdit" name="lineEdit_54"/>
-       </item>
-       <item row="9" column="6">
-        <widget class="QLineEdit" name="lineEdit_56"/>
-       </item>
-       <item row="10" column="4">
+       <item row="9" column="4">
         <widget class="QLineEdit" name="lineEdit_65"/>
        </item>
-       <item row="9" column="10">
+       <item row="8" column="10">
         <widget class="QLineEdit" name="lineEdit_55"/>
        </item>
-       <item row="10" column="9">
-        <widget class="QLineEdit" name="lineEdit_59"/>
+       <item row="8" column="6">
+        <widget class="QLineEdit" name="lineEdit_56"/>
        </item>
-       <item row="10" column="10">
+       <item row="8" column="9">
+        <widget class="QLineEdit" name="lineEdit_54"/>
+       </item>
+       <item row="9" column="10">
         <widget class="QLineEdit" name="lineEdit_63"/>
        </item>
-       <item row="10" column="6">
+       <item row="9" column="6">
         <widget class="QLineEdit" name="lineEdit_60"/>
        </item>
-       <item row="10" column="8">
-        <widget class="QLineEdit" name="lineEdit_62"/>
-       </item>
-       <item row="10" column="7">
+       <item row="9" column="7">
         <widget class="QLineEdit" name="lineEdit_61"/>
        </item>
-       <item row="10" column="5">
+       <item row="9" column="9">
+        <widget class="QLineEdit" name="lineEdit_59"/>
+       </item>
+       <item row="9" column="8">
+        <widget class="QLineEdit" name="lineEdit_62"/>
+       </item>
+       <item row="9" column="5">
         <widget class="QLineEdit" name="lineEdit_64"/>
        </item>
-       <item row="8" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>TextLabel</string>
@@ -393,104 +393,101 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="4">
-        <widget class="QLineEdit" name="lineEdit_72"/>
-       </item>
-       <item row="11" column="5">
+       <item row="10" column="5">
         <widget class="QLineEdit" name="lineEdit_67"/>
        </item>
-       <item row="11" column="6">
+       <item row="10" column="6">
         <widget class="QLineEdit" name="lineEdit_68"/>
        </item>
-       <item row="11" column="9">
+       <item row="10" column="9">
         <widget class="QLineEdit" name="lineEdit_66"/>
        </item>
-       <item row="12" column="4">
-        <widget class="QLineEdit" name="lineEdit_79"/>
+       <item row="10" column="4">
+        <widget class="QLineEdit" name="lineEdit_72"/>
        </item>
-       <item row="11" column="7">
-        <widget class="QLineEdit" name="lineEdit_70"/>
-       </item>
-       <item row="11" column="8">
-        <widget class="QLineEdit" name="lineEdit_71"/>
-       </item>
-       <item row="11" column="10">
+       <item row="10" column="10">
         <widget class="QLineEdit" name="lineEdit_69"/>
        </item>
-       <item row="12" column="5">
+       <item row="11" column="5">
         <widget class="QLineEdit" name="lineEdit_75"/>
        </item>
-       <item row="12" column="10">
-        <widget class="QLineEdit" name="lineEdit_74"/>
+       <item row="10" column="8">
+        <widget class="QLineEdit" name="lineEdit_71"/>
        </item>
-       <item row="12" column="6">
-        <widget class="QLineEdit" name="lineEdit_78"/>
+       <item row="10" column="7">
+        <widget class="QLineEdit" name="lineEdit_70"/>
        </item>
-       <item row="12" column="7">
-        <widget class="QLineEdit" name="lineEdit_73"/>
+       <item row="11" column="4">
+        <widget class="QLineEdit" name="lineEdit_79"/>
        </item>
-       <item row="12" column="9">
+       <item row="11" column="9">
         <widget class="QLineEdit" name="lineEdit_77"/>
        </item>
-       <item row="12" column="8">
+       <item row="11" column="8">
         <widget class="QLineEdit" name="lineEdit_76"/>
        </item>
-       <item row="13" column="5">
+       <item row="11" column="10">
+        <widget class="QLineEdit" name="lineEdit_74"/>
+       </item>
+       <item row="11" column="7">
+        <widget class="QLineEdit" name="lineEdit_73"/>
+       </item>
+       <item row="11" column="6">
+        <widget class="QLineEdit" name="lineEdit_78"/>
+       </item>
+       <item row="12" column="5">
         <widget class="QLineEdit" name="lineEdit_84"/>
        </item>
-       <item row="13" column="7">
-        <widget class="QLineEdit" name="lineEdit_83"/>
-       </item>
-       <item row="13" column="8">
+       <item row="12" column="8">
         <widget class="QLineEdit" name="lineEdit_81"/>
        </item>
-       <item row="13" column="4">
+       <item row="12" column="4">
         <widget class="QLineEdit" name="lineEdit_86"/>
        </item>
-       <item row="13" column="6">
+       <item row="12" column="6">
         <widget class="QLineEdit" name="lineEdit_80"/>
        </item>
-       <item row="13" column="9">
+       <item row="12" column="7">
+        <widget class="QLineEdit" name="lineEdit_83"/>
+       </item>
+       <item row="12" column="9">
         <widget class="QLineEdit" name="lineEdit_85"/>
        </item>
-       <item row="14" column="7">
+       <item row="13" column="7">
         <widget class="QLineEdit" name="lineEdit_92"/>
        </item>
-       <item row="14" column="4">
-        <widget class="QLineEdit" name="lineEdit_93"/>
-       </item>
-       <item row="13" column="10">
+       <item row="12" column="10">
         <widget class="QLineEdit" name="lineEdit_82"/>
        </item>
-       <item row="14" column="5">
+       <item row="13" column="4">
+        <widget class="QLineEdit" name="lineEdit_93"/>
+       </item>
+       <item row="13" column="5">
         <widget class="QLineEdit" name="lineEdit_89"/>
        </item>
-       <item row="14" column="6">
+       <item row="13" column="6">
         <widget class="QLineEdit" name="lineEdit_91"/>
        </item>
-       <item row="14" column="10">
+       <item row="13" column="10">
         <widget class="QLineEdit" name="lineEdit_87"/>
        </item>
-       <item row="14" column="8">
+       <item row="13" column="8">
         <widget class="QLineEdit" name="lineEdit_90"/>
        </item>
-       <item row="14" column="9">
+       <item row="13" column="9">
         <widget class="QLineEdit" name="lineEdit_88"/>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label">
-         <property name="styleSheet">
-          <string notr="true">background:rgb(248, 203, 173); </string>
-         </property>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>BV  DR</string>
+          <string>TextLabel</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="4" column="1">
         <widget class="QLabel" name="label_17">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -506,17 +503,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
+       <item row="4" column="4">
         <widget class="QLabel" name="label_12">
          <property name="text">
           <string>TextLabel</string>
@@ -526,7 +513,20 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="3">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">background:rgb(248, 203, 173); </string>
+         </property>
+         <property name="text">
+          <string>BV  DR</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>TextLabel</string>
@@ -536,23 +536,10 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="10">
+       <item row="4" column="10">
         <widget class="QLabel" name="label_19">
          <property name="text">
           <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_24">
-         <property name="styleSheet">
-          <string notr="true">background:rgb(248, 203, 173); </string>
-         </property>
-         <property name="text">
-          <string> DR</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -565,58 +552,65 @@
        <item row="1" column="3">
         <widget class="QLineEdit" name="lineEdit_113"/>
        </item>
-       <item row="1" column="10">
-        <widget class="QLineEdit" name="lineEdit_106"/>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="styleSheet">
+          <string notr="true">background:rgb(248, 203, 173); </string>
+         </property>
+         <property name="text">
+          <string> DR</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
        <item row="1" column="2">
         <widget class="QLineEdit" name="lineEdit_102"/>
        </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="lineEdit_116"/>
-       </item>
-       <item row="1" column="5">
-        <widget class="QLineEdit" name="lineEdit_114"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_120"/>
+       <item row="1" column="10">
+        <widget class="QLineEdit" name="lineEdit_106"/>
        </item>
        <item row="1" column="6">
         <widget class="QLineEdit" name="lineEdit_107"/>
        </item>
-       <item row="1" column="4">
-        <widget class="QLineEdit" name="lineEdit_108"/>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEdit_120"/>
+       </item>
+       <item row="1" column="5">
+        <widget class="QLineEdit" name="lineEdit_114"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEdit_116"/>
        </item>
        <item row="1" column="7">
         <widget class="QLineEdit" name="lineEdit_119"/>
        </item>
+       <item row="2" column="9">
+        <widget class="QLineEdit" name="lineEdit_112"/>
+       </item>
+       <item row="2" column="10">
+        <widget class="QLineEdit" name="lineEdit_109"/>
+       </item>
        <item row="1" column="8">
         <widget class="QLineEdit" name="lineEdit_104"/>
        </item>
-       <item row="3" column="9">
-        <widget class="QLineEdit" name="lineEdit_112"/>
+       <item row="1" column="4">
+        <widget class="QLineEdit" name="lineEdit_108"/>
        </item>
-       <item row="3" column="10">
-        <widget class="QLineEdit" name="lineEdit_109"/>
-       </item>
-       <item row="3" column="5">
+       <item row="2" column="5">
         <widget class="QLineEdit" name="lineEdit_118"/>
        </item>
-       <item row="3" column="8">
-        <widget class="QLineEdit" name="lineEdit_103"/>
-       </item>
-       <item row="3" column="3">
-        <widget class="QLineEdit" name="lineEdit_111"/>
-       </item>
-       <item row="3" column="6">
+       <item row="2" column="6">
         <widget class="QLineEdit" name="lineEdit_105"/>
        </item>
-       <item row="3" column="2">
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="lineEdit_111"/>
+       </item>
+       <item row="2" column="2">
         <widget class="QLineEdit" name="lineEdit_110"/>
        </item>
-       <item row="3" column="7">
-        <widget class="QLineEdit" name="lineEdit_115"/>
-       </item>
-       <item row="3" column="4">
+       <item row="2" column="4">
         <widget class="QLineEdit" name="lineEdit_101"/>
        </item>
        <item row="1" column="0">
@@ -651,69 +645,27 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="11">
+       <item row="3" column="0" colspan="11">
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
+       <item row="2" column="7">
+        <widget class="QLineEdit" name="lineEdit_115"/>
+       </item>
+       <item row="2" column="8">
+        <widget class="QLineEdit" name="lineEdit_103"/>
+       </item>
       </layout>
      </item>
      <item>
-      <layout class="QGridLayout" name="low_link_grid">
-       <item row="15" column="8">
-        <widget class="QLineEdit" name="lineEdit_121"/>
-       </item>
-       <item row="8" column="3">
-        <widget class="QLineEdit" name="lineEdit_122"/>
-       </item>
-       <item row="9" column="3">
-        <widget class="QLineEdit" name="lineEdit_123"/>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLineEdit" name="lineEdit_124"/>
-       </item>
-       <item row="15" column="6">
-        <widget class="QLineEdit" name="lineEdit_125"/>
-       </item>
-       <item row="15" column="3">
-        <widget class="QLineEdit" name="lineEdit_126"/>
-       </item>
-       <item row="8" column="2">
-        <widget class="QLineEdit" name="lineEdit_127"/>
-       </item>
-       <item row="10" column="2">
-        <widget class="QLineEdit" name="lineEdit_128"/>
-       </item>
-       <item row="11" column="2">
-        <widget class="QLineEdit" name="lineEdit_129"/>
-       </item>
-       <item row="9" column="2">
-        <widget class="QLineEdit" name="lineEdit_130"/>
-       </item>
-       <item row="13" column="2">
-        <widget class="QLineEdit" name="lineEdit_131"/>
-       </item>
-       <item row="15" column="2">
-        <widget class="QLineEdit" name="lineEdit_132"/>
-       </item>
-       <item row="12" column="3">
-        <widget class="QLineEdit" name="lineEdit_133"/>
-       </item>
-       <item row="6" column="3">
-        <widget class="QLineEdit" name="lineEdit_134"/>
-       </item>
-       <item row="6" column="10">
-        <widget class="QLineEdit" name="lineEdit_135"/>
-       </item>
-       <item row="6" column="9">
-        <widget class="QLineEdit" name="lineEdit_136"/>
-       </item>
-       <item row="6" column="8">
+      <layout class="QGridLayout" name="link_low_grid">
+       <item row="5" column="8">
         <widget class="QLineEdit" name="lineEdit_137"/>
        </item>
-       <item row="6" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_25">
          <property name="text">
           <string>TextLabel</string>
@@ -723,22 +675,28 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="6">
-        <widget class="QLineEdit" name="lineEdit_138"/>
+       <item row="5" column="10">
+        <widget class="QLineEdit" name="lineEdit_135"/>
        </item>
-       <item row="6" column="2">
-        <widget class="QLineEdit" name="lineEdit_139"/>
-       </item>
-       <item row="6" column="5">
-        <widget class="QLineEdit" name="lineEdit_140"/>
-       </item>
-       <item row="6" column="7">
-        <widget class="QLineEdit" name="lineEdit_141"/>
+       <item row="5" column="9">
+        <widget class="QLineEdit" name="lineEdit_136"/>
        </item>
        <item row="6" column="6">
+        <widget class="QLineEdit" name="lineEdit_138"/>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="lineEdit_139"/>
+       </item>
+       <item row="5" column="5">
+        <widget class="QLineEdit" name="lineEdit_140"/>
+       </item>
+       <item row="5" column="7">
+        <widget class="QLineEdit" name="lineEdit_141"/>
+       </item>
+       <item row="5" column="6">
         <widget class="QLineEdit" name="lineEdit_142"/>
        </item>
-       <item row="7" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_26">
          <property name="text">
           <string>TextLabel</string>
@@ -748,100 +706,136 @@
          </property>
         </widget>
        </item>
-       <item row="13" column="3">
-        <widget class="QLineEdit" name="lineEdit_143"/>
+       <item row="14" column="8">
+        <widget class="QLineEdit" name="lineEdit_121"/>
        </item>
-       <item row="7" column="3">
-        <widget class="QLineEdit" name="lineEdit_144"/>
-       </item>
-       <item row="7" column="2">
-        <widget class="QLineEdit" name="lineEdit_145"/>
-       </item>
-       <item row="14" column="3">
-        <widget class="QLineEdit" name="lineEdit_146"/>
-       </item>
-       <item row="6" column="4">
-        <widget class="QLineEdit" name="lineEdit_147"/>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLineEdit" name="lineEdit_148"/>
+       <item row="8" column="3">
+        <widget class="QLineEdit" name="lineEdit_123"/>
        </item>
        <item row="9" column="1">
-        <widget class="QLineEdit" name="lineEdit_149"/>
+        <widget class="QLineEdit" name="lineEdit_124"/>
        </item>
-       <item row="7" column="1">
-        <widget class="QLineEdit" name="lineEdit_150"/>
+       <item row="7" column="3">
+        <widget class="QLineEdit" name="lineEdit_122"/>
        </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="lineEdit_151"/>
+       <item row="9" column="2">
+        <widget class="QLineEdit" name="lineEdit_128"/>
        </item>
-       <item row="11" column="1">
-        <widget class="QLineEdit" name="lineEdit_152"/>
+       <item row="8" column="2">
+        <widget class="QLineEdit" name="lineEdit_130"/>
        </item>
-       <item row="6" column="1">
-        <widget class="QLineEdit" name="lineEdit_153"/>
+       <item row="14" column="3">
+        <widget class="QLineEdit" name="lineEdit_126"/>
        </item>
-       <item row="14" column="1">
-        <widget class="QLineEdit" name="lineEdit_154"/>
+       <item row="7" column="2">
+        <widget class="QLineEdit" name="lineEdit_127"/>
+       </item>
+       <item row="10" column="2">
+        <widget class="QLineEdit" name="lineEdit_129"/>
+       </item>
+       <item row="14" column="6">
+        <widget class="QLineEdit" name="lineEdit_125"/>
+       </item>
+       <item row="5" column="3">
+        <widget class="QLineEdit" name="lineEdit_134"/>
        </item>
        <item row="12" column="2">
-        <widget class="QLineEdit" name="lineEdit_155"/>
+        <widget class="QLineEdit" name="lineEdit_131"/>
        </item>
-       <item row="13" column="1">
-        <widget class="QLineEdit" name="lineEdit_156"/>
-       </item>
-       <item row="15" column="1">
-        <widget class="QLineEdit" name="lineEdit_157"/>
+       <item row="11" column="3">
+        <widget class="QLineEdit" name="lineEdit_133"/>
        </item>
        <item row="14" column="2">
+        <widget class="QLineEdit" name="lineEdit_132"/>
+       </item>
+       <item row="5" column="4">
+        <widget class="QLineEdit" name="lineEdit_147"/>
+       </item>
+       <item row="13" column="3">
+        <widget class="QLineEdit" name="lineEdit_146"/>
+       </item>
+       <item row="6" column="3">
+        <widget class="QLineEdit" name="lineEdit_144"/>
+       </item>
+       <item row="12" column="3">
+        <widget class="QLineEdit" name="lineEdit_143"/>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="lineEdit_145"/>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="lineEdit_149"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="lineEdit_150"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QLineEdit" name="lineEdit_148"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="lineEdit_151"/>
+       </item>
+       <item row="10" column="1">
+        <widget class="QLineEdit" name="lineEdit_152"/>
+       </item>
+       <item row="12" column="1">
+        <widget class="QLineEdit" name="lineEdit_156"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lineEdit_153"/>
+       </item>
+       <item row="11" column="2">
+        <widget class="QLineEdit" name="lineEdit_155"/>
+       </item>
+       <item row="14" column="1">
+        <widget class="QLineEdit" name="lineEdit_157"/>
+       </item>
+       <item row="13" column="2">
         <widget class="QLineEdit" name="lineEdit_158"/>
        </item>
-       <item row="8" column="8">
-        <widget class="QLineEdit" name="lineEdit_159"/>
+       <item row="13" column="1">
+        <widget class="QLineEdit" name="lineEdit_154"/>
        </item>
-       <item row="8" column="7">
-        <widget class="QLineEdit" name="lineEdit_160"/>
-       </item>
-       <item row="7" column="7">
+       <item row="6" column="7">
         <widget class="QLineEdit" name="lineEdit_161"/>
        </item>
-       <item row="8" column="10">
+       <item row="7" column="10">
         <widget class="QLineEdit" name="lineEdit_162"/>
        </item>
        <item row="7" column="8">
+        <widget class="QLineEdit" name="lineEdit_159"/>
+       </item>
+       <item row="6" column="8">
         <widget class="QLineEdit" name="lineEdit_163"/>
        </item>
-       <item row="8" column="5">
-        <widget class="QLineEdit" name="lineEdit_164"/>
-       </item>
-       <item row="7" column="4">
-        <widget class="QLineEdit" name="lineEdit_165"/>
-       </item>
-       <item row="8" column="6">
-        <widget class="QLineEdit" name="lineEdit_166"/>
-       </item>
-       <item row="7" column="10">
-        <widget class="QLineEdit" name="lineEdit_167"/>
+       <item row="7" column="7">
+        <widget class="QLineEdit" name="lineEdit_160"/>
        </item>
        <item row="7" column="5">
+        <widget class="QLineEdit" name="lineEdit_164"/>
+       </item>
+       <item row="7" column="6">
+        <widget class="QLineEdit" name="lineEdit_166"/>
+       </item>
+       <item row="6" column="4">
+        <widget class="QLineEdit" name="lineEdit_165"/>
+       </item>
+       <item row="6" column="10">
+        <widget class="QLineEdit" name="lineEdit_167"/>
+       </item>
+       <item row="6" column="5">
         <widget class="QLineEdit" name="lineEdit_168"/>
        </item>
-       <item row="7" column="9">
-        <widget class="QLineEdit" name="lineEdit_169"/>
-       </item>
-       <item row="10" column="3">
-        <widget class="QLineEdit" name="lineEdit_170"/>
-       </item>
-       <item row="8" column="4">
+       <item row="7" column="4">
         <widget class="QLineEdit" name="lineEdit_171"/>
        </item>
-       <item row="11" column="3">
-        <widget class="QLineEdit" name="lineEdit_172"/>
-       </item>
-       <item row="8" column="9">
+       <item row="7" column="9">
         <widget class="QLineEdit" name="lineEdit_173"/>
        </item>
-       <item row="5" column="7">
+       <item row="10" column="3">
+        <widget class="QLineEdit" name="lineEdit_172"/>
+       </item>
+       <item row="4" column="7">
         <widget class="QLabel" name="label_27">
          <property name="text">
           <string>TextLabel</string>
@@ -851,20 +845,13 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="5">
-        <widget class="QLabel" name="label_28">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
+       <item row="9" column="3">
+        <widget class="QLineEdit" name="lineEdit_170"/>
        </item>
-       <item row="5" column="8">
+       <item row="6" column="9">
+        <widget class="QLineEdit" name="lineEdit_169"/>
+       </item>
+       <item row="4" column="8">
         <widget class="QLabel" name="label_29">
          <property name="text">
           <string>TextLabel</string>
@@ -874,7 +861,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="6">
+       <item row="4" column="6">
         <widget class="QLabel" name="label_30">
          <property name="enabled">
           <bool>true</bool>
@@ -887,7 +874,20 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="9">
+       <item row="4" column="5">
+        <widget class="QLabel" name="label_28">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="9">
         <widget class="QLabel" name="label_31">
          <property name="text">
           <string>TextLabel</string>
@@ -897,10 +897,19 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="10">
+       <item row="14" column="5">
+        <widget class="QLineEdit" name="lineEdit_177"/>
+       </item>
+       <item row="14" column="7">
+        <widget class="QLineEdit" name="lineEdit_175"/>
+       </item>
+       <item row="14" column="9">
+        <widget class="QLineEdit" name="lineEdit_176"/>
+       </item>
+       <item row="14" column="10">
         <widget class="QLineEdit" name="lineEdit_174"/>
        </item>
-       <item row="9" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_32">
          <property name="text">
           <string>TextLabel</string>
@@ -910,49 +919,7 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="7">
-        <widget class="QLineEdit" name="lineEdit_175"/>
-       </item>
-       <item row="15" column="9">
-        <widget class="QLineEdit" name="lineEdit_176"/>
-       </item>
-       <item row="15" column="5">
-        <widget class="QLineEdit" name="lineEdit_177"/>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="13" column="0">
-        <widget class="QLabel" name="label_34">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_35">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="4">
-        <widget class="QLineEdit" name="lineEdit_178"/>
-       </item>
-       <item row="14" column="0">
         <widget class="QLabel" name="label_36">
          <property name="text">
           <string>TextLabel</string>
@@ -962,11 +929,8 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="5">
-        <widget class="QLineEdit" name="lineEdit_179"/>
-       </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_37">
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_33">
          <property name="text">
           <string>TextLabel</string>
          </property>
@@ -976,6 +940,35 @@
         </widget>
        </item>
        <item row="12" column="0">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="4">
+        <widget class="QLineEdit" name="lineEdit_178"/>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="5">
+        <widget class="QLineEdit" name="lineEdit_179"/>
+       </item>
+       <item row="8" column="7">
+        <widget class="QLineEdit" name="lineEdit_180"/>
+       </item>
+       <item row="11" column="0">
         <widget class="QLabel" name="label_38">
          <property name="text">
           <string>TextLabel</string>
@@ -985,46 +978,59 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="7">
-        <widget class="QLineEdit" name="lineEdit_180"/>
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_37">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
-       <item row="9" column="8">
+       <item row="8" column="8">
         <widget class="QLineEdit" name="lineEdit_181"/>
        </item>
-       <item row="9" column="4">
+       <item row="8" column="4">
         <widget class="QLineEdit" name="lineEdit_182"/>
        </item>
-       <item row="9" column="9">
-        <widget class="QLineEdit" name="lineEdit_183"/>
-       </item>
-       <item row="9" column="6">
+       <item row="8" column="6">
         <widget class="QLineEdit" name="lineEdit_184"/>
        </item>
-       <item row="10" column="4">
+       <item row="8" column="9">
+        <widget class="QLineEdit" name="lineEdit_183"/>
+       </item>
+       <item row="9" column="4">
         <widget class="QLineEdit" name="lineEdit_185"/>
        </item>
-       <item row="9" column="10">
+       <item row="8" column="10">
         <widget class="QLineEdit" name="lineEdit_186"/>
        </item>
-       <item row="10" column="9">
-        <widget class="QLineEdit" name="lineEdit_187"/>
-       </item>
-       <item row="10" column="10">
-        <widget class="QLineEdit" name="lineEdit_188"/>
-       </item>
-       <item row="10" column="6">
-        <widget class="QLineEdit" name="lineEdit_189"/>
-       </item>
-       <item row="10" column="8">
+       <item row="9" column="8">
         <widget class="QLineEdit" name="lineEdit_190"/>
        </item>
-       <item row="10" column="7">
-        <widget class="QLineEdit" name="lineEdit_191"/>
-       </item>
-       <item row="10" column="5">
+       <item row="9" column="5">
         <widget class="QLineEdit" name="lineEdit_192"/>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="6">
+        <widget class="QLineEdit" name="lineEdit_189"/>
+       </item>
+       <item row="9" column="10">
+        <widget class="QLineEdit" name="lineEdit_188"/>
+       </item>
+       <item row="9" column="7">
+        <widget class="QLineEdit" name="lineEdit_191"/>
+       </item>
+       <item row="9" column="9">
+        <widget class="QLineEdit" name="lineEdit_187"/>
+       </item>
+       <item row="10" column="4">
+        <widget class="QLineEdit" name="lineEdit_193"/>
+       </item>
+       <item row="10" column="6">
+        <widget class="QLineEdit" name="lineEdit_195"/>
+       </item>
+       <item row="7" column="0">
         <widget class="QLabel" name="label_39">
          <property name="text">
           <string>TextLabel</string>
@@ -1034,91 +1040,85 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="4">
-        <widget class="QLineEdit" name="lineEdit_193"/>
-       </item>
-       <item row="11" column="5">
+       <item row="10" column="5">
         <widget class="QLineEdit" name="lineEdit_194"/>
        </item>
-       <item row="11" column="6">
-        <widget class="QLineEdit" name="lineEdit_195"/>
-       </item>
-       <item row="11" column="9">
-        <widget class="QLineEdit" name="lineEdit_196"/>
-       </item>
-       <item row="12" column="4">
-        <widget class="QLineEdit" name="lineEdit_197"/>
-       </item>
-       <item row="11" column="7">
+       <item row="10" column="7">
         <widget class="QLineEdit" name="lineEdit_198"/>
        </item>
-       <item row="11" column="8">
-        <widget class="QLineEdit" name="lineEdit_199"/>
+       <item row="11" column="4">
+        <widget class="QLineEdit" name="lineEdit_197"/>
        </item>
-       <item row="11" column="10">
+       <item row="10" column="10">
         <widget class="QLineEdit" name="lineEdit_200"/>
        </item>
-       <item row="12" column="5">
-        <widget class="QLineEdit" name="lineEdit_201"/>
+       <item row="10" column="9">
+        <widget class="QLineEdit" name="lineEdit_196"/>
        </item>
-       <item row="12" column="10">
-        <widget class="QLineEdit" name="lineEdit_202"/>
+       <item row="10" column="8">
+        <widget class="QLineEdit" name="lineEdit_199"/>
        </item>
-       <item row="12" column="6">
-        <widget class="QLineEdit" name="lineEdit_203"/>
-       </item>
-       <item row="12" column="7">
+       <item row="11" column="7">
         <widget class="QLineEdit" name="lineEdit_204"/>
        </item>
-       <item row="12" column="9">
+       <item row="11" column="9">
         <widget class="QLineEdit" name="lineEdit_205"/>
        </item>
-       <item row="12" column="8">
+       <item row="11" column="6">
+        <widget class="QLineEdit" name="lineEdit_203"/>
+       </item>
+       <item row="11" column="10">
+        <widget class="QLineEdit" name="lineEdit_202"/>
+       </item>
+       <item row="11" column="5">
+        <widget class="QLineEdit" name="lineEdit_201"/>
+       </item>
+       <item row="11" column="8">
         <widget class="QLineEdit" name="lineEdit_206"/>
        </item>
-       <item row="13" column="5">
+       <item row="12" column="5">
         <widget class="QLineEdit" name="lineEdit_207"/>
        </item>
-       <item row="13" column="7">
-        <widget class="QLineEdit" name="lineEdit_208"/>
-       </item>
-       <item row="13" column="8">
+       <item row="12" column="8">
         <widget class="QLineEdit" name="lineEdit_209"/>
        </item>
-       <item row="13" column="4">
+       <item row="12" column="7">
+        <widget class="QLineEdit" name="lineEdit_208"/>
+       </item>
+       <item row="12" column="4">
         <widget class="QLineEdit" name="lineEdit_210"/>
        </item>
-       <item row="13" column="6">
+       <item row="12" column="6">
         <widget class="QLineEdit" name="lineEdit_211"/>
        </item>
-       <item row="13" column="9">
-        <widget class="QLineEdit" name="lineEdit_212"/>
-       </item>
-       <item row="14" column="7">
+       <item row="13" column="7">
         <widget class="QLineEdit" name="lineEdit_213"/>
        </item>
-       <item row="14" column="4">
-        <widget class="QLineEdit" name="lineEdit_214"/>
-       </item>
-       <item row="13" column="10">
+       <item row="12" column="10">
         <widget class="QLineEdit" name="lineEdit_215"/>
        </item>
-       <item row="14" column="5">
+       <item row="13" column="4">
+        <widget class="QLineEdit" name="lineEdit_214"/>
+       </item>
+       <item row="13" column="5">
         <widget class="QLineEdit" name="lineEdit_216"/>
        </item>
-       <item row="14" column="6">
-        <widget class="QLineEdit" name="lineEdit_217"/>
+       <item row="12" column="9">
+        <widget class="QLineEdit" name="lineEdit_212"/>
        </item>
-       <item row="14" column="10">
+       <item row="13" column="10">
         <widget class="QLineEdit" name="lineEdit_218"/>
        </item>
-       <item row="14" column="8">
+       <item row="13" column="6">
+        <widget class="QLineEdit" name="lineEdit_217"/>
+       </item>
+       <item row="13" column="8">
         <widget class="QLineEdit" name="lineEdit_219"/>
        </item>
-       <item row="14" column="9">
+       <item row="13" column="9">
         <widget class="QLineEdit" name="lineEdit_220"/>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="label_40">
          <property name="styleSheet">
           <string notr="true">background:rgb(248, 203, 173); </string>
@@ -1131,7 +1131,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="4" column="1">
         <widget class="QLabel" name="label_41">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -1147,7 +1147,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="4" column="2">
         <widget class="QLabel" name="label_42">
          <property name="text">
           <string>TextLabel</string>
@@ -1157,7 +1157,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="4">
+       <item row="4" column="4">
         <widget class="QLabel" name="label_43">
          <property name="text">
           <string>TextLabel</string>
@@ -1167,7 +1167,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="3">
+       <item row="4" column="3">
         <widget class="QLabel" name="label_44">
          <property name="text">
           <string>TextLabel</string>
@@ -1177,17 +1177,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="10">
-        <widget class="QLabel" name="label_45">
-         <property name="text">
-          <string>TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_46">
          <property name="styleSheet">
           <string notr="true">background:rgb(248, 203, 173); </string>
@@ -1200,20 +1190,30 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="9">
-        <widget class="QLineEdit" name="lineEdit_221"/>
+       <item row="1" column="10">
+        <widget class="QLineEdit" name="lineEdit_223"/>
        </item>
        <item row="1" column="3">
         <widget class="QLineEdit" name="lineEdit_222"/>
        </item>
-       <item row="1" column="10">
-        <widget class="QLineEdit" name="lineEdit_223"/>
+       <item row="1" column="9">
+        <widget class="QLineEdit" name="lineEdit_221"/>
        </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="lineEdit_224"/>
+       <item row="4" column="10">
+        <widget class="QLabel" name="label_45">
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QLineEdit" name="lineEdit_225"/>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLineEdit" name="lineEdit_228"/>
        </item>
        <item row="1" column="5">
         <widget class="QLineEdit" name="lineEdit_226"/>
@@ -1221,43 +1221,40 @@
        <item row="1" column="1">
         <widget class="QLineEdit" name="lineEdit_227"/>
        </item>
-       <item row="1" column="6">
-        <widget class="QLineEdit" name="lineEdit_228"/>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="lineEdit_224"/>
        </item>
-       <item row="1" column="4">
-        <widget class="QLineEdit" name="lineEdit_229"/>
-       </item>
-       <item row="1" column="7">
-        <widget class="QLineEdit" name="lineEdit_230"/>
+       <item row="2" column="10">
+        <widget class="QLineEdit" name="lineEdit_233"/>
        </item>
        <item row="1" column="8">
         <widget class="QLineEdit" name="lineEdit_231"/>
        </item>
-       <item row="3" column="9">
-        <widget class="QLineEdit" name="lineEdit_232"/>
+       <item row="1" column="4">
+        <widget class="QLineEdit" name="lineEdit_229"/>
        </item>
-       <item row="3" column="10">
-        <widget class="QLineEdit" name="lineEdit_233"/>
-       </item>
-       <item row="3" column="5">
+       <item row="2" column="5">
         <widget class="QLineEdit" name="lineEdit_234"/>
        </item>
-       <item row="3" column="8">
-        <widget class="QLineEdit" name="lineEdit_235"/>
+       <item row="2" column="9">
+        <widget class="QLineEdit" name="lineEdit_232"/>
        </item>
-       <item row="3" column="3">
-        <widget class="QLineEdit" name="lineEdit_236"/>
+       <item row="1" column="7">
+        <widget class="QLineEdit" name="lineEdit_230"/>
        </item>
-       <item row="3" column="6">
-        <widget class="QLineEdit" name="lineEdit_237"/>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLineEdit" name="lineEdit_238"/>
-       </item>
-       <item row="3" column="7">
+       <item row="2" column="7">
         <widget class="QLineEdit" name="lineEdit_239"/>
        </item>
-       <item row="3" column="4">
+       <item row="2" column="8">
+        <widget class="QLineEdit" name="lineEdit_235"/>
+       </item>
+       <item row="2" column="3">
+        <widget class="QLineEdit" name="lineEdit_236"/>
+       </item>
+       <item row="2" column="6">
+        <widget class="QLineEdit" name="lineEdit_237"/>
+       </item>
+       <item row="2" column="4">
         <widget class="QLineEdit" name="lineEdit_240"/>
        </item>
        <item row="1" column="0">
@@ -1292,12 +1289,15 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0" colspan="11">
+       <item row="3" column="0" colspan="11">
         <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="lineEdit_238"/>
        </item>
       </layout>
      </item>
