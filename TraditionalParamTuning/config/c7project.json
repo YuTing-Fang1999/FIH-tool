@@ -39,35 +39,7 @@
                 1,
                 1
             ],
-            "step": 0.01,
-            "rule": [
-                {
-                    "idx": [
-                        0,
-                        1
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0,
-                        0.2
-                    ]
-                },
-                {
-                    "idx": [
-                        1,
-                        2
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0,
-                        0.2
-                    ]
-                }
-            ]
+            "step": 0.01        
         },
         "ASF": {
             "file_path": "/Scenario.Default/XML/OPE/asf32_ope.xml",
@@ -105,22 +77,7 @@
                 64
                 
             ],
-            "step": 0.01,
-            "rule": [
-                {
-                    "idx": [
-                        1,
-                        0
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0.1,
-                        1e9
-                    ]
-                }
-            ]
+            "step": 0.01
         },
         "ABF": {
             "file_path": "/Scenario.Default/XML/OPE/bpcabf41_ope.xml",
@@ -157,8 +114,7 @@
                 4,
                 1
             ],
-            "step": 0.01,
-            "rule": []
+            "step": 0.01
         }
     }
 }

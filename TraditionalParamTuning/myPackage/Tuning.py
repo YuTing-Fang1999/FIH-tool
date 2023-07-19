@@ -54,11 +54,6 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
 
         self.is_run = False
         self.TEST_MODE = False
-        self.is_rule = False
-        if self.is_rule:
-            # 退火
-            self.T = 0.8
-            self.T_rate = 0.95
 
         self.calFunc = get_cal_func()
 
@@ -83,7 +78,6 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
         self.file_path = self.get_file_path[self.setting["platform"]](self.setting["project_path"], self.key_config["file_path"])
 
         # config
-        self.rule = self.key_config["rule"]
         self.step = self.key_config["step"]
         
         # project setting
@@ -642,28 +636,6 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
 
         self.hyper_param_plot.update([F, Cr])
         self.update_rate_plot.update([self.update_rate])
-
-    # def is_bad_trial(self, trial_denorm):
-    #     for rule in self.rule:
-    #         val = 0
-    #         p0 = trial_denorm[rule["idx"][0]]
-    #         p1 = trial_denorm[rule["idx"][1]]
-
-    #         for op in rule["op"]:
-    #             if op == '-': val = p0-p1
-    #             elif op == 'abs': val = np.abs(val)
-
-    #         if not (rule["between"][0]<=val and val<=rule["between"][1]):
-    #             if val>rule["between"][1]: dif = -(val-rule["between"][1])
-    #             if val<rule["between"][0]: dif = (val-rule["between"][0])
-    #             p = math.exp(dif/self.T) # 差越大p越小，越容易傳True
-    #             if p<np.random.uniform(0.5, 0.8): 
-    #                 self.log_info_signal.emit("bad param")
-    #                 return True # p越小越容易比他大
-        
-    #     self.T *= self.T_rate
-        
-    #     return False
 
     def round_nearest(self, x):
         return np.around(self.step*np.around(x/self.step), 2)

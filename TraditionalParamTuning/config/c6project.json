@@ -31,48 +31,7 @@
                     4
                 ]
             ],
-            "step": 0.01,
-            "rule": [
-                {
-                    "idx": [
-                        2,
-                        3
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "idx": [
-                        1,
-                        2
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "idx": [
-                        0,
-                        3
-                    ],
-                    "op": [
-                        "-"
-                    ],
-                    "between": [
-                        0,
-                        1
-                    ]
-                }
-            ]
+            "step": 0.01
         },
         "ASF": {
             "file_path": "/cpp/",
@@ -101,9 +60,7 @@
                     1
                 ]
             ],
-            "step": 0.01,
-            "rule": [
-            ]
+            "step": 0.01
         },
         "ABF": {
             "file_path": "/isp/",
@@ -111,12 +68,10 @@
             "trigger_node": 0,
             "param_node": [1, 2],
             "param_names": [
-                "12-bit pixels",
-                ""
+                "12-bit pixels"
             ],
             "range_names": [
-                "12-bit pixels",
-                ""
+                "12-bit pixels"
             ],
             "defult_range": [
                 [0, 3000],
@@ -127,8 +82,7 @@
             ],
             "name": [
                 [
-                    "12-bit pixels",
-                    ""
+                    "12-bit pixels"
                 ]
             ],
             "col": [
@@ -137,9 +91,7 @@
                     2
                 ]
             ],
-            "step": 0.01,
-            "rule": [
-            ]
+            "step": 0.01
         }
     }
 }
