@@ -20,6 +20,7 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.ui.executeParserProgressBar.hide()
         self.ui.prevSecClipSpinbox.wheelEvent = lambda e: e.ignore()
+        self.ui.prevSecClipSpinbox.lineEdit().setReadOnly(True)
         
         #global variable
         self.CONFIG_FOLDER = "MTK\\AF\\config\\"
@@ -156,10 +157,10 @@ class MyWidget(ParentWidget):
         self.detectParserReady()
         
         self.ui.log_list_label.setText("")
-        not_main_log = False
+        not_main_log = True
         for f in os.listdir(self.LOG_DIR):
-            if "main_log" not in f:
-                not_main_log = True
+            if "main_log" in f:
+                not_main_log = False
             self.ui.log_list_label.setText(self.ui.log_list_label.text() + f + '\n')
             
         if not_main_log:
