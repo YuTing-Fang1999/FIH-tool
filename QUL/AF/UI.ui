@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>948</width>
-        <height>521</height>
+        <width>958</width>
+        <height>531</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1">
@@ -96,6 +96,12 @@ color: black;</string>
             <widget class="QSpinBox" name="prevSecClipSpinbox">
              <property name="keyboardTracking">
               <bool>false</bool>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>5</number>
              </property>
              <property name="value">
               <number>3</number>
@@ -357,8 +363,8 @@ color: black;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>224</width>
-                <height>219</height>
+                <width>229</width>
+                <height>240</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -398,8 +404,8 @@ color: black;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>224</width>
-                <height>219</height>
+                <width>229</width>
+                <height>239</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
