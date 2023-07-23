@@ -514,12 +514,12 @@ def parse_code(file_path):
                 fbt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
                 
     return {
-        "flt_bv": flt_bv,
-        "flt_dr": flt_dr,
-        "flt_ns_bv": flt_ns_bv,
-        "flt_ns_dr": flt_ns_dr,
-        "TH_tbl_5": TH_tbl_5,
-        "TH_tbl_6": TH_tbl_6,
-        "TH_tbl_7": TH_tbl_7,
-        "TH_tbl_8": TH_tbl_8,
+        "flt_bv": np.array(flt_bv).astype(np.float),
+        "flt_dr": np.array(flt_dr).astype(np.float),
+        "flt_ns_bv": np.array(flt_ns_bv).astype(np.float),
+        "flt_ns_dr": np.array(flt_ns_dr).astype(np.float),
+        "TH_tbl_5": np.array(TH_tbl_5).astype(np.float),
+        "TH_tbl_6": np.array(TH_tbl_6).astype(np.float),
+        "TH_tbl_7": np.array(TH_tbl_7).astype(np.float),
+        "TH_tbl_8": np.array(TH_tbl_8).astype(np.float),
     }

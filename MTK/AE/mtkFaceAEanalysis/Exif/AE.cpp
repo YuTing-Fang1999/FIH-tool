@@ -195,7 +195,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 10,               //uint32_t FinerEvIndexBase;            // 1:0.1EV 2:0.05EV 3:0.033EV  10:0.01
                 ////CCU_strAEStableThd AEStableThd;
                 3,          //uint32_t InStableThd;  // 0.08EV
-                6,          //uint32_t OutStableThd; // 0.08EV
+                12,          //uint32_t OutStableThd; // 0.08EV
                 true,       //uint32_t enableaemodestablethd;         // enable video ae stable threshold setting
                 3,          //uint32_t VideoInStableThd;               // video mode each index 0.08EV
                 12,         //uint32_t VideoOutStableThd;              // video mode each index 0.08EV
@@ -331,7 +331,7 @@ const AE_NVRAM_T AE_BASE[1] =
         },
         {
             {
-                20230502,
+                20230619,
                 6885,
                 0,
                 0,
@@ -393,7 +393,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 800,   //   uint32_t ns_bt_thd;         // < 255, bright tone THD
                 500,   //   uint32_t ns_lb_pcnt;           // darkest percent, 1%=10, 0~1000
                 160,   //   uint32_t ns_lb_thd;             // <255, lower bound target
-                300,   //   uint32_t ns_lb_thd_limit;        // <255, upper bound of lower bound
+                288,   //   uint32_t ns_lb_thd_limit;        // <255, upper bound of lower bound
                 50,    //   uint32_t ns_flat_bt_pcnt;       // the percentage of the brightest part used to cal flatness
                 300,   //   uint32_t ns_flat_dk_pcnt;         // the percentage of the darkest part used to cal flatness
                 1200,   //  int32_t ns_flat_rt_x1;
@@ -496,9 +496,9 @@ const AE_NVRAM_T AE_BASE[1] =
 
                 { 400, 800 },            //H/L Bound
                 8,
-                { -1500,  500, 1500, 3000, 5000, 7000, 9000,10000 }, //MainTHD_BV
-                {   500,  600,  650,  675,  720,  750,  800,  832 }, //MainTHD_based;
-                {   400,  750,  825,  875, 1000, 1150, 1300, 1400 }, //MainTHD_exp;
+                { -1500,    0, 1500, 3000, 5000, 7000, 9000,10000 }, //MainTHD_BV
+                {   600,  735,  800,  750,  770,  800,  820,  840 }, //MainTHD_based;
+                {   400,  520,  681,  925, 1000, 1100, 1200, 1300 }, //MainTHD_exp;
 
                 true,                   //  uint32_t mt_clrrt_wet_en;//MainTargetCFG_EnableColorWTRatio;
                 //  //CCU_AE_TARGET_PROB_T ColorWTRatioTbl;
@@ -521,28 +521,27 @@ const AE_NVRAM_T AE_BASE[1] =
                 2048,                  //u4HSv6p0Weight
                 //BT
                 8,                      //u4BVSize ,max8
-                8,                      //u4EVDSize ,max8
-                { -1500, -500,  500, 2500, 5000, 7500, 8500,10000 },    //i4HS_BVRatio, length = u4BVSize
-                {    28,   35,   42,   50,   50,   35,   32 },    //u4HS_PcntRatio, length = u4BVSize, 80 equal 8%
-                {   500, 1000, 2500, 4000, 5500, 6500, 8000,10000 },    //u4HS_EVDRatio , length = u4EVDSize
+                7,                      //u4EVDSize ,max8
+                { -1500,    0, 1500, 3000, 5000, 7000, 9000,10000 },    //i4HS_BVRatio, length = u4BVSize
+                {    28,   35,   42,   50,   50,   35,   32 },          //u4HS_PcntRatio, length = u4BVSize, 80 equal 8%
+                {   500, 1000, 2500, 4000, 5500, 6300, 7000 },          //u4HS_EVDRatio , length = u4EVDSize
                 {
                    //BV0-THD
-                   1500, 1600, 1750, 1800, 2050, 2250, 1840, 1640,
+                   1700, 1750, 1920, 2200, 2160, 2140, 2040,
                    //BV1-THD
-                   1750, 1800, 2140, 2500, 2520, 2620, 2520, 2320,
+                   1825, 2100, 2530, 3040, 2300, 2240, 2130,
                    //BV2-THD
-                   1800, 2000, 2720, 2830, 2900, 2840, 2740, 2640,
+                   1840, 2100, 2810, 3200, 2440, 2380, 2260,
                    //BV3-THD
-                   2080, 2160, 2800, 3020, 3100, 3550, 2800, 2700,
+                   1892, 2104, 2548, 2600, 2528, 2348, 2328,
                    //BV4-THD
-                   2140, 2280, 2940, 3100, 3500, 3400, 3000, 2900,
-				   //BV5-THD
-                   2300, 2340, 3080, 3270, 3650, 3430, 3220, 3020,
+                   1940, 2280, 2640, 2800, 2640, 2640, 3020,
+                   //BV5-THD
+                   2052, 2325, 2560, 2880, 2830, 3040, 3260,
                    //BV6-THD
-                   2400, 2440, 3180, 3370, 3850, 6000, 6200, 6500,
+                   2165, 2370, 2680, 2960, 3020, 3240, 3600,
                    //BV7-THD
-                   2500, 2640, 3280, 3470, 4850, 6000, 6200, 6500,
-					
+                   2260, 2400, 2680, 3000, 3620, 4240, 5020,
                 },
                 // PseudoY
                 3,
@@ -559,20 +558,20 @@ const AE_NVRAM_T AE_BASE[1] =
 
                 //MT
                 8,                      //u4BVSize ,max8
-                8,                      //u4EVDSize ,max8
-                { -1200,  500, 2000, 4000, 6000, 8000, 9000,10000 },
+                5,                      //u4EVDSize ,max8
+                { -1500,    0, 1500, 3000, 5000, 7000, 9000,10000 },
                 {   200,  850 },             //u4HS_PcntRatio, (Start%,End%) 80 equal 8%
-                {   500, 1000, 1500, 2500, 3000, 3500, 4500, 5500 }, //EVD B2M Ratio
+                {   500, 1000, 2000, 3000, 4500  }, //EVD B2M Ratio
                 {
                    //L_DR_B2M                         H_BM  (reserved)
-                   1200, 1350, 1000,  700,  350,  300,  100,   50, //Low BV
-                   1450, 1650, 1400,  750,  400,  350,  250,  100,
-                   1500, 1800, 1600,  800,  650,  550,  350,  150,
-                   1600, 2600, 1750,  830,  800,  650,  450,  250,
-                   1750, 2750, 1650,  950,  950,  800,  550,  400,
-                   1750, 2850, 1500, 1086, 1008,  968,  678,  628,
-                   1832, 2176, 1496, 1086, 1036,  976,  786,  736,//High BV
-                   1932, 1976, 1396,  986,  936,  876,  786,  736,//High BV
+                    900,  850,  700,  300,  100,  //Low BV
+                   1110, 1025,  805,  405,  135,
+                   1266, 1166, 1150,  550,  166,
+                   1350, 1425, 1300,  682,  200,
+                   1450, 1475, 1400,  668,  300,
+                   1525, 1525, 1400,  664,  384,
+                   1578, 1650, 1348,  636,  360,
+                   1632, 1876, 1296,  608,  336,  //High BV
                 },
                 //DT (Resvered)
                 7,                      //u4BVSize ,max8
@@ -601,25 +600,25 @@ const AE_NVRAM_T AE_BASE[1] =
                     //LRatio%                                                                       HRatio%
                     42,0,35,23,     45,0,30,25,     45,0,30,25,     45,0,30,25,     45,0,30,25,//Low EVD
                     40,0,35,25,     40,0,35,25,     42,0,33,25,     42,0,30,28,     42,0,30,28,
-                    32,0,37,31,     34,0,34,32,     34,0,30,36,     32,0,30,38,     35,0,25,40,
-                    28,0,38,34,     28,0,32,40,     28,0,25,47,     25,0,25,50,     25,0,25,50,
-                    28,0,34,38,     28,0,28,44,     28,0,22,50,     25,0,20,55,     25,0,20,55,//High EVD
+                    33,0,37,30,     34,0,37,29,     34,0,34,32,     32,0,30,38,     35,0,25,40,
+                    30,0,37,33,     30,0,37,33,     28,0,35,37,     30,0,30,40,     30,0,25,45,
+                    30,0,37,33,     30,0,37,33,     28,0,32,40,     25,0,30,45,     25,0,25,50,//High EVD
 
                     //Mid BV
                     //LRatio%                                                                                          HRatio%
-                    40,0,38,22,     40,0,32,28,     40,0,32,28,     40,0,27,33,     40,0,25,35,//Low EVD
-                    35,0,43,22,     35,0,37,28,     35,0,35,30,     35,0,30,35,     35,0,27,38,
-                    30,0,44,26,     31,0,39,30,     30,0,34,36,     30,0,33,37,     30,0,30,40,
-                    28,0,45,27,     31,0,37,32,     30,0,32,38,     30,0,28,42,     30,0,25,45,
-                    25,0,45,30,     25,0,40,35,     30,0,15,55,     25,0,20,55,     25,0,20,55,//High EVD
+                    40,0,42,18,     40,0,38,22,     40,0,35,25,     40,0,32,28,     40,0,25,35,//Low EVD
+                    35,0,45,20,     40,0,32,28,     40,0,32,28,     38,0,32,30,     35,0,27,38,
+                    30,0,46,24,     40,0,25,35,     34,0,30,36,     33,0,30,37,     30,0,30,40,
+                    28,0,45,27,     35,0,25,40,     32,0,28,40,     32,0,28,40,     30,0,25,45,
+                    25,0,45,30,     35,0,25,40,     30,0,32,42,     30,0,28,42,     30,0,25,45,//High EVD
 
                     //High BV
                     //LRatio%                                                                                         HRatio%
-                    40,0,38,22,     40,0,32,28,     40,0,32,28,     40,0,28,33,     40,0,25,35,//Low EVD
-                    35,0,43,22,     35,0,37,28,     35,0,30,35,     35,0,28,37,     35,0,23,42,
-                    30,0,45,25,     31,0,39,30,     30,0,30,40,     31,0,26,43,     30,0,22,48,
-                    27,0,45,28,     31,0,37,32,     30,0,29,41,     28,0,24,48,     26,0,21,53,
-                    25,0,45,30,     30,0,35,35,     30,0,25,45,     25,0,20,55,     24,0,20,56,//High EVD
+                    40,0,38,22,     40,0,32,28,     40,0,32,28,     40,0,28,32,     40,0,25,35,//Low EVD
+                    35,0,43,22,     35,0,32,33,     35,0,32,33,     35,0,28,37,     35,0,25,40,
+                    30,0,40,30,     31,0,34,35,     30,0,33,37,     30,0,30,40,     30,0,25,45,
+                    27,0,40,33,     28,0,35,37,     30,0,30,40,     30,0,28,42,     30,0,23,47,
+                    25,0,40,35,     28,0,35,37,     25,0,30,45,     25,0,25,50,     30,0,20,50,//High EVD
 
                 },
                 //DR
@@ -646,7 +645,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 true,                          //  uint32_t ns_bv_cfg_en;//NSBVCFG_EnableNSBVCFG;
                 7,                             //  uint32_t ns_bv_cfg_tbll;//NSBVCFG_TblLength;
                 { -7000, -6000, -5000, -4000, -3000, -1000,    0 }, //  int32_t   ns_bv_cfg_bv[AE_RATIOTBL_MAXSIZE];//NSBVCFG_BV[AE_RATIOTBL_MAXSIZE];
-                {   620,   668,   700,   726,   700,   652,  626 }, //  uint32_t ns_bv_cfg_btthd[AE_RATIOTBL_MAXSIZE];//NSBVCFG_BTTHD[AE_RATIOTBL_MAXSIZE];
+                {   720,   768,   868,   900,  1012,  1012, 1012 }, //  uint32_t ns_bv_cfg_btthd[AE_RATIOTBL_MAXSIZE];//NSBVCFG_BTTHD[AE_RATIOTBL_MAXSIZE];
                 {  1248,  1248,  1248,  1248,  2048,  2480, 2640 }, //  uint32_t ns_bv_cfg_nsthd[AE_RATIOTBL_MAXSIZE];//NSBVCFG_NSTHD[AE_RATIOTBL_MAXSIZE];
 
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}, //  uint32_t ContrastLinkParam_ResContrastLink[40]; //Reserve for other contrast Link param
@@ -699,7 +698,7 @@ const AE_NVRAM_T AE_BASE[1] =
             //ae_nvram_face_para_t face;
             {
                 1,                              //uint32_t fd_stb_in_th;                    /*u4FaceInStableThd, Face mode each index 0.08EV*/
-                12,                             //uint32_t fd_stb_out_th;                   /*u4FaceOutStableThd, Face mode each index 0.08EV*/
+                16,                             //uint32_t fd_stb_out_th;                   /*u4FaceOutStableThd, Face mode each index 0.08EV*/
                 40,                             //uint32_t fd_stb_outb2t_th;                /*u4FaceOutB2TStableThd, Face mode each index 0.08EV*/
                 40,                             //uint32_t fd_stb_outd2t_th;                /*u4FaceOutD2TStableThd, Face mode each index 0.08EV*/
                 0,                              //uint32_t touch_stb_in_th;                 /*u4TouchInStableThd, Touch mode each index 0.08EV*/
@@ -876,7 +875,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 { -2000, -1000,    0, 1500, 3000, 4500, 6000, 7500, 8500, 9500},  //int32_t  fbt_bv[AE_BVDR_MAXSIZE];           /*Normal_BV, Parameter index BV*/
                 {    10,    10,   10,   10,   10,   10,   10,   10,   10,   10},  //uint32_t fbt_oe_skip_pct[AE_BVDR_MAXSIZE];  /*Normal_OE_SkipPcent, Tolerance for overexposure*/
                 {    20,    20,   20,   20,   20,   20,   20,   20,   20,   20},  //uint32_t fbt_oe_pct[AE_BVDR_MAXSIZE];       /*Normal_OE_Pcent, OE region behind tolerance region*/
-                { -1500,  -800,    0, 1000, 1800, 2400, 2800, 3200, 3500, 4200},  //int32_t  fbt_dr[AE_BVDR_MAXSIZE];           /*Normal_DR, Parameter index DR*/
+                { -1000,  -500,    0, 1000, 1800, 2400, 2800, 3200, 3500, 4200},  //int32_t  fbt_dr[AE_BVDR_MAXSIZE];           /*Normal_DR, Parameter index DR*/
 
                 /*uint32_t fbt_oe_th_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Normal_OE_TH_Tbl, OE brightness target*/
                 {
@@ -895,38 +894,38 @@ const AE_NVRAM_T AE_BASE[1] =
                 /*uint32_t fbt_fd_th_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Normal_FD_TH_Tbl, Face brightness target*/
                 {
                     //u4_FD_TH: FD brightness target
-                     880,  980,  856,  750,  660,  637,  620,  660,  660,  660, // BV0
-                     880,  980,  875,  761,  757,  637,  641,  641,  687,  687, // BV1
-                     980, 1192,  980,  821,  777,  612,  641,  641,  668,  668, // BV2
-                    1080, 1380, 1077,  871,  721,  668,  668,  668,  668,  668, // BV3
-                    1155, 1427, 1227, 1025,  833,  712,  668,  668,  768,  768, // BV4
-                    1188, 1458, 1308, 1125,  933,  720,  768,  768,  868,  868, // BV5
-                    1088, 1282, 1182, 1025,  867,  739,  723,  868,  968,  987, // BV6
-                     999, 1182, 1082, 1085,  868,  739,  768,  887,  887,  887, // BV7
-                     985, 1185, 1068, 1068,  868,  768,  787,  787,  787,  787, // BV8
-                     968, 1168, 1039,  939,  768,  668,  639,  687,  687,  687, // BV9
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV0
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV1
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV2
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV3
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV4
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV5
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV6
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV7
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV8
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV9
                 },
 
                 /*uint32_t fbt_fd_minth_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Normal_FD_MIN_TH_Tbl, Minimum face brightness target*/
                 {
                     //u4_FD_TH: FD brightness target
-                     880,  980,  856,  750,  660,  637,  620,  660,  660,  660, // BV0
-                     880,  980,  875,  761,  757,  637,  641,  641,  687,  687, // BV1
-                     980, 1192,  980,  821,  777,  612,  641,  641,  668,  668, // BV2
-                    1080, 1380, 1077,  871,  721,  668,  668,  668,  668,  668, // BV3
-                    1155, 1427, 1227, 1025,  833,  712,  668,  668,  768,  768, // BV4
-                    1188, 1458, 1308, 1125,  933,  720,  768,  768,  868,  868, // BV5
-                    1088, 1282, 1182, 1025,  867,  739,  723,  868,  968,  987, // BV6
-                     999, 1182, 1082, 1085,  868,  739,  768,  887,  887,  887, // BV7
-                     985, 1185, 1068, 1068,  868,  768,  787,  787,  787,  787, // BV8
-                     968, 1168, 1039,  939,  768,  668,  639,  687,  687,  687, // BV9
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV0
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV1
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV2
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV3
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV4
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV5
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV6
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV7
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV8
+                    768, 768, 768, 768, 768, 768, 768, 768, 768, 768, // BV9
                 },
-                10,      //uint32_t fbt_ns_bvsz;      /*Night_BVSize, max size AE_RATIOTBL_MAXSIZE*/
-                10,      //uint32_t fbt_ns_drsz;      /*Night_DRSize, max size AE_RATIOTBL_MAXSIZE*/
-                {  -4500,-4000,-3400,-3000,-2500,-2000,-1000,    0, 1000, 2000},   //int32_t  fbt_ns_bv[AE_BVDR_MAXSIZE];          /*Night_BV, Parameter index BV*/
-                {     10,   10,   10,   10,   10,   10,   10,   10,   10,   10},   //uint32_t fbt_ns_oe_skip_pct[AE_BVDR_MAXSIZE]; /*Night_OE_SkipPcent, Tolerance for overexposure*/
-                {     20,   20,   20,   20,   20,   20,   20,   20,   20,   20},   //uint32_t fbt_ns_oe_pct[AE_BVDR_MAXSIZE];      /*Night_OE_Pcent, OE region behind tolerance region*/
-                {  -1500,-1000, -500,  300,  800, 1800, 2400, 2800, 3200, 4000},   //int32_t  fbt_ns_dr[AE_BVDR_MAXSIZE];          /*Night_DR, Parameter index DR*/
+                4,      //uint32_t fbt_ns_bvsz;      /*Night_BVSize, max size AE_RATIOTBL_MAXSIZE*/
+                4,      //uint32_t fbt_ns_drsz;      /*Night_DRSize, max size AE_RATIOTBL_MAXSIZE*/
+                { -1000, 0, 1000, 2000, 2000, 2000, 2000, 2000, 2000, 2000},   //int32_t  fbt_ns_bv[AE_BVDR_MAXSIZE];          /*Night_BV, Parameter index BV*/
+                {    10, 10,  10,   10,   10,   10,   10,   10,   10,   10},   //uint32_t fbt_ns_oe_skip_pct[AE_BVDR_MAXSIZE]; /*Night_OE_SkipPcent, Tolerance for overexposure*/
+                {    20, 20,  20,   20,   20,   20,   20,   20,   20,   20},   //uint32_t fbt_ns_oe_pct[AE_BVDR_MAXSIZE];      /*Night_OE_Pcent, OE region behind tolerance region*/
+                {  -500, 0, 3000, 4000, 4000, 4000, 4000, 4000, 4000, 4000},   //int32_t  fbt_ns_dr[AE_BVDR_MAXSIZE];          /*Night_DR, Parameter index DR*/
 
                 /*uint32_t fbt_ns_oe_th_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Night_OE_TH_Tbl, OE brightness target*/
                 {
@@ -945,30 +944,30 @@ const AE_NVRAM_T AE_BASE[1] =
                 /*uint32_t fbt_ns_fd_th_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Night_FD_TH_Tbl, Face brightness target*/
                 {
                     //u4_FD_TH: FD brightness target
-                     720,  720,  691,  650,  650,  720,  720,  820,  820,  820, // BV0
-                     720,  720,  791,  768,  700,  720,  720,  720,  791,  791, // BV1
-                     720,  720,  891,  868,  750,  625,  625,  691,  720,  720, // BV2
-                     720,  720,  891,  891,  720,  585,  625,  650,  720,  720, // BV3
-                     720,  720,  820,  820,  761,  625,  650,  691,  720,  720, // BV4
-                     720,  720,  720,  720,  730,  650,  650,  720,  720,  720, // BV5
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV6
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV7
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV8
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV9
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV0
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV1
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV2
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV3
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV4
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV5
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV6
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV7
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV8
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV9
                 },
                 /*uint32_t fbt_ns_fd_minth_tbl[AE_BVDR_MAXSIZE * AE_BVDR_MAXSIZE]; Night_FD_MIN_TH_Tbl, Minimum face brightness target*/
                 {
                     //u4_FD_TH: FD brightness target
-                     720,  720,  691,  650,  650,  720,  720,  820,  820,  820, // BV0
-                     720,  720,  791,  768,  700,  720,  720,  720,  791,  791, // BV1
-                     720,  720,  891,  868,  750,  625,  625,  691,  720,  720, // BV2
-                     720,  720,  891,  891,  720,  585,  625,  650,  720,  720, // BV3
-                     720,  720,  820,  820,  761,  625,  650,  691,  720,  720, // BV4
-                     720,  720,  720,  720,  730,  650,  650,  720,  720,  720, // BV5
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV6
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV7
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV8
-                     720,  720,  720,  720,  720,  720,  720,  720,  720,  720, // BV9
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV0
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV1
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV2
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV3
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV4
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV5
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV6
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV7
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV8
+                    720, 720, 720, 720, 720, 720, 720, 720, 720, 720, // BV9
                 },
                 /*face dr control for face background target*/
                 16, /*fd_dr_tbl*/
@@ -1031,7 +1030,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 16,     //  1 (8bit),   //uint32_t fd_tmp_lowbnd;         /*u4TmpFDY_LBound, tempFDY LowBound, no use*/
                 0,                      //uint32_t fd_lostmaxcnt;         /*u4FD_Lost_MaxCnt, face lost max count, no use*/
                 100,                    //uint32_t fd_scale_ra;           /*u4FD_Scale_Ratio, face window scale ratio, no use*/
-                5,                      //uint32_t fd_lockmaxcnt;         /*u4FD_Lock_MaxCnt*/
+                3,                      //uint32_t fd_lockmaxcnt;         /*u4FD_Lock_MaxCnt*/
                 0,                      //uint32_t fd_tmp_smooth;         /*u4FD_TemporalSmooth, no use*/
                 false,                  //uint32_t fd_size_ext;           /*bFD_FaceSizeExt*/
                 10,                     //int32_t  fd_x_minbnd;           /*i4FD_FaceXMiniBnd*/
@@ -1262,7 +1261,7 @@ const AE_NVRAM_T AE_BASE[1] =
                     20, 20, 20, 20, 20, 20, // BV4
                     20, 20, 20, 20, 20, 20, // BV5
                 },
-                true,   /*en_fd_scene_dec*/
+                false,   /*en_fd_scene_dec*/
                 false,  /*fd_scene_cov_delta, no use*/
                 6,      /*fd_scene_bvsz, max 6*/
                 6,      /*fd_scene_drsz, max 6*/
@@ -1531,7 +1530,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 1,//int32_t nor_bv_th_en;                               /*smooth_cfg_v6p0_normal_bv_th_enable;*/
                 2,//int32_t nor_tbl_le;                                 /*smooth_cfg_v6p0_normal_tbl_length;*/
                 { 9000, 10000 },//int32_t nor_bv_th_b2t[AE_SMOOTH_SEGMENT_LENGTH];                      /*smooth_cfg_v6p0_normal_bv_th_b2t[8];*/
-                { 40, 30 },     //int32_t nor_pf_ra_b2t[AE_SMOOTH_SEGMENT_LENGTH];   Will Test                   /*speed smooth_cfg_v6p0_normal_perframe_ratio_b2t[8];*/
+                { 80, 60 },     //int32_t nor_pf_ra_b2t[AE_SMOOTH_SEGMENT_LENGTH];   Will Test                   /*speed smooth_cfg_v6p0_normal_perframe_ratio_b2t[8];*/
                 { 9000, 10000 },//int32_t nor_bv_th_d2t[AE_SMOOTH_SEGMENT_LENGTH];                      /*smooth_cfg_v6p0_normal_bv_th_d2t[8];*/
                 { 35, 25 },     //int32_t nor_pf_ra_d2t[AE_SMOOTH_SEGMENT_LENGTH];   Will Test                  /*smooth_cfg_v6p0_normal_perframe_ratio_d2t[8];*/
                 65,  //int32_t nor_pf_ra_b2t_def;                   /*smooth_cfg_v6p0_normal_perframe_ratio_b2t_default;*/
@@ -1575,7 +1574,7 @@ const AE_NVRAM_T AE_BASE[1] =
                 //
                 100,//int32_t fd_cp_ra;                                 /*smooth_cfg_v6p0_face_comp_ratio;*/
                 { 120, 200 },//int32_t fd_pf_ra_b2t_x[AE_SMOOTH_X_Y_LENGTH];                /*smooth_cfg_v6p0_face_perframe_ratio_b2t_x[2];*/
-                { 45, 60 },//int32_t fd_pf_ra_b2t_y[AE_SMOOTH_X_Y_LENGTH];   higher speed higher   /*smooth_cfg_v6p0_face_perframe_ratio_b2t_y[2];*/
+                { 90, 120 },//int32_t fd_pf_ra_b2t_y[AE_SMOOTH_X_Y_LENGTH];   higher speed higher   /*smooth_cfg_v6p0_face_perframe_ratio_b2t_y[2];*/
                 { 120, 200 },//int32_t fd_pf_ra_d2t_x[AE_SMOOTH_X_Y_LENGTH];                /*smooth_cfg_v6p0_face_perframe_ratio_d2t_x[2];*/
                 { 40, 55 },//int32_t fd_pf_ra_d2t_y[AE_SMOOTH_X_Y_LENGTH];  higher speed higher  /*smooth_cfg_v6p0_face_perframe_ratio_d2t_y[2];*/
                 //

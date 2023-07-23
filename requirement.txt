@@ -10,3 +10,4 @@ openpyxl
 xlwings
 kornia
 tqdm
+pulp

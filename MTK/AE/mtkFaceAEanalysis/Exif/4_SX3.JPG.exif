@@ -1,0 +1,1213 @@
+[AE]
+AE_TAG_DEBUG_VER                                :       720905 | 
+AE_TAG_ALGO_VER                                 :         6460 | 
+AE_TAG_ALGO_SUBVER                              :     22142001 | 
+AE_TAG_NVRAM_IDX                                :            0 | 
+AE_TAG_HW_VER                                   :      9385001 | 
+AE_TAG_STAT_VER                                 :      9385001 | 
+AE_TAG_FLOW_VER                                 :      9385001 | 
+AE_TAG_METER_VER                                :     20230619 | 
+AE_TAG_FACE_VER                                 :      9413002 | 
+AE_TAG_SMOOTH_VER                               :      9385001 | 
+AE_TAG_HDR_VER                                  :      9385001 | 
+AE_TAG_SYNC_VER                                 :      9385001 | 
+AE_TAG_AE_MODE                                  :            1 | 
+AE_TAG_PRV_INDEX                                :          160 | 
+AE_TAG_PRV_INDEXF                               :         1606 | 
+AE_TAG_PRV_SHUTTER_TIME                         :        66668 | 
+AE_TAG_PRV_SENSOR_GAIN                          :        16384 | 
+AE_TAG_PRV_ISP_GAIN                             :         2552 | 
+AE_TAG_PRV_ISO_REAL                             :         3987 | 
+AE_TAG_PRV_FRAME_RATE                           :          150 | 
+AE_TAG_FRAC_GAIN                                :         1030 | 
+AE_TAG_PRV_INDEXBASE                            :           10 | 
+AE_TAG_MIN_INDEX                                :            0 | 
+AE_TAG_MAX_INDEX                                :          173 | 
+AE_TAG_MIN_INDEXF                               :            0 | 
+AE_TAG_MAX_INDEXF                               :         1730 | 
+AE_TAG_PRV_PLINE_MAX_BV                         :          116 | 
+AE_TAG_PRV_PLINE_MIN_BV                         :          -57 | 
+AE_TAG_ZOOM_XOFFSET                             :            0 | 
+AE_TAG_ZOOM_XWIDTH                              :            0 | 
+AE_TAG_ZOOM_YOFFSET                             :            0 | 
+AE_TAG_ZOOM_YHEIGHT                             :            0 | 
+AE_TAG_EV_DIFF_FRAC                             :            9 | 
+AE_TAG_PRV_DELTA_INDEX                          :            0 | 
+AE_TAG_PRV_EV_RATIO                             :            0 | 
+AE_TAG_REALISO_EN                               :            0 | 
+AE_TAG_REALBV                                   :          -37 | 
+AE_TAG_REALBVX1000                              :        -3823 | 
+AE_TAG_BV_OFFSET                                :          -13 | 
+AE_TAG_AE_SCENE                                 :            1 | 
+AE_TAG_EV_COM                                   :            0 | 
+AE_TAG_FLICKER                                  :            2 | 
+AE_TAG_FLICKER_AUTO                             :            1 | 
+AE_TAG_AEMETER                                  :            0 | 
+AE_TAG_MIN_GAIN                                 :         1024 | 
+AE_TAG_MAX_GAIN                                 :        16384 | 
+AE_TAG_ISO_BASE                                 :          100 | 
+AE_TAG_PRV_EXP_UINT                             :        10200 | 
+AE_TAG_VIDEO_EXP_UINT                           :        10200 | 
+AE_TAG_CAP_EXP_UINT                             :        10200 | 
+AE_TAG_FLOW_AE_STATE                            :            1 | 
+AE_TAG_FLOW_IS_LOCK                             :            0 | 
+AE_TAG_FLOW_IS_CALCULATE                        :            0 | 
+AE_TAG_FLOW_CYCLE_CNT                           :            3 | 
+AE_TAG_FLOW_MAGIC_NO                            :          641 | 
+AE_TAG_FLOW_DELAY_CNT                           :            0 | 
+AE_TAG_FLOW_IS_SLOW_MOTION                      :            0 | 
+AE_TAG_FLOW_IS_LIMIT                            :            0 | 
+AE_TAG_FLOW_MAIN_STATE                          :            1 | 
+AE_TAG_FLOW_SUB_STATE                           :            4 | 
+AE_TAG_FLOW_CURR_FRM_CNT                        :          641 | 
+AE_TAG_FLOW_REST_FRM_CNT                        :            0 | 
+AE_TAG_CUST_EV_EN                               :            0 | 
+AE_TAG_PURE_ALGO_TARGET                         :          477 | 
+AE_TAG_CUST_EV_RATIO                            :            0 | 
+AE_TAG_CUST_TARGET                              :          477 | 
+AE_TAG_HS_SCENE_SUM_R                           :          465 | 
+AE_TAG_HS_SCENE_SUM_G                           :          418 | 
+AE_TAG_HS_SCENE_SUM_B                           :          411 | 
+AE_TAG_DR_BT_Y                                  :         1060 | 
+AE_TAG_DR_DT_Y                                  :           12 | 
+AE_TAG_HS_EVD                                   :         6465 | 
+AE_TAG_HS_LMT_THD                               :            0 | 
+AE_TAG_HS_LIMITBY                               :            0 | 
+AE_TAG_HS_COLORDIST                             :           32 | 
+AE_TAG_NS_ENABLE                                :            1 | 
+AE_TAG_NS_NORMAL_PCENT                          :           10 | 
+AE_TAG_NS_NORMAL_THD                            :         2400 | 
+AE_TAG_NS_FLATTHD                               :          608 | 
+AE_TAG_NS_BT_PCENT                              :          205 | 
+AE_TAG_NS_BT_THD                                :          800 | 
+AE_TAG_NS_DT_PCENT                              :          500 | 
+AE_TAG_NS_DT_THD                                :          160 | 
+AE_TAG_NS_DT_LIMIT                              :          288 | 
+AE_TAG_NS_DR_BT_PCENT                           :           50 | 
+AE_TAG_NS_DR_DT_PCENT                           :          300 | 
+AE_TAG_NS_FALT_X1                               :         1200 | 
+AE_TAG_NS_FALT_Y1                               :         1024 | 
+AE_TAG_NS_FALT_X2                               :         2700 | 
+AE_TAG_NS_FALT_Y2                               :            0 | 
+AE_TAG_NS_BV_X1                                 :        -1000 | 
+AE_TAG_NS_BV_Y1                                 :         1024 | 
+AE_TAG_NS_BV_X2                                 :         2500 | 
+AE_TAG_NS_BV_Y2                                 :            0 | 
+AE_TAG_NS_SKYENABLE                             :            0 | 
+AE_TAG_NS_SKYBV_X1                              :        -4000 | 
+AE_TAG_NS_SKYBV_Y1                              :         1024 | 
+AE_TAG_NS_SKYBV_X2                              :        -1800 | 
+AE_TAG_NS_SKYBV_Y2                              :            0 | 
+AE_TAG_NS_NORMAL_Y                              :         1592 | 
+AE_TAG_NS_PROB                                  :          964 | 
+AE_TAG_NS_BT_Y                                  :          956 | 
+AE_TAG_NS_DT_Y                                  :          116 | 
+AE_TAG_NS_DR_BT_Y                               :         1216 | 
+AE_TAG_NS_DR_DT_Y                               :           48 | 
+AE_TAG_NS_FLATPROB                              :            0 | 
+AE_TAG_NS_EVD                                   :         4663 | 
+AE_TAG_NS_NORMAL_FINAL_THD                      :         1385 | 
+AE_TAG_NS_FINAL_TARGET                          :          457 | 
+AE_TAG_NS_DT_TARGET                             :          288 | 
+AE_TAG_NS_BT_FINAL_THD                          :          919 | 
+AE_TAG_NS_BT_TARGET                             :          457 | 
+AE_TAG_NS_STS_BVPROB                            :         1024 | 
+AE_TAG_NS_STS_CDF                               :        -3429 | 
+AE_TAG_NS_STS_CDFPROB                           :          964 | 
+AE_TAG_NS_STS_LIMITBY                           :            1 | 
+AE_TAG_METERV6_EN                               :            1 | 
+AE_TAG_MAINTARGET_HIT                           :            1 | 
+AE_TAG_MT_ENABLE                                :            1 | 
+AE_TAG_MT_WEIGHT                                :         1024 | 
+AE_TAG_MT_COLORWT_EN                            :            1 | 
+AE_TAG_MT_COLORWT_X1                            :            0 | 
+AE_TAG_MT_COLORWT_Y1                            :          600 | 
+AE_TAG_MT_COLORWT_X2                            :          100 | 
+AE_TAG_MT_COLORWT_Y2                            :         1024 | 
+AE_TAG_MT_STS_Y                                 :          456 | 
+AE_TAG_MT_STS_TARGET                            :          774 | 
+AE_TAG_MT_STS_PRETARGET                         :          774 | 
+AE_TAG_HSV6P0_HIT                               :            1 | 
+AE_TAG_HSV6P0_ENABLE                            :            1 | 
+AE_TAG_HS_STS_TARGET                            :          813 | 
+AE_TAG_HS_STS_PRETARGET                         :          813 | 
+AE_TAG_DRV6_BT_Y                                :         1260 | 
+AE_TAG_DRV6_MT_Y                                :          420 | 
+AE_TAG_DRV6_DT_Y                                :           28 | 
+AE_TAG_DRV6_B2D                                 :         5492 | 
+AE_TAG_DRV6_B2M                                 :         1585 | 
+AE_TAG_DRV6_M2D                                 :         3907 | 
+AE_TAG_DRV6_MIDRATIO                            :          711 | 
+AE_TAG_DRV6_CORR_MIDRATIO_ORI                   :          705 | 
+AE_TAG_DRV6_CORR_MIDRATIO                       :          705 | 
+AE_TAG_DRV6_CORR_B2M                            :         1585 | 
+AE_TAG_HSV6_MAINT_WET                           :           30 | 
+AE_TAG_HSV6_BT_WET                              :           43 | 
+AE_TAG_HSV6_MT_WET                              :           27 | 
+AE_TAG_HSV6_DT_WET                              :            0 | 
+AE_TAG_HSV6_HS_WET                              :           70 | 
+AE_TAG_MTV6_MAINT_Y                             :          456 | 
+AE_TAG_MTV6_MAINT_THD                           :          741 | 
+AE_TAG_MTV6_MAINT_GAIN                          :         1664 | 
+AE_TAG_MTV6_MAINT_TARGET                        :          774 | 
+AE_TAG_MTV6_MAINT_MID_INTRATIO                  :          781 | 
+AE_TAG_MTV6_MAINT_INTP_BASE                     :          600 | 
+AE_TAG_MTV6_MAINT_INTP_EXP                      :          400 | 
+AE_TAG_HSV6_HS_TARGET                           :          813 | 
+AE_TAG_HSV6_HS_GAIN                             :         1750 | 
+AE_TAG_HSV6_BT_ORIG_Y                           :         1336 | 
+AE_TAG_HSV6_BT_OECORR_Y                         :         1336 | 
+AE_TAG_HSV6_BT_Final_Y                          :         1336 | 
+AE_TAG_HSV6_BT_THD                              :         2117 | 
+AE_TAG_HSV6_BT_GAIN                             :         1623 | 
+AE_TAG_HSV6_BT_TARGET                           :          754 | 
+AE_TAG_HSV6_MT_ORIG_Y                           :          400 | 
+AE_TAG_HSV6_MT_Final_Y                          :          400 | 
+AE_TAG_HSV6_MT_THD                              :          763 | 
+AE_TAG_HSV6_MT_GAIN                             :         1953 | 
+AE_TAG_HSV6_MT_TARGET                           :          908 | 
+AE_TAG_HSV6_DT_ORIG_Y                           :           28 | 
+AE_TAG_HSV6_DT_FINAL_Y                          :           28 | 
+AE_TAG_HSV6_DT_THD                              :           98 | 
+AE_TAG_HSV6_DT_GAIN                             :         3584 | 
+AE_TAG_HSV6_DT_TARGET                           :         1666 | 
+AE_TAG_OEV6_Final_OE                            :            6 | 
+AE_TAG_OEV6_RGBmix_OE                           :            0 | 
+AE_TAG_OEV6_LTM_OE                              :            9 | 
+AE_TAG_OEV6_RGBMax_OE                           :            0 | 
+AE_TAG_OEV6_R_OE                                :            0 | 
+AE_TAG_OEV6_G_OE                                :            0 | 
+AE_TAG_OEV6_B_OE                                :            0 | 
+AE_TAG_FLKV6_EN                                 :            0 | 
+AE_TAG_FLKV6_DETECT                             :            0 | 
+AE_TAG_FLKV6_ENHANCE_RATIO                      :            0 | 
+AE_TAG_FLKV6_NORMALTARGET                       :            0 | 
+AE_TAG_FLKV6_FINALGAIN                          :            0 | 
+AE_TAG_FLKV6_FINALTARGET                        :            0 | 
+AE_TAG_FLKV6_FLKIDX                             :           78 | 
+AE_TAG_FLKV6_LUTIDX                             :            0 | 
+AE_TAG_FLKV6_ORIGIDX                            :            0 | 
+AE_TAG_FLKV6_DELTAIDX                           :            0 | 
+AE_TAG_FLKV6_FINALIDX                           :            0 | 
+AE_TAG_METERING_STABLE_MAX                      :          120 | 
+AE_TAG_METERING_STABLE_MIN                      :           80 | 
+AE_TAG_X_BLOCK_NO                               :            5 | 
+AE_TAG_Y_BLOCK_NO                               :            5 | 
+AE_TAG_FACE_HIGH_BOUND                          :         7168 | 
+AE_TAG_FACE_LOW_BOUND                           :           80 | 
+AE_TAG_METERING_HIGH_BOUND                      :          800 | 
+AE_TAG_METERING_LOW_BOUND                       :          640 | 
+AE_TAG_CWV                                      :          478 | 
+AE_TAG_SE_CWV                                   :          479 | 
+AE_TAG_AVG                                      :          424 | 
+AE_TAG_SE_AVG                                   :          425 | 
+AE_TAG_CENTRAL_Y                                :          520 | 
+AE_TAG_CWV_FINAL_TARGET                         :          477 | 
+AE_TAG_AE_TARGET                                :          752 | 
+AE_TAG_MIN_CWV_RECMD                            :            1 | 
+AE_TAG_MAX_CWV_RECMD                            :         7200 | 
+AE_TAG_FACE_EXIF_VER                            :       393225 | 
+AE_TAG_EN_FACE_AE                               :            1 | 
+AE_TAG_METERFACE_HIT                            :            1 | 
+AE_TAG_FACE_Y                                   :          405 | 
+AE_TAG_FACE_WEIGHTING                           :            3 | 
+AE_TAG_FACE_Y_LOWBOUND                          :          896 | 
+AE_TAG_FACE_Y_HIGHBOUND                         :         1120 | 
+AE_TAG_FACE_BVRATIO_LOWBOUND                    :        -1000 | 
+AE_TAG_FACE_BVRATIO_HIGHBOUND                   :         4000 | 
+AE_TAG_FACE_TMPFDY_LOWBOUND                     :           16 | 
+AE_TAG_FACE_TMPFDY_HIGHBOUND                    :         3760 | 
+AE_TAG_FACE_LOST_MAXCNT                         :            0 | 
+AE_TAG_FACE_EN_LOCSIZE                          :            1 | 
+AE_TAG_FACE_PROB                                :            1 | 
+AE_TAG_FACE_STS_LOC                             :           10 | 
+AE_TAG_FACE_STS_SIZE                            :           54 | 
+AE_TAG_FACE_20_IS_FACE_RSV                      :            1 | 
+AE_TAG_FACE_20_FACE_CUR_Y                       :          405 | 
+AE_TAG_FACE_20_CWV                              :          478 | 
+AE_TAG_FACE_20_REAL_BV_X1000                    :        -3823 | 
+AE_TAG_FACE_20_FRAME_CNT                        :          641 | 
+AE_TAG_FACE_20_FACE_FDDR                        :         1114 | 
+AE_TAG_FACE_20_FACE_CWR                         :          621 | 
+AE_TAG_FACE_20_METER_FD_TARGET                  :          542 | 
+AE_TAG_FACE_20_NORMAL_TARGET                    :          477 | 
+AE_TAG_FACE_20_FINAL_TARGET                     :          477 | 
+AE_TAG_FACE_20_LCE_MAX_GAIN                     :          308 | 
+AE_TAG_FACE_20_IS_FRONT                         :            1 | 
+AE_TAG_FACE_20_IS_SIDE                          :            0 | 
+AE_TAG_FACE_20_IS_OT                            :            0 | 
+AE_TAG_FACE_20_CASE_NUMBER                      :            1 | 
+AE_TAG_FACE_20_FOUND_CNT                        :          254 | 
+AE_TAG_FACE_20_FAIL_CNT                         :            0 | 
+AE_TAG_FACE_20_STABLE_CNT                       :            8 | 
+AE_TAG_FACE_20_FACE_AE_STABLE                   :            1 | 
+AE_TAG_FACE_20_FACE_AE_1STSTABLE                :            1 | 
+AE_TAG_FACE_20_FACE_STATE                       :            2 | 
+AE_TAG_FACE_20_FACE_RBTARGET                    :          477 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_INDEX             :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_CWV               :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_CWR               :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_INTHD             :           10 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_OUTTHD            :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_XLOW              :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_XHI               :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_YLOW              :            0 | 
+AE_TAG_FACE_20_FACE_AE_STABLE_YHI               :            0 | 
+AE_TAG_FACE_20_AE_COMP                          :            0 | 
+AE_TAG_FACE_20_MULTI_FACE_NUM                   :            1 | 
+AE_TAG_FACE_20_PARA_LOCK_MAX_CNT                :            3 | 
+AE_TAG_FACE_20_PARA_TEMPORAL_SMOOTH             :            0 | 
+AE_TAG_FACE_20_PARA_OT_LOCK_UPPER               :         4080 | 
+AE_TAG_FACE_20_PARA_OT_LOCK_LOWER               :            0 | 
+AE_TAG_FACE_20_PARA_CONT_TRUST_CNT              :            0 | 
+AE_TAG_FACE_20_PARA_LOC_SIZE_CHECK              :            1 | 
+AE_TAG_FACE_20_PARA_IN_STALE_THD                :            1 | 
+AE_TAG_FACE_20_PARA_OUT_B2T_STALE_THD           :           40 | 
+AE_TAG_FACE_20_PARA_OUT_D2T_STALE_THD           :           40 | 
+AE_TAG_FACE_20_PARA_IN_TO_OUT_THD_MAX_CNT       :            0 | 
+AE_TAG_FACE_20_PARA_SIDE_FACE_LOCK              :            0 | 
+AE_TAG_FACE_20_PARA_MOTION_LOCK_RATIO           :            0 | 
+AE_TAG_FACE_20_PARA_IMPULSE_LOCK_CNT            :            0 | 
+AE_TAG_FACE_20_PARA_IMPULSE_UPPER_THD           :            2 | 
+AE_TAG_FACE_20_PARA_IMPULSE_LOWER_THD           :            2 | 
+AE_TAG_FACE_20_PARA_ROP_TRUST_CNT               :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_EN             :            1 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_PRIOR          :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_0              :            1 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_1              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_2              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_3              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_4              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_5              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_6              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_7              :            0 | 
+AE_TAG_FACE_20_PARA_MULTI_WEIGHT_8              :            0 | 
+AE_TAG_FACE_20_PARA_LM_EXT_RATIO_W              :          100 | 
+AE_TAG_FACE_20_PARA_LM_EXT_RATIO_H              :          100 | 
+AE_TAG_FACE_20_PARA_LM_TRUST_ROP                :           90 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_XY                :            5 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_SIZE              :            3 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_OVERLAP           :            9 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_BUFLEN            :            3 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_LEVEL             :            8 | 
+AE_TAG_FACE_20_PARA_LM_SMOOTH_MOMENTUM          :            0 | 
+AE_TAG_FACE_20_PARA_LM_MIX_WEIGHT_PCENT         :            0 | 
+AE_TAG_FACE_20_PARA_LM_CV_THD                   :           30 | 
+AE_TAG_FACE_20_PARA_LM_CV_BV                    :          -40 | 
+AE_TAG_FACE_20_PARA_LM_ROP_THD                  :           30 | 
+AE_TAG_FACE_20_PARA_LM_ROP_BV                   :          -60 | 
+AE_TAG_FACE_CNT                                 :            1 | 
+AE_TAG_FACE0_XLOW                               :           50 | 
+AE_TAG_FACE0_XHI                                :           59 | 
+AE_TAG_FACE0_YLOW                               :           47 | 
+AE_TAG_FACE0_YHI                                :           54 | 
+AE_TAG_FACE0_WEIGHT                             :            1 | 
+AE_TAG_FACE0_FULLY                              :          537 | 
+AE_TAG_FACE0_CENTERY                            :            0 | 
+AE_TAG_FACE1_XLOW                               :            0 | 
+AE_TAG_FACE1_XHI                                :            0 | 
+AE_TAG_FACE1_YLOW                               :            0 | 
+AE_TAG_FACE1_YHI                                :            0 | 
+AE_TAG_FACE1_WEIGHT                             :            0 | 
+AE_TAG_FACE1_FULLY                              :            0 | 
+AE_TAG_FACE1_CENTERY                            :            0 | 
+AE_TAG_FACE2_XLOW                               :            0 | 
+AE_TAG_FACE2_XHI                                :            0 | 
+AE_TAG_FACE2_YLOW                               :            0 | 
+AE_TAG_FACE2_YHI                                :            0 | 
+AE_TAG_FACE2_WEIGHT                             :            0 | 
+AE_TAG_FACE2_FULLY                              :            0 | 
+AE_TAG_FACE2_CENTERY                            :            0 | 
+AE_TAG_FACE3_XLOW                               :            0 | 
+AE_TAG_FACE3_XHI                                :            0 | 
+AE_TAG_FACE3_YLOW                               :            0 | 
+AE_TAG_FACE3_YHI                                :            0 | 
+AE_TAG_FACE3_WEIGHT                             :            0 | 
+AE_TAG_FACE3_FULLY                              :            0 | 
+AE_TAG_FACE3_CENTERY                            :            0 | 
+AE_TAG_FACE4_XLOW                               :            0 | 
+AE_TAG_FACE4_XHI                                :            0 | 
+AE_TAG_FACE4_YLOW                               :            0 | 
+AE_TAG_FACE4_YHI                                :            0 | 
+AE_TAG_FACE4_WEIGHT                             :            0 | 
+AE_TAG_FACE4_FULLY                              :            0 | 
+AE_TAG_FACE4_CENTERY                            :            0 | 
+AE_TAG_FACE5_XLOW                               :            0 | 
+AE_TAG_FACE5_XHI                                :            0 | 
+AE_TAG_FACE5_YLOW                               :            0 | 
+AE_TAG_FACE5_YHI                                :            0 | 
+AE_TAG_FACE5_WEIGHT                             :            0 | 
+AE_TAG_FACE5_FULLY                              :            0 | 
+AE_TAG_FACE5_CENTERY                            :            0 | 
+AE_TAG_FACE6_XLOW                               :            0 | 
+AE_TAG_FACE6_XHI                                :            0 | 
+AE_TAG_FACE6_YLOW                               :            0 | 
+AE_TAG_FACE6_YHI                                :            0 | 
+AE_TAG_FACE6_WEIGHT                             :            0 | 
+AE_TAG_FACE6_FULLY                              :            0 | 
+AE_TAG_FACE6_CENTERY                            :            0 | 
+AE_TAG_FACE7_XLOW                               :            0 | 
+AE_TAG_FACE7_XHI                                :            0 | 
+AE_TAG_FACE7_YLOW                               :            0 | 
+AE_TAG_FACE7_YHI                                :            0 | 
+AE_TAG_FACE7_WEIGHT                             :            0 | 
+AE_TAG_FACE7_FULLY                              :            0 | 
+AE_TAG_FACE7_CENTERY                            :            0 | 
+AE_TAG_FACE8_XLOW                               :            0 | 
+AE_TAG_FACE8_XHI                                :            0 | 
+AE_TAG_FACE8_YLOW                               :            0 | 
+AE_TAG_FACE8_YHI                                :            0 | 
+AE_TAG_FACE8_WEIGHT                             :            0 | 
+AE_TAG_FACE8_FULLY                              :            0 | 
+AE_TAG_FACE8_CENTERY                            :            0 | 
+AE_TAG_FACE0_WEIGHT2K                           :        21756 | 
+AE_TAG_FACE1_WEIGHT2K                           :        89046 | 
+AE_TAG_FACE2_WEIGHT2K                           :            0 | 
+AE_TAG_FACE3_WEIGHT2K                           :            0 | 
+AE_TAG_FACE4_WEIGHT2K                           :            0 | 
+AE_TAG_FACE5_WEIGHT2K                           :            0 | 
+AE_TAG_FACE6_WEIGHT2K                           :            0 | 
+AE_TAG_FACE7_WEIGHT2K                           :            0 | 
+AE_TAG_FACE8_WEIGHT2K                           :            0 | 
+AE_TAG_FACE_20_SCALE0_XLOW                      :           51 | 
+AE_TAG_FACE_20_SCALE0_XHI                       :           58 | 
+AE_TAG_FACE_20_SCALE0_YLOW                      :           47 | 
+AE_TAG_FACE_20_SCALE0_YHI                       :           53 | 
+AE_TAG_FACE_20_SCALE1_XLOW                      :           26 | 
+AE_TAG_FACE_20_SCALE1_XHI                       :           40 | 
+AE_TAG_FACE_20_SCALE1_YLOW                      :           32 | 
+AE_TAG_FACE_20_SCALE1_YHI                       :           42 | 
+AE_TAG_FACE_20_SCALE2_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE2_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE2_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE2_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE3_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE3_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE3_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE3_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE4_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE4_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE4_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE4_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE5_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE5_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE5_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE5_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE6_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE6_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE6_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE6_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE7_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE7_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE7_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE7_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE8_XLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE8_XHI                       :            0 | 
+AE_TAG_FACE_20_SCALE8_YLOW                      :            0 | 
+AE_TAG_FACE_20_SCALE8_YHI                       :            0 | 
+AE_TAG_FACE_20_SCALE0_XLOW_RSV                  :           51 | 
+AE_TAG_FACE_20_SCALE0_XHI_RSV                   :           58 | 
+AE_TAG_FACE_20_SCALE0_YLOW_RSV                  :           47 | 
+AE_TAG_FACE_20_SCALE0_YHI_RSV                   :           53 | 
+AE_TAG_FACE_20_SCALE1_XLOW_RSV                  :           26 | 
+AE_TAG_FACE_20_SCALE1_XHI_RSV                   :           40 | 
+AE_TAG_FACE_20_SCALE1_YLOW_RSV                  :           32 | 
+AE_TAG_FACE_20_SCALE1_YHI_RSV                   :           42 | 
+AE_TAG_FACE_20_SCALE2_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE2_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE2_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE2_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE3_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE3_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE3_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE3_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE4_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE4_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE4_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE4_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE5_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE5_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE5_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE5_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE6_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE6_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE6_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE6_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE7_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE7_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE7_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE7_YHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE8_XLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE8_XHI_RSV                   :            0 | 
+AE_TAG_FACE_20_SCALE8_YLOW_RSV                  :            0 | 
+AE_TAG_FACE_20_SCALE8_YHI_RSV                   :            0 | 
+AE_TAG_FACE_BEFEXT_XLOW                         :            0 | 
+AE_TAG_FACE_BEFEXT_XHI                          :            0 | 
+AE_TAG_FACE_BEFEXT_YLOW                         :            0 | 
+AE_TAG_FACE_BEFEXT_YHI                          :            0 | 
+AE_TAG_FACE_20_LANDMARK0_XLOW                   :           53 | 
+AE_TAG_FACE_20_LANDMARK0_XHI                    :           57 | 
+AE_TAG_FACE_20_LANDMARK0_YLOW                   :           49 | 
+AE_TAG_FACE_20_LANDMARK0_YHI                    :           54 | 
+AE_TAG_FACE_20_LANDMARK0_RIP                    :         -103 | 
+AE_TAG_FACE_20_LANDMARK0_ROP                    :          -20 | 
+AE_TAG_FACE_20_LANDMARK0_CV                     :           65 | 
+AE_TAG_FACE_20_LANDMARK0_ICS_LEFT               :         -110 | 
+AE_TAG_FACE_20_LANDMARK0_ICS_RIGHT              :          -34 | 
+AE_TAG_FACE_20_LANDMARK0_ICS_TOP                :           98 | 
+AE_TAG_FACE_20_LANDMARK0_ICS_BOTTOM             :          205 | 
+AE_TAG_EN_METER_AE                              :            1 | 
+AE_TAG_METERING_EN                              :            0 | 
+AE_TAG_METERING_Y                               :            0 | 
+AE_TAG_METERING_Y_LOWBOUND                      :          960 | 
+AE_TAG_METERING_Y_HIGHBOUND                     :         3920 | 
+AE_TAG_METERING_Y0                              :            0 | 
+AE_TAG_METERING_CNT                             :            0 | 
+AE_TAG_METERING0_XLOW                           :            0 | 
+AE_TAG_METERING0_XHI                            :            0 | 
+AE_TAG_METERING0_YLOW                           :            0 | 
+AE_TAG_METERING0_YHI                            :            0 | 
+AE_TAG_METERING0_WEIGHT                         :            0 | 
+AE_TAG_PRV_MAX_BLOCK_WIDTH                      :          120 | 
+AE_TAG_PRV_MAX_BLOCK_HEIGHT                     :           90 | 
+AE_TAG_STAT_XLOW                                :            0 | 
+AE_TAG_STAT_XHI                                 :          119 | 
+AE_TAG_STAT_YLOW                                :            0 | 
+AE_TAG_STAT_YHI                                 :           89 | 
+AE_TAG_STB_DEFAULT_IN_THD                       :            1 | 
+AE_TAG_STB_DEFAULT_OUT_THD                      :           16 | 
+AE_TAG_STB_EN_MODE_THD                          :            1 | 
+AE_TAG_STB_Video_IN_THD                         :            3 | 
+AE_TAG_STB_Video_OUT_THD                        :           12 | 
+AE_TAG_STB_Face_IN_THD                          :            1 | 
+AE_TAG_STB_Face_OUT_THD                         :           16 | 
+AE_TAG_STB_Touch_IN_THD                         :            0 | 
+AE_TAG_STB_Touch_OUT_THD                        :            3 | 
+AE_TAG_EN_TOUCH_PERFRAME                        :            0 | 
+AE_TAG_EN_TOUCH_WEIGHT                          :          400 | 
+AE_TAG_CAM_MODE                                 :            0 | 
+AE_TAG_VIDEO_DFS_EN                             :            0 | 
+AE_TAG_MAX_FPS                                  :          300 | 
+AE_TAG_MIN_FPS                                  :           50 | 
+AE_TAG_AE_LOCKED                                :            0 | 
+AE_TAG_VIDEO_RECORD                             :            0 | 
+AE_TAG_AE_LIMITER                               :            0 | 
+AE_TAG_STROBE_ON                                :            0 | 
+AE_TAG_ROTATE_WEIGHTING                         :            0 | 
+AE_TAG_OBJECT_TRACKING                          :            0 | 
+AE_TAG_ABL_STRENGTH_BYBV_EN                     :            1 | 
+AE_TAG_CS_GS_EN                                 :            1 | 
+AE_TAG_CS_GS_GRTH                               :          180 | 
+AE_TAG_CS_GS_GBTH                               :          200 | 
+AE_TAG_CS_GS_GCNTRATIO_X1                       :           96 | 
+AE_TAG_CS_GS_GCNTRATIO_X2                       :         1024 | 
+AE_TAG_CS_GS_GCNTRATIO_Y1                       :            0 | 
+AE_TAG_CS_GS_GCNTRATIO_Y2                       :         1024 | 
+AE_TAG_CS_GS_STS_GREENCNT                       :            0 | 
+AE_TAG_CS_GS_STS_GREENRATIO                     :            0 | 
+AE_TAG_CS_GS_DETMIN                             :          320 | 
+AE_TAG_CS_GS_PROB                               :            0 | 
+AE_TAG_CS_GS_PROB_BV                            :          700 | 
+AE_TAG_CS_GS_PROB_GC                            :            0 | 
+AE_TAG_CS_GS_HS4P0_ORG_Y                        :         1336 | 
+AE_TAG_CS_GS_SUP_Y                              :         1603 | 
+AE_TAG_CS_GS_HS4P0_GS_Y                         :         1336 | 
+AE_TAG_CS_GS_MT_ORG_Y                           :          456 | 
+AE_TAG_CS_GS_MT_GS_Y                            :          456 | 
+AE_TAG_FACE_SIZELOC_BYDR_EN                     :            1 | 
+AE_TAG_FACE_SIZELOC_DR                          :         1114 | 
+AE_TAG_FBT_EN                                   :            1 | 
+AE_TAG_FBT_SKP                                  :           10 | 
+AE_TAG_FBT_XP_SYS                               :          898 | 
+AE_TAG_FBT_OE_SYS                               :          721 | 
+AE_TAG_FBT_DR                                   :          797 | 
+AE_TAG_FBT_OETH                                 :         4000 | 
+AE_TAG_FBT_FDTH                                 :          723 | 
+AE_TAG_FBT_FDMINTH                              :          723 | 
+AE_TAG_FBT_FDY                                  :          415 | 
+AE_TAG_FBT_PURE_TARGET                          :          723 | 
+AE_TAG_FBT_FDDR                                 :         3807 | 
+AE_TAG_FBT_FDDR_RA                              :          768 | 
+AE_TAG_FBT_TARGET                               :          542 | 
+AE_TAG_FLT_SKP                                  :           10 | 
+AE_TAG_FLT_XP_SYS                               :          898 | 
+AE_TAG_FLT_OE_SYS                               :          721 | 
+AE_TAG_FLT_DR                                   :          797 | 
+AE_TAG_FLT_OETH                                 :         4000 | 
+AE_TAG_FLT_FDTH                                 :          723 | 
+AE_TAG_FLT_FDMINTH                              :          723 | 
+AE_TAG_FLT_FDY                                  :          415 | 
+AE_TAG_FLT_PURE_TARGET                          :          723 | 
+AE_TAG_FLT_FDDR                                 :         3807 | 
+AE_TAG_FLT_FDSZ                                 :           54 | 
+AE_TAG_FLT_FDSZ_RA                              :            0 | 
+AE_TAG_FLT_TARGET                               :          723 | 
+AE_TAG_PURE_AE_CWR                              :          477 | 
+AE_TAG_PURE_AE_CWR_STABLE                       :          476 | 
+AE_TAG_LINK_AE_CWR                              :          477 | 
+AE_TAG_LINK_AE_CWR_STABLE                       :          476 | 
+AE_TAG_LINK_FACE_CWR                            :          741 | 
+AE_TAG_LINK_FACE_CWR_STABLE                     :          597 | 
+AE_TAG_LINK_FACE_TH_MIN                         :          256 | 
+AE_TAG_LINK_FACE_CWR_MIN                        :          294 | 
+AE_TAG_LINK_MAX_GAIN                            :          308 | 
+AE_TAG_FACE_ID0_ROP                             :            0 | 
+AE_TAG_FACE_ID1_ROP                             :            0 | 
+AE_TAG_FACE_ID2_ROP                             :            0 | 
+AE_TAG_FACE_ID3_ROP                             :            0 | 
+AE_TAG_FACE_ID4_ROP                             :            0 | 
+AE_TAG_FACE_ID5_ROP                             :            0 | 
+AE_TAG_FACE_ID6_ROP                             :            0 | 
+AE_TAG_FACE_ID7_ROP                             :            0 | 
+AE_TAG_FACE_ID8_ROP                             :            0 | 
+AE_TAG_FACE_LCE_LINK_EN                         :            1 | 
+AE_TAG_FACE_LOCK                                :            0 | 
+AE_TAG_FACE_LCETARGET                           :          370 | 
+AE_TAG_FACE_AVGFDY_0                            :          434 | 
+AE_TAG_FACE_AVGFDY_1                            :            0 | 
+AE_TAG_FACE_AVGFDY_2                            :            0 | 
+AE_TAG_FACE_AVGFDY_3                            :            0 | 
+AE_TAG_FACE_AVGFDY_4                            :            0 | 
+AE_TAG_FACE_AVGFDY_5                            :            0 | 
+AE_TAG_FACE_AVGFDY_6                            :            0 | 
+AE_TAG_FACE_AVGFDY_7                            :            0 | 
+AE_TAG_FACE_AVGFDY_8                            :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_0                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_1                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_2                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_3                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_4                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_5                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_6                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_7                        :            0 | 
+AE_TAG_FACE_AVG_RSVFDY_8                        :            0 | 
+AE_TAG_FACE_GAU_FDY_0                           :          405 | 
+AE_TAG_FACE_GAU_FDY_1                           :            0 | 
+AE_TAG_FACE_GAU_FDY_2                           :            0 | 
+AE_TAG_FACE_GAU_FDY_3                           :            0 | 
+AE_TAG_FACE_GAU_FDY_4                           :            0 | 
+AE_TAG_FACE_GAU_FDY_5                           :            0 | 
+AE_TAG_FACE_GAU_FDY_6                           :            0 | 
+AE_TAG_FACE_GAU_FDY_7                           :            0 | 
+AE_TAG_FACE_GAU_FDY_8                           :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_0                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_1                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_2                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_3                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_4                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_5                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_6                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_7                        :            0 | 
+AE_TAG_FACE_GAU_RSVFDY_8                        :            0 | 
+AE_TAG_FACE_LM_FDY_0                            :          575 | 
+AE_TAG_FACE_LM_FDY_1                            :            0 | 
+AE_TAG_FACE_LM_FDY_2                            :            0 | 
+AE_TAG_FACE_LM_FDY_3                            :            0 | 
+AE_TAG_FACE_LM_FDY_4                            :            0 | 
+AE_TAG_FACE_LM_FDY_5                            :            0 | 
+AE_TAG_FACE_LM_FDY_6                            :            0 | 
+AE_TAG_FACE_LM_FDY_7                            :            0 | 
+AE_TAG_FACE_LM_FDY_8                            :            0 | 
+AE_TAG_FACE_LM_RSVFDY_0                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_1                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_2                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_3                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_4                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_5                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_6                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_7                         :            0 | 
+AE_TAG_FACE_LM_RSVFDY_8                         :            0 | 
+AE_TAG_FACE_OUT_FDY_0                           :          405 | 
+AE_TAG_FACE_OUT_FDY_1                           :            0 | 
+AE_TAG_FACE_OUT_FDY_2                           :            0 | 
+AE_TAG_FACE_OUT_FDY_3                           :            0 | 
+AE_TAG_FACE_OUT_FDY_4                           :            0 | 
+AE_TAG_FACE_OUT_FDY_5                           :            0 | 
+AE_TAG_FACE_OUT_FDY_6                           :            0 | 
+AE_TAG_FACE_OUT_FDY_7                           :            0 | 
+AE_TAG_FACE_OUT_FDY_8                           :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_0                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_1                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_2                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_3                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_4                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_5                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_6                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_7                        :            0 | 
+AE_TAG_FACE_OUT_RSVFDY_8                        :            0 | 
+AE_TAG_FACE_SIZE_XLOW_0                         :           50 | 
+AE_TAG_FACE_SIZE_XHIGH_0                        :           59 | 
+AE_TAG_FACE_SIZE_YLOW_0                         :           47 | 
+AE_TAG_FACE_SIZE_YHIGH_0                        :           54 | 
+AE_TAG_FACE_SIZE_XLOW_1                         :           50 | 
+AE_TAG_FACE_SIZE_XHIGH_1                        :           59 | 
+AE_TAG_FACE_SIZE_YLOW_1                         :           47 | 
+AE_TAG_FACE_SIZE_YHIGH_1                        :           54 | 
+AE_TAG_FACE_SIZE_XLOW_2                         :           50 | 
+AE_TAG_FACE_SIZE_XHIGH_2                        :           59 | 
+AE_TAG_FACE_SIZE_YLOW_2                         :           47 | 
+AE_TAG_FACE_SIZE_YHIGH_2                        :           54 | 
+AE_TAG_FACE_SIZE_XLOW_3                         :           50 | 
+AE_TAG_FACE_SIZE_XHIGH_3                        :           59 | 
+AE_TAG_FACE_SIZE_YLOW_3                         :           47 | 
+AE_TAG_FACE_SIZE_YHIGH_3                        :           54 | 
+AE_TAG_FACE_LTM_0_XLOW                          :            0 | 
+AE_TAG_SMOOTH_STATUS                            :            9 | 
+AE_TAG_PREV_DELTA_IDX                           :            0 | 
+AE_TAG_PREV2_DELTA_IDX                          :            0 | 
+AE_TAG_PREV3_DELTA_IDX                          :            0 | 
+AE_TAG_DELTA_INDEX_FULL                         :            0 | 
+AE_TAG_NON_LINEAR_CWV_RATIO                     :          100 | 
+AE_TAG_NON_LINEAR_AVG_RATIO                     :          100 | 
+AE_TAG_OVER_PROB                                :            0 | 
+AE_TAG_OVER_PL_PROB                             :            0 | 
+AE_TAG_FDY                                      :          405 | 
+AE_TAG_ONE_SHOT                                 :            0 | 
+AE_TAG_STABLE_CASE                              :            0 | 
+AE_TAG_STABLE_CASE_C                            :           12 | 
+AE_TAG_PROB_AET                                 :            0 | 
+AE_TAG_PROB_ABL                                 :            0 | 
+AE_TAG_PROB_ABL_THD                             :            0 | 
+AE_TAG_PROB_ABL_AET                             :            0 | 
+AE_TAG_PROB_ABL_CENTER_Y                        :            0 | 
+AE_TAG_PROB_ABL_LIMIT_Y                         :            0 | 
+AE_TAG_PROB_MT                                  :            5 | 
+AE_TAG_PROB_HSV6                                :           11 | 
+AE_TAG_PROB_HSV6_DT                             :            0 | 
+AE_TAG_PROB_HSV6_MT                             :            4 | 
+AE_TAG_PROB_HSV6_BT                             :            7 | 
+AE_TAG_PROB_NS                                  :          241 | 
+AE_TAG_PROB_NS_FLAT                             :            0 | 
+AE_TAG_PROB_NS_THD                              :            0 | 
+AE_TAG_PROB_NS_BT_FLAT                          :            0 | 
+AE_TAG_PROB_NS_BT_THD                           :          241 | 
+AE_TAG_PROB_NS_DT_LBND                          :            0 | 
+AE_TAG_PROB_NS_DT_THD                           :            0 | 
+AE_TAG_PROB_NS_DT_HBND                          :            0 | 
+AE_TAG_PROB_FACE                                :            0 | 
+AE_TAG_PROB_FACE_THD                            :            0 | 
+AE_TAG_PROB_FACE_HBND                           :            0 | 
+AE_TAG_PROB_FACE_LBND                           :            0 | 
+AE_TAG_PROB_TOUCH                               :            0 | 
+AE_TAG_PROB_TOUCH_THD                           :            0 | 
+AE_TAG_PROB_TOUCH_HBND                          :            0 | 
+AE_TAG_PROB_TOUCH_LBND                          :            0 | 
+AE_TAG_PROB_FACE_FLT_THD                        :          768 | 
+AE_TAG_PROB_FACE_FLT_DR                         :            0 | 
+AE_TAG_PROB_FACE_FLT_HBND                       :            0 | 
+AE_TAG_INFO_0                                   :     22142001 | 
+AE_TAG_INFO_1                                   :     20125001 | 
+AE_TAG_INFO_2                                   :         6460 | 
+AE_TAG_INFO_3                                   :      9394001 | 
+AE_TAG_STABLE                                   :            1 | 
+AE_TAG_LE_SHUTTER_TIME                          :        66668 | 
+AE_TAG_LE_SENSOR_GAIN                           :        16384 | 
+AE_TAG_LE_ISP_GAIN                              :         2568 | 
+AE_TAG_ME_SHUTTER_TIME                          :        66668 | 
+AE_TAG_ME_SENSOR_GAIN                           :        16384 | 
+AE_TAG_ME_ISP_GAIN                              :         2568 | 
+AE_TAG_SE_SHUTTER_TIME                          :        66668 | 
+AE_TAG_SE_SENSOR_GAIN                           :        16384 | 
+AE_TAG_SE_ISP_GAIN                              :         2568 | 
+AE_TAG_HDR_REAL_RATIO                           :         1000 | 
+AE_TAG_HDR_PRE_RATIO                            :         1000 | 
+AE_TAG_HDR_CUR_RATIO                            :         1000 | 
+AE_TAG_HDR_TARGET_RATIO                         :         1000 | 
+AE_TAG_HDR_LE_CNT                               :            0 | 
+AE_TAG_HDR_SE_CNT                               :            0 | 
+AE_TAG_HDR_BVX1000                              :            0 | 
+AE_TAG_HDR_CWV                                  :            0 | 
+AE_TAG_HDR_FDY_AAO                              :            0 | 
+AE_TAG_HDR_FDY_SENSOR                           :            0 | 
+AE_TAG_HDR_TARGET                               :            0 | 
+AE_TAG_HDR_BVTARGET                             :            0 | 
+AE_TAG_HDR_HSTARGET                             :            0 | 
+AE_TAG_HDR_FACE_MULTI_WEIGHT_PRIOR              :            0 | 
+AE_TAG_HDR_FACE_Y_LOWBOUND                      :           47 | 
+AE_TAG_HDR_FACE_Y_HIGHBOUND                     :           47 | 
+AE_TAG_HDR_FACE_BVRATIO_LOWBOUND                :            0 | 
+AE_TAG_HDR_FACE_BVRATIO_HIGHBOUND               :            0 | 
+AE_TAG_HDR_BV4FDTARGET_0                        :            0 | 
+AE_TAG_HDR_BV4FDTARGET_1                        :            0 | 
+AE_TAG_HDR_BV4FDTARGET_2                        :            0 | 
+AE_TAG_HDR_BV4FDTARGET_3                        :            0 | 
+AE_TAG_HDR_FDTARGET_0                           :           47 | 
+AE_TAG_HDR_FDTARGET_1                           :           47 | 
+AE_TAG_HDR_FDTARGET_2                           :           47 | 
+AE_TAG_HDR_FDTARGET_3                           :           47 | 
+AE_TAG_HDR_MAX_RATIO                            :            0 | 
+AE_TAG_HDR_OE0_BIN_RATIO                        :            0 | 
+AE_TAG_HDR_OE0_THD                              :            0 | 
+AE_TAG_HDR_OE1_BIN_RATIO                        :            0 | 
+AE_TAG_HDR_OE2_BIN_RATIO                        :            0 | 
+AE_TAG_HDR_OE1_PCNT_0                           :            0 | 
+AE_TAG_HDR_OE1_PCNT_1                           :            0 | 
+AE_TAG_HDR_OE1_PCNT_2                           :            0 | 
+AE_TAG_HDR_OE1_PCNT_3                           :            0 | 
+AE_TAG_HDR_OE1_PCNT_4                           :            0 | 
+AE_TAG_HDR_OE1_RATIO_MOVE_0                     :            0 | 
+AE_TAG_HDR_OE1_RATIO_MOVE_1                     :            0 | 
+AE_TAG_HDR_OE1_RATIO_MOVE_2                     :            0 | 
+AE_TAG_HDR_OE1_RATIO_MOVE_3                     :            0 | 
+AE_TAG_HDR_OE1_RATIO_MOVE_4                     :            0 | 
+AE_TAG_HDR_OE2_PCNT_0                           :            0 | 
+AE_TAG_HDR_OE2_PCNT_1                           :            0 | 
+AE_TAG_HDR_OE2_PCNT_2                           :            0 | 
+AE_TAG_HDR_OE2_PCNT_3                           :            0 | 
+AE_TAG_HDR_OE2_PCNT_4                           :            0 | 
+AE_TAG_HDR_OE2_RATIO_MOVE_0                     :            0 | 
+AE_TAG_HDR_OE2_RATIO_MOVE_1                     :            0 | 
+AE_TAG_HDR_OE2_RATIO_MOVE_2                     :            0 | 
+AE_TAG_HDR_OE2_RATIO_MOVE_3                     :            0 | 
+AE_TAG_HDR_OE2_RATIO_MOVE_4                     :            0 | 
+AE_TAG_HDR_RATIO_STABLE                         :            0 | 
+AE_TAG_HDR_RATIO_STABLE_CNT                     :            0 | 
+AE_TAG_HDR_RATIO_IN_THD                         :            0 | 
+AE_TAG_HDR_RATIO_OUT_THD                        :            0 | 
+AE_TAG_HDR_3EXP_TRANS_METHOD                    :            0 | 
+AE_TAG_HDR_RSV_0                                :            0 | 
+AE_TAG_HDR_RSV_1                                :            0 | 
+AE_TAG_HDR_RSV_2                                :            0 | 
+AE_TAG_HDR_RSV_3                                :            0 | 
+AE_TAG_HDR_RSV_4                                :            0 | 
+AE_TAG_HDR_RSV_5                                :            0 | 
+AE_TAG_HDR_RSV_6                                :            0 | 
+AE_TAG_HDR_RSV_7                                :            0 | 
+AE_TAG_HDR_RSV_8                                :            0 | 
+AE_TAG_HDR_RSV_9                                :            0 | 
+AE_TAG_HDR_RSV_10                               :            0 | 
+AE_TAG_HDR_RSV_11                               :            0 | 
+AE_TAG_HDR_RSV_12                               :            0 | 
+AE_TAG_HDR_RSV_13                               :            0 | 
+AE_TAG_HDR_RSV_14                               :        11999 | 
+AE_TAG_HDR_RSV_15                               :           46 | 
+AE_TAG_HDR_RSV_16                               :            0 | 
+AE_TAG_HDR_RSV_17                               :            0 | 
+AE_TAG_HDR_RSV_18                               :            0 | 
+AE_TAG_HDR_RSV_19                               :            0 | 
+AE_TAG_HDR_RSV_20                               :            0 | 
+AE_TAG_HDR_RSV_21                               :            0 | 
+AE_TAG_HDR_RSV_22                               :            0 | 
+AE_TAG_HDR_RSV_23                               :            0 | 
+AE_TAG_HDR_RSV_24                               :            0 | 
+AE_TAG_HDR_RSV_25                               :            0 | 
+AE_TAG_HDR_RSV_26                               :            0 | 
+AE_TAG_HDR_RSV_27                               :            0 | 
+AE_TAG_HDR_RSV_28                               :            0 | 
+AE_TAG_HDR_RSV_29                               :            0 | 
+AE_TAG_HDR_RSV_30                               :            0 | 
+AE_TAG_HDR_RSV_31                               :            0 | 
+AE_TAG_HDR_RSV_32                               :            0 | 
+AE_TAG_HDR_RSV_33                               :            0 | 
+AE_TAG_HDR_RSV_34                               :            0 | 
+AE_TAG_HDR_RSV_35                               :            0 | 
+AE_TAG_HDR_RSV_36                               :            0 | 
+AE_TAG_HDR_RSV_37                               :            1 | 
+AE_TAG_HDR_RSV_38                               :            0 | 
+AE_TAG_HDR_RSV_39                               :            0 | 
+AE_TAG_HDR_RSV_40                               :            0 | 
+AE_TAG_HDR_RSV_41                               :            0 | 
+AE_TAG_HDR_RSV_42                               :            0 | 
+AE_TAG_HDR_RSV_43                               :            0 | 
+AE_TAG_HDR_RSV_44                               :            0 | 
+AE_TAG_HDR_RSV_45                               :            0 | 
+AE_TAG_HDR_RSV_46                               :            0 | 
+AE_TAG_HDR_RSV_47                               :            0 | 
+AE_TAG_HDR_RSV_48                               :            0 | 
+AE_TAG_HDR_RSV_49                               :            0 | 
+AE_TAG_HDR_RSV_50                               :            0 | 
+AE_TAG_HDR_RSV_51                               :            0 | 
+AE_TAG_HDR_RSV_52                               :            0 | 
+AE_TAG_HDR_RSV_53                               :            0 | 
+AE_TAG_HDR_RSV_54                               :            0 | 
+AE_TAG_HDR_RSV_55                               :            0 | 
+AE_TAG_HDR_RSV_56                               :            0 | 
+AE_TAG_HDR_RSV_57                               :            0 | 
+AE_TAG_HDR_RSV_58                               :            0 | 
+AE_TAG_HDR_RSV_59                               :            0 | 
+AE_TAG_HDR_RSV_60                               :            0 | 
+AE_TAG_HDR_RSV_61                               :            0 | 
+AE_TAG_HDR_RSV_62                               :            0 | 
+AE_TAG_HDR_RSV_63                               :            0 | 
+
+[AE_Table]
+<<5x5_LE>>
+ 543  512  236  140  105 
+
+ 565  412  492  132  43  
+
+ 837  845  520  279  59  
+
+ 829  706  645  358  98  
+
+ 375  728  641  335  162 
+
+<<5x5_SE>>
+ 544  513  240  142  108 
+
+ 565  413  493  133  42  
+
+ 838  846  520  280  59  
+
+ 830  706  645  359  99  
+
+ 376  730  641  337  163 
+
+<<15x15_LE>>
+ 551  582  419  443  515  596  254  156  111  103  108  114  78   135  172 
+
+ 545  574  457  440  513  551  278  264  203  137  156  167  79   79   151 
+
+ 573  600  588  508  488  560  412  217  229  169  183  123  83   72   98  
+
+ 622  532  340  311  388  505  514  300  242  146  75   88   75   53   62  
+
+ 654  430  241  144  191  115  555  603  393  95   66   129  47   24   43  
+
+ 719  777  771  596  756  699  698  656  468  132  327  124  26   29   29  
+
+ 762  829  777  785  870  929  756  619  364  226  205  175  29   38   45  
+
+ 788  874  934  960  927  749  566  297  290  309  288  214  29   62   84  
+
+ 838  787  942  948  820  614  255  597  935  535  314  246  91   65   82  
+
+ 849  853  969  792  700  902  510  293  935  392  107  323  69   58   59  
+
+ 839  876  835  532  548  815  618  531  644  405  326  217  121  69   65  
+
+ 782  727  734  510  641  912  660  788  825  622  388  442  281  104  60  
+
+ 530  386  344  403  834  880  449  585  815  538  208  275  387  97   108 
+
+ 259  407  264  415  871  875  625  488  738  651  287  110  298  121  92  
+
+ 362  446  377  606  817  855  753  606  711  565  290  96   142  119  94  
+
+<<15x15_SE>>
+ 550  584  420  444  515  596  256  157  113  108  109  115  81   136  172 
+
+ 546  575  457  441  513  551  279  266  206  138  159  168  81   83   153 
+
+ 573  601  588  510  488  561  429  219  232  169  185  123  85   78   101 
+
+ 622  532  341  313  389  506  517  303  243  147  78   89   77   53   62  
+
+ 655  430  242  144  194  119  554  605  392  98   69   131  49   21   41  
+
+ 718  777  769  595  758  699  697  656  467  133  329  127  24   27   26  
+
+ 762  830  779  785  872  931  755  618  363  226  208  176  29   38   46  
+
+ 788  876  938  961  928  749  567  296  288  309  290  215  27   65   85  
+
+ 839  789  944  950  822  615  257  599  936  534  316  246  92   66   84  
+
+ 851  855  971  793  701  904  509  293  937  393  109  323  69   57   62  
+
+ 839  878  836  531  548  817  619  532  642  408  326  218  122  67   65  
+
+ 782  728  733  510  642  913  661  789  826  623  389  444  282  105  59  
+
+ 532  388  345  404  832  881  449  586  815  538  209  278  388  98   110 
+
+ 261  410  264  418  872  877  626  487  737  651  288  114  299  123  92  
+
+ 363  446  379  606  818  857  755  605  709  565  290  99   145  119  94  
+
+<<15x15_R>>
+ 558  590  476  459  531  621  287  188  138  131  138  135  103  159  199 
+
+ 548  577  510  464  517  564  311  308  250  177  179  181  104  101  173 
+
+ 575  603  590  505  482  586  546  255  301  229  199  147  108  95   118 
+
+ 625  538  353  299  380  524  547  336  336  196  99   115  99   70   78  
+
+ 663  432  273  185  191  124  574  642  479  123  87   164  57   30   55  
+
+ 731  787  802  702  775  715  721  690  505  167  395  173  33   36   37  
+
+ 776  845  830  847  891  942  776  653  418  328  342  316  35   47   56  
+
+ 800  887  951  977  961  831  582  324  404  540  517  387  36   81   109 
+
+ 856  843  965  958  918  740  303  746  1079  831  565  371  149  85   108 
+
+ 874  886  995  798  688  917  531  331  1046  540  161  400  81   68   73  
+
+ 862  899  855  509  536  860  676  584  723  524  408  275  141  81   76  
+
+ 817  757  761  506  641  965  779  847  872  685  416  476  284  115  71  
+
+ 525  359  399  424  843  906  476  651  860  574  242  330  485  121  126 
+
+ 243  411  328  440  915  907  753  630  779  693  325  148  356  136  121 
+
+ 357  468  438  643  844  889  837  720  758  606  322  127  193  163  122 
+
+<<15x15_G>>
+ 560  592  401  451  520  602  249  149  103  95   100  107  70   127  160 
+
+ 555  583  441  440  520  557  274  256  191  127  151  162  72   71   142 
+
+ 584  609  599  518  501  558  370  210  209  148  179  116  76   63   90  
+
+ 633  541  343  322  398  509  515  296  208  130  69   81   68   48   55  
+
+ 665  437  232  128  196  115  560  602  365  88   60   120  42   21   37  
+
+ 728  787  778  585  766  708  706  659  466  124  311  107  23   26   25  
+
+ 770  837  784  791  874  940  766  620  350  190  151  119  25   34   41  
+
+ 797  886  943  968  931  745  570  292  247  218  198  144  25   56   77  
+
+ 849  788  948  960  812  582  242  556  885  421  216  200  67   58   73  
+
+ 857  855  975  820  741  916  512  283  898  336  86   304  64   54   54  
+
+ 848  885  850  585  595  815  612  521  626  370  305  201  114  63   59  
+
+ 785  731  739  547  675  906  630  782  826  615  385  437  279  99   55  
+
+ 532  385  324  404  846  885  443  569  818  539  201  263  364  90   102 
+
+ 256  393  239  412  872  878  578  431  740  652  280  98   288  116  82  
+
+ 358  435  359  604  821  859  730  566  710  562  286  86   124  104  85  
+
+<<15x15_B>>
+ 559  588  408  422  513  582  224  130  93   86   82   106  64   129  177 
+
+ 561  595  460  440  534  559  250  225  162  108  143  175  64   69   154 
+
+ 587  622  610  530  503  576  327  181  178  137  189  109  66   59   94  
+
+ 639  540  337  331  407  498  499  271  194  114  56   66   60   44   58  
+
+ 668  445  234  130  192  108  550  588  359  72   53   104  49   28   41  
+
+ 741  802  759  460  762  707  692  641  441  102  278  98   28   32   32  
+
+ 788  862  709  701  911  963  758  605  340  166  136  108  32   40   44  
+
+ 819  901  971  998  939  657  576  289  238  191  174  131  31   53   68  
+
+ 851  746  978  989  722  525  227  496  933  394  188  181  66   57   68  
+
+ 863  866  998  745  628  917  516  280  948  330  81   265  72   61   58  
+
+ 850  893  821  408  431  812  585  514  610  324  259  174  118  76   69  
+
+ 777  723  734  415  561  918  584  770  809  577  385  439  315  112  67  
+
+ 602  512  345  399  860  905  466  565  789  513  177  232  293  85   109 
+
+ 351  514  250  418  868  890  607  458  719  628  260  82   236  123  77  
+
+ 444  498  361  599  833  858  743  582  687  545  266  77   112  93   80  
+
+<<Central_Y>>
+ 150     355     523     856     1352    1780    2226    2712    2995    3296    3491    3482    3795    3707    3568    3387   
+ 3258    3186    2921    2909    2694    2588    2397    2265    2124    2046    1969    1826    1865    1770    1738    1662   
+ 1655    1624    1547    1556    1489    1428    1438    1391    1419    1406    1417    1409    1421    1315    1300    1402   
+ 1333    1405    1301    1312    1289    1347    1443    1401    1363    1391    1365    1341    1356    1379    1363    1348   
+ 1375    1299    1330    1345    1436    1371    1302    1372    1414    1343    1384    1350    1361    1346    1309    1324   
+ 1310    1270    1362    1337    1355    1328    1298    1357    1353    1263    1347    1297    1323    1364    1326    1299   
+ 1309    1318    1315    1327    1292    1452    1424    1439    1378    1356    1454    1410    1408    1490    1398    1531   
+ 1488    1512    1586    1518    1636    1588    1592    1592    1594    1519    1574    1614    1648    1595    1703    1668   
+ 1742    1688    1722    1686    1686    1662    1758    1686    1673    1694    1647    1755    1717    1697    1810    1806   
+ 1728    1775    1716    1716    1782    1717    1828    1718    1833    1742    1815    1733    1709    1722    1684    1739   
+ 1708    1749    1596    1662    1625    1647    1567    1601    1579    1562    1500    1530    1610    1473    1529    1501   
+ 1443    1422    1468    1374    1425    1379    1368    1373    1272    1316    1264    1348    1215    1279    1232    1167   
+ 1189    1254    1180    1164    1197    1214    1173    1178    1162    1186    1193    1166    1124    1152    1125    1207   
+ 1127    1112    1066    1174    1129    1095    1156    1069    1161    1188    1115    1128    1095    1097    1201    1119   
+ 1186    1119    1135    1057    1128    1100    1144    1169    1154    1152    1121    1111    1084    1127    1106    1117   
+ 1124    1092    1115    1093    1075    1072    1038    979     1045    996     993     914     925     873     921     842    
+ 850     798     762     776     698     730     712     648     614     621     575     546     571     521     477     486    
+ 418     428     396     379     419     359     382     327     312     286     285     276     253     228     216     196    
+ 182     184     173     169     156     156     153     132     142     128     127     119     119     123     97      91     
+ 74      97      81      60      69      74      62      64      61      55      51      56      65      54      54      42     
+ 50      43      40      35      44      37      40      47      29      39      40      30      28      18      25      18     
+ 19      17      26      27      20      23      19      21      17      26      24      18      13      20      21      14     
+ 24      21      15      17      22      12      18      14      15      15      15      13      14      14      6       10     
+ 20      20      9       12      12      11      20      16      7       10      11      13      13      12      9       15     
+ 13      12      15      11      15      10      18      16      18      14      18      20      23      17      16      16     
+ 27      18      21      23      21      23      32      20      19      27      23      23      34      23      21      29     
+ 23      19      18      23      29      31      31      34      30      30      45      36      40      39      28      36     
+ 46      45      26      41      28      34      39      33      35      39      33      41      34      38      33      36     
+ 39      36      37      37      23      27      42      33      31      36      28      44      38      27      45      30     
+ 34      26      30      38      30      26      28      19      29      24      20      17      22      18      19      24     
+ 14      23      18      18      29      20      11      14      11      9       23      15      16      11      11      17     
+ 9       16      15      7       12      9       7       13      10      3       4       5       6       4       5       4      
+ 5       7       5       7       2       8       2       5       1       4       2       1       2       1       1       4      
+ 3       4       4       1       1       3       0       1       1       0       3       2       0       0       1       1      
+ 1       1       1       0       1       0       0       0       0       1       0       0       0       0       2       0      
+ 0       0       0       0       0       1       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+
+
+<<Full_Y>>
+ 4623    5476    6640    8215    10396   12253   14206   15811   16838   17661   18295   18448   18978   19069   19097   18656  
+ 18681   18341   18182   17767   17273   16453   15866   15166   14712   13860   13167   12260   12094   11407   10898   10361  
+ 9886    9520    9288    8813    8442    8075    7711    7431    7078    7080    6692    6525    6322    6052    5983    5984   
+ 5835    5712    5553    5527    5490    5335    5308    5323    5198    5183    5103    5056    5041    5020    4955    4926   
+ 4841    4890    4774    4752    4836    4737    4645    4683    4546    4665    4518    4580    4593    4544    4425    4363   
+ 4427    4331    4320    4401    4332    4285    4324    4402    4355    4276    4284    4381    4402    4325    4367    4320   
+ 4240    4287    4277    4408    4319    4554    4543    4543    4489    4380    4597    4615    4601    4671    4570    4846   
+ 4717    4838    4912    4940    5020    4944    5034    4928    5160    5096    5143    5243    5214    5280    5449    5508   
+ 5599    5590    5622    5575    5637    5578    5839    5749    5815    5802    5937    5987    5944    5937    6027    6130   
+ 5995    5947    5942    6021    5989    5935    6010    5851    6033    5806    5964    5842    5855    5720    5650    5551   
+ 5515    5587    5468    5395    5296    5343    5296    5309    5177    5149    5059    5165    5101    4867    4894    4940   
+ 4919    4770    4897    4764    4908    4853    4704    4851    4648    4848    4678    4897    4618    4712    4785    4688   
+ 4682    4686    4781    4731    4700    4796    4769    4900    4786    4829    4865    4805    4761    4820    4740    4854   
+ 4830    4746    4660    4744    4703    4807    4763    4647    4691    4718    4689    4507    4502    4526    4615    4488   
+ 4592    4395    4346    4237    4254    4142    4201    4183    4013    4085    3969    3850    3740    3632    3610    3581   
+ 3454    3415    3305    3265    3231    3121    3003    2860    2898    2798    2714    2524    2517    2375    2440    2265   
+ 2239    2047    2015    2015    1810    1820    1719    1618    1603    1465    1506    1430    1371    1244    1182    1122   
+ 1057    983     955     928     893     839     858     777     726     674     644     637     563     507     504     498    
+ 463     412     413     384     363     340     309     288     316     277     284     265     252     233     204     188    
+ 195     186     164     141     150     142     135     135     134     105     106     101     117     108     91      81     
+ 86      85      74      63      74      70      67      72      42      64      67      48      45      39      43      36     
+ 39      34      42      46      28      32      32      29      25      38      36      32      21      30      28      20     
+ 29      26      24      26      27      15      23      16      19      17      19      17      18      16      9       13     
+ 22      22      9       17      19      13      22      19      10      17      13      17      16      15      12      18     
+ 17      14      17      14      19      11      20      17      22      17      19      20      25      17      20      17     
+ 31      22      27      25      23      25      33      23      22      31      28      24      36      27      26      31     
+ 23      22      23      28      30      32      33      36      32      34      48      37      43      42      32      36     
+ 47      48      29      41      29      35      40      35      38      41      37      42      36      41      34      37     
+ 41      38      40      39      24      28      43      36      33      36      30      49      41      34      48      30     
+ 36      26      33      38      31      29      29      21      32      26      21      17      24      21      22      26     
+ 18      25      19      22      30      22      11      18      14      9       25      15      20      13      13      17     
+ 10      16      15      8       12      11      9       17      13      6       5       8       7       5       6       5      
+ 7       7       5       8       3       8       3       10      4       7       2       2       4       2       2       5      
+ 5       5       4       3       4       5       1       2       1       0       6       3       0       0       2       3      
+ 2       2       2       2       3       0       2       2       1       2       1       1       0       0       2       0      
+ 1       2       0       1       1       2       1       0       0       1       0       0       0       0       2       1      
+ 0       2       1       0       0       0       2       0       0       0       1       1       1       0       0       0      
+ 0       1       1       0       0       0       1       2       0       1       1       0       0       0       0       1      
+ 1       0       0       1       0       0       0       1       0       0       1       0       1       0       0       0      
+ 0       0       0       1       1       0       0       1       0       0       0       0       0       1       0       0      
+ 0       1       0       0       0       0       0       0       0       1       0       2       0       1       0       0      
+ 0       0       1       0       0       0       0       0       0       0       0       1       0       0       0       0      
+ 1       1       0       2       0       0       0       0       0       0       0       0       0       0       1       0      
+ 0       0       0       0       0       0       1       0       0       0       0       0       0       0       1       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       1       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       1       0       0       0       0       0       1       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       1       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       1       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       1       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       0       0       0       0       0       0       0       0       1      
+ 0       0       0       0       0       0       0       0       0       1       0       0       0       0       0       0      
+ 0       0       0       1       0       0       0       0       0       2       0       1       0       0       0       1      
+ 0       0       0       0       0       0       0       0       0       1       0       0       0       0       0       0      
+ 0       0       0       0       0       0       0       1       0       0       0       0       0       0       0       6      
+
+
+<<Full_RGB>>
+ 220965  6252    46526   47554   33926   38136   48226   65361   54883   52056   49334   47965   46716   46581   42989   43871  
+ 48940   42898   42474   42199   41312   39658   39851   37985   35695   34578   32354   32596   31689   34871   28300   27354  
+ 25485   29456   24611   23785   22802   21990   22190   21974   21270   20520   23437   20366   20095   19663   18963   18601  
+ 19046   18327   18343   17549   16835   16658   16955   19050   16013   15525   15537   15520   18296   15489   15052   15135  
+ 14910   14630   14596   14313   16244   13963   13639   13809   13725   13676   13609   13434   13367   13165   12727   13272  
+ 13243   15587   12859   12391   12447   12591   15215   12789   12471   12229   12367   12486   12800   12402   14425   12495  
+ 12264   12753   12563   12453   12732   12309   12873   12797   12662   12777   12874   14983   12443   12662   12709   12874  
+ 12514   15729   12784   12874   13474   13436   13620   13293   15956   13740   13682   13913   13721   14423   14271   14184  
+ 14386   14366   14295   14505   14854   17053   15266   15241   15514   15359   15076   17876   15528   15772   15571   15566  
+ 16114   15520   18104   15901   15585   15314   15676   15768   15963   15317   15186   15478   15375   15511   14722   17054  
+ 14972   14967   15285   14770   14711   17239   14572   14224   14385   14289   13955   14105   15908   13694   13747   13594  
+ 13758   13918   13717   13387   13093   13488   13799   13628   13166   14691   13156   13158   12960   13171   12842   12689  
+ 14760   13031   12890   12925   12768   12687   14760   12958   12759   12438   12473   12472   12771   12734   12342   12245  
+ 12530   12237   12341   14025   12200   12130   12287   12094   12161   12084   14089   12035   11890   11792   11719   11332  
+ 13072   11305   11388   11189   11136   11102   10779   10680   10324   10383   10270   10306   9975    11052   9544    9598   
+ 9293    9209    8977    8783    8768    10141   8243    7955    7838    7773    8594    7491    7281    6954    6806    6639   
+ 6450    6477    6270    6034    5714    5625    5713    6240    5258    5021    4725    4809    4662    4453    4291    4921   
+ 4009    3883    3809    3646    4270    3469    3214    3024    2976    3021    2997    2925    2582    2673    2441    2460   
+ 2421    2757    2261    2221    2108    2054    2007    2037    1870    1815    2135    1731    1715    1652    1857    1532   
+ 1546    1482    1479    1444    1358    1295    1322    1205    1207    1168    1138    1392    1074    1088    1105    1036   
+ 988     1001    940     909     1117    870     859     840     1015    821     802     791     796     760     764     718    
+ 650     675     662     694     703     760     617     633     663     573     599     575     541     550     565     702    
+ 524     503     612     470     495     480     472     461     490     493     458     428     436     441     391     481    
+ 421     367     367     404     360     326     348     360     393     434     321     346     398     315     339     300    
+ 290     281     293     312     293     285     303     280     264     327     251     274     254     243     246     229    
+ 231     254     249     313     236     243     231     211     203     222     240     209     242     227     223     220    
+ 188     193     203     237     194     186     181     172     204     168     200     162     189     185     231     157    
+ 180     178     183     158     158     135     168     171     149     151     128     128     149     168     136     132    
+ 134     136     160     140     124     105     132     138     180     146     128     130     113     126     112     109    
+ 105     115     121     106     82      94      112     113     96      114     85      90      97      108     97      98     
+ 103     93      92      120     97      72      74      68      72      86      82      81      82      66      92      80     
+ 80      68      74      57      52      55      50      53      61      48      52      44      56      67      34      40     
+ 40      38      46      42      40      49      37      35      39      33      52      55      34      29      23      47     
+ 39      32      26      36      29      33      30      27      30      34      35      28      23      20      17      24     
+ 20      30      25      19      18      26      22      20      17      21      22      24      17      14      20      22     
+ 14      11      12      12      15      12      13      23      8       14      12      14      13      10      15      9      
+ 8       10      8       13      9       12      14      2       8       16      10      10      11      11      14      8      
+ 9       8       11      4       6       9       4       8       15      11      9       5       5       2       8       7      
+ 3       5       2       7       6       2       7       2       5       5       5       6       5       3       6       7      
+ 8       6       5       4       6       8       6       5       5       3       3       5       4       5       4       8      
+ 6       2       7       3       7       0       2       2       3       4       4       4       4       6       4       4      
+ 4       2       5       1       0       5       3       1       4       4       2       3       5       1       2       2      
+ 5       1       1       2       0       3       2       1       2       3       4       2       3       0       3       1      
+ 1       1       1       1       1       2       2       0       2       3       0       2       1       1       1       2      
+ 1       5       1       1       1       0       1       3       3       1       0       2       2       3       0       0      
+ 0       1       1       1       2       0       1       1       1       1       0       2       2       1       2       0      
+ 2       0       0       0       2       2       1       1       0       0       1       2       0       1       1       2      
+ 0       1       0       0       1       1       0       0       0       0       2       2       0       0       0       0      
+ 1       0       0       1       1       0       1       0       0       1       2       0       0       0       0       0      
+ 0       0       0       0       0       0       0       1       0       0       0       2       0       0       0       0      
+ 0       1       0       0       0       0       0       0       0       0       1       0       0       1       1       0      
+ 0       0       1       0       0       0       0       1       0       1       1       0       0       0       1       0      
+ 0       1       2       1       0       1       0       0       1       0       0       1       0       0       0       0      
+ 0       0       2       0       0       0       0       0       0       0       2       0       0       0       1       0      
+ 0       0       0       1       1       0       1       0       0       0       0       1       0       0       0       0      
+ 1       0       0       2       1       0       0       1       1       0       0       1       0       0       0       0      
+ 0       1       0       0       1       0       1       0       2       2       0       1       0       0       0       0      
+ 1       0       0       0       0       0       0       0       0       0       1       1       0       0       0       0      
+ 0       0       0       1       0       2       0       0       0       0       0       0       0       0       0       0      
+ 1       1       0       0       1       1       0       0       0       0       1       1       0       1       0       1      
+ 0       0       1       0       0       0       0       0       0       1       0       2       0       0       0       0      
+ 2       0       0       0       0       0       0       0       0       0       0       0       0       1       1       0      
+ 0       0       1       1       0       0       0       0       0       0       1       0       0       0       0       1      
+ 0       1       0       0       0       0       1       1       0       0       1       0       0       0       0       115    
+
+
+
+
