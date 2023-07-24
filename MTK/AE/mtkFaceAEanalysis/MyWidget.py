@@ -12,6 +12,7 @@ import os
 import copy
 import numpy as np
 from scipy import interpolate
+from scipy import interpolate, optimize
 
 class MyLineEdit(QLineEdit):
     calculate_interpolate_signal = pyqtSignal()
@@ -161,18 +162,26 @@ class MyWidget(ParentWidget):
         for r in range(start_row, end_row+1):
             row_data = []
             for c in range(start_col, end_col+1):
+                if grid.itemAtPosition(r, c).widget().text() == "":
+                    QMessageBox.warning(self, "Warning", "Please fill in all the data")
                 row_data.append(grid.itemAtPosition(r, c).widget().text())
             data.append(row_data)
         return np.array(data).astype(np.float)
     
+    def set_grid_data(self, grid, start_row, end_row, start_col, end_col, data):
+        for r in range(start_row, end_row+1):
+            for c in range(start_col, end_col+1):
+                grid.itemAtPosition(r, c).widget().setText(str(data[r-start_row][c-start_col]))
+    
     def calculate_interpolate(self):
+        print(self.now_exif_data["Target_TH"].tolist())
         # normal
         X = self.get_grid_data(self.ui.link_normal_grid, 2, 2, 1, 10)[0]
         Y = self.get_grid_data(self.ui.link_normal_grid, 1, 1, 1, 10)[0]
         Z = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10)
-        print(X)
-        print(Y)
-        print(Z)
+        print(X.tolist())
+        print(Y.tolist())
+        print(Z.tolist())
         f = interpolate.interp2d(X, Y, Z, kind='linear')
         print(self.now_exif_data["DR"])
         print(self.now_exif_data["BV"])
@@ -184,14 +193,15 @@ class MyWidget(ParentWidget):
         X = self.get_grid_data(self.ui.link_low_grid, 2, 2, 1, 10)[0]
         Y = self.get_grid_data(self.ui.link_low_grid, 1, 1, 1, 10)[0]
         Z = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10)
-        print(X)
-        print(Y)
-        print(Z)
+        print(X.tolist())
+        print(Y.tolist())
+        print(Z.tolist())
         f = interpolate.interp2d(X, Y, Z, kind='linear')
 
         for i in range(self.total_row):
             self.now_exif_data["After NS"][i] = int(f(self.now_exif_data["DR"][i], self.now_exif_data["BV"][i])[0])
 
+        print(self.now_exif_data["NS_Prob"].tolist())
         self.now_exif_data["After Total"] = (self.now_exif_data["After Day"]*(1024-self.now_exif_data["NS_Prob"])+self.now_exif_data["After NS"]*self.now_exif_data["NS_Prob"])/1024
         self.now_exif_data["After THD diff"] = self.now_exif_data["Target_TH"] - self.now_exif_data["After Total"]
         for i in range(self.total_row):
@@ -394,8 +404,90 @@ class MyWidget(ParentWidget):
             self.ui.exif_table.setColumnWidth(4, 100)
 
     def optimize(self):
+        self.set_btn_enable(self.ui.del_btn, False)
+        self.set_btn_enable(self.ui.load_exif_btn, False)
+        self.set_btn_enable(self.ui.load_code_btn, False)
+        self.set_btn_enable(self.ui.optimize_btn, False)
+        self.set_btn_enable(self.ui.restore_btn, False)
+        self.set_btn_enable(self.ui.export_code_btn, False)
+        self.ui.optimize_btn.setText("Optimizing...請稍後")
+        self.ui.optimize_btn.repaint()
+        
         self.pre_exif_data = copy.deepcopy(self.now_exif_data)
-    
+        
+        # Given data
+        normal_X = self.get_grid_data(self.ui.link_normal_grid, 2, 2, 1, 10)[0]
+        normal_Y = self.get_grid_data(self.ui.link_normal_grid, 1, 1, 1, 10)[0]
+        normal_Z = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10)
+        
+        # low
+        low_X = self.get_grid_data(self.ui.link_low_grid, 2, 2, 1, 10)[0]
+        low_Y = self.get_grid_data(self.ui.link_low_grid, 1, 1, 1, 10)[0]
+        low_Z = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10)
+
+        DR = np.array(self.now_exif_data["DR"])
+        BV = np.array(self.now_exif_data["BV"])
+        NS_Prob = np.array(self.now_exif_data["NS_Prob"])
+        
+        target_value = np.array(self.now_exif_data["Target_TH"])
+
+        # Objective function for optimization
+        def objective_function(z_values):
+            
+            normal_z_values = z_values[:100].reshape(normal_Z.shape)
+            low_z_values = z_values[100:].reshape(low_Z.shape)
+            # Interpolate function
+            normal_f = interpolate.interp2d(normal_X, normal_Y, normal_z_values, kind='linear')
+
+            # Calculate the new normal_value
+            normal_value = []
+            for i in range(4):
+                normal_value.append(normal_f(DR[i], BV[i])[0].astype(int))
+            
+            normal_value = np.array(normal_value)
+            
+            # Interpolate function
+            low_f = interpolate.interp2d(low_X, low_Y, low_z_values, kind='linear')
+            
+            # Calculate the new low_value
+            low_value = []
+            for i in range(4):
+                low_value.append(low_f(DR[i], BV[i])[0].astype(int))
+            
+            low_value = np.array(low_value)
+            
+            now_value = (normal_value*(1024-NS_Prob)+low_value*NS_Prob)/1024
+            # Calculate the difference between normal_day and target_day
+            diff = now_value - target_value
+            
+            # Sum of squared differences
+            sum_of_squared_diff = np.sum(diff**2)
+            return sum_of_squared_diff
+
+        # Initial guess for optimization
+        initial_guess = np.concatenate((normal_Z, low_Z)).reshape(normal_Z.size*2)
+        # Bounds for optimization
+        bounds = [(0, 2000)] * normal_Z.size*2
+        # Optimization process zero:Powell,  normal_Z:Nelder-Mead
+        result = optimize.minimize(objective_function, initial_guess, method='Nelder-Mead', bounds=bounds)
+        print(result.x)
+        # Updated normal_Z with optimized values
+        updated_normal_Z = result.x[:100].reshape(normal_Z.shape).astype(int)
+        updated_low_Z = result.x[100:].reshape(low_Z.shape).astype(int)
+        
+        self.set_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10, updated_normal_Z)
+        self.set_grid_data(self.ui.link_low_grid, 5, 14, 1, 10, updated_low_Z)
+        self.calculate_interpolate()
+        self.cancel_highlight()
+        
+        self.set_btn_enable(self.ui.del_btn, True)
+        self.set_btn_enable(self.ui.load_exif_btn, True)
+        self.set_btn_enable(self.ui.load_code_btn, True)
+        self.set_btn_enable(self.ui.optimize_btn, True)
+        self.set_btn_enable(self.ui.restore_btn, True)
+        self.set_btn_enable(self.ui.export_code_btn, True)
+        self.ui.optimize_btn.setText("最佳化")
+        
     def restore(self):
         self.set_code_data(self.code_data)
         self.total_row = len(self.pre_exif_data["No."])
