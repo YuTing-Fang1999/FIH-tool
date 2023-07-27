@@ -1,21 +1,50 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QCheckBox, QVBoxLayout
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
-app = QApplication(sys.argv)
+class Window(QWidget):
+    def __init__(self, parent=None):
+        QWidget.__init__(self, parent)
 
-# 創建一個QWidget作為主窗口
-window = QWidget()
-window.setWindowTitle('QCheckBox 最大化示例')
+        self.setWindowTitle("Scrolling QTableWidget smoothly BY MOUSE WHEEL")
+        
+        label = QLabel("singleStep:")
+        self.spinbox = QSpinBox()
+        self.spinbox.setValue(1)
+        self.spinbox.setMinimum(1)
+        self.spinbox.setMaximum(200)
+        self.spinbox.valueChanged.connect(self.on_value_changed)
 
-# 創建一個QCheckBox
-checkbox = QCheckBox('這是一個QCheckBox')
+        self.widget = QTableWidget(100, 5)
 
-# 創建一個QVBoxLayout並將QCheckBox添加進去
-layout = QVBoxLayout()
-layout.addWidget(checkbox)
+        for i in range(100):
+            for j in range(5):
+                self.widget.setItem(i, j, QTableWidgetItem(str(i+j)))
 
-# 設置主窗口的佈局為剛剛創建的QVBoxLayout
-window.setLayout(layout)
+        self.widget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        #self.widget.verticalScrollBar().setSingleStep(1)
+        self.set_single_step()
 
-window.show()
-sys.exit(app.exec_())
+        spinbox_layout = QHBoxLayout()
+        spinbox_layout.addStretch()
+        spinbox_layout.addWidget(label)
+        spinbox_layout.addWidget(self.spinbox)
+
+        layout = QVBoxLayout()
+        layout.addLayout(spinbox_layout)
+        layout.addWidget(self.widget)
+        self.setLayout(layout)
+
+    def on_value_changed(self, step):
+        self.set_single_step()
+
+    def set_single_step(self):
+        self.widget.verticalScrollBar().setSingleStep(self.spinbox.value())
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = Window()
+    window.resize(800, 600)
+    window.show()
+    sys.exit(app.exec())
