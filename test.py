@@ -1,50 +1,39 @@
 import sys
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
+from PyQt5.QtGui import QColor
 
-class Window(QWidget):
-    def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
+class ExampleWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-        self.setWindowTitle("Scrolling QTableWidget smoothly BY MOUSE WHEEL")
-        
-        label = QLabel("singleStep:")
-        self.spinbox = QSpinBox()
-        self.spinbox.setValue(1)
-        self.spinbox.setMinimum(1)
-        self.spinbox.setMaximum(200)
-        self.spinbox.valueChanged.connect(self.on_value_changed)
+        self.initUI()
 
-        self.widget = QTableWidget(100, 5)
+    def initUI(self):
+        self.setWindowTitle("Item Background Example")
+        self.setGeometry(100, 100, 500, 300)
 
-        for i in range(100):
-            for j in range(5):
-                self.widget.setItem(i, j, QTableWidgetItem(str(i+j)))
+        # Create a QTableWidget
+        self.tableWidget = QTableWidget(self)
+        self.tableWidget.setRowCount(5)
+        self.tableWidget.setColumnCount(3)
 
-        self.widget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-        #self.widget.verticalScrollBar().setSingleStep(1)
-        self.set_single_step()
+        # Fill the table with some data for demonstration purposes
+        for row in range(5):
+            for col in range(3):
+                self.tableWidget.setItem(row, col, QTableWidgetItem(f"Row {row}, Col {col}"))
 
-        spinbox_layout = QHBoxLayout()
-        spinbox_layout.addStretch()
-        spinbox_layout.addWidget(label)
-        spinbox_layout.addWidget(self.spinbox)
+                # Set the background color of the individual item
+            self.tableWidget.item(row, 1).setBackground(QColor(255, 255, 0))  # Yellow background
 
-        layout = QVBoxLayout()
-        layout.addLayout(spinbox_layout)
-        layout.addWidget(self.widget)
-        self.setLayout(layout)
+        # Set the table as the central widget
+        central_widget = QWidget(self)
+        central_layout = QVBoxLayout()
+        central_layout.addWidget(self.tableWidget)
+        central_widget.setLayout(central_layout)
+        self.setCentralWidget(central_widget)
 
-    def on_value_changed(self, step):
-        self.set_single_step()
-
-    def set_single_step(self):
-        self.widget.verticalScrollBar().setSingleStep(self.spinbox.value())
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = Window()
-    window.resize(800, 600)
+    window = ExampleWindow()
     window.show()
-    sys.exit(app.exec())
+    sys.exit(app.exec_())

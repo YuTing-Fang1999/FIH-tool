@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QLabel, QStyledItemDelegate, QHBoxLayout, QLineEdit, QTableWidget, QAbstractItemView
 )
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIntValidator, QColor
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import win32com.client as win32
@@ -13,6 +13,11 @@ import copy
 import numpy as np
 from scipy import interpolate
 from scipy import interpolate, optimize
+
+import re
+def is_integer(s):
+    pattern = r'^[+-]?\d+$'
+    return re.match(pattern, s) is not None
 
 class MyLineEdit(QLineEdit):
     calculate_interpolate_signal = pyqtSignal()
@@ -24,22 +29,31 @@ class MyLineEdit(QLineEdit):
         self.setText(str(self.origin_val))
         self.textEdited.connect(self.text_changed)
 
+        self.setValidator(QIntValidator(self))
+
     def text_changed(self):
-        if self.text() != "":
+        self.setText(self.text().strip())
+        if is_integer(self.text()):
             self.calculate_interpolate_signal.emit()
 
         self.change_style()
         
     def change_style(self):
-        if not self.isEnabled(): return
-        if self.text() != "":
-            if float(self.text().strip()) == self.origin_val:
-                self.style_str = "color: white;"
-            else:
-                self.style_str = "color: rgb(255, 0, 0);"
 
-        if self.highlighted:
-            self.style_str += "background:rgb(68, 114, 196);"
+        if is_integer(self.text()):
+            if float(self.text().strip()) == self.origin_val:
+                if not self.isEnabled():
+                    self.style_str = "color: rgb(128, 128, 128);"
+                else:
+                    self.style_str = "color: white;"
+            else:
+                if not self.isEnabled(): 
+                    self.style_str = "color: pink;"
+                else:
+                    self.style_str = "color: rgb(255, 0, 0);"
+
+            if self.highlighted:
+                self.style_str += "background:rgb(68, 114, 196);"
 
         self.setStyleSheet("QLineEdit {"+self.style_str+"}")
             
@@ -63,6 +77,9 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.normal_code_enable = np.array([False]*100).reshape(10, 10)
         self.low_code_enable = np.array([False]*100).reshape(10, 10)
+        self.last_avg_dif = None
+        self.now_avg_dif = None
+        
 
         self.controller()
         self.setupUi()
@@ -76,7 +93,8 @@ class MyWidget(ParentWidget):
         self.ui.optimize_btn.clicked.connect(self.optimize)
         self.ui.restore_btn.clicked.connect(self.restore)
         self.ui.export_code_btn.clicked.connect(self.export_code)
-        self.ui.exif_table.cellClicked.connect(self.table_row_selected_event)
+        # self.ui.exif_table.cellClicked.connect(self.table_row_selected_event)
+        self.ui.exif_table.itemSelectionChanged.connect(self.table_row_selected_event)
         
     def setupUi(self):
         delegate = AlignDelegate(self.ui.exif_table)
@@ -104,12 +122,16 @@ class MyWidget(ParentWidget):
         self.load_exif()
         self.load_code()
 
-    def table_row_selected_event(self, row, column):
-        self.cancel_highlight()
-        for pos in self.now_exif_data["normal_highlight_region"][row]:
-            self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().highlight()
-        for pos in self.now_exif_data["low_highlight_region"][row]:
-            self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().highlight()
+    def table_row_selected_event(self):
+        selected_items = self.ui.exif_table.selectedItems()
+        if selected_items:
+            # Assuming the table has two columns (you can adjust this based on your table's structure)
+            row = self.ui.exif_table.row(selected_items[0])
+            self.cancel_highlight()
+            for pos in self.now_exif_data["normal_highlight_region"][row]:
+                self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().highlight()
+            for pos in self.now_exif_data["low_highlight_region"][row]:
+                self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().highlight()
 
     def cancel_highlight(self):
         for r in range(10):
@@ -117,26 +139,27 @@ class MyWidget(ParentWidget):
                 self.ui.link_normal_grid.itemAtPosition(5+r, 1+c).widget().cancel_highlight()
                 self.ui.link_low_grid.itemAtPosition(5+r, 1+c).widget().cancel_highlight()
                 
-    def get_highlight_region(self, BV, DR, BV_code, DR_code, light_r, light_c):
-        pos_r = np.argwhere((BV_code <= BV)).flatten()
-        pos_c = np.argwhere((DR_code <= DR)).flatten()
-        if pos_r.size != 0:
-            pos_r = min(pos_r[-1], light_r)
-        else:
-            pos_r = 0
-
-        if pos_c.size != 0:
-            pos_c = min(pos_c[-1], light_c)
-        else:
-            pos_c = 0
-        
+    def get_highlight_region_pos(self, BV, DR, BV_code, DR_code, light_r, light_c):
+        pos_r = -1
+        pos_c = -1
+        for i in range(10):
+            if BV_code[i] > BV:
+                pos_r = i-1
+                break
+        for i in range(10):
+            if DR_code[i] > DR:
+                pos_c = i-1
+                break
+    
+        # print("pos_r: {}, pos_c: {}".format(pos_r, pos_c))
         highlight_region = []
-        highlight_region.append([5+pos_r, 1+pos_c])
+        if pos_r>=0 and pos_c>=0:
+            highlight_region.append([5+pos_r, 1+pos_c])
         if pos_r<light_r and pos_c<light_c:
             highlight_region.append([5+pos_r+1, 1+pos_c+1])
-        if pos_r<light_r:
+        if pos_c>=0 and pos_r<light_r:
             highlight_region.append([5+pos_r+1, 1+pos_c])
-        if pos_c<light_c:
+        if pos_r>=0 and pos_c<light_c:
             highlight_region.append([5+pos_r, 1+pos_c+1])
         
         return np.array(highlight_region)
@@ -201,7 +224,9 @@ class MyWidget(ParentWidget):
             self.ui.exif_table.setItem(i, 15, QTableWidgetItem(str(self.now_exif_data["After Day"][i])))
             self.ui.exif_table.setItem(i, 16, QTableWidgetItem(str(self.now_exif_data["After NS"][i])))
             self.ui.exif_table.setItem(i, 17, QTableWidgetItem(str(self.now_exif_data["After Total"][i])))
+            self.ui.exif_table.item(i,17).setBackground(QColor(61, 90, 115))
             self.ui.exif_table.setItem(i, 18, QTableWidgetItem(str(self.now_exif_data["After THD diff"][i])))
+            self.ui.exif_table.item(i, 18).setBackground(QColor(86, 125, 140))
 
     def del_selected_row(self):
         i = 0
@@ -286,7 +311,7 @@ class MyWidget(ParentWidget):
         self.set_code_data(self.code_data)
         # print(data)
         
-        ######## TEST ########
+        # ######## TEST ########
         self.code_data["normal_light_c"] = 9
         self.code_data["normal_light_r"] = 9
         self.code_data["low_light_c"] = 3
@@ -296,7 +321,7 @@ class MyWidget(ParentWidget):
         }
         self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
         self.total_row = 28
-        ######## TEST ########
+        # ######## TEST ########
         
         excel = win32.Dispatch("Excel.Application")
         # excel.Visible = False  # Set to True if you want to see the Excel application
@@ -336,27 +361,32 @@ class MyWidget(ParentWidget):
             "Crop_path": self.img_path["Crop_path"],
             "ref_Crop_path": self.img_path["ref_Crop_path"],
         }
-        normal_highlight_region = []
-        low_highlight_region = []
+        self.pre_exif_data["normal_highlight_region"] = []
+        self.pre_exif_data["low_highlight_region"] = []
         for i in range(self.total_row):
+            # if not (i ==15 or i == 16): continue
             BV = self.pre_exif_data["BV"][i]
             DR = self.pre_exif_data["DR"][i]
-            
-            normal_highlight_region.append(self.get_highlight_region(
-                BV, DR, 
-                self.code_data["flt_bv"], self.code_data["flt_dr"], 
-                self.code_data["normal_light_r"], self.code_data["normal_light_c"]
-            ))
-            low_highlight_region.append(self.get_highlight_region(
-                BV, DR, 
-                self.code_data["flt_ns_bv"], self.code_data["flt_ns_dr"],
-                self.code_data["low_light_r"], self.code_data["low_light_c"]
-            ))
-        self.pre_exif_data["normal_highlight_region"] = normal_highlight_region
-        self.pre_exif_data["low_highlight_region"] = low_highlight_region
+            normal_highlight_region = []
+            low_highlight_region = []
+            if self.pre_exif_data["NS_Prob"][i] != 1024:
+                normal_highlight_region = self.get_highlight_region_pos(
+                    BV, DR, 
+                    self.code_data["flt_bv"], self.code_data["flt_dr"], 
+                    self.code_data["normal_light_r"], self.code_data["normal_light_c"]
+                )
+            if self.pre_exif_data["NS_Prob"][i] != 0:
+                low_highlight_region = self.get_highlight_region_pos(
+                    BV, DR, 
+                    self.code_data["flt_ns_bv"], self.code_data["flt_ns_dr"],
+                    self.code_data["low_light_r"], self.code_data["low_light_c"]
+                )
+            self.pre_exif_data["normal_highlight_region"].append(normal_highlight_region)
+            self.pre_exif_data["low_highlight_region"].append(low_highlight_region)
         
         # print(self.pre_exif_data)
         self.now_exif_data = copy.deepcopy(self.pre_exif_data)
+        self.now_avg_dif = np.mean(np.abs(self.now_exif_data["After THD diff"]))
         
         workbook.Save()
         workbook.Close()
@@ -389,7 +419,12 @@ class MyWidget(ParentWidget):
             widget   = QWidget()
             checkbox = QCheckBox("")
             # print(str(int(data["FDStable"][i])).strip())
+            # if i ==15 or i == 16:
+            #     checkbox.setChecked(False)
+            # else:
+            #     checkbox.setChecked(True)
             checkbox.setChecked(str(int(data["FDStable"][i])).strip()=="0")
+            # checkbox.setChecked(True)
             checkbox.setStyleSheet("QCheckBox::indicator"
                                 "{"
                                 "width :40px;"
@@ -418,6 +453,8 @@ class MyWidget(ParentWidget):
             self.ui.exif_table.setItem(i, 17, QTableWidgetItem(str(data["After Total"][i])))
             self.ui.exif_table.setItem(i, 18, QTableWidgetItem(str(data["After THD diff"][i])))
             self.ui.exif_table.setItem(i, 19, QTableWidgetItem(str(data["Target_TH"][i])))
+            self.ui.exif_table.item(i, 19).setBackground(QColor(61, 90, 115))
+
             
             self.ui.exif_table.setRowHeight(i, 150)
             
@@ -443,103 +480,111 @@ class MyWidget(ParentWidget):
             QMessageBox.warning(self, "Warning", "Please fill in all the data")
             return
         
-        self.set_btn_enable(self.ui.del_btn, False)
-        self.set_btn_enable(self.ui.load_exif_btn, False)
-        self.set_btn_enable(self.ui.load_code_btn, False)
-        self.set_btn_enable(self.ui.optimize_btn, False)
-        self.set_btn_enable(self.ui.restore_btn, False)
-        self.set_btn_enable(self.ui.export_code_btn, False)
+        self.last_avg_dif = self.now_avg_dif
+        self.set_all_btn_enable(False)
         self.ui.optimize_btn.setText("Optimizing...請稍後")
         self.ui.optimize_btn.repaint()
         
-        self.pre_exif_data = copy.deepcopy(self.now_exif_data)
-        
-        # Given data
-        normal_X = self.get_grid_data(self.ui.link_normal_grid, 2, 2, 1, 10)[0]
-        normal_Y = self.get_grid_data(self.ui.link_normal_grid, 1, 1, 1, 10)[0]
-        normal_Z = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10)
-        
-        # low
-        low_X = self.get_grid_data(self.ui.link_low_grid, 2, 2, 1, 10)[0]
-        low_Y = self.get_grid_data(self.ui.link_low_grid, 1, 1, 1, 10)[0]
-        low_Z = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10)
+        # self.pre_exif_data = copy.deepcopy(self.now_exif_data)
 
-        DR = np.array(self.now_exif_data["DR"])
-        BV = np.array(self.now_exif_data["BV"])
-        NS_Prob = np.array(self.now_exif_data["NS_Prob"])
+        last_result_fun = 1e9
+        now_result_fun = 1e5
+        while now_result_fun < last_result_fun:
         
-        target_value = np.array(self.now_exif_data["Target_TH"])
+            # Given data
+            normal_X = self.get_grid_data(self.ui.link_normal_grid, 2, 2, 1, 10)[0]
+            normal_Y = self.get_grid_data(self.ui.link_normal_grid, 1, 1, 1, 10)[0]
+            normal_Z = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10)
+            
+            # low
+            low_X = self.get_grid_data(self.ui.link_low_grid, 2, 2, 1, 10)[0]
+            low_Y = self.get_grid_data(self.ui.link_low_grid, 1, 1, 1, 10)[0]
+            low_Z = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10)
 
-        # Objective function for optimization
-        def objective_function(z_values):
+            DR = np.array(self.now_exif_data["DR"])
+            BV = np.array(self.now_exif_data["BV"])
+            NS_Prob = np.array(self.now_exif_data["NS_Prob"])
             
-            normal_z_values = z_values[:self.normal_code_enable.sum()]
-            low_z_values = z_values[self.normal_code_enable.sum():]
-            
-            normal_Z[self.normal_code_enable] = normal_z_values
-            low_Z[self.low_code_enable] = low_z_values
-            
-            # Interpolate function
-            normal_f = interpolate.interp2d(normal_X, normal_Y, normal_Z, kind='linear')
+            target_value = np.array(self.now_exif_data["Target_TH"])
 
-            # Calculate the new normal_value
-            normal_value = []
-            for i in range(len(DR)):
-                normal_value.append(normal_f(DR[i], BV[i])[0].astype(int))
-            
-            normal_value = np.array(normal_value)
-            
-            # Interpolate function
-            low_f = interpolate.interp2d(low_X, low_Y, low_Z, kind='linear')
-            
-            # Calculate the new low_value
-            low_value = []
-            for i in range(len(DR)):
-                low_value.append(low_f(DR[i], BV[i])[0].astype(int))
-            
-            low_value = np.array(low_value)
-            
-            now_value = (normal_value*(1024-NS_Prob)+low_value*NS_Prob)/1024
-            # Calculate the difference between normal_day and target_day
-            diff = now_value - target_value
-            
-            # Sum of squared differences
-            sum_of_squared_diff = np.sum(diff**2)
-            return sum_of_squared_diff
+            # Objective function for optimization
+            def objective_function(z_values):
+                
+                normal_z_values = z_values[:self.normal_code_enable.sum()]
+                low_z_values = z_values[self.normal_code_enable.sum():]
+                
+                normal_Z[self.normal_code_enable] = normal_z_values
+                low_Z[self.low_code_enable] = low_z_values
+                
+                # Interpolate function
+                normal_f = interpolate.interp2d(normal_X, normal_Y, normal_Z, kind='linear')
 
-        # Initial guess for optimization
-        initial_guess = np.concatenate(
-            (normal_Z[self.normal_code_enable], low_Z[self.low_code_enable])).flatten()
-        # Bounds for optimization
-        bounds = [(0, 2000)] * initial_guess.size
-        # Optimization process zero:Powell,  normal_Z:Nelder-Mead
-        result = optimize.minimize(objective_function, initial_guess, method='Nelder-Mead', bounds=bounds)
-        # print(result.x)
-        # Updated normal_Z with optimized values
-        updated_normal_Z = result.x[:self.normal_code_enable.sum()]
-        updated_low_Z = result.x[self.normal_code_enable.sum():]
-        
-        normal_Z[self.normal_code_enable] = updated_normal_Z
-        low_Z[self.low_code_enable] = updated_low_Z
-        
-        self.set_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10, normal_Z.astype(int))
-        self.set_grid_data(self.ui.link_low_grid, 5, 14, 1, 10, low_Z.astype(int))
-        self.calculate_interpolate()
-        self.cancel_highlight()
-        
-        self.set_btn_enable(self.ui.del_btn, True)
-        self.set_btn_enable(self.ui.load_exif_btn, True)
-        self.set_btn_enable(self.ui.load_code_btn, True)
-        self.set_btn_enable(self.ui.optimize_btn, True)
-        self.set_btn_enable(self.ui.restore_btn, True)
-        self.set_btn_enable(self.ui.export_code_btn, True)
+                # Calculate the new normal_value
+                normal_value = []
+                for i in range(len(DR)):
+                    normal_value.append(normal_f(DR[i], BV[i])[0].astype(int))
+                
+                normal_value = np.array(normal_value)
+                
+                # Interpolate function
+                low_f = interpolate.interp2d(low_X, low_Y, low_Z, kind='linear')
+                
+                # Calculate the new low_value
+                low_value = []
+                for i in range(len(DR)):
+                    low_value.append(low_f(DR[i], BV[i])[0].astype(int))
+                
+                low_value = np.array(low_value)
+                
+                now_value = (normal_value*(1024-NS_Prob)+low_value*NS_Prob)/1024
+                # Calculate the difference between normal_day and target_day
+                diff = now_value - target_value
+                
+                # Sum of squared differences
+                sum_of_squared_diff = np.sum(diff**2)
+                return sum_of_squared_diff
+
+            # Initial guess for optimization
+            initial_guess = np.concatenate(
+                (normal_Z[self.normal_code_enable], low_Z[self.low_code_enable])).flatten()
+            # Bounds for optimization
+            bounds = np.concatenate(
+                (self.bounds[self.normal_code_enable, :], self.bounds[self.low_code_enable, :]))
+            # print(bounds)
+            # Optimization process zero:Powell,  normal_Z:Nelder-Mead
+            result = optimize.minimize(objective_function, initial_guess, method='Nelder-Mead', bounds=bounds, options={'maxiter': 1000})
+            # Updated normal_Z with optimized values
+            updated_normal_Z = result.x[:self.normal_code_enable.sum()]
+            updated_low_Z = result.x[self.normal_code_enable.sum():]
+            
+            normal_Z[self.normal_code_enable] = updated_normal_Z
+            low_Z[self.low_code_enable] = updated_low_Z
+            
+            self.set_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10, normal_Z.astype(int))
+            self.set_grid_data(self.ui.link_low_grid, 5, 14, 1, 10, low_Z.astype(int))
+            self.calculate_interpolate()
+            self.cancel_highlight()
+            
+            self.now_avg_dif = np.mean(np.abs(self.now_exif_data["After THD diff"]))
+            last_result_fun = now_result_fun
+            now_result_fun = result.fun
+
+        self.set_all_btn_enable(True)
         self.ui.optimize_btn.setText("最佳化")
+        QMessageBox.information(self, "Optimization Result", "last_avg_dif: {:.2f}\nnow_avg_dif: {:.2f}".format(self.last_avg_dif, self.now_avg_dif))
+
         
     def restore(self):
+        self.set_all_btn_enable(False)
+        self.ui.restore_btn.setText("復原中...請稍後")
+        self.ui.restore_btn.repaint()
         self.set_code_data(self.code_data)
         self.total_row = len(self.pre_exif_data["No."])
         self.now_exif_data = copy.deepcopy(self.pre_exif_data)
         self.set_exif_table(self.now_exif_data)
+        self.set_code_enable()
+        self.set_all_btn_enable(True)
+        self.ui.restore_btn.setText("歸零")
     
     def export_code(self):
         pass
@@ -551,10 +596,21 @@ class MyWidget(ParentWidget):
             style =  "QPushButton {font:20px; background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
         btn.setStyleSheet(style)
         btn.setEnabled(enable)
+    
+    def set_all_btn_enable(self, enable):
+        self.set_btn_enable(self.ui.del_btn, enable)
+        self.set_btn_enable(self.ui.load_exif_btn, enable)
+        self.set_btn_enable(self.ui.load_code_btn, enable)
+        self.set_btn_enable(self.ui.optimize_btn, enable)
+        self.set_btn_enable(self.ui.restore_btn, enable)
+        self.set_btn_enable(self.ui.export_code_btn, enable)
         
     def set_code_enable(self):
+        # print("set_code_enable")
         self.normal_code_enable = np.array([False]*100).reshape(10, 10)
         self.low_code_enable = np.array([False]*100).reshape(10, 10)
+        self.bounds = np.array([(1e9, -1e9)] * 100).reshape(10, 10, 2)
+        # self.bounds = np.array([(0, 2000)] * 100).reshape(10, 10, 2)
         
         for r in range(self.ui.link_normal_grid.rowCount()):
             for c in range(self.ui.link_normal_grid.columnCount()):
@@ -562,16 +618,30 @@ class MyWidget(ParentWidget):
                     continue
                 self.ui.link_normal_grid.itemAtPosition(r, c).widget().setEnabled(False)
                 self.ui.link_low_grid.itemAtPosition(r, c).widget().setEnabled(False)
-        
-        for region in self.now_exif_data["normal_highlight_region"]:
+                self.ui.link_normal_grid.itemAtPosition(r, c).widget().change_style()
+                self.ui.link_low_grid.itemAtPosition(r, c).widget().change_style()
+        for i in range(self.total_row):
+            Target_TH = int(self.now_exif_data["Target_TH"][i])
+            region = self.now_exif_data["normal_highlight_region"][i]
             for pos in region:
                 self.normal_code_enable[pos[0]-5][pos[1]-1] = True
                 self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().setEnabled(True)
-                
-        for region in self.now_exif_data["low_highlight_region"]:
+                self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().change_style()
+                # self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().setText(str(Target_TH))
+                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-400)
+                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+400)
+
+            region = self.now_exif_data["low_highlight_region"][i]
             for pos in region:
-                self.low_code_enable[pos[0]][pos[1]] = True
+                self.low_code_enable[pos[0]-5][pos[1]-1] = True
                 self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().setEnabled(True)
+                self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().change_style()
+                # self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().setText(str(Target_TH))
+
+                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-400)
+                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+400)
+
+
                 
 if __name__ == "__main__":
     import sys
