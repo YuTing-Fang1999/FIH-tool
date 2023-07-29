@@ -29,7 +29,7 @@ def file_filter_jpg(f):
     
 def faceDetect(img_path):
     # Read the input image
-    img = cv2.imread(img_path)
+    img = cv2.imdecode( np.fromfile( file = img_path, dtype = np.uint8 ), cv2.IMREAD_COLOR )
      
     # Convert into grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -66,12 +66,12 @@ def brightness(img_path):
     r,g,b = stat.rms
     return math.sqrt(0.241*(r**2)+0.691*(g**2)+0.068*(b**2))
     
-def create_xls(file_path, base_excel_path):
+def create_xls(code_path, base_excel_path):
     wb = openpyxl.load_workbook(base_excel_path, read_only=False, keep_vba=True)
     wb.active = 0
     ws = wb.active
     
-    f = open(file_path, "r")
+    f = open(code_path, "r")
     
     fbt_bv = []
     fbt_dr = []
@@ -82,7 +82,7 @@ def create_xls(file_path, base_excel_path):
     TH_tbl_7 = []
     TH_tbl_8 = []
     
-    ws.cell(column=2, row=6).value = file_path.split("/")[-3]
+    ws.cell(column=2, row=6).value = code_path.split("/")[-3]
     for line in f:
         if "//u4_FD_TH: FD brightness target" in line:
             line2, line3, line4, line5, line6, line7, line8, line9, line10, line11 = [next(f) for _ in range(10)]
@@ -249,7 +249,7 @@ if __name__ == "__main__":
             base2 = os.path.splitext(file_name_jpg)[0]
             
             if file_name_jpg == base or base2 == base[0:-8]:
-                img = cv2.imread(path_name_jpg)
+                img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                 height, width = img.shape[0], img.shape[1]
                 
                 if height > width:
@@ -375,7 +375,7 @@ def gen_excel(code_path, exif_path, base_excel_path):
             base2 = os.path.splitext(file_name_jpg)[0]
             
             if file_name_jpg == base or base2 == base[0:-8]:
-                img = cv2.imread(path_name_jpg)
+                img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                 Pic_path.append(path_name_jpg)
                 height, width = img.shape[0], img.shape[1]
                 
@@ -443,9 +443,24 @@ def parse_code(file_path):
     TH_tbl_6 = []
     TH_tbl_7 = []
     TH_tbl_8 = []
+    bv_r_c = []
+    dr_r_c = []
+
+    def get_r_c(line):
+        match = re.search(r'\b\d+\b', line)
+        if match:
+            return int(match.group())
+        else:
+            print("找不到code的範圍")
+            return 10
     
     for line in f:
-        if "//u4_FD_TH: FD brightness target" in line:
+        if "/**************Face Link Target**************/" in line:
+            line2, line3 = [next(f) for _ in range(2)]
+            bv_r_c.append(get_r_c(line2))
+            bv_r_c.append(get_r_c(line3))
+            print(bv_r_c)
+        elif "//u4_FD_TH: FD brightness target" in line:
             line2, line3, line4, line5, line6, line7, line8, line9, line10, line11 = [next(f) for _ in range(10)]
             if TH_tbl_5 == []:
                 TH_tbl_5.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
@@ -469,6 +484,12 @@ def parse_code(file_path):
                 TH_tbl_6.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
                 TH_tbl_6.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
                 TH_tbl_6.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
+
+                
+                line2, line3, line4 = [next(f) for _ in range(3)]
+                dr_r_c.append(get_r_c(line3))
+                dr_r_c.append(get_r_c(line4))
+                print(dr_r_c)
             elif TH_tbl_6 != [] and TH_tbl_7 == []:
                 TH_tbl_7.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
                 TH_tbl_7.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
@@ -522,4 +543,8 @@ def parse_code(file_path):
         "TH_tbl_6": np.array(TH_tbl_6).astype(np.float),
         "TH_tbl_7": np.array(TH_tbl_7).astype(np.float),
         "TH_tbl_8": np.array(TH_tbl_8).astype(np.float),
+        "normal_light_r": bv_r_c[0]-1,
+        "normal_light_c": bv_r_c[1]-1,
+        "low_light_r": dr_r_c[0]-1,
+        "low_light_c": dr_r_c[1]-1,
     }

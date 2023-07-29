@@ -62,9 +62,9 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
         self.best_score_plot = MplCanvasTiming(
             self.run_page_lower_part.tab_score.label_plot, color=['r', 'g'], name=['score'], axis_name=["Generation", "Score"]
         )
-        self.hyper_param_plot = MplCanvasTiming(
-            self.run_page_lower_part.tab_hyper.label_plot, color=['g', 'r'], name=['F', 'Cr'], axis_name=["Generation", "HyperParam Value"]
-        )
+        # self.hyper_param_plot = MplCanvasTiming(
+        #     self.run_page_lower_part.tab_hyper.label_plot, color=['g', 'r'], name=['F', 'Cr'], axis_name=["Generation", "HyperParam Value"]
+        # )
         self.update_rate_plot = MplCanvasTiming(
             self.run_page_lower_part.tab_update.label_plot, color=['b', 'k'], name=['using ML', 'no ML'], axis_name=["Generation", "Update Rate"]
         )
@@ -634,7 +634,7 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
                     if os.path.exists(des): os.remove(des)
                     shutil.copyfile(src, des)
 
-        self.hyper_param_plot.update([F, Cr])
+        # self.hyper_param_plot.update([F, Cr])
         self.update_rate_plot.update([self.update_rate])
 
     def round_nearest(self, x):
@@ -783,7 +783,7 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
     def setup(self):
         # reset plot
         self.best_score_plot.reset()
-        self.hyper_param_plot.reset()
+        # self.hyper_param_plot.reset()
         self.update_rate_plot.reset()
 
         # reset label

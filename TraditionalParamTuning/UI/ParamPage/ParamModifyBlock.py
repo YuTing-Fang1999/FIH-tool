@@ -26,7 +26,9 @@ class GridModifyItem(QWidget):
 
         title_wraper = QHBoxLayout()
         label_title = QLabel(title)
-        # label_title.setStyleSheet("background-color:rgb(72, 72, 72);")
+        label_title.setStyleSheet("background-color:rgb(74, 115, 140);")
+        # 設定水平大小策略為 Expanding
+        label_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         title_wraper.addWidget(label_title)
 
         self.checkBoxes_title = QCheckBox()

@@ -55,8 +55,8 @@ class LowerPart(QTabWidget):
         self.tab_score = TabPlot("分數圖")
         self.addTab(self.tab_score, "分數圖")
 
-        self.tab_hyper = TabPlot("超參數")
-        self.addTab(self.tab_hyper, "超參數")
+        # self.tab_hyper = TabPlot("超參數")
+        # self.addTab(self.tab_hyper, "超參數")
 
         self.tab_update = TabPlot("update rate")
         self.addTab(self.tab_update, "update rate")

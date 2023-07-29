@@ -13,7 +13,14 @@
                 "denoise_weight_chroma"
             ],
             "defult_range": [
-                [0, 1], [0, 1]
+                [
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    1
+                ]
             ],
             "title": [
                 "Denoise Weight"
@@ -39,7 +46,7 @@
                 1,
                 1
             ],
-            "step": 0.01        
+            "step": 0.01
         },
         "ASF": {
             "file_path": "/Scenario.Default/XML/OPE/asf32_ope.xml",
@@ -54,7 +61,14 @@
                 "layer_1_gain_negative_lut"
             ],
             "defult_range": [
-                [0, 7.96875], [0, 7.96875]
+                [
+                    0,
+                    7.96875
+                ],
+                [
+                    0,
+                    7.96875
+                ]
             ],
             "title": [
                 "layer_1_gain"
@@ -69,13 +83,11 @@
                 [
                     1,
                     1
-                
                 ]
             ],
             "expand": [
                 64,
                 64
-                
             ],
             "step": 0.01
         },
@@ -93,7 +105,14 @@
                 "edge_softness"
             ],
             "defult_range": [
-                [0, 1], [0, 10]
+                [
+                    0,
+                    1
+                ],
+                [
+                    0,
+                    10
+                ]
             ],
             "title": [
                 "ABF"
@@ -112,6 +131,40 @@
             ],
             "expand": [
                 4,
+                1
+            ],
+            "step": 0.01
+        },
+        "AF": {
+            "file_path": "/Scenario.Default/XML/OPE/bpcabf41_ope.xml",
+            "xml_node": "chromatix_bpcabf41_core/mod_bpcabf41_drc_gain_data/drc_gain_data/mod_bpcabf41_hdr_aec_data/hdr_aec_data/mod_bpcabf41_aec_data",
+            "data_node": "bpcabf41_rgn_data",
+            "param_names": [
+                "edge_softness"
+            ],
+            "range_names": [
+                "edge_softness"
+            ],
+            "defult_range": [
+                [
+                    0,
+                    10
+                ]
+            ],
+            "title": [
+                "AF"
+            ],
+            "name": [
+                [
+                    "edge_softness"
+                ]
+            ],
+            "col": [
+                [
+                    1
+                ]
+            ],
+            "expand": [
                 1
             ],
             "step": 0.01

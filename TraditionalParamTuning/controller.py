@@ -523,8 +523,8 @@ class MainWindow_controller(QWidget):
         return True
 
     def read_setting(self):
-        if os.path.exists('setting.json'):
-            with open('setting.json', 'r') as f:
+        if os.path.exists('TraditionalParamTuning/setting.json'):
+            with open('TraditionalParamTuning/setting.json', 'r') as f:
                 return json.load(f)
 
         else:
@@ -545,8 +545,8 @@ class MainWindow_controller(QWidget):
         return config
 
     def write_setting(self):
-        print('write_setting')
-        with open("setting.json", "w") as outfile:
+        print('TraditionalParamTuning/write_setting')
+        with open("TraditionalParamTuning/setting.json", "w") as outfile:
             outfile.write(json.dumps(self.setting, indent=4))
 
     def closeEvent(self, event):

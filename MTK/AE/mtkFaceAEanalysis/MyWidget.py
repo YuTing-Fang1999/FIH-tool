@@ -119,8 +119,8 @@ class MyWidget(ParentWidget):
         self.ui.exif_table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.ui.exif_table.verticalScrollBar().setSingleStep(30)
         
-        self.load_exif()
-        self.load_code()
+        # self.load_exif()
+        # self.load_code()
 
     def table_row_selected_event(self):
         selected_items = self.ui.exif_table.selectedItems()
@@ -208,8 +208,9 @@ class MyWidget(ParentWidget):
         return True
     
     def calculate_interpolate(self):
+        # if self.now_avg_dif == None: return
         if not self.is_data_filled():
-            QMessageBox.warning(self, "Warning", "Please fill in all the data")
+            # QMessageBox.warning(self, "Warning", "Please fill in all the data")
             return
                 
         self.now_exif_data["After Day"] = self.get_interpolate_value(self.ui.link_normal_grid, width = self.code_data["normal_light_c"], height = self.code_data["normal_light_r"])
@@ -247,7 +248,13 @@ class MyWidget(ParentWidget):
                   
     def load_exif(self):
         self.set_btn_enable(self.ui.load_code_btn, True)
-        self.exif_path = "MTK/AE/mtkFaceAEanalysis/Exif"
+        # self.exif_path = "MTK/AE/mtkFaceAEanalysis/Exif"
+        self.exif_path = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkFaceAEanalysis_exif"))
+
+        if self.exif_path == '':
+            return
+        filefolder = '/'.join(self.exif_path.split('/')[:-1])
+        self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filefolder)
         
     
     def set_code_data(self, data):
@@ -301,17 +308,32 @@ class MyWidget(ParentWidget):
                 self.ui.link_low_grid.addWidget(line_edit, 5+i, 1+j)
         
     def load_code(self):
-        self.code_path = "MTK/AE/mtkFaceAEanalysis/Exif/AE.cpp"
-        # # gen excel
-        # base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
-        # self.excel_path, self.total_row, self.img_path = gen_excel(self.code_path, self.exif_path, base_excel_path)
-        # self.excel_path = os.path.abspath(self.excel_path)
+        # self.code_path = "MTK/AE/mtkFaceAEanalysis/Exif/AE.cpp"
+        self.code_path, filetype = QFileDialog.getOpenFileName(self,
+                                                         "選擇AE.cpp",
+                                                         self.get_path("MTK_AE_mtkFaceAEanalysis_code"),  # start path
+                                                         '*.cpp')
+
+        if self.code_path == '':
+            return
+        filefolder = '/'.join(self.code_path.split('/')[:-1])
+        self.set_path("MTK_AE_mtkFaceAEanalysis_code", filefolder)
+
+        self.set_all_btn_enable(False)
+        self.ui.load_code_btn.setText("解析中，請稍後...")
+        self.ui.load_code_btn.repaint()
+
+        # gen excel
+        base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
+        self.excel_path, self.total_row, self.img_path = gen_excel(self.code_path, self.exif_path, base_excel_path)
+        self.excel_path = os.path.abspath(self.excel_path)
+
         # get data form code
         self.code_data = parse_code(self.code_path)
         self.set_code_data(self.code_data)
         # print(data)
         
-        # ######## TEST ########
+        ######## TEST ########
         self.code_data["normal_light_c"] = 9
         self.code_data["normal_light_r"] = 9
         self.code_data["low_light_c"] = 3
@@ -398,24 +420,13 @@ class MyWidget(ParentWidget):
         
         self.set_exif_table(self.pre_exif_data)
         self.set_code_enable()
-        self.set_btn_enable(self.ui.del_btn, True)
-        self.set_btn_enable(self.ui.optimize_btn, True)
-        self.set_btn_enable(self.ui.restore_btn, True)
-        self.set_btn_enable(self.ui.export_code_btn, True)
+        self.set_all_btn_enable(True)
+        self.ui.load_code_btn.setText("Load Code")
         
     def set_exif_table(self, data):
         self.ui.exif_table.setRowCount(self.total_row)
         
         for i in range(self.total_row):
-            # checkbox = QCheckBox()
-            # checkbox.setChecked(str(data["FDStable"][i])=="0") 
-            # pWidget = QWidget()
-            # pLayout = QHBoxLayout(pWidget)
-            # pLayout.addWidget(checkbox)
-            # pLayout.setAlignment(Qt.AlignCenter)
-            # pLayout.setContentsMargins(0,0,0,0)
-            # pWidget.setLayout(pLayout)
-            
             widget   = QWidget()
             checkbox = QCheckBox("")
             # print(str(int(data["FDStable"][i])).strip())
@@ -587,7 +598,30 @@ class MyWidget(ParentWidget):
         self.ui.restore_btn.setText("歸零")
     
     def export_code(self):
-        pass
+        # saved_path = "AE_code.txt"
+        saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE.cpp")
+        normal_code = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10).astype(int)
+        low_code = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10).astype(int)
+
+        # Open the file in write mode
+        with open(saved_path, 'w') as file:
+            # Iterate through the array and write each element on a new line
+            file.write("Normal light\n")
+            file.write("//u4_FD_TH: FD brightness target\n")
+            for i, line in enumerate(normal_code):
+                file.write("                    ")
+                for num in line:
+                    file.write(str(num).rjust(4) + ', ')
+                file.write('// BV{}\n'.format(i))
+
+            file.write("\n")
+            file.write("Low light\n")
+            file.write("//u4_FD_TH: FD brightness target\n")
+            for i, line in enumerate(low_code):
+                file.write("                    ")
+                for num in line:
+                    file.write(str(num).rjust(4) + ', ')
+                file.write('// BV{}\n'.format(i))
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
