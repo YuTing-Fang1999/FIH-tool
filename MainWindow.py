@@ -345,6 +345,7 @@ class FoldMenu(QWidget):
         btn_layout.setAlignment(Qt.AlignRight)
         vLayout.addLayout(btn_layout)
         vLayout.addWidget(HLine())
+        vLayout.setContentsMargins(0,0,0,0)
         
         self.btn_toggle_open.clicked.connect(self.toggle_open)
         

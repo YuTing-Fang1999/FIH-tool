@@ -247,7 +247,6 @@ class MyWidget(ParentWidget):
         self.set_code_enable()
                   
     def load_exif(self):
-        self.set_btn_enable(self.ui.load_code_btn, True)
         # self.exif_path = "MTK/AE/mtkFaceAEanalysis/Exif"
         self.exif_path = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkFaceAEanalysis_exif"))
 
@@ -255,6 +254,7 @@ class MyWidget(ParentWidget):
             return
         filefolder = '/'.join(self.exif_path.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filefolder)
+        self.set_btn_enable(self.ui.load_code_btn, True)
         
     
     def set_code_data(self, data):
@@ -334,15 +334,15 @@ class MyWidget(ParentWidget):
         # print(data)
         
         ######## TEST ########
-        self.code_data["normal_light_c"] = 9
-        self.code_data["normal_light_r"] = 9
-        self.code_data["low_light_c"] = 3
-        self.code_data["low_light_r"] = 3
-        self.img_path = {
-            'Pic_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972.JPG'], 'Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972_crop.png'], 'ref_Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_E7_230725160051821_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_E7_230725160053484_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_E7_230725160158171_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_E7_230725160200593_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_E7_230725160300221_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_E7_230725160302649_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_E7_230725160436752_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_E7_230725160440014_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_E7_230725160637871_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_E7_230725160639055_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_E7_230725160814307_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_E7_230725160817000_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_E7_230725161007124_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_E7_230725161011229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_E7_230725161755619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_E7_230725161758570_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_E7_230725161807193_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_E7_230725161810235_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_E7_230725161952305_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_E7_230725161954229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_E7_230725162031486_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_E7_230725162033516_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_E7_230725162118927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_E7_230725162120947_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_E7_230725162311510_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_E7_230725162313798_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_E7_230725162508096_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_E7_230725162511197_crop.png']
-        }
-        self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
-        self.total_row = 28
+        # self.code_data["normal_light_c"] = 9
+        # self.code_data["normal_light_r"] = 9
+        # self.code_data["low_light_c"] = 3
+        # self.code_data["low_light_r"] = 3
+        # self.img_path = {
+        #     'Pic_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972.JPG'], 'Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972_crop.png'], 'ref_Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_E7_230725160051821_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_E7_230725160053484_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_E7_230725160158171_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_E7_230725160200593_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_E7_230725160300221_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_E7_230725160302649_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_E7_230725160436752_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_E7_230725160440014_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_E7_230725160637871_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_E7_230725160639055_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_E7_230725160814307_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_E7_230725160817000_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_E7_230725161007124_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_E7_230725161011229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_E7_230725161755619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_E7_230725161758570_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_E7_230725161807193_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_E7_230725161810235_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_E7_230725161952305_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_E7_230725161954229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_E7_230725162031486_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_E7_230725162033516_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_E7_230725162118927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_E7_230725162120947_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_E7_230725162311510_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_E7_230725162313798_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_E7_230725162508096_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_E7_230725162511197_crop.png']
+        # }
+        # self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
+        # self.total_row = 28
         # ######## TEST ########
         
         excel = win32.Dispatch("Excel.Application")
@@ -467,24 +467,24 @@ class MyWidget(ParentWidget):
             self.ui.exif_table.item(i, 19).setBackground(QColor(61, 90, 115))
 
             
-            self.ui.exif_table.setRowHeight(i, 150)
+            self.ui.exif_table.setRowHeight(i, 100)
             
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["Pic_path"][i]).scaled(200, 150))
+            img_label.setPixmap(QPixmap(data["Pic_path"][i]).scaled(150, 100))
             self.ui.exif_table.setCellWidget(i, 2, img_label)
-            self.ui.exif_table.setColumnWidth(2, 200)
+            self.ui.exif_table.setColumnWidth(2, 150)
             
             
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["Crop_path"][i]).scaled(100, 150))
+            img_label.setPixmap(QPixmap(data["Crop_path"][i]).scaled(80, 100))
             self.ui.exif_table.setCellWidget(i, 3, img_label)
-            self.ui.exif_table.setColumnWidth(3, 100)
+            self.ui.exif_table.setColumnWidth(3, 80)
             
             
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["ref_Crop_path"][i]).scaled(100, 150))
+            img_label.setPixmap(QPixmap(data["ref_Crop_path"][i]).scaled(80, 100))
             self.ui.exif_table.setCellWidget(i, 4, img_label)
-            self.ui.exif_table.setColumnWidth(4, 100)
+            self.ui.exif_table.setColumnWidth(4, 80)
 
     def optimize(self):
         if not self.is_data_filled():
@@ -600,6 +600,7 @@ class MyWidget(ParentWidget):
     def export_code(self):
         # saved_path = "AE_code.txt"
         saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE.cpp")
+        if saved_path == "": return
         normal_code = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10).astype(int)
         low_code = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10).astype(int)
 

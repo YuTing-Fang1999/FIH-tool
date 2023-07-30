@@ -18,6 +18,9 @@ from QUL.AEsimulator.colorChecker.Intro import Intro as colorCheckerIntro
 from QUL.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
 from QUL.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorCheckerIntro
 
+from MTK.AE.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
+from MTK.AE.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
+
 from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Intro import Intro as MTK_AFIntro
 
@@ -118,15 +121,9 @@ class Config():
                 "AE":{
                     "Tuning":[
                         {
-                            "name": "mtkAEanalysis",
-                            "instruction": MyLabel("調整 main_target、middle_tone、bright_tone….."),
-                            "widget": MyLabel("mtkAEanalysis"),
-                            
-                        },
-                        {
                             "name": "mtkFaceAEanalysis",
-                            "instruction": MyLabel("針對人臉AE做調整 main_target、middle_tone、bright_tone….."),
-                            "widget": MyLabel("mtkFaceAEanalysis"),
+                            "instruction": mtkFaceAEanalysisIntro(),
+                            "widget": mtkFaceAEanalysisWidget(),
                             
                         },
                     ],

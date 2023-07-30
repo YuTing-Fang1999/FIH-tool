@@ -535,14 +535,14 @@ def parse_code(file_path):
                 fbt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
                 
     return {
-        "flt_bv": np.array(flt_bv).astype(np.float),
-        "flt_dr": np.array(flt_dr).astype(np.float),
-        "flt_ns_bv": np.array(flt_ns_bv).astype(np.float),
-        "flt_ns_dr": np.array(flt_ns_dr).astype(np.float),
-        "TH_tbl_5": np.array(TH_tbl_5).astype(np.float),
-        "TH_tbl_6": np.array(TH_tbl_6).astype(np.float),
-        "TH_tbl_7": np.array(TH_tbl_7).astype(np.float),
-        "TH_tbl_8": np.array(TH_tbl_8).astype(np.float),
+        "flt_bv": np.array(flt_bv).astype(np.int),
+        "flt_dr": np.array(flt_dr).astype(np.int),
+        "flt_ns_bv": np.array(flt_ns_bv).astype(np.int),
+        "flt_ns_dr": np.array(flt_ns_dr).astype(np.int),
+        "TH_tbl_5": np.array(TH_tbl_5).astype(np.int),
+        "TH_tbl_6": np.array(TH_tbl_6).astype(np.int),
+        "TH_tbl_7": np.array(TH_tbl_7).astype(np.int),
+        "TH_tbl_8": np.array(TH_tbl_8).astype(np.int),
         "normal_light_r": bv_r_c[0]-1,
         "normal_light_c": bv_r_c[1]-1,
         "low_light_r": dr_r_c[0]-1,
