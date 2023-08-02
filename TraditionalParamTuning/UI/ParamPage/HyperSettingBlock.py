@@ -28,6 +28,7 @@ class InitParamSelector(QComboBox):
 class HyperSettingBlock(QWidget):
     def __init__(self):
         super().__init__()
+        self.label_hyper_setting = []
         self.lineEdits_hyper_setting = []
         self.setup_UI()
         
@@ -59,9 +60,10 @@ class HyperSettingBlock(QWidget):
         self.hyper_param_title = self.hyper_param_name
         for i in range(len(self.hyper_param_name)):
             label = QLabel(self.hyper_param_name[i])
+            label.setToolTip(tip[i])
+            self.label_hyper_setting.append(label)
 
             lineEdit = QLineEdit()
-            label.setToolTip(tip[i])
             self.lineEdits_hyper_setting.append(lineEdit)
 
             self.gridLayout.addWidget(label, i, 0)
@@ -86,7 +88,8 @@ class HyperSettingBlock(QWidget):
             self.lineEdits_hyper_setting[0].show()
             self.lineEdits_hyper_setting[1].show()
             self.lineEdits_hyper_setting[2].show()
-
+            self.label_hyper_setting[1].show()
+            self.label_hyper_setting[2].show()
             # local
             self.init_param_selector.hide()
             
@@ -97,6 +100,8 @@ class HyperSettingBlock(QWidget):
             self.lineEdits_hyper_setting[0].show()
             self.lineEdits_hyper_setting[1].hide()
             self.lineEdits_hyper_setting[2].hide()
+            self.label_hyper_setting[1].hide()
+            self.label_hyper_setting[2].hide()
 
             # local
             self.init_param_selector.show()

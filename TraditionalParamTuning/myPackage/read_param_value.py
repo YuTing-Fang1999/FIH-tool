@@ -45,7 +45,7 @@ def read_param_value_c7(key, key_config, file_path, trigger_idx):
 
     # converting 2d list into 1d
     param_value = sum(param_value, [])
-    print(param_value)
+    print("read_param_value_c7", param_value)
     return param_value
 
 

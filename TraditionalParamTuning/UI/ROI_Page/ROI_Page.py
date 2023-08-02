@@ -145,6 +145,8 @@ class ROI_Page(QWidget):
             self.target_rois.append([target_filepath, target_x_y_w_h])
             self.my_rois.append(my_x_y_w_h)
             self.draw_ROI(self.my_rois)
+        # # Auto resize the columns to fit their content
+        # self.table.resizeColumnsToContents()
 
     def add_to_table(self, target_type, target_score_min, target_score_max, target_weight):
 
