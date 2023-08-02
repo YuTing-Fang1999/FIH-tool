@@ -217,7 +217,6 @@ class MyWidget(ParentWidget):
         self.now_exif_data["After NS"] = self.get_interpolate_value(self.ui.link_low_grid, width = self.code_data["low_light_c"], height = self.code_data["low_light_r"])
         # print(self.now_exif_data["After Day"].tolist())
         # print(self.now_exif_data["After NS"].tolist())
-
         # print(self.now_exif_data["NS_Prob"].tolist())
         self.now_exif_data["After Total"] = (self.now_exif_data["After Day"]*(1024-self.now_exif_data["NS_Prob"])+self.now_exif_data["After NS"]*self.now_exif_data["NS_Prob"])/1024
         self.now_exif_data["After THD diff"] = self.now_exif_data["Target_TH"] - self.now_exif_data["After Total"]
@@ -354,7 +353,7 @@ class MyWidget(ParentWidget):
         
         def get_data_by_column(col):
             if self.total_row == 1:
-                return [list(sheet.Range("{}22".format(col)).Value)]
+                return np.array([sheet.Range("{}22".format(col)).Value])
             else:
                 arr = sheet.Range("{}22:{}{}".format(col, col, 21+self.total_row)).Value
                 # print(np.array([a[0] for a in arr]))

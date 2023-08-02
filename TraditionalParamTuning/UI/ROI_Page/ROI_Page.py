@@ -14,13 +14,22 @@ sys.path.append(".")
 
 from .ImageViewer import ImageViewer
 from .ROI_Select_Window import ROI_Select_Window
+from .Target_Select_Window import Target_Select_Window
 from .MeasureWindow import MeasureWindow
 import os
 import random
 
+class MyLineEdit(QLineEdit):
+    def __init__(self, text):
+        super().__init__(text)
+        self.setMinimumWidth(50)
+        self.setMaximumWidth(200)
+        self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+
 class DeleteBtn(QPushButton):
     def __init__(self, table, page):
         super().__init__()
+        self.setCursor(Qt.PointingHandCursor)
         self.table = table
         self.page = page
         self.setText("刪除")
@@ -57,6 +66,7 @@ class ROI_Page(QWidget):
         self.label_img.setAlignment(Qt.AlignCenter)
         # self.label_img.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.ROI_select_window = ROI_Select_Window()
+        self.target_select_window = Target_Select_Window()
         self.measure_window = MeasureWindow()
 
         self.table = QTableWidget()
@@ -65,19 +75,28 @@ class ROI_Page(QWidget):
         self.table.setHorizontalHeaderLabels(self.headers)
 
         self.btn_capture = QPushButton()
+        self.btn_capture.setCursor(Qt.PointingHandCursor)
         self.btn_capture.setText("拍攝照片")
         self.btn_capture.setToolTip("會拍攝一張照片，請耐心等候")
 
         self.btn_gen_ref = QPushButton()
+        self.btn_gen_ref.setCursor(Qt.PointingHandCursor)
         self.btn_gen_ref.setText("產生參考照片")
         self.btn_gen_ref.setToolTip("使用十張連拍做多幀降造產生參考照片")
 
         self.btn_load_target_pic = QPushButton("Load 參考照片")
+        self.btn_load_target_pic.setCursor(Qt.PointingHandCursor)
         self.btn_load_target_pic.setToolTip("選擇參考照片")
 
         self.btn_add_ROI_item = QPushButton()
+        self.btn_add_ROI_item.setCursor(Qt.PointingHandCursor)
         self.btn_add_ROI_item.setText("增加ROI區域")
         self.btn_add_ROI_item.setToolTip("按下後會新增一個目標區域")
+        
+        self.btn_add_target_item = QPushButton()
+        self.btn_add_target_item.setCursor(Qt.PointingHandCursor)
+        self.btn_add_target_item.setText("增加目標指標")
+        self.btn_add_target_item.setToolTip("按下後會新增一個目標指標")
 
         self.GLayout = QGridLayout()
 
@@ -90,14 +109,15 @@ class ROI_Page(QWidget):
         VBlayout.addWidget(self.btn_gen_ref)
         VBlayout.addWidget(self.btn_load_target_pic)
         VBlayout.addWidget(self.btn_add_ROI_item)
+        VBlayout.addWidget(self.btn_add_target_item)
         HLayout.addLayout(VBlayout)
 
         VBlayout = QVBoxLayout()
         VBlayout.addWidget(self.table)
         HLayout.addLayout(VBlayout)
 
-        HLayout.setStretch(0,3)
-        HLayout.setStretch(1,2)
+        # HLayout.setStretch(0,1)
+        # HLayout.setStretch(1,1)
 
         #Scroll Area Properties
         scroll_wrapper = QHBoxLayout(self)
@@ -124,8 +144,10 @@ class ROI_Page(QWidget):
     def setup_controller(self):
         self.ROI_select_window.to_main_window_signal.connect(self.select_ROI)
         self.measure_window.to_main_window_signal.connect(self.set_target_score)
+        self.target_select_window.to_main_window_signal.connect(self.set_target_score)
 
-        self.btn_add_ROI_item.clicked.connect(self.add_ROI_item_click)
+        self.btn_add_ROI_item.clicked.connect(self.add_ROI_item)
+        self.btn_add_target_item.clicked.connect(self.add_target_item)
         self.btn_load_target_pic.clicked.connect(self.load_target_img)
 
         ##### capture #####
@@ -157,18 +179,18 @@ class ROI_Page(QWidget):
         label.setAlignment(Qt.AlignCenter)
         self.table.setCellWidget(row,0,label)
 
-        self.table.setCellWidget(row,1,QLineEdit(str(target_score_min)))
+        self.table.setCellWidget(row,1,MyLineEdit(str(target_score_min)))
 
-        self.table.setCellWidget(row,2,QLineEdit(str(target_score_max)))
+        self.table.setCellWidget(row,2,MyLineEdit(str(target_score_max)))
 
-        self.table.setCellWidget(row,3,QLineEdit(str(target_weight)))
+        self.table.setCellWidget(row,3,MyLineEdit(str(target_weight)))
 
         self.table.setCellWidget(row,4,DeleteBtn(self.table, self))
 
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.table.horizontalHeader().setStretchLastSection(True)
     
-    def add_ROI_item_click(self):
+    def add_ROI_item(self):
         if len(self.ROI_select_window.my_viewer.img)==0:
             self.alert_info_signal.emit("未拍攝照片", "請先固定好拍攝位置，按拍攝鈕拍攝拍攝照片後，再選取區域")
             return
@@ -178,6 +200,9 @@ class ROI_Page(QWidget):
             return
 
         self.ROI_select_window.select_ROI()
+        
+    def add_target_item(self):
+        self.target_select_window.select_target()
 
     def draw_ROI(self, rois):
         img_select = self.img.copy()

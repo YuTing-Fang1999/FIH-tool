@@ -54,14 +54,15 @@ def get_average_gnorm(img_origin):
     sharpness = np.average(gnorm)
     return np.round(sharpness, 4)
 
-def get_perceptual_distance(img0_origin, img1_origin):
-    import lpips
-    import torch
-    ## Initializing the model
-    loss_fn = lpips.LPIPS(net='alex',version='0.1')
 
-    if(torch.cuda.is_available()):
-        loss_fn.cuda()
+import lpips
+import torch
+## Initializing the model
+loss_fn = lpips.LPIPS(net='alex',version='0.1')
+
+if(torch.cuda.is_available()):
+    loss_fn.cuda()
+def get_perceptual_distance(img0_origin, img1_origin):
  
     img0 = copy.copy(img0_origin)
     img1 = copy.copy(img1_origin)
@@ -89,6 +90,9 @@ def get_perceptual_distance(img0_origin, img1_origin):
     dist01 = loss_fn.forward(img0, img1)
     return float('%.4f'%dist01)
 
+def get_log_AF():
+    pass
+
 def get_cal_func():
     calFunc = {}
     calFunc["luma noise SNR(db)"] = get_signal_to_noise
@@ -97,11 +101,12 @@ def get_cal_func():
     calFunc["sharpness"] = get_sharpness
     calFunc["DL accutance"] = get_average_gnorm
     calFunc["perceptual distance"] = get_perceptual_distance
-    calFunc["AF"] = get_signal_to_noise
+    ######### no ROI #########
+    calFunc["AF"] = get_log_AF()
 
     return calFunc
 
-def get_calFunc_typeName_tip():
+def get_calFunc_typeName_tip(no_ROI = False):
     calFunc = get_cal_func()
     type_name = list(calFunc.keys())
     tip = [
@@ -111,8 +116,14 @@ def get_calFunc_typeName_tip():
         "以二階微分的Laplacian算子取標準差，適合用於edge邊緣",
         "使用averge norm 近似 DXO Dead Leaves accutance數值，適合用於紋路",
         "近似人眼感知做量化，數值越小代表與參考相片越像，圈哪裡都可以",
+        ######### no ROI #########
         "AF"
     ]
+    
+    if no_ROI:
+        type_name = type_name[6:]
+        tip = tip[6:]
+        
     return calFunc, type_name, tip
 
 def resize_by_h(my_roi_img_origin, target_roi_img_origin):

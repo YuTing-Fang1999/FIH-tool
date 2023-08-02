@@ -286,13 +286,13 @@ class WidgetDisplay(QWidget):
         
         main_layout = QVBoxLayout(self)
         
-        splitter = StyleSplitter()
-        splitter.setOrientation(Qt.Vertical)
-        splitter.addWidget(self.widget_stack)
-        splitter.addWidget(self.instruction_stack)
+        self.splitter = StyleSplitter()
+        self.splitter.setOrientation(Qt.Vertical)
+        self.splitter.addWidget(self.widget_stack)
+        self.splitter.addWidget(self.instruction_stack)
         # splitter.setStretchFactor(0,1)
         # splitter.setStretchFactor(1,1)
-        main_layout.addWidget(splitter)
+        main_layout.addWidget(self.splitter)
         # main_layout.addWidget(self.widget_stack)
         # main_layout.addWidget(FoldMenu2(self.instruction_stack))
         
@@ -445,6 +445,13 @@ class MainWindow(QWidget):
             font-size: 12pt;
             """
         )
+        
+    def closeEvent(self, event):
+        TraditionalParamTuning = self.widget_display.widget_stack.widget(2).widget(0).widget(1).widget(0)
+        # print(TraditionalParamTuning)
+        TraditionalParamTuning.close()
+        print("closeEvent MainWindow")
+        super(MainWindow, self).closeEvent(event)
 
         
 

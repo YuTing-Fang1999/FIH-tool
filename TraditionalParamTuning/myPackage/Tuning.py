@@ -744,16 +744,19 @@ class Tuning(QObject):  # 要繼承QWidget才能用pyqtSignal!!
     def calIQM(self, img):
         now_IQM=[]
         for i, roi in enumerate(self.my_rois):
-            if len(roi)==0: continue
-            x, y, w, h = roi
-            my_roi_img = img[y: y+h, x:x+w]
-
-            if self.target_type[i] == "perceptual distance":
-                my_roi_img_resize, target_roi_img_resize = resize_by_h(my_roi_img, self.target_roi_imgs[i][1])
-                v = self.calFunc[self.target_type[i]](my_roi_img_resize, target_roi_img_resize )
+            if len(roi)==0:
+                # no ROI
+                v = self.calFunc[self.target_type[i]]()
             else:
-                v = self.calFunc[self.target_type[i]](my_roi_img)
-            now_IQM.append(v)
+                x, y, w, h = roi
+                my_roi_img = img[y: y+h, x:x+w]
+
+                if self.target_type[i] == "perceptual distance":
+                    my_roi_img_resize, target_roi_img_resize = resize_by_h(my_roi_img, self.target_roi_imgs[i][1])
+                    v = self.calFunc[self.target_type[i]](my_roi_img_resize, target_roi_img_resize )
+                else:
+                    v = self.calFunc[self.target_type[i]](my_roi_img)
+                now_IQM.append(v)
         
         now_IQM = np.array(now_IQM)
         return now_IQM

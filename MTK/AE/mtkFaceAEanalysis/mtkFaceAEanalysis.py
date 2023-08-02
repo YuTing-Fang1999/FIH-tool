@@ -396,7 +396,12 @@ def gen_excel(code_path, exif_path, base_excel_path):
                     
                 save_name = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_crop.png"
                 img_crop = faceDetect(path_name_jpg)
-                cv2.imwrite(save_name, img_crop)
+                if img_crop is None:                
+                    print("圖片讀取失敗！")
+                # 儲存含中文檔名的圖片
+                cv2.imencode('.jpg', img_crop)[1].tofile(save_name)
+
+                # cv2.imwrite(save_name, img_crop)
                 Crop_path.append(save_name)
                 img_crop2 = openpyxl.drawing.image.Image(save_name)
                 height_crop, width_crop = img_crop.shape[0], img_crop.shape[1]
@@ -412,7 +417,12 @@ def gen_excel(code_path, exif_path, base_excel_path):
             elif re.sub("[^0-9-,]","", base[0:2]) == re.sub("[^0-9-,]","", base2[0:2]):
                 save_name = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_crop.png"
                 img_crop = faceDetect(path_name_jpg)
-                cv2.imwrite(save_name, img_crop)
+                if img_crop is None:                
+                    print("圖片讀取失敗！")
+                # 儲存含中文檔名的圖片
+                cv2.imencode('.jpg', img_crop)[1].tofile(save_name)
+    
+                # cv2.imwrite(save_name, img_crop)
                 ref_Crop_path.append(save_name)
                 img_crop2 = openpyxl.drawing.image.Image(save_name)
                 height_crop, width_crop = img_crop.shape[0], img_crop.shape[1]

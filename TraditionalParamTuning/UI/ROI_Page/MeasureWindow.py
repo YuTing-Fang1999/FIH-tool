@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QWidget, QSpacerItem, QSizePolicy,
     QVBoxLayout, QHBoxLayout, QFrame, QGridLayout,
-    QPushButton, QLabel, QApplication, QCheckBox
+    QPushButton, QLabel, QApplication, QCheckBox, QGraphicsOpacityEffect
 )    
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QImage, QPixmap
@@ -85,7 +85,10 @@ class MeasureWindow(QWidget):
         self.VLayout.addLayout(HLayout)
 
         for i in range(len(self.type_name)):
-            self.my_block.score_block.check_box[i].hide()
+            op = QGraphicsOpacityEffect()
+            op.setOpacity(0)
+            self.my_block.score_block.check_box[i].setGraphicsEffect(op)
+            self.my_block.score_block.check_box[i].setEnabled(False)
         
         self.btn_OK = QPushButton("OK")
         self.VLayout.addWidget(self.btn_OK)
