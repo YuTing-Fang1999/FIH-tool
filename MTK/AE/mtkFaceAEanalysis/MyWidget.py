@@ -13,6 +13,7 @@ import copy
 import numpy as np
 from scipy import interpolate
 from scipy import interpolate, optimize
+from PIL.ImageQt import ImageQt
 
 import re
 def is_integer(s):
@@ -326,17 +327,14 @@ class MyWidget(ParentWidget):
         base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
         self.excel_path, self.total_row, self.img_path = gen_excel(self.code_path, self.exif_path, base_excel_path)
         self.excel_path = os.path.abspath(self.excel_path)
+        print(self.img_path)
 
         # get data form code
         self.code_data = parse_code(self.code_path)
         self.set_code_data(self.code_data)
         # print(data)
         
-        ######## TEST ########
-        # self.code_data["normal_light_c"] = 9
-        # self.code_data["normal_light_r"] = 9
-        # self.code_data["low_light_c"] = 3
-        # self.code_data["low_light_r"] = 3
+        # ######## TEST ########
         # self.img_path = {
         #     'Pic_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972.JPG'], 'Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972_crop.png'], 'ref_Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_E7_230725160051821_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_E7_230725160053484_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_E7_230725160158171_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_E7_230725160200593_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_E7_230725160300221_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_E7_230725160302649_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_E7_230725160436752_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_E7_230725160440014_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_E7_230725160637871_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_E7_230725160639055_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_E7_230725160814307_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_E7_230725160817000_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_E7_230725161007124_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_E7_230725161011229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_E7_230725161755619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_E7_230725161758570_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_E7_230725161807193_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_E7_230725161810235_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_E7_230725161952305_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_E7_230725161954229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_E7_230725162031486_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_E7_230725162033516_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_E7_230725162118927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_E7_230725162120947_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_E7_230725162311510_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_E7_230725162313798_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_E7_230725162508096_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_E7_230725162511197_crop.png']
         # }
@@ -415,7 +413,6 @@ class MyWidget(ParentWidget):
         # 關閉當前Excel實例
         if excel.Workbooks.Count == 0:
             excel.Quit()
-            
         
         self.set_exif_table(self.pre_exif_data)
         self.set_code_enable()
@@ -598,30 +595,52 @@ class MyWidget(ParentWidget):
     
     def export_code(self):
         # saved_path = "AE_code.txt"
-        saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE.cpp")
+        saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE_tune.cpp")
         if saved_path == "": return
         normal_code = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10).astype(int)
         low_code = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10).astype(int)
 
-        # Open the file in write mode
-        with open(saved_path, 'w') as file:
-            # Iterate through the array and write each element on a new line
-            file.write("Normal light\n")
-            file.write("//u4_FD_TH: FD brightness target\n")
-            for i, line in enumerate(normal_code):
-                file.write("                    ")
-                for num in line:
-                    file.write(str(num).rjust(4) + ', ')
-                file.write('// BV{}\n'.format(i))
+        normal_txt = ""
+        for i, line in enumerate(normal_code):
+            normal_txt+="                    "
+            for num in line:
+                normal_txt+=str(num).rjust(4) + ', '
+            normal_txt+='// BV{}\n'.format(i)
+        
+        low_txt = ""
+        for i, line in enumerate(low_code):
+            low_txt+="                    "
+            for num in line:
+                low_txt+=str(num).rjust(4) + ', '
+            low_txt+='// BV{}\n'.format(i)
+            
+        with open("AE.cpp", 'r') as cpp_file:
+            # Read the entire content of the file
+            data = cpp_file.read()
+            
+        pattern = r"//u4_FD_TH: FD brightness target.*?}"
+        matches = list(re.finditer(pattern, data, flags=re.DOTALL))
+        if len(matches) >= 3:
+            data = data[:matches[0].start()] + "//u4_FD_TH: FD brightness target" + normal_txt + "                }" + data[matches[0].end():]
 
-            file.write("\n")
-            file.write("Low light\n")
-            file.write("//u4_FD_TH: FD brightness target\n")
-            for i, line in enumerate(low_code):
-                file.write("                    ")
-                for num in line:
-                    file.write(str(num).rjust(4) + ', ')
-                file.write('// BV{}\n'.format(i))
+            matches = list(re.finditer(pattern, data, flags=re.DOTALL))
+            data = data[:matches[2].start()] + "//u4_FD_TH: FD brightness target" + low_txt + "                }" + data[matches[2].end():]
+            with open(saved_path, 'w') as output_file:
+                output_file.write(data)
+                
+        else:
+            # Open the file in write mode
+            with open(saved_path, 'w') as file:
+                file.write("無法插入code，請手動插入\n")
+                # Iterate through the array and write each element on a new line
+                file.write("Normal light\n")
+                file.write("//u4_FD_TH: FD brightness target\n")
+                file.write(normal_txt)
+
+                file.write("\n")
+                file.write("Low light\n")
+                file.write("//u4_FD_TH: FD brightness target\n")
+                file.write(low_txt)
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
