@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow,
     QWidget, QGridLayout, QHBoxLayout, QVBoxLayout,
-    QPushButton, QLabel, QLineEdit, QCheckBox, QFrame
+    QPushButton, QLabel, QLineEdit, QCheckBox, QFrame, QSizePolicy
 )
 from PyQt5.QtWidgets import QComboBox
 
@@ -48,6 +48,9 @@ class HyperSettingBlock(QWidget):
 
         title_wraper = QHBoxLayout()
         self.label_title = QLabel("Hyper Parameters")
+        self.label_title.setStyleSheet("background-color:rgb(74, 115, 140);")
+        # 設定水平大小策略為 Expanding
+        self.label_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         # self.label_title.setStyleSheet("background-color:rgb(72, 72, 72);")
         title_wraper.addWidget(self.label_title)
 

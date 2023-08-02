@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (
     QWidget, QGridLayout, QHBoxLayout, QVBoxLayout,
-    QPushButton, QLabel, QLineEdit, QCheckBox
+    QPushButton, QLabel, QLineEdit, QCheckBox, QSizePolicy
 )
 from PyQt5.QtCore import QThread, pyqtSignal
 import xml.etree.ElementTree as ET
@@ -24,6 +24,9 @@ class PushAndSaveBlock(QWidget):
 
         title_wraper = QHBoxLayout()
         label_title = QLabel("Push and Save")
+        label_title.setStyleSheet("background-color:rgb(74, 115, 140);")
+        # 設定水平大小策略為 Expanding
+        label_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         # label_title.setStyleSheet("background-color:rgb(72, 72, 72);")
         title_wraper.addWidget(label_title)
         VLayout.addLayout(title_wraper)

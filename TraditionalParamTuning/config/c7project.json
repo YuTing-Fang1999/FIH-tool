@@ -8,10 +8,6 @@
                 "denoise_weight_y",
                 "denoise_weight_chroma"
             ],
-            "range_names": [
-                "denoise_weight_y",
-                "denoise_weight_chroma"
-            ],
             "defult_range": [
                 [
                     0,
@@ -56,10 +52,6 @@
                 "layer_1_gain_positive_lut",
                 "layer_1_gain_negative_lut"
             ],
-            "range_names": [
-                "layer_1_gain_positive_lut",
-                "layer_1_gain_negative_lut"
-            ],
             "defult_range": [
                 [
                     0,
@@ -100,10 +92,6 @@
                 "noise_prsv_hi",
                 "edge_softness"
             ],
-            "range_names": [
-                "noise_prsv_lo",
-                "edge_softness"
-            ],
             "defult_range": [
                 [
                     0,
@@ -140,9 +128,6 @@
             "xml_node": "chromatix_bpcabf41_core/mod_bpcabf41_drc_gain_data/drc_gain_data/mod_bpcabf41_hdr_aec_data/hdr_aec_data/mod_bpcabf41_aec_data",
             "data_node": "bpcabf41_rgn_data",
             "param_names": [
-                "edge_softness"
-            ],
-            "range_names": [
                 "edge_softness"
             ],
             "defult_range": [

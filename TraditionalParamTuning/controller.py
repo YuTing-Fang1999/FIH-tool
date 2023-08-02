@@ -124,7 +124,7 @@ class MainWindow_controller(QWidget):
         # do_capture
         self.ui.ROI_page.capture_signal.connect(self.do_capture_start)
         self.ui.param_page.push_and_save_block.capture_signal.connect(self.do_capture_start)
-        self.set_ROI_page_photo_signal.connect(lambda: self.ui.ROI_page.set_photo("capture.jpg"))
+        self.set_ROI_page_photo_signal.connect(lambda: self.ui.ROI_page.set_photo("TraditionalParamTuning/capture.jpg"))
 
         self.ui.param_page.push_and_save_block.get_and_set_param_value_signal.connect(self.get_and_set_param_value_slot)
         self.ui.param_page.push_and_save_block.push_to_camera_signal.connect(self.get_and_build_and_push_start)
@@ -261,6 +261,8 @@ class MainWindow_controller(QWidget):
         self.setting['project_name'] = path.split('/')[-1]
         self.setting['project_path'] = path
         self.set_project(path)
+        self.get_UI_data()
+        self.write_setting()
 
     def select_exe(self):
         path, filetype = QFileDialog.getOpenFileName(self,"選擇ParameterParser", self.ui.project_page.defult_path) # start path
@@ -409,8 +411,8 @@ class MainWindow_controller(QWidget):
             setting["bin_name"] = ""
 
         ##### ROI_page #####
-        if os.path.exists('capture.jpg'):
-            self.ui.ROI_page.set_photo('capture.jpg')
+        if os.path.exists('TraditionalParamTuning/capture.jpg'):
+            self.ui.ROI_page.set_photo('TraditionalParamTuning/capture.jpg')
             if "my_rois" in setting:
                 self.ui.ROI_page.target_rois = setting["target_rois"]
                 self.ui.ROI_page.my_rois = setting["my_rois"]

@@ -97,6 +97,7 @@ def get_cal_func():
     calFunc["sharpness"] = get_sharpness
     calFunc["DL accutance"] = get_average_gnorm
     calFunc["perceptual distance"] = get_perceptual_distance
+    calFunc["AF"] = get_signal_to_noise
 
     return calFunc
 
@@ -109,7 +110,8 @@ def get_calFunc_typeName_tip():
         "色彩雜訊\n將RGB轉成YUV後，取U和V的標準差相加，適合用於平坦區",
         "以二階微分的Laplacian算子取標準差，適合用於edge邊緣",
         "使用averge norm 近似 DXO Dead Leaves accutance數值，適合用於紋路",
-        "近似人眼感知做量化，數值越小代表與參考相片越像，圈哪裡都可以"
+        "近似人眼感知做量化，數值越小代表與參考相片越像，圈哪裡都可以",
+        "AF"
     ]
     return calFunc, type_name, tip
 

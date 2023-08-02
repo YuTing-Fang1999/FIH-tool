@@ -13,7 +13,7 @@ def read_param_value_c7(key, key_config, file_path, trigger_idx):
     for i, ele in enumerate(node):
         if i==trigger_idx:
             rgn_data = ele.find(key_config["data_node"])
-            for param_name in key_config['range_names']:
+            for param_name in key_config['param_names']:
                 parent = rgn_data.find(param_name+'_tab')
                 if parent:
                     p = parent.find(param_name).text.split(' ') 
@@ -30,10 +30,11 @@ def read_param_value_c7(key, key_config, file_path, trigger_idx):
                                 ]:
                     p = [p[0]]
                 
-                # ABF 暫定2取1
-                if param_name in ["noise_prsv_lo",
-                                    "noise_prsv_hi"]:
+                # ABF 暫定4取1
+                if param_name in ["noise_prsv_lo"]:
                     p = [p[0]]
+                if param_name in ["noise_prsv_hi"]:
+                    p = []
 
                 # # WNR 暫定2取1
                 # if param_name in ["denoise_weight_chroma"]:
@@ -44,6 +45,7 @@ def read_param_value_c7(key, key_config, file_path, trigger_idx):
 
     # converting 2d list into 1d
     param_value = sum(param_value, [])
+    print(param_value)
     return param_value
 
 

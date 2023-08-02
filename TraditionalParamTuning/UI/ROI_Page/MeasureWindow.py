@@ -34,6 +34,15 @@ class Score(QWidget):
             label = QLabel()
             self.label_score.append(label)
             gridLayout.addWidget(label, j, 2)
+            
+        self.setStyleSheet(
+            """
+            QToolTip { 
+                background-color: black; 
+                border: black solid 1px
+            }
+            """
+        )
 
 class Block(QWidget):
     def __init__(self, name, tip, title):
@@ -68,7 +77,7 @@ class MeasureWindow(QWidget):
         self.VLayout.setContentsMargins(50, 50, 50, 50)
 
         HLayout = QHBoxLayout()
-        self.my_block = Block(self.type_name, self.tip, "capture.jpg")
+        self.my_block = Block(self.type_name, self.tip, "TraditionalParamTuning/capture.jpg")
         self.target_block = Block(self.type_name, self.tip, "")
         HLayout.addWidget(self.my_block)
         HLayout.addWidget(self.target_block)
@@ -94,7 +103,7 @@ class MeasureWindow(QWidget):
         self.target_filepath = target_filepath
         self.target_block.label_title.setText(target_filepath.split('/')[-1])
         # load img
-        my_img = cv2.imdecode(np.fromfile(file="capture.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
+        my_img = cv2.imdecode(np.fromfile(file="TraditionalParamTuning/capture.jpg", dtype=np.uint8), cv2.IMREAD_COLOR)
         target_img = cv2.imdecode(np.fromfile(file=target_filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
 
         x, y, w, h = my_x_y_w_h

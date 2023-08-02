@@ -236,9 +236,9 @@ class ROI_Select_Window(QtWidgets.QWidget):
         self.target_label = QtWidgets.QLabel("")
         self.my_viewer = ImageViewer(self, 0)
         self.target_viewer = ImageViewer(self, 1)
-        self.label = QtWidgets.QLabel(self)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setText('按下Ctrl可以使用滑鼠縮放拖曳\n左圖為拍攝的照片，右圖為目標照片\n對左邊的圖操作可同時操作兩張圖\n上下左右鍵可調整右圖ROI的位置')
+        self.instruction = QtWidgets.QLabel(self)
+        self.instruction.setAlignment(Qt.AlignCenter)
+        self.instruction.setText('按下Ctrl可以使用滑鼠縮放拖曳\n左圖為拍攝的照片，右圖為目標照片\n對左邊的圖操作可同時操作兩張圖\n上下左右鍵可調整右圖ROI的位置')
         self.btn_OK = QtWidgets.QPushButton(self)
         self.btn_OK.setText("OK")
 
@@ -256,7 +256,7 @@ class ROI_Select_Window(QtWidgets.QWidget):
         VBlayout_viewer.addWidget(self.target_viewer)
         HBlayout.addLayout(VBlayout_viewer)
 
-        VBlayout.addWidget(self.label)
+        VBlayout.addWidget(self.instruction)
         VBlayout.addLayout(HBlayout)
         VBlayout.addWidget(self.btn_OK)
 

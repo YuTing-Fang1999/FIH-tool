@@ -9,10 +9,6 @@
                 "denoise_weight_y",
                 "denoise_weight_chroma"
             ],
-            "range_names": [
-                "denoise_weight_y",
-                "denoise_weight_chroma"
-            ],
             "defult_range": [
                 [0, 1], [0, 1]
             ],
@@ -41,9 +37,6 @@
             "param_names": [
                 "H / Lut1"
             ],
-            "range_names": [
-                "H / Lut1"
-            ],
             "defult_range": [
                 [0, 8]
             ],
@@ -68,9 +61,6 @@
             "trigger_node": 0,
             "param_node": [1, 2],
             "param_names": [
-                "12-bit pixels"
-            ],
-            "range_names": [
                 "12-bit pixels"
             ],
             "defult_range": [

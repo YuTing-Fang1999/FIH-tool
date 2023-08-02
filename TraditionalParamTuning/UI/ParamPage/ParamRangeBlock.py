@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow,
     QWidget, QGridLayout, QHBoxLayout, QVBoxLayout,
-    QPushButton, QLabel, QLineEdit, QCheckBox
+    QPushButton, QLabel, QLineEdit, QCheckBox, QSizePolicy
 )
 from PyQt5.QtCore import Qt
 import numpy as np
@@ -20,6 +20,9 @@ class ParamRangeItem(QWidget):
             gridLayout.setHorizontalSpacing(7)
 
             label_title = QLabel(title)
+            label_title.setStyleSheet("background-color:rgb(74, 115, 140);")
+            # 設定水平大小策略為 Expanding
+            label_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
             # label_title.setStyleSheet("background-color:rgb(72, 72, 72);")
 
             gridLayout.addWidget(QLabel("預設範圍"), 0, 1)

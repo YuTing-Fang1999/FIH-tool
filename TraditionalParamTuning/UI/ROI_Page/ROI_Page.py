@@ -108,11 +108,18 @@ class ROI_Page(QWidget):
         scroll.setWidget(layout_wrapper)
         scroll_wrapper.addWidget(scroll)
 
-        # self.setStyleSheet(
+        self.setStyleSheet(
         #     "QWidget{background-color: rgb(66, 66, 66);}"
         #     "QLabel{font-size:12pt; font-family:微軟正黑體; color:white;}"
-        #     "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}"
-        #     "QLineEdit{font-size:12pt; font-family:微軟正黑體; background-color: rgb(255, 255, 255); border: 2px solid gray; border-radius: 5px; width: 90px}")
+            """
+            QToolTip { 
+                background-color: black; 
+                border: black solid 1px
+            }
+            QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:black;}
+            """
+            # "QLineEdit{font-size:12pt; font-family:微軟正黑體; background-color: rgb(255, 255, 255); border: 2px solid gray; border-radius: 5px; width: 90px}"
+        )
 
     def setup_controller(self):
         self.ROI_select_window.to_main_window_signal.connect(self.select_ROI)
