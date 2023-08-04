@@ -24,7 +24,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1356, 381))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1377, 390))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -1005,55 +1005,43 @@ class Ui_Form(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.del_btn = QtWidgets.QPushButton(Form)
-        self.del_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.del_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.del_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.del_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.del_btn.setObjectName("del_btn")
         self.horizontalLayout_2.addWidget(self.del_btn)
         self.load_exif_btn = QtWidgets.QPushButton(Form)
-        self.load_exif_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.load_exif_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.load_exif_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.load_exif_btn.setObjectName("load_exif_btn")
         self.horizontalLayout_2.addWidget(self.load_exif_btn)
         self.load_code_btn = QtWidgets.QPushButton(Form)
-        self.load_code_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.load_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.load_code_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.load_code_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.load_code_btn.setObjectName("load_code_btn")
         self.horizontalLayout_2.addWidget(self.load_code_btn)
         self.optimize_btn = QtWidgets.QPushButton(Form)
-        self.optimize_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.optimize_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.optimize_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.optimize_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.optimize_btn.setObjectName("optimize_btn")
         self.horizontalLayout_2.addWidget(self.optimize_btn)
         self.restore_btn = QtWidgets.QPushButton(Form)
-        self.restore_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.restore_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.restore_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.restore_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.restore_btn.setObjectName("restore_btn")
         self.horizontalLayout_2.addWidget(self.restore_btn)
         self.export_code_btn = QtWidgets.QPushButton(Form)
-        self.export_code_btn.setMinimumSize(QtCore.QSize(220, 50))
         self.export_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.export_code_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.export_code_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.export_code_btn.setObjectName("export_code_btn")

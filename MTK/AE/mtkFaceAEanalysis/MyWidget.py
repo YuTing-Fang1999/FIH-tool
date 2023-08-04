@@ -3,17 +3,20 @@ from PyQt5.QtWidgets import (
     QLabel, QStyledItemDelegate, QHBoxLayout, QLineEdit, QTableWidget, QAbstractItemView
 )
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QPixmap, QIntValidator, QColor
+from PyQt5.QtGui import QPixmap, QIntValidator, QColor, QImage
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import win32com.client as win32
-from .mtkFaceAEanalysis import gen_excel, parse_code
+from .mtkFaceAEanalysis import GenExcelWorkerThread, parse_code
 import os
 import copy
 import numpy as np
 from scipy import interpolate
 from scipy import interpolate, optimize
-from PIL.ImageQt import ImageQt
+import openpyxl
+from openpyxl_image_loader import SheetImageLoader
+import cv2
+
 
 import re
 def is_integer(s):
@@ -22,9 +25,11 @@ def is_integer(s):
 
 class MyLineEdit(QLineEdit):
     calculate_interpolate_signal = pyqtSignal()
+    change_range_signal = pyqtSignal(int, str)
     def __init__(self, val):
         super().__init__()
         self.origin_val = int(float(val.strip()))
+        self.idx = None
         self.highlighted = False
         self.style_str = "color: white;"
         self.setText(str(self.origin_val))
@@ -35,7 +40,10 @@ class MyLineEdit(QLineEdit):
     def text_changed(self):
         self.setText(self.text().strip())
         if is_integer(self.text()):
-            self.calculate_interpolate_signal.emit()
+            if self.idx is None:
+                self.calculate_interpolate_signal.emit()
+            else:
+                self.change_range_signal.emit(self.idx, self.text())
 
         self.change_style()
         
@@ -80,6 +88,7 @@ class MyWidget(ParentWidget):
         self.low_code_enable = np.array([False]*100).reshape(10, 10)
         self.last_avg_dif = None
         self.now_avg_dif = None
+        self.gen_excel_worker = GenExcelWorkerThread()
         
 
         self.controller()
@@ -96,6 +105,12 @@ class MyWidget(ParentWidget):
         self.ui.export_code_btn.clicked.connect(self.export_code)
         # self.ui.exif_table.cellClicked.connect(self.table_row_selected_event)
         self.ui.exif_table.itemSelectionChanged.connect(self.table_row_selected_event)
+
+        self.gen_excel_worker.update_status_signal.connect(self.update_btn_status)
+        self.gen_excel_worker.gen_finish_signal.connect(self.after_gen_excel)
+
+    def update_btn_status(self, status):
+        self.ui.load_code_btn.setText(status)
         
     def setupUi(self):
         delegate = AlignDelegate(self.ui.exif_table)
@@ -122,6 +137,44 @@ class MyWidget(ParentWidget):
         
         # self.load_exif()
         # self.load_code()
+
+    def change_normal_light_BV_range(self, idx, val):
+        self.code_data["flt_bv"][idx] = int(val)
+        self.ui.link_normal_grid.itemAtPosition(4, 1+idx).widget().setText(str(val))
+        self.update_trigger_region()
+        self.set_code_enable()
+        self.calculate_interpolate()
+
+    def change_normal_light_DR_range(self, idx, val):
+        self.code_data["flt_dr"][idx] = int(val)
+        self.ui.link_normal_grid.itemAtPosition(4, 1+idx).widget().setText(str(val))
+        self.update_trigger_region()
+        self.set_code_enable()
+        self.calculate_interpolate()
+
+    def update_trigger_region(self):
+        self.now_exif_data["normal_highlight_region"] = []
+        self.now_exif_data["low_highlight_region"] = []
+        for i in range(self.total_row):
+            # if not (i ==15 or i == 16): continue
+            BV = self.now_exif_data["BV"][i]
+            DR = self.now_exif_data["DR"][i]
+            normal_highlight_region = []
+            low_highlight_region = []
+            if self.now_exif_data["NS_Prob"][i] != 1024:
+                normal_highlight_region = self.get_highlight_region_pos(
+                    BV, DR, 
+                    self.code_data["flt_bv"], self.code_data["flt_dr"], 
+                    self.code_data["normal_light_r"], self.code_data["normal_light_c"]
+                )
+            if self.now_exif_data["NS_Prob"][i] != 0:
+                low_highlight_region = self.get_highlight_region_pos(
+                    BV, DR, 
+                    self.code_data["flt_ns_bv"], self.code_data["flt_ns_dr"],
+                    self.code_data["low_light_r"], self.code_data["low_light_c"]
+                )
+            self.now_exif_data["normal_highlight_region"].append(normal_highlight_region)
+            self.now_exif_data["low_highlight_region"].append(low_highlight_region)
 
     def table_row_selected_event(self):
         selected_items = self.ui.exif_table.selectedItems()
@@ -273,11 +326,13 @@ class MyWidget(ParentWidget):
         for j in range(10):
             remove_widget(self.ui.link_normal_grid, 1, 1+j)
             line_edit = MyLineEdit(str(data["flt_bv"][j]))
-            line_edit.calculate_interpolate_signal.connect(self.calculate_interpolate)
+            line_edit.idx = j
+            line_edit.change_range_signal.connect(self.change_normal_light_BV_range)
             self.ui.link_normal_grid.addWidget(line_edit, 1, 1+j)
             remove_widget(self.ui.link_normal_grid, 2, 1+j)
             line_edit = MyLineEdit(str(data["flt_dr"][j]))
-            line_edit.calculate_interpolate_signal.connect(self.calculate_interpolate)
+            line_edit.idx = j
+            line_edit.change_range_signal.connect(self.change_normal_light_DR_range)
             self.ui.link_normal_grid.addWidget(line_edit, 2, 1+j)
 
             self.ui.link_normal_grid.itemAtPosition(5+j, 0).widget().setText(str(data["flt_bv"][j]))
@@ -325,21 +380,20 @@ class MyWidget(ParentWidget):
 
         # gen excel
         base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
-        self.excel_path, self.total_row, self.img_path = gen_excel(self.code_path, self.exif_path, base_excel_path)
-        self.excel_path = os.path.abspath(self.excel_path)
-        print(self.img_path)
+        self.gen_excel_worker.base_excel_path = base_excel_path
+        self.gen_excel_worker.code_path = self.code_path
+        self.gen_excel_worker.exif_path = self.exif_path
+        self.gen_excel_worker.start()
+        self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
 
+    def after_gen_excel(self):
         # get data form code
         self.code_data = parse_code(self.code_path)
         self.set_code_data(self.code_data)
         # print(data)
         
         # ######## TEST ########
-        # self.img_path = {
-        #     'Pic_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256.JPG', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972.JPG'], 'Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_SX3_230725155848854_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_SX3_230725155851031_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_SX3_230725155959335_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_SX3_230725160001147_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_SX3_230725160104165_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_SX3_230725160107387_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_SX3_230725160239756_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_SX3_230725160242490_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_SX3_230725160448266_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_SX3_230725160449958_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_SX3_230725160619619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_SX3_230725160621884_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_SX3_230725160816996_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_SX3_230725160819117_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_SX3_230725161544927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_SX3_230725161547647_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_SX3_230725161601472_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_SX3_230725161604064_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_SX3_230725161803038_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_SX3_230725161805044_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_SX3_230725161842372_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_SX3_230725161843941_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_SX3_230725161928468_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_SX3_230725161931357_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_SX3_230725162119344_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_SX3_230725162122402_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_SX3_230725162258256_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_SX3_230725162301972_crop.png'], 'ref_Crop_path': ['MTK/AE/mtkFaceAEanalysis/Exif/1_E7_230725160051821_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/2_E7_230725160053484_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/3_E7_230725160158171_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/4_E7_230725160200593_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/5_E7_230725160300221_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/6_E7_230725160302649_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/7_E7_230725160436752_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/8_E7_230725160440014_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/9_E7_230725160637871_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/10_E7_230725160639055_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/11_E7_230725160814307_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/12_E7_230725160817000_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/13_E7_230725161007124_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/14_E7_230725161011229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/15_E7_230725161755619_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/16_E7_230725161758570_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/17_E7_230725161807193_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/18_E7_230725161810235_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/19_E7_230725161952305_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/20_E7_230725161954229_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/21_E7_230725162031486_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/22_E7_230725162033516_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/23_E7_230725162118927_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/24_E7_230725162120947_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/25_E7_230725162311510_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/26_E7_230725162313798_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/27_E7_230725162508096_crop.png', 'MTK/AE/mtkFaceAEanalysis/Exif/28_E7_230725162511197_crop.png']
-        # }
         # self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
-        # self.total_row = 28
         # ######## TEST ########
         
         excel = win32.Dispatch("Excel.Application")
@@ -357,7 +411,8 @@ class MyWidget(ParentWidget):
                 # print(np.array([a[0] for a in arr]))
                 return np.array([a[0] for a in arr])
             
-        self.pre_exif_data = {
+        self.total_row = int(sheet.Range("D1").Value)
+        self.now_exif_data = {
             "No.": get_data_by_column("B"),
             "FDStable": get_data_by_column("F"),
             "jpg_FD_MTK": get_data_by_column("R"),
@@ -375,36 +430,33 @@ class MyWidget(ParentWidget):
             "After Total": get_data_by_column("Z"),
             "After THD diff": get_data_by_column("AA"),
 
-            "Target_TH": get_data_by_column("W"),
-            "Pic_path": self.img_path["Pic_path"],
-            "Crop_path": self.img_path["Crop_path"],
-            "ref_Crop_path": self.img_path["ref_Crop_path"],
+            "Target_TH": get_data_by_column("W")
         }
-        self.pre_exif_data["normal_highlight_region"] = []
-        self.pre_exif_data["low_highlight_region"] = []
+        self.now_exif_data["normal_highlight_region"] = []
+        self.now_exif_data["low_highlight_region"] = []
         for i in range(self.total_row):
             # if not (i ==15 or i == 16): continue
-            BV = self.pre_exif_data["BV"][i]
-            DR = self.pre_exif_data["DR"][i]
+            BV = self.now_exif_data["BV"][i]
+            DR = self.now_exif_data["DR"][i]
             normal_highlight_region = []
             low_highlight_region = []
-            if self.pre_exif_data["NS_Prob"][i] != 1024:
+            if self.now_exif_data["NS_Prob"][i] != 1024:
                 normal_highlight_region = self.get_highlight_region_pos(
                     BV, DR, 
                     self.code_data["flt_bv"], self.code_data["flt_dr"], 
                     self.code_data["normal_light_r"], self.code_data["normal_light_c"]
                 )
-            if self.pre_exif_data["NS_Prob"][i] != 0:
+            if self.now_exif_data["NS_Prob"][i] != 0:
                 low_highlight_region = self.get_highlight_region_pos(
                     BV, DR, 
                     self.code_data["flt_ns_bv"], self.code_data["flt_ns_dr"],
                     self.code_data["low_light_r"], self.code_data["low_light_c"]
                 )
-            self.pre_exif_data["normal_highlight_region"].append(normal_highlight_region)
-            self.pre_exif_data["low_highlight_region"].append(low_highlight_region)
+            self.now_exif_data["normal_highlight_region"].append(normal_highlight_region)
+            self.now_exif_data["low_highlight_region"].append(low_highlight_region)
         
         # print(self.pre_exif_data)
-        self.now_exif_data = copy.deepcopy(self.pre_exif_data)
+        self.pre_exif_data = copy.deepcopy(self.now_exif_data)
         self.now_avg_dif = np.mean(np.abs(self.now_exif_data["After THD diff"]))
         
         workbook.Save()
@@ -421,6 +473,11 @@ class MyWidget(ParentWidget):
         
     def set_exif_table(self, data):
         self.ui.exif_table.setRowCount(self.total_row)
+        workbook = openpyxl.load_workbook(self.excel_path)
+        sheet_names = workbook.sheetnames
+        sheet = workbook[sheet_names[0]]
+        #calling the image_loader
+        image_loader = SheetImageLoader(sheet)
         
         for i in range(self.total_row):
             widget   = QWidget()
@@ -430,7 +487,7 @@ class MyWidget(ParentWidget):
             #     checkbox.setChecked(False)
             # else:
             #     checkbox.setChecked(True)
-            checkbox.setChecked(str(int(data["FDStable"][i])).strip()=="0")
+            checkbox.setChecked(data["FDStable"][i]==0)
             # checkbox.setChecked(True)
             checkbox.setStyleSheet("QCheckBox::indicator"
                                 "{"
@@ -461,26 +518,31 @@ class MyWidget(ParentWidget):
             self.ui.exif_table.setItem(i, 18, QTableWidgetItem(str(data["After THD diff"][i])))
             self.ui.exif_table.setItem(i, 19, QTableWidgetItem(str(data["Target_TH"][i])))
             self.ui.exif_table.item(i, 19).setBackground(QColor(61, 90, 115))
-
             
             self.ui.exif_table.setRowHeight(i, 100)
             
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["Pic_path"][i]).scaled(150, 100))
+            image = np.array(image_loader.get('C'+str(22+i)))
+            image = QImage(image, image.shape[1], image.shape[0], image.shape[1] * 3,QImage.Format_RGB888)
+            img_label.setPixmap(QPixmap(image).scaled(150, 100))
             self.ui.exif_table.setCellWidget(i, 2, img_label)
             self.ui.exif_table.setColumnWidth(2, 150)
             
-            
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["Crop_path"][i]).scaled(80, 100))
+            image = np.array(image_loader.get('D'+str(22+i)))
+            image = QImage(image, image.shape[1], image.shape[0], image.shape[1] * 3,QImage.Format_RGB888)
+            img_label.setPixmap(QPixmap(image).scaled(80, 100))
             self.ui.exif_table.setCellWidget(i, 3, img_label)
             self.ui.exif_table.setColumnWidth(3, 80)
             
-            
             img_label = QLabel()
-            img_label.setPixmap(QPixmap(data["ref_Crop_path"][i]).scaled(80, 100))
+            image = np.array(image_loader.get('E'+str(22+i)))
+            image = QImage(image, image.shape[1], image.shape[0], image.shape[1] * 3,QImage.Format_RGB888)
+            img_label.setPixmap(QPixmap(image).scaled(80, 100))
             self.ui.exif_table.setCellWidget(i, 4, img_label)
             self.ui.exif_table.setColumnWidth(4, 80)
+
+        workbook.close()
 
     def optimize(self):
         if not self.is_data_filled():
@@ -559,7 +621,7 @@ class MyWidget(ParentWidget):
                 (self.bounds[self.normal_code_enable, :], self.bounds[self.low_code_enable, :]))
             # print(bounds)
             # Optimization process zero:Powell,  normal_Z:Nelder-Mead
-            result = optimize.minimize(objective_function, initial_guess, method='Nelder-Mead', bounds=bounds, options={'maxiter': 1000})
+            result = optimize.minimize(objective_function, initial_guess, method='Nelder-Mead', bounds=bounds)
             # Updated normal_Z with optimized values
             updated_normal_Z = result.x[:self.normal_code_enable.sum()]
             updated_low_Z = result.x[self.normal_code_enable.sum():]
@@ -600,14 +662,14 @@ class MyWidget(ParentWidget):
         normal_code = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10).astype(int)
         low_code = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10).astype(int)
 
-        normal_txt = ""
+        normal_txt = "\n"
         for i, line in enumerate(normal_code):
             normal_txt+="                    "
             for num in line:
                 normal_txt+=str(num).rjust(4) + ', '
             normal_txt+='// BV{}\n'.format(i)
         
-        low_txt = ""
+        low_txt = "\n"
         for i, line in enumerate(low_code):
             low_txt+="                    "
             for num in line:
@@ -644,9 +706,9 @@ class MyWidget(ParentWidget):
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
-            style =  "QPushButton {font:20px; background:rgb(68, 114, 196); color: white;}"
+            style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
         else:
-            style =  "QPushButton {font:20px; background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
+            style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
         btn.setStyleSheet(style)
         btn.setEnabled(enable)
     
@@ -673,6 +735,23 @@ class MyWidget(ParentWidget):
                 self.ui.link_low_grid.itemAtPosition(r, c).widget().setEnabled(False)
                 self.ui.link_normal_grid.itemAtPosition(r, c).widget().change_style()
                 self.ui.link_low_grid.itemAtPosition(r, c).widget().change_style()
+
+        for c in range(self.code_data["normal_light_r"]+1):
+            self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().setEnabled(True)
+            self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().change_style()
+
+        for c in range(self.code_data["normal_light_c"]+1):
+            self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().setEnabled(True)
+            self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().change_style()
+
+        # for c in range(self.code_data["low_light_r"]+1):
+        #     self.ui.link_low_grid.itemAtPosition(1, c+1).widget().setEnabled(True)
+        #     self.ui.link_low_grid.itemAtPosition(1, c+1).widget().change_style()
+
+        # for c in range(self.code_data["low_light_c"]+1):
+        #     self.ui.link_low_grid.itemAtPosition(2, c+1).widget().setEnabled(True)
+        #     self.ui.link_low_grid.itemAtPosition(2, c+1).widget().change_style()
+
         for i in range(self.total_row):
             Target_TH = int(self.now_exif_data["Target_TH"][i])
             region = self.now_exif_data["normal_highlight_region"][i]
@@ -681,8 +760,8 @@ class MyWidget(ParentWidget):
                 self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().setEnabled(True)
                 self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().change_style()
                 # self.ui.link_normal_grid.itemAtPosition(pos[0], pos[1]).widget().setText(str(Target_TH))
-                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-400)
-                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+400)
+                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-600)
+                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+600)
 
             region = self.now_exif_data["low_highlight_region"][i]
             for pos in region:
@@ -691,8 +770,8 @@ class MyWidget(ParentWidget):
                 self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().change_style()
                 # self.ui.link_low_grid.itemAtPosition(pos[0], pos[1]).widget().setText(str(Target_TH))
 
-                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-400)
-                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+400)
+                self.bounds[pos[0]-5][pos[1]-1][0] = min(self.bounds[pos[0]-5][pos[1]-1][0], Target_TH-600)
+                self.bounds[pos[0]-5][pos[1]-1][1] = max(self.bounds[pos[0]-5][pos[1]-1][1], Target_TH+600)
 
 
                 

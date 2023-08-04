@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1356</width>
-        <height>381</height>
+        <width>1377</width>
+        <height>390</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1383,18 +1383,11 @@ color: black;</string>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="del_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
@@ -1405,18 +1398,11 @@ color:rgb(255, 255, 255);</string>
      </item>
      <item>
       <widget class="QPushButton" name="load_exif_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
@@ -1427,18 +1413,11 @@ color:rgb(255, 255, 255);</string>
      </item>
      <item>
       <widget class="QPushButton" name="load_code_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
@@ -1449,18 +1428,11 @@ color:rgb(255, 255, 255);</string>
      </item>
      <item>
       <widget class="QPushButton" name="optimize_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
@@ -1471,18 +1443,11 @@ color:rgb(255, 255, 255);</string>
      </item>
      <item>
       <widget class="QPushButton" name="restore_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
@@ -1493,18 +1458,11 @@ color:rgb(255, 255, 255);</string>
      </item>
      <item>
       <widget class="QPushButton" name="export_code_btn">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>50</height>
-        </size>
-       </property>
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">font:20px ;
-text-align:center;
+        <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
        </property>
