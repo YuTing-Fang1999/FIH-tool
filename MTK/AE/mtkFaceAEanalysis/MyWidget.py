@@ -225,7 +225,7 @@ class MyWidget(ParentWidget):
             for c in range(start_col, end_col+1):
                 row_data.append(grid.itemAtPosition(r, c).widget().text())
             data.append(row_data)
-        return np.array(data).astype(np.float)
+        return np.array(data).astype(np.float32)
     
     def set_grid_data(self, grid, start_row, end_row, start_col, end_col, data):
         for r in range(start_row, end_row+1):
