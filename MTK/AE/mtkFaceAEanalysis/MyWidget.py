@@ -384,9 +384,10 @@ class MyWidget(ParentWidget):
         self.gen_excel_worker.code_path = self.code_path
         self.gen_excel_worker.exif_path = self.exif_path
         self.gen_excel_worker.start()
-        self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
+        
 
     def after_gen_excel(self):
+        self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
         # get data form code
         self.code_data = parse_code(self.code_path)
         self.set_code_data(self.code_data)

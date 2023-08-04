@@ -558,12 +558,12 @@ class GenExcelWorkerThread(QThread):
             ws.cell(column=4, row=1).value = endNum
 
             file = "mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
+            self.excel_path = file
             wb.active = 0
             wb.save(file)
 
             print("mtkAEfaceAuto is ok!")
             self.gen_finish_signal.emit()
-            return file
     
     
 def parse_code(file_path):
