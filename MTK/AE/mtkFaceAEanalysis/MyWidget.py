@@ -300,12 +300,13 @@ class MyWidget(ParentWidget):
         self.set_code_enable()
                   
     def load_exif(self):
-        # self.exif_path = "MTK/AE/mtkFaceAEanalysis/Exif"
-        self.exif_path = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkFaceAEanalysis_exif"))
+        # self.gen_excel_worker.exif_path = "MTK/AE/mtkFaceAEanalysis/Exif"
+        filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkFaceAEanalysis_exif"))
 
-        if self.exif_path == '':
+        if filepath == '':
             return
-        filefolder = '/'.join(self.exif_path.split('/')[:-1])
+        self.gen_excel_worker.exif_path = filepath
+        filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filefolder)
         self.set_btn_enable(self.ui.load_code_btn, True)
         
@@ -363,15 +364,16 @@ class MyWidget(ParentWidget):
                 self.ui.link_low_grid.addWidget(line_edit, 5+i, 1+j)
         
     def load_code(self):
-        # self.code_path = "MTK/AE/mtkFaceAEanalysis/Exif/AE.cpp"
-        self.code_path, filetype = QFileDialog.getOpenFileName(self,
+        # self.gen_excel_worker.code_path = "MTK/AE/mtkFaceAEanalysis/Exif/AE.cpp"
+        filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "選擇AE.cpp",
                                                          self.get_path("MTK_AE_mtkFaceAEanalysis_code"),  # start path
                                                          '*.cpp')
 
-        if self.code_path == '':
+        if filepath == '':
             return
-        filefolder = '/'.join(self.code_path.split('/')[:-1])
+        self.gen_excel_worker.code_path = filepath
+        filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_code", filefolder)
 
         self.set_all_btn_enable(False)
@@ -379,17 +381,13 @@ class MyWidget(ParentWidget):
         self.ui.load_code_btn.repaint()
 
         # gen excel
-        base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
-        self.gen_excel_worker.base_excel_path = base_excel_path
-        self.gen_excel_worker.code_path = self.code_path
-        self.gen_excel_worker.exif_path = self.exif_path
         self.gen_excel_worker.start()
         
 
     def after_gen_excel(self):
         self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
         # get data form code
-        self.code_data = parse_code(self.code_path)
+        self.code_data = parse_code(self.gen_excel_worker.code_path)
         self.set_code_data(self.code_data)
         # print(data)
         

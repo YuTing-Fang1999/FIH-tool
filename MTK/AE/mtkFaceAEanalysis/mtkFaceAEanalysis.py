@@ -309,7 +309,7 @@ class GenExcelWorkerThread(QThread):
         excel_path = ""
         code_path = ""
         exif_path = ""
-        base_excel_path = ""
+        base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
 
         def __init__(self):
             super().__init__()
