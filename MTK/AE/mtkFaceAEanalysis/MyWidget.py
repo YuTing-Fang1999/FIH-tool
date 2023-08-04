@@ -382,18 +382,20 @@ class MyWidget(ParentWidget):
 
         # gen excel
         self.gen_excel_worker.start()
+        ######## TEST ########
+        # self.after_gen_excel()
+        ######## TEST ########
         
 
     def after_gen_excel(self):
         self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
+        ######## TEST ########
+        # self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
+        ######## TEST ########
         # get data form code
         self.code_data = parse_code(self.gen_excel_worker.code_path)
         self.set_code_data(self.code_data)
         # print(data)
-        
-        # ######## TEST ########
-        # self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
-        # ######## TEST ########
         
         excel = win32.Dispatch("Excel.Application")
         # excel.Visible = False  # Set to True if you want to see the Excel application

@@ -16,7 +16,7 @@
   <property name="layoutDirection">
    <enum>Qt::LeftToRight</enum>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="2,0,3">
    <property name="spacing">
     <number>7</number>
    </property>
@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>1377</width>
-        <height>390</height>
+        <width>1364</width>
+        <height>322</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">

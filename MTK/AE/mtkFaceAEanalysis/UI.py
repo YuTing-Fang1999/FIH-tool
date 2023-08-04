@@ -24,7 +24,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1377, 390))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1364, 322))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -1099,6 +1099,8 @@ class Ui_Form(object):
         self.exif_table.horizontalHeader().setMinimumSectionSize(0)
         self.exif_table.verticalHeader().setMinimumSectionSize(0)
         self.verticalLayout.addWidget(self.exif_table)
+        self.verticalLayout.setStretch(0, 2)
+        self.verticalLayout.setStretch(2, 3)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
