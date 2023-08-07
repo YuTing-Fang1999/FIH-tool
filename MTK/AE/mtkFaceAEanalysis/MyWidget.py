@@ -345,6 +345,7 @@ class MyWidget(ParentWidget):
         self.set_all_btn_enable(False)
         self.ui.load_code_btn.setText("解析中，請稍後...")
         self.ui.load_code_btn.repaint()
+        self.gen_excel_worker.start()
         
     
     def set_code_data(self, data):
