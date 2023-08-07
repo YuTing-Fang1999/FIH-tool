@@ -13,3 +13,10 @@ img name會跟param.txt的檔名一樣
 """
         html = markdown.markdown(markdown_content)
         self.setHtml(html)
+        self.setStyleSheet(
+            """
+            font-family:微軟正黑體;
+            font-weight: bold;
+            font-size: 15pt;
+            """
+        )

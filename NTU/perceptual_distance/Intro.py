@@ -13,3 +13,10 @@ resize成相同大小: 是等比例縮放後，再以左上角為原點剪裁
 """
         html = markdown.markdown(markdown_content)
         self.setHtml(html)
+        self.setStyleSheet(
+            """
+            font-family:微軟正黑體;
+            font-weight: bold;
+            font-size: 15pt;
+            """
+        )
