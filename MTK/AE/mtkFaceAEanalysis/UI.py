@@ -1025,6 +1025,18 @@ class Ui_Form(object):
 "color:rgb(255, 255, 255);")
         self.load_code_btn.setObjectName("load_code_btn")
         self.horizontalLayout_2.addWidget(self.load_code_btn)
+        self.open_excel_btn = QtWidgets.QPushButton(Form)
+        self.open_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.open_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
+"color:rgb(255, 255, 255);")
+        self.open_excel_btn.setObjectName("open_excel_btn")
+        self.horizontalLayout_2.addWidget(self.open_excel_btn)
+        self.load_excel_btn = QtWidgets.QPushButton(Form)
+        self.load_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.load_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
+"color:rgb(255, 255, 255);")
+        self.load_excel_btn.setObjectName("load_excel_btn")
+        self.horizontalLayout_2.addWidget(self.load_excel_btn)
         self.optimize_btn = QtWidgets.QPushButton(Form)
         self.optimize_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.optimize_btn.setStyleSheet("text-align:center;\n"
@@ -1159,6 +1171,8 @@ class Ui_Form(object):
         self.del_btn.setText(_translate("Form", "刪除勾選的照片"))
         self.load_exif_btn.setText(_translate("Form", "Load exif、照片資料夾"))
         self.load_code_btn.setText(_translate("Form", "Load code"))
+        self.open_excel_btn.setText(_translate("Form", "Open Excel"))
+        self.load_excel_btn.setText(_translate("Form", "Load Excel"))
         self.optimize_btn.setText(_translate("Form", "最佳化"))
         self.restore_btn.setText(_translate("Form", "歸零"))
         self.export_code_btn.setText(_translate("Form", "Export code"))

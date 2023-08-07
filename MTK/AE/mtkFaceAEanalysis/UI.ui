@@ -1427,6 +1427,34 @@ color:rgb(255, 255, 255);</string>
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="open_excel_btn">
+       <property name="cursor">
+        <cursorShape>OpenHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(68, 114, 196); 
+color:rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Open Excel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="load_excel_btn">
+       <property name="cursor">
+        <cursorShape>OpenHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:rgb(68, 114, 196); 
+color:rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Load Excel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="optimize_btn">
        <property name="cursor">
         <cursorShape>OpenHandCursor</cursorShape>

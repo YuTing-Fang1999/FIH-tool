@@ -17,7 +17,6 @@ import openpyxl
 from openpyxl_image_loader import SheetImageLoader
 import cv2
 
-
 import re
 def is_integer(s):
     pattern = r'^[+-]?\d+$'
@@ -103,15 +102,13 @@ class MyWidget(ParentWidget):
         self.ui.optimize_btn.clicked.connect(self.optimize)
         self.ui.restore_btn.clicked.connect(self.restore)
         self.ui.export_code_btn.clicked.connect(self.export_code)
-        # self.ui.exif_table.cellClicked.connect(self.table_row_selected_event)
         self.ui.exif_table.itemSelectionChanged.connect(self.table_row_selected_event)
+        self.ui.open_excel_btn.clicked.connect(self.open_excel)
+        self.ui.load_excel_btn.clicked.connect(self.load_excel)
 
         self.gen_excel_worker.update_status_signal.connect(self.update_btn_status)
         self.gen_excel_worker.gen_finish_signal.connect(self.after_gen_excel)
 
-    def update_btn_status(self, status):
-        self.ui.load_code_btn.setText(status)
-        
     def setupUi(self):
         delegate = AlignDelegate(self.ui.exif_table)
         self.ui.exif_table.setItemDelegate(delegate)
@@ -120,7 +117,9 @@ class MyWidget(ParentWidget):
         self.ui.exif_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         
         self.set_btn_enable(self.ui.del_btn, False)
-        self.set_btn_enable(self.ui.load_code_btn, False)
+        self.set_btn_enable(self.ui.load_exif_btn, False)
+        self.set_btn_enable(self.ui.open_excel_btn, False)
+        self.set_btn_enable(self.ui.load_excel_btn, False)
         self.set_btn_enable(self.ui.optimize_btn, False)
         self.set_btn_enable(self.ui.restore_btn, False)
         self.set_btn_enable(self.ui.export_code_btn, False)
@@ -137,6 +136,40 @@ class MyWidget(ParentWidget):
         
         # self.load_exif()
         # self.load_code()
+
+    def open_excel(self):
+        if self.gen_excel_worker.excel_path is None:
+            return
+        import xlwings as xw
+        app = xw.App(visible=True)
+        app.books[0].close()
+        # Maximize the Excel window
+        app.api.WindowState = xw.constants.WindowState.xlMaximized
+        wb = app.books.open(self.gen_excel_worker.excel_path)
+        # Set the Excel window as the foreground window
+        wb.app.activate(steal_focus=True)
+    
+    def load_excel(self):
+        if self.gen_excel_worker.excel_path != None:
+            file = self.gen_excel_worker.excel_path
+        else: 
+            file = self.get_path("MTK_AE_mtkFaceAEanalysis_excel")
+        filepath, filetype = QFileDialog.getOpenFileName(self,
+                                                         "選擇excel",
+                                                         file,  # start path
+                                                         '*.xlsm;;*.xlsx;;*.xls;;*.csv;;All Files (*)')
+
+        if filepath == '':
+            return
+        self.gen_excel_worker.excel_path = filepath
+        filefolder = '/'.join(filepath.split('/')[:-1])
+        self.set_path("MTK_AE_mtkFaceAEanalysis_excel", filefolder)
+        self.after_gen_excel()
+
+    def update_btn_status(self, status):
+        self.ui.load_code_btn.setText(status)
+        
+    
 
     def change_normal_light_BV_range(self, idx, val):
         self.code_data["flt_bv"][idx] = int(val)
@@ -308,7 +341,10 @@ class MyWidget(ParentWidget):
         self.gen_excel_worker.exif_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filefolder)
-        self.set_btn_enable(self.ui.load_code_btn, True)
+
+        self.set_all_btn_enable(False)
+        self.ui.load_code_btn.setText("解析中，請稍後...")
+        self.ui.load_code_btn.repaint()
         
     
     def set_code_data(self, data):
@@ -375,23 +411,10 @@ class MyWidget(ParentWidget):
         self.gen_excel_worker.code_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_code", filefolder)
-
-        self.set_all_btn_enable(False)
-        self.ui.load_code_btn.setText("解析中，請稍後...")
-        self.ui.load_code_btn.repaint()
-
-        # gen excel
-        self.gen_excel_worker.start()
-        ######## TEST ########
-        # self.after_gen_excel()
-        ######## TEST ########
-        
+        self.set_btn_enable(self.ui.load_exif_btn, True)
+        self.set_btn_enable(self.ui.load_excel_btn, True)
 
     def after_gen_excel(self):
-        self.excel_path = os.path.abspath(self.gen_excel_worker.excel_path)
-        ######## TEST ########
-        # self.excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/test.xlsm")
-        ######## TEST ########
         # get data form code
         self.code_data = parse_code(self.gen_excel_worker.code_path)
         self.set_code_data(self.code_data)
@@ -401,7 +424,7 @@ class MyWidget(ParentWidget):
         # excel.Visible = False  # Set to True if you want to see the Excel application
         # excel.DisplayAlerts = False
         # print(self.excel_path)
-        workbook = excel.Workbooks.Open(self.excel_path)
+        workbook = excel.Workbooks.Open(self.gen_excel_worker.excel_path)
         sheet = workbook.Worksheets('0.mtkFaceAEdetect')
         
         def get_data_by_column(col):
@@ -474,7 +497,7 @@ class MyWidget(ParentWidget):
         
     def set_exif_table(self, data):
         self.ui.exif_table.setRowCount(self.total_row)
-        workbook = openpyxl.load_workbook(self.excel_path)
+        workbook = openpyxl.load_workbook(self.gen_excel_worker.excel_path)
         sheet_names = workbook.sheetnames
         sheet = workbook[sheet_names[0]]
         #calling the image_loader
@@ -717,6 +740,8 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.del_btn, enable)
         self.set_btn_enable(self.ui.load_exif_btn, enable)
         self.set_btn_enable(self.ui.load_code_btn, enable)
+        self.set_btn_enable(self.ui.open_excel_btn, enable)
+        self.set_btn_enable(self.ui.load_excel_btn, enable)
         self.set_btn_enable(self.ui.optimize_btn, enable)
         self.set_btn_enable(self.ui.restore_btn, enable)
         self.set_btn_enable(self.ui.export_code_btn, enable)

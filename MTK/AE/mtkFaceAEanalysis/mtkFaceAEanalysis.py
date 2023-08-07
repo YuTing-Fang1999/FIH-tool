@@ -306,9 +306,9 @@ if __name__ == "__main__":
 class GenExcelWorkerThread(QThread):
         update_status_signal = pyqtSignal(str)
         gen_finish_signal = pyqtSignal()
-        excel_path = ""
-        code_path = ""
-        exif_path = ""
+        excel_path = None
+        code_path = None
+        exif_path = None
         base_excel_path = os.path.abspath("MTK/AE/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
 
         def __init__(self):
@@ -558,7 +558,7 @@ class GenExcelWorkerThread(QThread):
             ws.cell(column=4, row=1).value = endNum
 
             file = "mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
-            self.excel_path = file
+            self.excel_path = os.path.abspath(file)
             wb.active = 0
             wb.save(file)
 
