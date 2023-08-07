@@ -140,15 +140,15 @@ class MyWidget(ParentWidget):
     def open_excel(self):
         if self.gen_excel_worker.excel_path is None:
             return
-        import xlwings as xw
-        app = xw.App(visible=True)
-        app.books[0].close()
-        # Maximize the Excel window
-        app.api.WindowState = xw.constants.WindowState.xlMaximized
-        wb = app.books.open(self.gen_excel_worker.excel_path)
-        # Set the Excel window as the foreground window
-        wb.app.activate(steal_focus=True)
-    
+        
+        # Open Excel application
+        excel = win32.Dispatch("Excel.Application")
+        excel.Visible = True
+
+        # Open the Excel file in read-only mode
+        excel.Workbooks.Open(Filename=os.path.abspath("MTK/AE/mtkFaceAEanalysis/XLOOKUPs.xla"))
+        excel.Workbooks.Open(self.gen_excel_worker.excel_path)
+
     def load_excel(self):
         if self.gen_excel_worker.excel_path != None:
             file = self.gen_excel_worker.excel_path
@@ -422,9 +422,12 @@ class MyWidget(ParentWidget):
         # print(data)
         
         excel = win32.Dispatch("Excel.Application")
+        excel.Visible = False
         # excel.Visible = False  # Set to True if you want to see the Excel application
         # excel.DisplayAlerts = False
         # print(self.excel_path)
+        # Open the Excel file in read-only mode
+        excel.Workbooks.Open(Filename=os.path.abspath("MTK/AE/mtkFaceAEanalysis/XLOOKUPs.xla"))
         workbook = excel.Workbooks.Open(self.gen_excel_worker.excel_path)
         sheet = workbook.Worksheets('0.mtkFaceAEdetect')
         
