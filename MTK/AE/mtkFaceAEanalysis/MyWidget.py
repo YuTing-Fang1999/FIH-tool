@@ -682,7 +682,7 @@ class MyWidget(ParentWidget):
     
     def export_code(self):
         # saved_path = "AE_code.txt"
-        saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE_tune.cpp")
+        saved_path, _ = QFileDialog.getSaveFileName(self, "Select Output File", self.get_path("MTK_AE_mtkFaceAEanalysis_code")+"/AE.cpp")
         if saved_path == "": return
         normal_code = self.get_grid_data(self.ui.link_normal_grid, 5, 14, 1, 10).astype(int)
         low_code = self.get_grid_data(self.ui.link_low_grid, 5, 14, 1, 10).astype(int)
@@ -701,7 +701,7 @@ class MyWidget(ParentWidget):
                 low_txt+=str(num).rjust(4) + ', '
             low_txt+='// BV{}\n'.format(i)
             
-        with open("AE.cpp", 'r') as cpp_file:
+        with open(self.gen_excel_worker.code_path, 'r') as cpp_file:
             # Read the entire content of the file
             data = cpp_file.read()
             
