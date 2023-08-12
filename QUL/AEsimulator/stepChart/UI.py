@@ -326,7 +326,7 @@ class Ui_Form(object):
         self.label_19.setText(_translate("Form", "#"))
         self.label_20.setText(_translate("Form", "#"))
         self.label_21.setText(_translate("Form", "#"))
-        self.load_xml_btn.setText(_translate("Form", "Load gamma.xml"))
+        self.load_xml_btn.setText(_translate("Form", "Load gamma15.xml"))
         self.load_ori_btn.setText(_translate("Form", "Load\n"
 "ori photo"))
         self.label.setText(_translate("Form", "before"))

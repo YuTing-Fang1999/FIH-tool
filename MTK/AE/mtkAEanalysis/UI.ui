@@ -42,21 +42,6 @@ text-align:center;</string>
      <string>選擇專案</string>
     </property>
    </item>
-   <item>
-    <property name="text">
-     <string>FLC</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>SX3</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>HUS</string>
-    </property>
-   </item>
   </widget>
   <widget class="QPushButton" name="load_code_btn">
    <property name="geometry">
@@ -96,7 +81,7 @@ color:rgb(255, 255, 255);</string>
     <string>選擇照片、exif 資料夾</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="open_excel">
+  <widget class="QPushButton" name="open_excel_btn">
    <property name="geometry">
     <rect>
      <x>710</x>

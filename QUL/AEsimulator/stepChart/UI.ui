@@ -151,7 +151,7 @@
             <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="text">
-            <string>Load gamma.xml</string>
+            <string>Load gamma15.xml</string>
            </property>
           </widget>
          </item>

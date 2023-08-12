@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
-
+import os
 class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
@@ -23,9 +23,10 @@ class MyWidget(ParentWidget):
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
     
     def setupUi(self):
+        self.ui.project_type_selecter.addItems(os.listdir("MTK/AE/mtkAEanalysis/code"))
         self.set_btn_enable(self.ui.load_exif_btn, False)
         self.set_btn_enable(self.ui.load_code_btn, False)
-        self.set_btn_enable(self.ui.open_excel, False)
+        self.set_btn_enable(self.ui.open_excel_btn, False)
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
@@ -40,7 +41,7 @@ class MyWidget(ParentWidget):
         print("select "+self.project_type)
         self.set_btn_enable(self.ui.load_exif_btn, True)
         self.set_btn_enable(self.ui.load_code_btn, False)
-        self.set_btn_enable(self.ui.open_excel, False)
+        self.set_btn_enable(self.ui.open_excel_btn, False)
         
     def load_exif(self):
         filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEanalysis_exif"))
