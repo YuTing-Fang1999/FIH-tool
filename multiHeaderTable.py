@@ -501,9 +501,9 @@ class HeaderView(QtWidgets.QTableView):
             self.verticalHeader().setHighlightSections(False)  # Selection lags a lot without this
 
         else:
-            # for i in range(self.hmodel.rowCount()):
-            #     viewButton = QtWidgets.QCheckBox()   
-            #     self.setIndexWidget(self.hmodel.index(i,0), viewButton)
+            for i in range(self.hmodel.rowCount()):
+                viewButton = QtWidgets.QLabel("123")   
+                self.setIndexWidget(self.hmodel.index(i,0), viewButton)
         
             self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             self.verticalHeader().hide()

@@ -38,6 +38,11 @@ class MyWidget(ParentWidget):
         
     def set_project_type(self):
         self.project_type = self.ui.project_type_selecter.currentText()
+        if self.project_type == "選擇專案": 
+            self.set_btn_enable(self.ui.load_exif_btn, False)
+            self.set_btn_enable(self.ui.load_code_btn, False)
+            self.set_btn_enable(self.ui.open_excel_btn, False)
+            return
         print("select "+self.project_type)
         self.set_btn_enable(self.ui.load_exif_btn, True)
         self.set_btn_enable(self.ui.load_code_btn, False)
@@ -52,6 +57,10 @@ class MyWidget(ParentWidget):
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkAEanalysis_exif", filefolder)
         
+        self.set_btn_enable(self.ui.load_exif_btn, True)
+        self.set_btn_enable(self.ui.load_code_btn, True)
+        self.set_btn_enable(self.ui.open_excel_btn, False)
+        
     def load_code(self):
         filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEanalysis_code"))
 
@@ -60,6 +69,12 @@ class MyWidget(ParentWidget):
         self.code_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkAEanalysis_code", filefolder)
+        
+        self.set_btn_enable(self.ui.load_exif_btn, True)
+        self.set_btn_enable(self.ui.load_code_btn, True)
+        self.set_btn_enable(self.ui.open_excel_btn, True)
+        
+        
         
     def open_excel(self):
         pass

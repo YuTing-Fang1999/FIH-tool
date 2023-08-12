@@ -426,293 +426,299 @@ def create_xls(file_path):
     print("AE.cpp is ok!")
     return wb
 
-print("mtkAEanalysis is runing...")
+def FLC(exif_path, code_path):
+    print("mtkAEanalysis is runing...")
 
-root = tk.Tk()
-root.withdraw()
-file_path = filedialog.askopenfilename()
-print(file_path)
+    root = tk.Tk()
+    root.withdraw()
+    code_path = filedialog.askopenfilename()
+    print(code_path)
 
-refer = input("Have reference or not (0: no, 1: yes): ")
-refer = int(refer)
+    # refer = input("Have reference or not (0: no, 1: yes): ")
+    # refer = int(refer)
 
-localtime = time.localtime()
-clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
+    localtime = time.localtime()
+    clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
 
-yourPath = "Exif"
-allFileList = os.listdir(yourPath)
-allFileList_exif = np.sort(allFileList,axis=0)
-allFileList_exif = list(filter(file_filter, allFileList_exif))
-allFileList_exif.sort(key=natural_keys)
-allFileList_jpg = np.sort(allFileList,axis=0)
-allFileList_jpg = list(filter(file_filter_jpg, allFileList_jpg))
-allFileList_jpg.sort(key=natural_keys)
+    # exif_path = "Exif"
+    allFileList = os.listdir(exif_path)
+    allFileList_exif = np.sort(allFileList,axis=0)
+    allFileList_exif = list(filter(file_filter, allFileList_exif))
+    allFileList_exif.sort(key=natural_keys)
+    allFileList_jpg = np.sort(allFileList,axis=0)
+    allFileList_jpg = list(filter(file_filter_jpg, allFileList_jpg))
+    allFileList_jpg.sort(key=natural_keys)
 
-for i in range(0,(np.size(allFileList_exif))):
-    path_name = yourPath + "/" + allFileList_exif[i]
-    exifFile = open(path_name, "r")
-    file_name = os.path.basename(path_name)
-    base = os.path.splitext(file_name)[0]
-    baseTag = base.split(".")[0]
-    
-    if i % 20 == 0:
-        startNum = base.split("_")[0]
-        wb = create_xls(file_path)
-    
-    sheet = wb[wb.sheetnames[0]]
-    target = wb.copy_worksheet(sheet)
-    target.title = baseTag
-    wb.active = int((i%20)+2)
-    ws = wb.active
-    
-    print(base)
-    
-    AE_TAG_STABLE = []
-    AE_TAG_FACE_STS_SIZE = []
-    AE_TAG_CWV = 0
-    AE_TAG_NS_NV_LOWBNDTHD = []
-    
-    for line in exifFile:
-        if "AE_TAG_CWV" in line:
-            if AE_TAG_CWV == 0:
-                ws.cell(column=5, row=11).value = int(re.sub("[^0-9-,]","", line))
-                AE_TAG_CWV = 1
-        if "AE_TAG_REALBVX1000" in line:
-            ws.cell(column=5, row=12).value = int(re.sub("[^0-9-,]","", line)[4:])
-        if "AE_TAG_MTV6_MAINT_MID_INTRATIO" in line:
-            ws.cell(column=5, row=13).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_MTV6_MAINT_Y" in line:
-            ws.cell(column=5, row=14).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_HSV4P0_STS_EVD" in line:
-            ws.cell(column=15, row=13).value = int(re.sub("[^0-9-,]","", line)[2:])
-        if "AE_TAG_HSV6_BT_Final_Y" in line:
-            AE_TAG_HSV6_BT_Final_Y = int(re.sub("[^0-9-,]","", line)[1:])
-            ws.cell(column=15, row=14).value = AE_TAG_HSV6_BT_Final_Y
-        if "AE_TAG_HSV6_BT_THD" in line:
-            AE_TAG_HSV6_BT_THD = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_DRV6_CORR_B2M" in line:
-            ws.cell(column=15, row=33).value = int(re.sub("[^0-9-,]","", line)[2:])
-        if "AE_TAG_HSV6_MT_Final_Y" in line:
-            AE_TAG_HSV6_MT_Final_Y = int(re.sub("[^0-9-,]","", line)[1:])
-            ws.cell(column=15, row=34).value = AE_TAG_HSV6_MT_Final_Y
-        if "AE_TAG_HSV6_MT_THD" in line:
-            AE_TAG_HSV6_MT_THD = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_DRV6_B2D" in line:
-            ws.cell(column=27, row=13).value = int(re.sub("[^0-9-,]","", line)[2:])
-        if "AE_TAG_DRV6_MIDRATIO" in line:
-            ws.cell(column=27, row=14).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_HSV6_DT_FINAL_Y" in line:
-            AE_TAG_HSV6_DT_FINAL_Y = int(re.sub("[^0-9-,]","", line)[1:])
-            ws.cell(column=15, row=39).value = AE_TAG_HSV6_DT_FINAL_Y
-        if "AE_TAG_HSV6_DT_THD" in line:
-            AE_TAG_HSV6_DT_THD = int(re.sub("[^0-9-,]","", line)[1:])
-            ws.cell(column=19, row=39).value = AE_TAG_HSV6_DT_THD
-            
-        if "AE_TAG_AE_TARGET" in line:
-            ws.cell(column=46, row=3).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_STABLE" in line:
-            AE_TAG_STABLE.append(re.sub("[^0-9-,]","", line))
+    for i in range(0,(np.size(allFileList_exif))):
+        path_name = exif_path + "/" + allFileList_exif[i]
+        exifFile = open(path_name, "r")
+        file_name = os.path.basename(path_name)
+        base = os.path.splitext(file_name)[0]
+        baseTag = base.split(".")[0]
         
-        if "AE_TAG_PROB_FACE_HBND" in line:
-            ws.cell(column=48, row=5).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_FACE_LBND" in line:
-            ws.cell(column=48, row=6).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_FACE_FLT_DR" in line:
-            ws.cell(column=48, row=8).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_FACE_FLT_HBND" in line:
-            ws.cell(column=48, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+        if i % 20 == 0:
+            startNum = base.split("_")[0]
+            wb = create_xls(code_path)
+            
         
-        if "AE_TAG_FACE_LOW_BOUND" in line:
-            ws.cell(column=52, row=3).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FACE_HIGH_BOUND" in line:
-            ws.cell(column=52, row=4).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_LINK_FACE_TH_MIN" in line:
-            ws.cell(column=52, row=7).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_LINK_AE_CWR_STABLE" in line:
-            ws.cell(column=55, row=6).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_LINK_MAX_GAIN" in line:
-            ws.cell(column=55, row=7).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_LINK_FACE_CWR_STABLE" in line:
-            ws.cell(column=55, row=9).value = int(re.sub("[^0-9-,]","", line))
-            
-        if "AE_TAG_FLT_FDY" in line:
-            ws.cell(column=48, row=14).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FLT_OE_SYS" in line:
-            ws.cell(column=51, row=11).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FLT_OETH" in line:
-            ws.cell(column=51, row=12).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FLT_FDDR" in line:
-            ws.cell(column=53, row=12).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FACE_STS_SIZE" in line:
-            AE_TAG_FACE_STS_SIZE.append(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FBT_FDY" in line:
-            ws.cell(column=60, row=14).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FBT_OE_SYS" in line:
-            ws.cell(column=63, row=11).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FBT_OETH" in line:
-            ws.cell(column=63, row=12).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_FACE_STS_LOC" in line:
-            ws.cell(column=65, row=12).value = int(re.sub("[^0-9-,]","", line))
-            
-        if "AE_TAG_NS_STS_BVPROB" in line:
-            ws.cell(column=74, row=3).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_STS_CDFPROB" in line:
-            ws.cell(column=74, row=4).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_PROB_NS_THD" in line:
-            ws.cell(column=74, row=6).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_NS_BT_FLAT" in line:
-            ws.cell(column=71, row=7).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_NS_BT_THD" in line:
-            ws.cell(column=74, row=7).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_NS_DT_THD" in line:
-            ws.cell(column=74, row=8).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_NS_DT_LBND" in line:
-            ws.cell(column=71, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-        if "AE_TAG_PROB_NS_DT_HBND" in line:
-            ws.cell(column=74, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
-            
-        if "AE_TAG_NS_STS_EVD" in line:
-            ws.cell(column=72, row=13).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_NV_FLATTHD" in line:
-            ws.cell(column=72, row=14).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_STS_Y" in line:
-            ws.cell(column=76, row=13).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_STS_BRIGHTTONE_Y" in line:
-            ws.cell(column=80, row=13).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_STS_LOWBND_Y" in line:
-            ws.cell(column=84, row=13).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_NV_LOWBNDTHD" in line:
-            AE_TAG_NS_NV_LOWBNDTHD.append(re.sub("[^0-9-,]","", line))
+        sheet = wb[wb.sheetnames[0]]
+        target = wb.copy_worksheet(sheet)
+        target.title = baseTag
+        wb.active = int((i%20)+2)
+        ws = wb.active
         
-        if "AE_TAG_NS_NV_SKYENABLE" in line:
-            ws.cell(column=77, row=22).value = int(re.sub("[^0-9-,]","", line))
-        if "AE_TAG_NS_NV_SKYBV_X1" in line:
-            ws.cell(column=74, row=23).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_NS_NV_SKYBV_Y1" in line:
-            ws.cell(column=77, row=23).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_NS_NV_SKYBV_X2" in line:
-            ws.cell(column=74, row=24).value = int(re.sub("[^0-9-,]","", line)[1:])
-        if "AE_TAG_NS_NV_SKYBV_Y2" in line:
-            ws.cell(column=77, row=24).value = int(re.sub("[^0-9-,]","", line)[1:])
+        print(base)
         
-    ws.cell(column=48, row=3).value = int(AE_TAG_STABLE[2])
-    ws.cell(column=53, row=13).value = int(AE_TAG_FACE_STS_SIZE[0])
-    ws.cell(column=82, row=12).value = int(AE_TAG_NS_NV_LOWBNDTHD[0])
-    ws.cell(column=84, row=12).value = int(AE_TAG_NS_NV_LOWBNDTHD[1])
-    
-    for j in range(0,(np.size(allFileList_jpg))):
-        path_name_jpg = yourPath + "/" + allFileList_jpg[j]
-        file_name_jpg = os.path.basename(path_name_jpg)
-        base2 = os.path.splitext(file_name_jpg)[0]
-        if file_name_jpg == base or base2 == base[0:-8]:
-            img = cv2.imread(path_name_jpg)
-            height, width = img.shape[0], img.shape[1]
-            
-            if height > width:
-                save_img = openpyxl.drawing.image.Image(path_name_jpg)
-                save_img.height = 176
-                save_img.width = 176 * width / height
-                save_img.anchor = 'Y2'
-                ws.add_image(save_img)
-            else:
-                save_img = openpyxl.drawing.image.Image(path_name_jpg)
-                save_img.height = 176
-                save_img.width = 176 * width / height
-                save_img.anchor = 'Y2'
-                ws.add_image(save_img)
-            
-            if refer == 1:
-                if j % 2 == 0:
-                    path_name_jpg2 = yourPath + "/" + allFileList_jpg[j+1]
-                else:
-                    path_name_jpg2 = yourPath + "/" + allFileList_jpg[j-1]
+        AE_TAG_STABLE = []
+        AE_TAG_FACE_STS_SIZE = []
+        AE_TAG_CWV = 0
+        AE_TAG_NS_NV_LOWBNDTHD = []
+        
+        for line in exifFile:
+            if "AE_TAG_CWV" in line:
+                if AE_TAG_CWV == 0:
+                    ws.cell(column=5, row=11).value = int(re.sub("[^0-9-,]","", line))
+                    AE_TAG_CWV = 1
+            if "AE_TAG_REALBVX1000" in line:
+                ws.cell(column=5, row=12).value = int(re.sub("[^0-9-,]","", line)[4:])
+            if "AE_TAG_MTV6_MAINT_MID_INTRATIO" in line:
+                ws.cell(column=5, row=13).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_MTV6_MAINT_Y" in line:
+                ws.cell(column=5, row=14).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_HSV4P0_STS_EVD" in line:
+                ws.cell(column=15, row=13).value = int(re.sub("[^0-9-,]","", line)[2:])
+            if "AE_TAG_HSV6_BT_Final_Y" in line:
+                AE_TAG_HSV6_BT_Final_Y = int(re.sub("[^0-9-,]","", line)[1:])
+                ws.cell(column=15, row=14).value = AE_TAG_HSV6_BT_Final_Y
+            if "AE_TAG_HSV6_BT_THD" in line:
+                AE_TAG_HSV6_BT_THD = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_DRV6_CORR_B2M" in line:
+                ws.cell(column=15, row=33).value = int(re.sub("[^0-9-,]","", line)[2:])
+            if "AE_TAG_HSV6_MT_Final_Y" in line:
+                AE_TAG_HSV6_MT_Final_Y = int(re.sub("[^0-9-,]","", line)[1:])
+                ws.cell(column=15, row=34).value = AE_TAG_HSV6_MT_Final_Y
+            if "AE_TAG_HSV6_MT_THD" in line:
+                AE_TAG_HSV6_MT_THD = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_DRV6_B2D" in line:
+                ws.cell(column=27, row=13).value = int(re.sub("[^0-9-,]","", line)[2:])
+            if "AE_TAG_DRV6_MIDRATIO" in line:
+                ws.cell(column=27, row=14).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_HSV6_DT_FINAL_Y" in line:
+                AE_TAG_HSV6_DT_FINAL_Y = int(re.sub("[^0-9-,]","", line)[1:])
+                ws.cell(column=15, row=39).value = AE_TAG_HSV6_DT_FINAL_Y
+            if "AE_TAG_HSV6_DT_THD" in line:
+                AE_TAG_HSV6_DT_THD = int(re.sub("[^0-9-,]","", line)[1:])
+                ws.cell(column=19, row=39).value = AE_TAG_HSV6_DT_THD
                 
-                file_name_jpg2 = os.path.basename(path_name_jpg2)
-                img2 = cv2.imread(path_name_jpg2)
-                height2, width2 = img2.shape[0], img2.shape[1]
+            if "AE_TAG_AE_TARGET" in line:
+                ws.cell(column=46, row=3).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_STABLE" in line:
+                AE_TAG_STABLE.append(re.sub("[^0-9-,]","", line))
+            
+            if "AE_TAG_PROB_FACE_HBND" in line:
+                ws.cell(column=48, row=5).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_FACE_LBND" in line:
+                ws.cell(column=48, row=6).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_FACE_FLT_DR" in line:
+                ws.cell(column=48, row=8).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_FACE_FLT_HBND" in line:
+                ws.cell(column=48, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            
+            if "AE_TAG_FACE_LOW_BOUND" in line:
+                ws.cell(column=52, row=3).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FACE_HIGH_BOUND" in line:
+                ws.cell(column=52, row=4).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_LINK_FACE_TH_MIN" in line:
+                ws.cell(column=52, row=7).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_LINK_AE_CWR_STABLE" in line:
+                ws.cell(column=55, row=6).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_LINK_MAX_GAIN" in line:
+                ws.cell(column=55, row=7).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_LINK_FACE_CWR_STABLE" in line:
+                ws.cell(column=55, row=9).value = int(re.sub("[^0-9-,]","", line))
                 
-                save_img2 = openpyxl.drawing.image.Image(path_name_jpg2)
-                if height > width and save_img2.height < save_img2.width:
-                    rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
-                    img2_rotate = Image.open(path_name_jpg2)
-                    img2_rotate = img2_rotate.rotate(270, expand = True)
-                    img2_rotate.save(rotate_name)
-                    save_img2 = openpyxl.drawing.image.Image(rotate_name)
-                    save_img2.height = 176
-                    save_img2.width = 176 * width2 / height2 
-                    save_img2.anchor = 'AD2'
-                    ws.add_image(save_img2)
-                elif height > width and save_img2.height > save_img2.width:
-                    save_img2.height = 176
-                    save_img2.width = 176 * width2 / height2
-                    save_img2.anchor = 'AD2'
-                    ws.add_image(save_img2)
-                elif height < width and save_img2.height > save_img2.width:
-                    rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
-                    img2_rotate = Image.open(path_name_jpg2)
-                    img2_rotate = img2_rotate.rotate(270, expand = True)
-                    img2_rotate.save(rotate_name)
-                    save_img2 = openpyxl.drawing.image.Image(rotate_name)
-                    save_img2.height = 176
-                    save_img2.width = 176 * width2 / height2 
-                    save_img2.anchor = 'AH2'
-                    ws.add_image(save_img2)
+            if "AE_TAG_FLT_FDY" in line:
+                ws.cell(column=48, row=14).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FLT_OE_SYS" in line:
+                ws.cell(column=51, row=11).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FLT_OETH" in line:
+                ws.cell(column=51, row=12).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FLT_FDDR" in line:
+                ws.cell(column=53, row=12).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FACE_STS_SIZE" in line:
+                AE_TAG_FACE_STS_SIZE.append(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FBT_FDY" in line:
+                ws.cell(column=60, row=14).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FBT_OE_SYS" in line:
+                ws.cell(column=63, row=11).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FBT_OETH" in line:
+                ws.cell(column=63, row=12).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_FACE_STS_LOC" in line:
+                ws.cell(column=65, row=12).value = int(re.sub("[^0-9-,]","", line))
+                
+            if "AE_TAG_NS_STS_BVPROB" in line:
+                ws.cell(column=74, row=3).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_STS_CDFPROB" in line:
+                ws.cell(column=74, row=4).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_PROB_NS_THD" in line:
+                ws.cell(column=74, row=6).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_NS_BT_FLAT" in line:
+                ws.cell(column=71, row=7).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_NS_BT_THD" in line:
+                ws.cell(column=74, row=7).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_NS_DT_THD" in line:
+                ws.cell(column=74, row=8).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_NS_DT_LBND" in line:
+                ws.cell(column=71, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+            if "AE_TAG_PROB_NS_DT_HBND" in line:
+                ws.cell(column=74, row=9).value = int(int(re.sub("[^0-9-,]","", line))/1024*100)
+                
+            if "AE_TAG_NS_STS_EVD" in line:
+                ws.cell(column=72, row=13).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_NV_FLATTHD" in line:
+                ws.cell(column=72, row=14).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_STS_Y" in line:
+                ws.cell(column=76, row=13).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_STS_BRIGHTTONE_Y" in line:
+                ws.cell(column=80, row=13).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_STS_LOWBND_Y" in line:
+                ws.cell(column=84, row=13).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_NV_LOWBNDTHD" in line:
+                AE_TAG_NS_NV_LOWBNDTHD.append(re.sub("[^0-9-,]","", line))
+            
+            if "AE_TAG_NS_NV_SKYENABLE" in line:
+                ws.cell(column=77, row=22).value = int(re.sub("[^0-9-,]","", line))
+            if "AE_TAG_NS_NV_SKYBV_X1" in line:
+                ws.cell(column=74, row=23).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_NS_NV_SKYBV_Y1" in line:
+                ws.cell(column=77, row=23).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_NS_NV_SKYBV_X2" in line:
+                ws.cell(column=74, row=24).value = int(re.sub("[^0-9-,]","", line)[1:])
+            if "AE_TAG_NS_NV_SKYBV_Y2" in line:
+                ws.cell(column=77, row=24).value = int(re.sub("[^0-9-,]","", line)[1:])
+            
+        ws.cell(column=48, row=3).value = int(AE_TAG_STABLE[2])
+        ws.cell(column=53, row=13).value = int(AE_TAG_FACE_STS_SIZE[0])
+        ws.cell(column=82, row=12).value = int(AE_TAG_NS_NV_LOWBNDTHD[0])
+        ws.cell(column=84, row=12).value = int(AE_TAG_NS_NV_LOWBNDTHD[1])
+        
+        for j in range(0,(np.size(allFileList_jpg))):
+            path_name_jpg = exif_path + "/" + allFileList_jpg[j]
+            file_name_jpg = os.path.basename(path_name_jpg)
+            base2 = os.path.splitext(file_name_jpg)[0]
+            if file_name_jpg == base or base2 == base[0:-8]:
+                img = cv2.imread(path_name_jpg)
+                height, width = img.shape[0], img.shape[1]
+                
+                if height > width:
+                    save_img = openpyxl.drawing.image.Image(path_name_jpg)
+                    save_img.height = 176
+                    save_img.width = 176 * width / height
+                    save_img.anchor = 'Y2'
+                    ws.add_image(save_img)
                 else:
-                    save_img2.height = 176
-                    save_img2.width = 176 * width2 / height2
-                    save_img2.anchor = 'AH2'
-                    ws.add_image(save_img2)
+                    save_img = openpyxl.drawing.image.Image(path_name_jpg)
+                    save_img.height = 176
+                    save_img.width = 176 * width / height
+                    save_img.anchor = 'Y2'
+                    ws.add_image(save_img)
                     
-                gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+                refer = 0
+                if allFileList_jpg[j+1].split("_")[0] == path_name.split("_")[0]: 
+                    path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
+                    refer = 1
+                if allFileList_jpg[j-1].split("_")[0] == path_name.split("_")[0]: 
+                    path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
+                    refer = 1
+                
+                # Have reference
+                if refer == 1:
+                    file_name_jpg2 = os.path.basename(path_name_jpg2)
+                    img2 = cv2.imread(path_name_jpg2)
+                    height2, width2 = img2.shape[0], img2.shape[1]
+                    
+                    save_img2 = openpyxl.drawing.image.Image(path_name_jpg2)
+                    if height > width and save_img2.height < save_img2.width:
+                        rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
+                        img2_rotate = Image.open(path_name_jpg2)
+                        img2_rotate = img2_rotate.rotate(270, expand = True)
+                        img2_rotate.save(rotate_name)
+                        save_img2 = openpyxl.drawing.image.Image(rotate_name)
+                        save_img2.height = 176
+                        save_img2.width = 176 * width2 / height2 
+                        save_img2.anchor = 'AD2'
+                        ws.add_image(save_img2)
+                    elif height > width and save_img2.height > save_img2.width:
+                        save_img2.height = 176
+                        save_img2.width = 176 * width2 / height2
+                        save_img2.anchor = 'AD2'
+                        ws.add_image(save_img2)
+                    elif height < width and save_img2.height > save_img2.width:
+                        rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
+                        img2_rotate = Image.open(path_name_jpg2)
+                        img2_rotate = img2_rotate.rotate(270, expand = True)
+                        img2_rotate.save(rotate_name)
+                        save_img2 = openpyxl.drawing.image.Image(rotate_name)
+                        save_img2.height = 176
+                        save_img2.width = 176 * width2 / height2 
+                        save_img2.anchor = 'AH2'
+                        ws.add_image(save_img2)
+                    else:
+                        save_img2.height = 176
+                        save_img2.width = 176 * width2 / height2
+                        save_img2.anchor = 'AH2'
+                        ws.add_image(save_img2)
+                        
+                    gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+                    plt.figure(figsize=(2.88,2.2))
+                    plt.hist(gray2.ravel(), 255, [0, 255], color='powderblue',alpha=0.75)
+                    plt.yticks(alpha=0)
+                    # plt.xlim(0,255)
+                    # plt.ylim(0,350000)
+                    save_name2 = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_histogram.png"
+                    plt.savefig(save_name2,dpi=100)
+                    plt.close()
+                    save_img_hist2 = openpyxl.drawing.image.Image(save_name2)
+                    save_img_hist2.anchor = 'F24'
+                    ws.add_image(save_img_hist2)
+                    
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 plt.figure(figsize=(2.88,2.2))
-                plt.hist(gray2.ravel(), 255, [0, 255], color='powderblue',alpha=0.75)
+                plt.hist(gray.ravel(), 255, [0, 255], color='powderblue',alpha=0.75)
+                plt.axvline(AE_TAG_HSV6_BT_Final_Y/4096*255, color='r',linestyle=':')
+                plt.axvline(AE_TAG_HSV6_BT_THD/4096*255, color='r')
+                plt.axvline(AE_TAG_HSV6_MT_Final_Y/4096*255, color='b',linestyle=':')
+                plt.axvline(AE_TAG_HSV6_MT_THD/4096*255, color='b')
+                plt.axvline(AE_TAG_HSV6_DT_FINAL_Y/4096*255, color='g',linestyle=':')
+                plt.axvline(AE_TAG_HSV6_DT_THD/4096*255, color='g')
                 plt.yticks(alpha=0)
                 # plt.xlim(0,255)
                 # plt.ylim(0,350000)
-                save_name2 = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_histogram.png"
-                plt.savefig(save_name2,dpi=100)
+                save_name1 = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_histogram.png"
+                plt.savefig(save_name1,dpi=100)
                 plt.close()
-                save_img_hist2 = openpyxl.drawing.image.Image(save_name2)
-                save_img_hist2.anchor = 'F24'
-                ws.add_image(save_img_hist2)
+                save_img_hist = openpyxl.drawing.image.Image(save_name1)
+                save_img_hist.anchor = 'B24'
+                ws.add_image(save_img_hist)
                 
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            plt.figure(figsize=(2.88,2.2))
-            plt.hist(gray.ravel(), 255, [0, 255], color='powderblue',alpha=0.75)
-            plt.axvline(AE_TAG_HSV6_BT_Final_Y/4096*255, color='r',linestyle=':')
-            plt.axvline(AE_TAG_HSV6_BT_THD/4096*255, color='r')
-            plt.axvline(AE_TAG_HSV6_MT_Final_Y/4096*255, color='b',linestyle=':')
-            plt.axvline(AE_TAG_HSV6_MT_THD/4096*255, color='b')
-            plt.axvline(AE_TAG_HSV6_DT_FINAL_Y/4096*255, color='g',linestyle=':')
-            plt.axvline(AE_TAG_HSV6_DT_THD/4096*255, color='g')
-            plt.yticks(alpha=0)
-            # plt.xlim(0,255)
-            # plt.ylim(0,350000)
-            save_name1 = yourPath + "/" + os.path.splitext(file_name_jpg)[0] + "_histogram.png"
-            plt.savefig(save_name1,dpi=100)
-            plt.close()
-            save_img_hist = openpyxl.drawing.image.Image(save_name1)
-            save_img_hist.anchor = 'B24'
-            ws.add_image(save_img_hist)
-            
-            faceCase = "faceCase.png"
-            if os.path.exists(faceCase):
-                face_img = openpyxl.drawing.image.Image(faceCase)
-                face_img_2 = cv2.imread(faceCase)
-                height3, width3 = face_img_2.shape[0], face_img_2.shape[1]
-                face_img.height = 176
-                face_img.width = 176 * width3 / height3
-                face_img.anchor = 'BE2'
-                ws.add_image(face_img)
-            else:
-                print("No faceCase.png in path.")
-            
-    if i % 20 == 19 or i == len(allFileList_exif)-1:
-        endNum = base.split("_")[0]
-        file = "mtkAEanalysis_FLC_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
-        wb.active = 0
-        wb.save(file)
-    break
+                faceCase = "faceCase.png"
+                if os.path.exists(faceCase):
+                    face_img = openpyxl.drawing.image.Image(faceCase)
+                    face_img_2 = cv2.imread(faceCase)
+                    height3, width3 = face_img_2.shape[0], face_img_2.shape[1]
+                    face_img.height = 176
+                    face_img.width = 176 * width3 / height3
+                    face_img.anchor = 'BE2'
+                    ws.add_image(face_img)
+                else:
+                    print("No faceCase.png in path.")
+                
+        if i % 20 == 19 or i == len(allFileList_exif)-1:
+            endNum = base.split("_")[0]
+            file = "mtkAEanalysis_FLC_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
+            wb.active = 0
+            wb.save(file)
+        break
 
-print("mtkAEanalysis is ok!")
-os.system("pause")
+    print("mtkAEanalysis is ok!")
+    os.system("pause")
