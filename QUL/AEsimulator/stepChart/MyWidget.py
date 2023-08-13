@@ -22,6 +22,7 @@ import shutil
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
         update_status_bar_signal = pyqtSignal(str)
+        error_xml_signal = pyqtSignal()
         xml_excel_path = None
         is_processing = False
         filepath = None
@@ -36,70 +37,77 @@ class ExcelWorkerThread(QThread):
             return wb
 
         def run(self):
-            print(f"Selected file: {self.filepath}")
+            try:
+                print(f"Selected file: {self.filepath}")
 
-            self.is_processing = True
+                self.is_processing = True
 
-            tree = ET.parse(self.filepath)
-            root = tree.getroot()
+                tree = ET.parse(self.filepath)
+                root = tree.getroot()
 
-            data = []
-            for i, mod_gamma15_led_idx_data in enumerate(root.findall('.//mod_gamma15_led_idx_data')):
-                led_idx_trigger = mod_gamma15_led_idx_data.find('led_idx_trigger').text
+                data = []
+                for i, mod_gamma15_led_idx_data in enumerate(root.findall('.//mod_gamma15_led_idx_data')):
+                    led_idx_trigger = mod_gamma15_led_idx_data.find('led_idx_trigger').text
 
-                for mod_gamma15_aec_data in mod_gamma15_led_idx_data.findall('led_idx_data/mod_gamma15_aec_data'):
-                    aec_trigger = mod_gamma15_aec_data.find('aec_trigger')
-                    lux_idx_start = aec_trigger.find('lux_idx_start').text
-                    lux_idx_end = aec_trigger.find('lux_idx_end').text
+                    for mod_gamma15_aec_data in mod_gamma15_led_idx_data.findall('led_idx_data/mod_gamma15_aec_data'):
+                        aec_trigger = mod_gamma15_aec_data.find('aec_trigger')
+                        lux_idx_start = aec_trigger.find('lux_idx_start').text
+                        lux_idx_end = aec_trigger.find('lux_idx_end').text
 
-                    gamma15_rgn_data = mod_gamma15_aec_data.find('.//gamma15_rgn_data')
+                        gamma15_rgn_data = mod_gamma15_aec_data.find('.//gamma15_rgn_data')
 
-                    sheet_name = "stepChart_flash_{}_lux_{}_{}".format(led_idx_trigger, lux_idx_start, lux_idx_end)
-                    gamma = gamma15_rgn_data.find('table').text
+                        sheet_name = "stepChart_flash_{}_lux_{}_{}".format(led_idx_trigger, lux_idx_start, lux_idx_end)
+                        gamma = gamma15_rgn_data.find('table').text
 
-                    # print(sheet_name)
-                    # print(gamma)
+                        # print(sheet_name)
+                        # print(gamma)
 
-                    data.append({
-                        "gamma": gamma,
-                        "name": sheet_name
-                    })
-
-            localtime = time.localtime()
-            clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
-        
-            self.xml_excel_path = os.path.join(os.getcwd(), f'stepChart_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
-            print(f"Save file: {self.xml_excel_path}")
+                        data.append({
+                            "gamma": gamma,
+                            "name": sheet_name
+                        })
+                assert data != [], "No data in xml file!"
+                localtime = time.localtime()
+                clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
             
-            # copy sheet
-            shutil.copyfile(self.excel_path, self.xml_excel_path)
+                self.xml_excel_path = os.path.join(os.getcwd(), f'stepChart_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm')
+                print(f"Save file: {self.xml_excel_path}")
+                
+                # copy sheet
+                shutil.copyfile(self.excel_path, self.xml_excel_path)
 
-            app = xw.App(visible=False)
-            wb = xw.Book(self.xml_excel_path)
-            macro_vba = wb.app.macro('CopySheetWithChart')
+                app = xw.App(visible=False)
+                wb = xw.Book(self.xml_excel_path)
+                macro_vba = wb.app.macro('CopySheetWithChart')
 
-            for i, item in enumerate(data, start=2):
-                sheet_name = item["name"]
+                for i, item in enumerate(data, start=2):
+                    sheet_name = item["name"]
 
-                print(sheet_name)
-                self.update_status_bar_signal.emit(sheet_name)
-                macro_vba(sheet_name)
-                wb.sheets[sheet_name].range("T2").value=item["gamma"]
+                    print(sheet_name)
+                    self.update_status_bar_signal.emit(sheet_name)
+                    macro_vba(sheet_name)
+                    wb.sheets[sheet_name].range("T2").value=item["gamma"]
 
-            wb.sheets[0].activate()
-            wb.save()
-            app.quit()
+                wb.sheets[0].activate()
+                wb.save()
+                app.quit()
 
-            self.update_status_bar_signal.emit("stepChar is ok!")
-            print("stepChar is ok!")
-            
-            self.is_processing = False
+                self.update_status_bar_signal.emit("stepChar is ok!")
+                print("stepChar is ok!")
+                
+                self.is_processing = False
 
-            item_list = []
-            for i, item in enumerate(data, start=2):
-                item_list.append(item["name"])
+                item_list = []
+                for i, item in enumerate(data, start=2):
+                    item_list.append(item["name"])
 
-            self.update_list_signal.emit(item_list)
+                self.update_list_signal.emit(item_list)
+            except Exception as e:
+                print("Error: ", str(e))
+                self.update_status_bar_signal.emit("Error: "+str(e))
+                self.is_processing = False
+                self.error_xml_signal.emit()
+                return
 
 class MyWidget(ParentWidget):
     def __init__(self):
@@ -138,6 +146,10 @@ class MyWidget(ParentWidget):
 
         self.excel_worker.update_list_signal.connect(self.update_item_list)
         self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
+        self.excel_worker.error_xml_signal.connect(self.error_xml)
+        
+    def error_xml(self):
+        QMessageBox.about(self, "Error", "僅能選擇gamma15.xml")
 
     def update_item_list(self, item_name):
         self.ui.trigger_selecter.clear()
