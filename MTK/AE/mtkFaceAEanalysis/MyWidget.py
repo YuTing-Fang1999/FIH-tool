@@ -416,6 +416,9 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.load_excel_btn, True)
 
     def after_gen_excel(self):
+        self.ui.load_excel_btn.setText("Loading 中，請稍後...")
+        self.set_all_btn_enable(False)
+        self.ui.load_excel_btn.repaint()
         # get data form code
         self.code_data = parse_code(self.gen_excel_worker.code_path)
         self.set_code_data(self.code_data)
@@ -497,6 +500,7 @@ class MyWidget(ParentWidget):
         self.set_exif_table(self.pre_exif_data)
         self.set_code_enable()
         self.set_all_btn_enable(True)
+        self.ui.load_excel_btn.setText("Load Excel")
         self.ui.load_code_btn.setText("Load Code")
         
     def set_exif_table(self, data):
@@ -766,13 +770,13 @@ class MyWidget(ParentWidget):
                 self.ui.link_normal_grid.itemAtPosition(r, c).widget().change_style()
                 self.ui.link_low_grid.itemAtPosition(r, c).widget().change_style()
 
-        for c in range(self.code_data["normal_light_r"]+1):
-            self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().setEnabled(True)
-            self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().change_style()
+        # for c in range(self.code_data["normal_light_r"]+1):
+        #     self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().setEnabled(True)
+        #     self.ui.link_normal_grid.itemAtPosition(1, c+1).widget().change_style()
 
-        for c in range(self.code_data["normal_light_c"]+1):
-            self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().setEnabled(True)
-            self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().change_style()
+        # for c in range(self.code_data["normal_light_c"]+1):
+        #     self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().setEnabled(True)
+        #     self.ui.link_normal_grid.itemAtPosition(2, c+1).widget().change_style()
 
         # for c in range(self.code_data["low_light_r"]+1):
         #     self.ui.link_low_grid.itemAtPosition(1, c+1).widget().setEnabled(True)
