@@ -32,8 +32,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>910</width>
-        <height>618</height>
+        <width>906</width>
+        <height>614</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -194,8 +194,8 @@ text-align:center;</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>440</width>
-              <height>496</height>
+              <width>436</width>
+              <height>484</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -207,11 +207,7 @@ text-align:center;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="graph_label">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
+          <widget class="QGraphicsView" name="graphicsView"/>
          </item>
         </layout>
        </item>
