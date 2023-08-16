@@ -714,11 +714,18 @@ class MyWidget(ParentWidget):
             
         pattern = r"//u4_FD_TH: FD brightness target.*?}"
         matches = list(re.finditer(pattern, data, flags=re.DOTALL))
-        if len(matches) >= 3:
+        if len(matches) == 4:
             data = data[:matches[0].start()] + "//u4_FD_TH: FD brightness target" + normal_txt + "                }" + data[matches[0].end():]
 
             matches = list(re.finditer(pattern, data, flags=re.DOTALL))
+            data = data[:matches[1].start()] + "//u4_FD_TH: FD brightness target" + normal_txt + "                }" + data[matches[1].end():]
+            
+            matches = list(re.finditer(pattern, data, flags=re.DOTALL))
             data = data[:matches[2].start()] + "//u4_FD_TH: FD brightness target" + low_txt + "                }" + data[matches[2].end():]
+            
+            matches = list(re.finditer(pattern, data, flags=re.DOTALL))
+            data = data[:matches[3].start()] + "//u4_FD_TH: FD brightness target" + low_txt + "                }" + data[matches[3].end():]
+            
             with open(saved_path, 'w') as output_file:
                 output_file.write(data)
                 

@@ -62,11 +62,11 @@ class MyWidget(ParentWidget):
         btn.setEnabled(enable)
         
     def load_exif(self):
-        filepath = "C:/Users/yuting/Downloads/AE程式/4.mtkAEclassify/test"
-        # filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEclassify_exif"))
+        # filepath = "C:/Users/yuting/Downloads/AE程式/4.mtkAEclassify/test"
+        filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEclassify_exif"))
 
-        # if filepath == '':
-        #     return
+        if filepath == '':
+            return
         self.worker.exif_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkAEclassify_exif", filefolder)
@@ -158,7 +158,7 @@ class MyWidget(ParentWidget):
                 print(dir + "/" + file)
                 img = cv2.imdecode( np.fromfile( file = dir + "/" + file, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                 print(img.shape)
-                self.ui.graph_label.setPixmap(convert_cv_qt(img))
+                self.ui.graphicsView.setPixmap(convert_cv_qt(img))
                 break
         
     def open_dir(self):
