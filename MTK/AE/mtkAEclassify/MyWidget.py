@@ -78,7 +78,7 @@ class MyWidget(ParentWidget):
         self.set_path("MTK_AE_mtkAEclassify_exif", filefolder)
         self.set_btn_enable(self.ui.load_exif_btn, False)
         self.set_btn_enable(self.ui.open_dir_btn, False)
-        
+        self.ui.load_exif_btn.setText("載入中...")
         self.worker.start()
         # self.after_load_exif()
         
@@ -93,19 +93,24 @@ class MyWidget(ParentWidget):
                         if "B2D" in file2:
                             if file not in self.weighting_dir.keys(): 
                                 self.weighting_dir[file] = {}
+                            if file2 not in self.weighting_dir[file].keys():
                                 self.weighting_dir[file][file2] = []
+                                
                             for file3 in os.listdir(path + "/" + file2):
                                 self.weighting_dir[file][file2].append(file3)
                         if "EVD" in file2:
                             if file not in self.THD_dir.keys(): 
                                 self.THD_dir[file] = {} 
+                            if file2 not in self.THD_dir[file].keys():
                                 self.THD_dir[file][file2] = []
                             for file3 in os.listdir(path + "/" + file2):
                                 self.THD_dir[file][file2].append(file3)
                     
-        print(self.weighting_dir)
-        print(self.THD_dir)
+        # print(self.weighting_dir)
+        # print(self.THD_dir)
         self.set_btn_enable(self.ui.load_exif_btn, True)
+        self.ui.load_exif_btn.setText("選擇照片、exif 資料夾\n並執行分類")
+        
         self.ui.weighting_radio.setEnabled(True)
         self.ui.THD_radio.setEnabled(True)
         
@@ -114,8 +119,6 @@ class MyWidget(ParentWidget):
         
     def set_BV_comboBox(self, btn):
         self.ui.BV_comboBox.clear()
-        self.ui.B2D_EVD_comboBox.clear()
-        self.ui.Mid_B2M_comboBox.clear()
         
         self.now_radio = btn
         
@@ -128,10 +131,9 @@ class MyWidget(ParentWidget):
         elif self.now_radio == self.ui.THD_radio:
             self.ui.BV_comboBox.addItems(self.THD_dir.keys())
         
-        
     def set_B2D_EVD_comboBox(self, text):
         if text == "": return
-        self.ui.Mid_B2M_comboBox.clear()
+        self.ui.B2D_EVD_comboBox.clear()
         if self.now_radio == self.ui.weighting_radio:
             self.ui.B2D_EVD_comboBox.addItems(self.weighting_dir[text].keys())
         elif self.now_radio == self.ui.THD_radio:
@@ -140,17 +142,19 @@ class MyWidget(ParentWidget):
         self.ui.BV_comboBox.setEnabled(True)
         self.ui.B2D_EVD_comboBox.setEnabled(True)
         self.ui.Mid_B2M_comboBox.setEnabled(True)
-
-                
+        print(text)
+        
     def set_Mid_B2M_comboBox(self, text):
         if text == "": return
+        self.ui.Mid_B2M_comboBox.clear()
         if self.now_radio == self.ui.weighting_radio:
             self.ui.Mid_B2M_comboBox.addItems(self.weighting_dir[self.ui.BV_comboBox.currentText()][text])
             self.dir = self.weighting_dir[self.ui.BV_comboBox.currentText()][text]
         elif self.now_radio == self.ui.THD_radio:
             self.ui.Mid_B2M_comboBox.addItems(self.THD_dir[self.ui.BV_comboBox.currentText()][text])
             self.dir = self.THD_dir[self.ui.BV_comboBox.currentText()][text]
-                    
+        print(text)
+        
     def set_graph(self, text):
         self.set_btn_enable(self.ui.open_dir_btn, True)
         
@@ -165,39 +169,29 @@ class MyWidget(ParentWidget):
         i = 0
         for file in os.listdir(dir):
             if (".jpg" in file.lower() or ".jpeg" in file.lower()) and "exif" not in file.lower():
-                i+=1
                 # print(i, file)
                 img = cv2.imdecode( np.fromfile( file = dir + "/" + file, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                 width = 600
                 height = int(width * img.shape[0] / img.shape[1])
                 img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
-                cv2.putText(img, str(i), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
+                cv2.putText(img, str(i+1), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
                 viewer = ImageViewer()
-                # viewer.wheelEvent = lambda event: None
+                viewer.setMinimumWidth(200)
+                viewer.setMinimumHeight(100)
+                viewer.wheelEvent = lambda event: None
                 # viewer.mousePressEvent = lambda event: None
                 # viewer.setDragMode(QGraphicsView.NoDrag)
                 viewer.setPhoto(img)
-                self.ui.photo_grid.addWidget(viewer, i//2, i%2)
-                break
-          
-        i = 0      
-        if "up" in self.ui.BV_comboBox.currentText():
-            i = 1
-        elif "down" in self.ui.BV_comboBox.currentText():
-            i = 5
-        else:
-            BV_region = [0,3500,6500,9000]
-            target_region = int(self.ui.BV_comboBox.currentText().split("_")[2])
-            for r in BV_region:
-                if r == target_region: break
+                self.ui.photo_grid.addWidget(viewer, i//4, i%4)
                 i+=1
-        # print(target_region)
-        # print(i)
+                
+          
+        i = int(self.ui.BV_comboBox.currentText().split("_")[0][-1])   
         img = None
         if "B2D" in self.ui.B2D_EVD_comboBox.currentText():
-            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_B2Dmid.png".format(i+1), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_B2Dmid.png".format(i), dtype = np.uint8 ), cv2.IMREAD_COLOR )
         elif "EVD" in self.ui.B2D_EVD_comboBox.currentText():
-            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_EVDB2M.png".format(i+1), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_EVDB2M.png".format(i), dtype = np.uint8 ), cv2.IMREAD_COLOR )
         self.chart_viewer.setPhoto(img)
         
     def open_dir(self):
