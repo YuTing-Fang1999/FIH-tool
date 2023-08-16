@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (
     QWidget, QApplication, QFileDialog, QMessageBox, QPushButton, QTableWidgetItem, QCheckBox,
-    QLabel, QStyledItemDelegate, QHBoxLayout, QLineEdit, QTableWidget, QAbstractItemView
+    QLabel, QStyledItemDelegate, QHBoxLayout, QLineEdit, QTableWidget, QGraphicsView
 )
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
@@ -9,6 +9,7 @@ from myPackage.ParentWidget import ParentWidget
 import os 
 import cv2
 import numpy as np
+from myPackage.ImageViewer import ImageViewer
 
 from MTK.AE.mtkAEclassify.mtkAEclassify_B2Dmidratio import B2Dmidratio
 from MTK.AE.mtkAEclassify.mtkAEclassify_EVDB2M import EVDB2M 
@@ -31,6 +32,11 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.worker = WorkerThread()
         
+        self.chart_viewer = ImageViewer()
+        self.ui.horizontalLayout_4.addWidget(self.chart_viewer)
+        self.ui.horizontalLayout_4.setStretch(0, 1)
+        self.ui.horizontalLayout_4.setStretch(1, 1)
+        
         self.controller()
         self.setupUi()
     
@@ -51,7 +57,7 @@ class MyWidget(ParentWidget):
         self.ui.B2D_EVD_comboBox.setEnabled(False)
         self.ui.Mid_B2M_comboBox.setEnabled(False)
         
-        self.load_exif()
+        # self.load_exif()
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
@@ -62,7 +68,7 @@ class MyWidget(ParentWidget):
         btn.setEnabled(enable)
         
     def load_exif(self):
-        # filepath = "C:/Users/yuting/Downloads/AE程式/4.mtkAEclassify/test"
+        # filepath = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/test"
         filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEclassify_exif"))
 
         if filepath == '':
@@ -73,8 +79,8 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.load_exif_btn, False)
         self.set_btn_enable(self.ui.open_dir_btn, False)
         
-        # self.worker.start()
-        self.after_load_exif()
+        self.worker.start()
+        # self.after_load_exif()
         
     def after_load_exif(self):
         self.weighting_dir = {}
@@ -102,6 +108,9 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.load_exif_btn, True)
         self.ui.weighting_radio.setEnabled(True)
         self.ui.THD_radio.setEnabled(True)
+        
+        self.ui.THD_radio.setChecked(True)
+        self.set_BV_comboBox(self.ui.THD_radio)
         
     def set_BV_comboBox(self, btn):
         self.ui.BV_comboBox.clear()
@@ -143,26 +152,57 @@ class MyWidget(ParentWidget):
             self.dir = self.THD_dir[self.ui.BV_comboBox.currentText()][text]
                     
     def set_graph(self, text):
+        self.set_btn_enable(self.ui.open_dir_btn, True)
+        
+        # deleteAllItems
+        for i in reversed(range(self.ui.photo_grid.count())):
+            widget = self.ui.photo_grid.itemAt(i).widget()
+            if widget is not None:
+                widget.deleteLater()
+                
+        if text == "": return
         dir = self.worker.exif_path + "/" + self.ui.BV_comboBox.currentText() + "/" + self.ui.B2D_EVD_comboBox.currentText() + "/" + text
-        print(dir)
-        def convert_cv_qt(cv_img):
-            """Convert from an opencv image to QPixmap"""
-            rgb_image = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
-            h, w, ch = rgb_image.shape
-            bytes_per_line = ch * w
-            convert_to_Qt_format = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
-            p = convert_to_Qt_format.scaled(self.ui.graph_label.width(), 200, Qt.KeepAspectRatio)
-            return QPixmap.fromImage(p)
+        i = 0
         for file in os.listdir(dir):
-            if ".jpg" in file.lower() or ".jpeg" in file.lower():
-                print(dir + "/" + file)
+            if (".jpg" in file.lower() or ".jpeg" in file.lower()) and "exif" not in file.lower():
+                i+=1
+                # print(i, file)
                 img = cv2.imdecode( np.fromfile( file = dir + "/" + file, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-                print(img.shape)
-                self.ui.graphicsView.setPixmap(convert_cv_qt(img))
+                width = 600
+                height = int(width * img.shape[0] / img.shape[1])
+                img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
+                cv2.putText(img, str(i), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
+                viewer = ImageViewer()
+                # viewer.wheelEvent = lambda event: None
+                # viewer.mousePressEvent = lambda event: None
+                # viewer.setDragMode(QGraphicsView.NoDrag)
+                viewer.setPhoto(img)
+                self.ui.photo_grid.addWidget(viewer, i//2, i%2)
                 break
+          
+        i = 0      
+        if "up" in self.ui.BV_comboBox.currentText():
+            i = 1
+        elif "down" in self.ui.BV_comboBox.currentText():
+            i = 5
+        else:
+            BV_region = [0,3500,6500,9000]
+            target_region = int(self.ui.BV_comboBox.currentText().split("_")[2])
+            for r in BV_region:
+                if r == target_region: break
+                i+=1
+        # print(target_region)
+        # print(i)
+        img = None
+        if "B2D" in self.ui.B2D_EVD_comboBox.currentText():
+            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_B2Dmid.png".format(i+1), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+        elif "EVD" in self.ui.B2D_EVD_comboBox.currentText():
+            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_EVDB2M.png".format(i+1), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+        self.chart_viewer.setPhoto(img)
         
     def open_dir(self):
-        pass
+        dir = self.worker.exif_path + "/" + self.ui.BV_comboBox.currentText() + "/" + self.ui.B2D_EVD_comboBox.currentText() + "/" + self.ui.Mid_B2M_comboBox.currentText()
+        os.startfile(dir)
     
 if __name__ == "__main__":
     import sys

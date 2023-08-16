@@ -20,6 +20,8 @@ from QUL.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorChecker
 
 from MTK.AE.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
 from MTK.AE.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
+from MTK.AE.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
+from MTK.AE.mtkAEclassify.Intro import Intro as mtkAEclassifyIntro
 
 from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Intro import Intro as MTK_AFIntro
@@ -130,8 +132,8 @@ class Config():
                     "Analysis":[
                         {
                             "name": "mtkAEclassify",
-                            "instruction": MyLabel("照片打中的region分類"),
-                            "widget": MyLabel("mtkAEclassify"),
+                            "instruction": mtkAEclassifyIntro(),
+                            "widget": mtkAEclassifyWidget(),
                         }
                     ]
                 },

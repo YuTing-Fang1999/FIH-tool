@@ -51,8 +51,7 @@
             <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">font:20px ;
-text-align:center;
+            <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
            </property>
@@ -74,8 +73,7 @@ color:rgb(255, 255, 255);</string>
             <cursorShape>OpenHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">font:20px ;
-text-align:center;
+            <string notr="true">text-align:center;
 background:rgb(68, 114, 196); 
 color:rgb(255, 255, 255);</string>
            </property>
@@ -183,7 +181,7 @@ text-align:center;</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1">
          <item>
           <widget class="QScrollArea" name="scrollArea_2">
            <property name="widgetResizable">
@@ -194,7 +192,7 @@ text-align:center;</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>436</width>
+              <width>880</width>
               <height>484</height>
              </rect>
             </property>
@@ -205,9 +203,6 @@ text-align:center;</string>
             </layout>
            </widget>
           </widget>
-         </item>
-         <item>
-          <widget class="QGraphicsView" name="graphicsView"/>
          </item>
         </layout>
        </item>

@@ -34,8 +34,7 @@ class Ui_Form(object):
         self.load_exif_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.load_exif_btn.setMinimumSize(QtCore.QSize(200, 60))
         self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.load_exif_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.load_exif_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.load_exif_btn.setObjectName("load_exif_btn")
@@ -43,8 +42,7 @@ class Ui_Form(object):
         self.open_dir_btn = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         self.open_dir_btn.setMinimumSize(QtCore.QSize(200, 60))
         self.open_dir_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
-        self.open_dir_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
+        self.open_dir_btn.setStyleSheet("text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.open_dir_btn.setObjectName("open_dir_btn")
@@ -73,7 +71,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addLayout(self.horizontalLayout)
         self.BV_comboBox = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
-        font.setPointSize(-1)
+        font.setPointSize(15)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
@@ -85,7 +83,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.BV_comboBox)
         self.B2D_EVD_comboBox = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
-        font.setPointSize(-1)
+        font.setPointSize(15)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
@@ -97,7 +95,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.B2D_EVD_comboBox)
         self.Mid_B2M_comboBox = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
         font = QtGui.QFont()
-        font.setPointSize(-1)
+        font.setPointSize(15)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)
@@ -114,7 +112,7 @@ class Ui_Form(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 436, 484))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 880, 484))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -123,11 +121,7 @@ class Ui_Form(object):
         self.verticalLayout_2.addLayout(self.photo_grid)
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_4.addWidget(self.scrollArea_2)
-        self.graphicsView = QtWidgets.QGraphicsView(self.scrollAreaWidgetContents)
-        self.graphicsView.setObjectName("graphicsView")
-        self.horizontalLayout_4.addWidget(self.graphicsView)
         self.horizontalLayout_4.setStretch(0, 1)
-        self.horizontalLayout_4.setStretch(1, 1)
         self.verticalLayout_4.addLayout(self.horizontalLayout_4)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
