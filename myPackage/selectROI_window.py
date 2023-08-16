@@ -111,8 +111,8 @@ class ImageViewer(QtWidgets.QGraphicsView):
         c2 = img.shape[1]
 
         if self.start_pos == None:
-            self.scenePos1 = QPoint(c1, r1)
-            self.scenePos2 = QPoint(c2, r2)
+            self.scenePos1 = QPoint(0, 0)
+            self.scenePos2 = QPoint(0, 0)
             self.start_pos = self.mapFromScene(self.scenePos1)
             self.end_pos = self.mapFromScene(self.scenePos2)
 
