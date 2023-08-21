@@ -177,26 +177,30 @@ class MyWidget(ParentWidget):
         if self.ui.Mid_B2M_comboBox.currentText() != "": dir += self.ui.Mid_B2M_comboBox.currentText() + "/"
         
         i = 0
-        for file in os.listdir(dir):
-            if (".jpg" in file.lower() or ".jpeg" in file.lower()) and "exif" not in file.lower():
-                # print(i, file)
-                img = cv2.imdecode( np.fromfile( file = dir + "/" + file, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-                width = 600
-                height = int(width * img.shape[0] / img.shape[1])
-                img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
-                cv2.putText(img, str(i+1), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
-                viewer = ImageViewer()
-                # viewer.setMinimumWidth(200)
-                # viewer.setMinimumHeight(100)
-                # viewer.wheelEvent = lambda event: None
-                # viewer.mousePressEvent = lambda event: None
-                # viewer.setDragMode(QGraphicsView.NoDrag)
-                viewer.setPhoto(img)
-                self.ui.photo_grid.addWidget(viewer, i//3, i%3)
-                i+=1
+
+        # 遞迴列出所有檔案的絕對路徑
+        for root, dirs, files in os.walk(dir):
+            for f in files:
+                fullpath = os.path.join(root, f)
+                if (self.ui.weighting_radio.isChecked() and "B2D" in fullpath) or (self.ui.THD_radio.isChecked() and "EVD" in fullpath):
+                    print(fullpath)
+                    if (".jpg" in fullpath.lower() or ".jpeg" in fullpath.lower()) and "exif" not in fullpath.lower():
+                        # print(i, file)
+                        img = cv2.imdecode( np.fromfile( file = fullpath, dtype = np.uint8 ), cv2.IMREAD_COLOR )
+                        width = 600
+                        height = int(width * img.shape[0] / img.shape[1])
+                        img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
+                        cv2.putText(img, str(i+1), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
+                        viewer = ImageViewer()
+                        # viewer.setMinimumWidth(200)
+                        # viewer.setMinimumHeight(100)
+                        # viewer.wheelEvent = lambda event: None
+                        # viewer.mousePressEvent = lambda event: None
+                        # viewer.setDragMode(QGraphicsView.NoDrag)
+                        viewer.setPhoto(img)
+                        self.ui.photo_grid.addWidget(viewer, i//3, i%3)
+                        i+=1
                 
-          
-        i = int(self.ui.BV_comboBox.currentText().split("_")[0][-1])   
         filename = ""
         if self.ui.BV_comboBox.currentText() != "": filename += self.ui.BV_comboBox.currentText()
         if self.ui.B2D_EVD_comboBox.currentText() != "": filename += "_"+self.ui.B2D_EVD_comboBox.currentText()
