@@ -66,16 +66,18 @@ def classify(BVnum,B2D,midratio,B2D_region,midratio_region, exif_path):
             Path(final_path).mkdir(parents=True, exist_ok=True)
     return final_path
 
-def plot_and_save(BV_list, title, file_name, B2Dthd, midratioThd, file_path):
+def plot_and_save(BV_list, title, file_name, B2Dthd, midratioThd, file_path, xlim=[0,10000], ylim=[0,1000]):
     x = [item[2] for item in BV_list]
     y = [item[3] for item in BV_list]
     z = [item[0] for item in BV_list]
     
-    plt.xlim(0,10000)
-    plt.ylim(0,1000)
+    plt.cla() # Clear 
+    plt.xlim(xlim[0],xlim[1])
+    plt.ylim(ylim[0],ylim[1])
     plt.xlabel("B2D")
     plt.ylabel("midratio")
     plt.title(title)
+    plt.grid(ls='--')
     for threshold in B2Dthd:
         plt.axvline(threshold, color='gray',linestyle=':',alpha=0.5)
     for threshold in midratioThd:
@@ -108,6 +110,7 @@ def B2Dmidratio(exif_path):
     B2D_region = [2000,4000,6250]
     midratio_region = [300,425,550,700] 
     BV_all = []
+    data = {}
     for numBV in range(0,np.size(BV_region)+1):
         locals()['BV'+str(numBV+1)] = []
 
@@ -167,6 +170,20 @@ def B2Dmidratio(exif_path):
                         if BV > BV_region[np.size(BV_region)-1]:
                             locals()['BV'+str(np.size(BV_region)+1)].append([base.split("_")[0],BV,B2D,midratio])
                             destination = classify(f"BV{np.size(BV_region)+1}_{BV_region[np.size(BV_region)-1]}up",B2D,midratio,B2D_region,midratio_region, exif_path)
+                        
+                        level1 = destination.split("/")[-3]
+                        level2 = destination.split("/")[-2]
+                        level3 = destination.split("/")[-1]
+                        
+                        if level1 not in data:
+                            data[level1] = {}
+                        if level2 not in data[level1]:
+                            data[level1][level2] = {}
+                        if level3 not in data[level1][level2]:
+                            data[level1][level2][level3] = []
+                        data[level1][level2][level3].append([base.split("_")[0],BV,B2D,midratio])
+                        # print(level1,level2,level3)
+                    
                     break
             exifFile.close()
             shutil.copy(path_name,destination)
@@ -180,7 +197,45 @@ def B2Dmidratio(exif_path):
     B2Dthd = [800,2000,4000,5500,7000]
     midratioThd = [250,375,500,625,750]
 
-    plot_and_save(locals()['BV1'], f"BV<{BV_region[0]}", "/BV1_B2Dmid.png", B2Dthd, midratioThd, exif_path)
-    for numBV in range(0,np.size(BV_region)-1,1):
-        plot_and_save(locals()['BV'+str(numBV+2)], f"{BV_region[numBV]}<BV<{BV_region[numBV+1]}", f"/BV{numBV+2}_B2Dmid.png", B2Dthd, midratioThd, exif_path)
-    plot_and_save(locals()['BV'+str(np.size(BV_region)+1)], f"BV>{BV_region[np.size(BV_region)-1]}", f"/BV{np.size(BV_region)+1}_B2Dmid.png", B2Dthd, midratioThd, exif_path)
+    # plot_and_save(locals()['BV1'], f"BV<{BV_region[0]}", "/BV1_B2Dmid.png", B2Dthd, midratioThd, exif_path)
+    # for numBV in range(0,np.size(BV_region)-1,1):
+    #     plot_and_save(locals()['BV'+str(numBV+2)], f"{BV_region[numBV]}<BV<{BV_region[numBV+1]}", f"/BV{numBV+2}_B2Dmid.png", B2Dthd, midratioThd, exif_path)
+    # plot_and_save(locals()['BV'+str(np.size(BV_region)+1)], f"BV>{BV_region[np.size(BV_region)-1]}", f"/BV{np.size(BV_region)+1}_B2Dmid.png", B2Dthd, midratioThd, exif_path)
+    
+    for level1 in data:
+        BV_list = []
+        for level2 in data[level1]:
+            EVD_list = []
+            xlim = level2.split("_")[1:]
+            if len(xlim) == 1:
+                if "up" in xlim[0]:
+                    xlim = [B2D_region[-1],10000]
+                elif "down" in xlim[0]:
+                    xlim = [0,B2D_region[0]]
+            else:
+                xlim = [int(xlim[0]),int(xlim[1])]
+                
+            for level3 in data[level1][level2]:
+                path = "/" + level1 + "/" + level2 + "/" + level3
+                print('save', path)
+                # print(data[level1][level2][level3])
+                ylim = level3.split("_")[1:]
+                if len(ylim) == 1:
+                    if "up" in ylim[0]:
+                        ylim = [midratio_region[-1],1000]
+                    elif "down" in ylim[0]:
+                        ylim = [0,midratio_region[0]]
+                else:
+                    ylim = [int(ylim[0]),int(ylim[1])]
+                    
+                plot_and_save(data[level1][level2][level3], f"{level1}_{level2}_{level3}", f"{path}/{level1}_{level2}_{level3}.png", B2Dthd, midratioThd, exif_path, xlim, ylim)
+                EVD_list += data[level1][level2][level3]
+                
+            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/{level1}_{level2}.png", B2Dthd, midratioThd, exif_path, xlim, [0,1000])
+            BV_list += EVD_list
+        
+        plot_and_save(BV_list, f"{level1}", f"/{level1}/{level1}.png", B2Dthd, midratioThd, exif_path, [0,10000], [0,1000])
+
+if __name__ == "__main__":
+    exif_path = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/all"
+    B2Dmidratio(exif_path)

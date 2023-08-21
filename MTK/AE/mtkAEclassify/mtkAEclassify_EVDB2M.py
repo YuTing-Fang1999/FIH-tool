@@ -66,16 +66,20 @@ def classify(BVnum,EVD,B2M,EVD_region,B2M_region, exif_path):
             Path(final_path).mkdir(parents=True, exist_ok=True)
     return final_path
 
-def plot_and_save(BV_list, title, file_name, EVDthd, B2MThd, file_path):
-    x = [item[2] for item in BV_list]
-    y = [item[3] for item in BV_list]
-    z = [item[0] for item in BV_list]
-    
-    plt.xlim(0,10000)
-    plt.ylim(0,6000)
+def plot_and_save(BV_list, title, file_name, EVDthd, B2MThd, file_path, xlim=[0,10000], ylim=[0,6000]):
+    # BV [base.split("_")[0],BV,EVD,B2M])
+    x = [item[2] for item in BV_list] # EVD
+    y = [item[3] for item in BV_list] # B2M
+    z = [item[0] for item in BV_list] # label
+    # print(xlim)
+    # print(ylim)
+    plt.cla() # Clear 
+    plt.xlim(xlim[0],xlim[1])
+    plt.ylim(ylim[0],ylim[1])
     plt.xlabel("EVD")
     plt.ylabel("B2M")
     plt.title(title)
+    plt.grid(ls='--')
     for threshold in EVDthd:
         plt.axvline(threshold, color='gray',linestyle=':',alpha=0.5)
     for threshold in B2MThd:
@@ -108,9 +112,10 @@ def EVDB2M (exif_path):
     EVD_region = [2000,4500,6500]
     B2M_region = [750,1500,2500,3750]
     BV_all = []
+    data = {}
     for numBV in range(0,np.size(BV_region)+1):
         locals()['BV'+str(numBV+1)] = []
-
+    
     for i in range(0,(np.size(allFileList_exif))):
         refer = 0
         path_name = exif_path + "/" + allFileList_exif[i]
@@ -168,6 +173,19 @@ def EVDB2M (exif_path):
                         if BV > BV_region[np.size(BV_region)-1]:
                             locals()['BV'+str(np.size(BV_region)+1)].append([base.split("_")[0],BV,EVD,B2M])
                             destination = classify(f"BV{np.size(BV_region)+1}_{BV_region[np.size(BV_region)-1]}up",EVD,B2M,EVD_region,B2M_region, exif_path)
+                        
+                        level1 = destination.split("/")[-3]
+                        level2 = destination.split("/")[-2]
+                        level3 = destination.split("/")[-1]
+                        
+                        if level1 not in data:
+                            data[level1] = {}
+                        if level2 not in data[level1]:
+                            data[level1][level2] = {}
+                        if level3 not in data[level1][level2]:
+                            data[level1][level2][level3] = []
+                        data[level1][level2][level3].append([base.split("_")[0],BV,EVD,B2M])
+                        # print(level1,level2,level3)
                     break
             exifFile.close()
             shutil.copy(path_name,destination)
@@ -181,7 +199,46 @@ def EVDB2M (exif_path):
     EVDthd = [500,1000.2500,4000,5500,6300,7000]
     B2MThd = [500,1000,2000,3000,4500]
 
-    plot_and_save(locals()['BV1'], f"BV<{BV_region[0]}", "/BV1_EVDB2M.png", EVDthd, B2MThd, exif_path)
-    for numBV in range(0,np.size(BV_region)-1,1):
-        plot_and_save(locals()['BV'+str(numBV+2)], f"{BV_region[numBV]}<BV<{BV_region[numBV+1]}", f"/BV{numBV+2}_EVDB2M.png", EVDthd, B2MThd, exif_path)
-    plot_and_save(locals()['BV'+str(np.size(BV_region)+1)], f"BV>{BV_region[np.size(BV_region)-1]}", f"/BV{np.size(BV_region)+1}_EVDB2M.png", EVDthd, B2MThd, exif_path)
+    # plot_and_save(locals()['BV1'], f"BV<{BV_region[0]}", "/BV1_0down/BV1_EVDB2M.png", EVDthd, B2MThd, exif_path)
+    # for numBV in range(0,np.size(BV_region)-1,1):
+    #     plot_and_save(locals()['BV'+str(numBV+2)], f"{BV_region[numBV]}<BV<{BV_region[numBV+1]}", f"/BV{numBV+2}_{BV_region[numBV]}_{BV_region[numBV+1]}/BV{numBV+2}_EVDB2M.png", EVDthd, B2MThd, exif_path)
+    # plot_and_save(locals()['BV'+str(np.size(BV_region)+1)], f"BV>{BV_region[np.size(BV_region)-1]}", f"/BV{np.size(BV_region)+1}_{BV_region[-1]}up/BV{np.size(BV_region)+1}_EVDB2M.png", EVDthd, B2MThd, exif_path)
+    
+    for level1 in data:
+        BV_list = []
+        for level2 in data[level1]:
+            EVD_list = []
+            xlim = level2.split("_")[1:]
+            if len(xlim) == 1:
+                if "up" in xlim[0]:
+                    xlim = [EVD_region[-1],10000]
+                elif "down" in xlim[0]:
+                    xlim = [0,EVD_region[0]]
+            else:
+                xlim = [int(xlim[0]),int(xlim[1])]
+                
+            for level3 in data[level1][level2]:
+                path = "/" + level1 + "/" + level2 + "/" + level3
+                print('save', path)
+                # print(data[level1][level2][level3])
+                ylim = level3.split("_")[1:]
+                if len(ylim) == 1:
+                    if "up" in ylim[0]:
+                        ylim = [B2M_region[-1],6000]
+                    elif "down" in ylim[0]:
+                        ylim = [0,B2M_region[0]]
+                else:
+                    ylim = [int(ylim[0]),int(ylim[1])]
+                    
+                plot_and_save(data[level1][level2][level3], f"{level1}_{level2}_{level3}", f"{path}/{level1}_{level2}_{level3}.png", EVDthd, B2MThd, exif_path, xlim, ylim)
+                EVD_list += data[level1][level2][level3]
+                
+            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/{level1}_{level2}.png", EVDthd, B2MThd, exif_path, xlim, [0,6000])
+            BV_list += EVD_list
+        
+        plot_and_save(BV_list, f"{level1}", f"/{level1}/{level1}.png", EVDthd, B2MThd, exif_path, [0,10000], [0,6000])
+
+if __name__ == "__main__":
+    exif_path = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/all"
+    EVDB2M(exif_path)
+    

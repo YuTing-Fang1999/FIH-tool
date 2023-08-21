@@ -68,46 +68,49 @@ class MyWidget(ParentWidget):
         btn.setEnabled(enable)
         
     def load_exif(self):
-        # filepath = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/test"
-        filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEclassify_exif"))
+        filepath = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/all"
+        # filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEclassify_exif"))
 
-        if filepath == '':
-            return
+        # if filepath == '':
+        #     return
         self.worker.exif_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkAEclassify_exif", filefolder)
         self.set_btn_enable(self.ui.load_exif_btn, False)
         self.set_btn_enable(self.ui.open_dir_btn, False)
         self.ui.load_exif_btn.setText("載入中...")
-        self.worker.start()
-        # self.after_load_exif()
+        # self.worker.start()
+        self.after_load_exif()
         
     def after_load_exif(self):
         self.weighting_dir = {}
         self.THD_dir = {}
         for file in os.listdir(self.worker.exif_path):
-            if "BV" in file:
+            if "BV" in file and os.path.isdir(self.worker.exif_path + "/" + file):
                 path = self.worker.exif_path + "/" + file
                 if os.path.isdir(path):
                     for file2 in os.listdir(path):
-                        if "B2D" in file2:
+                        if "B2D" in file2 and os.path.isdir(path + "/" + file2):
                             if file not in self.weighting_dir.keys(): 
                                 self.weighting_dir[file] = {}
                             if file2 not in self.weighting_dir[file].keys():
                                 self.weighting_dir[file][file2] = []
                                 
                             for file3 in os.listdir(path + "/" + file2):
-                                self.weighting_dir[file][file2].append(file3)
-                        if "EVD" in file2:
+                                if os.path.isdir(path + "/" + file2 + "/" + file3):
+                                    self.weighting_dir[file][file2].append(file3)
+                        
+                        if "EVD" in file2 and os.path.isdir(path + "/" + file2):
                             if file not in self.THD_dir.keys(): 
                                 self.THD_dir[file] = {} 
                             if file2 not in self.THD_dir[file].keys():
                                 self.THD_dir[file][file2] = []
                             for file3 in os.listdir(path + "/" + file2):
-                                self.THD_dir[file][file2].append(file3)
+                                if os.path.isdir(path + "/" + file2 + "/" + file3):
+                                    self.THD_dir[file][file2].append(file3)
                     
-        # print(self.weighting_dir)
-        # print(self.THD_dir)
+        print(self.weighting_dir)
+        print(self.THD_dir)
         self.set_btn_enable(self.ui.load_exif_btn, True)
         self.ui.load_exif_btn.setText("選擇照片、exif 資料夾\n並執行分類")
         
@@ -115,11 +118,10 @@ class MyWidget(ParentWidget):
         self.ui.THD_radio.setEnabled(True)
         
         self.ui.THD_radio.setChecked(True)
-        self.set_BV_comboBox(self.ui.THD_radio)
+        # self.set_BV_comboBox(self.ui.THD_radio)
         
     def set_BV_comboBox(self, btn):
         self.ui.BV_comboBox.clear()
-        
         self.now_radio = btn
         
         self.ui.BV_comboBox.setEnabled(True)
@@ -130,10 +132,12 @@ class MyWidget(ParentWidget):
             self.ui.BV_comboBox.addItems(self.weighting_dir.keys())
         elif self.now_radio == self.ui.THD_radio:
             self.ui.BV_comboBox.addItems(self.THD_dir.keys())
+        self.set_graph("BV_comboBox")
         
     def set_B2D_EVD_comboBox(self, text):
         if text == "": return
         self.ui.B2D_EVD_comboBox.clear()
+        self.ui.B2D_EVD_comboBox.addItem("")
         if self.now_radio == self.ui.weighting_radio:
             self.ui.B2D_EVD_comboBox.addItems(self.weighting_dir[text].keys())
         elif self.now_radio == self.ui.THD_radio:
@@ -143,17 +147,19 @@ class MyWidget(ParentWidget):
         self.ui.B2D_EVD_comboBox.setEnabled(True)
         self.ui.Mid_B2M_comboBox.setEnabled(True)
         print(text)
+        self.set_graph("B2D_EVD_comboBox")
         
     def set_Mid_B2M_comboBox(self, text):
         if text == "": return
         self.ui.Mid_B2M_comboBox.clear()
+        self.ui.Mid_B2M_comboBox.addItem("")
         if self.now_radio == self.ui.weighting_radio:
             self.ui.Mid_B2M_comboBox.addItems(self.weighting_dir[self.ui.BV_comboBox.currentText()][text])
             self.dir = self.weighting_dir[self.ui.BV_comboBox.currentText()][text]
         elif self.now_radio == self.ui.THD_radio:
             self.ui.Mid_B2M_comboBox.addItems(self.THD_dir[self.ui.BV_comboBox.currentText()][text])
             self.dir = self.THD_dir[self.ui.BV_comboBox.currentText()][text]
-        print(text)
+        self.set_graph("Mid_B2M_comboBox")
         
     def set_graph(self, text):
         self.set_btn_enable(self.ui.open_dir_btn, True)
@@ -165,7 +171,11 @@ class MyWidget(ParentWidget):
                 widget.deleteLater()
                 
         if text == "": return
-        dir = self.worker.exif_path + "/" + self.ui.BV_comboBox.currentText() + "/" + self.ui.B2D_EVD_comboBox.currentText() + "/" + text
+        dir = self.worker.exif_path + "/"
+        if self.ui.BV_comboBox.currentText() != "": dir += self.ui.BV_comboBox.currentText() + "/"
+        if self.ui.B2D_EVD_comboBox.currentText() != "": dir += self.ui.B2D_EVD_comboBox.currentText() + "/"
+        if self.ui.Mid_B2M_comboBox.currentText() != "": dir += self.ui.Mid_B2M_comboBox.currentText() + "/"
+        
         i = 0
         for file in os.listdir(dir):
             if (".jpg" in file.lower() or ".jpeg" in file.lower()) and "exif" not in file.lower():
@@ -187,11 +197,12 @@ class MyWidget(ParentWidget):
                 
           
         i = int(self.ui.BV_comboBox.currentText().split("_")[0][-1])   
-        img = None
-        if "B2D" in self.ui.B2D_EVD_comboBox.currentText():
-            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_B2Dmid.png".format(i), dtype = np.uint8 ), cv2.IMREAD_COLOR )
-        elif "EVD" in self.ui.B2D_EVD_comboBox.currentText():
-            img = cv2.imdecode( np.fromfile( file = self.worker.exif_path + "/" + "BV{}_EVDB2M.png".format(i), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+        filename = ""
+        if self.ui.BV_comboBox.currentText() != "": filename += self.ui.BV_comboBox.currentText()
+        if self.ui.B2D_EVD_comboBox.currentText() != "": filename += "_"+self.ui.B2D_EVD_comboBox.currentText()
+        if self.ui.Mid_B2M_comboBox.currentText() != "": filename += "_"+self.ui.Mid_B2M_comboBox.currentText()
+        filename += ".png"
+        img = cv2.imdecode( np.fromfile( file = dir + "/" + filename, dtype = np.uint8 ), cv2.IMREAD_COLOR )
         self.chart_viewer.setPhoto(img)
         
     def open_dir(self):
