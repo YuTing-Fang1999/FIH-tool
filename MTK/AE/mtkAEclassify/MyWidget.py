@@ -176,13 +176,13 @@ class MyWidget(ParentWidget):
                 img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
                 cv2.putText(img, str(i+1), (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 10, cv2.LINE_AA)
                 viewer = ImageViewer()
-                viewer.setMinimumWidth(200)
-                viewer.setMinimumHeight(100)
-                viewer.wheelEvent = lambda event: None
+                # viewer.setMinimumWidth(200)
+                # viewer.setMinimumHeight(100)
+                # viewer.wheelEvent = lambda event: None
                 # viewer.mousePressEvent = lambda event: None
                 # viewer.setDragMode(QGraphicsView.NoDrag)
                 viewer.setPhoto(img)
-                self.ui.photo_grid.addWidget(viewer, i//4, i%4)
+                self.ui.photo_grid.addWidget(viewer, i//3, i%3)
                 i+=1
                 
           
