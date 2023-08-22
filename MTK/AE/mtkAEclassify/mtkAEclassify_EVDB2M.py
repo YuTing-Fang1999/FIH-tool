@@ -191,6 +191,17 @@ def EVDB2M (exif_path):
             shutil.copy(path_name,destination)
             shutil.copy(path_name_jpg,destination)
             
+            Path(destination+"/small/").mkdir(parents=True, exist_ok=True)
+            import cv2
+            img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            width = 200
+            height = int(width * img.shape[0] / img.shape[1])
+            img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
+            # print(img.shape)
+            # print(destination+"/"+path_name_jpg.split("/")[-1])
+            # 儲存含中文檔名的圖片
+            cv2.imencode('.jpg', img)[1].tofile(destination+"/small/"+path_name_jpg.split("/")[-1])
+            
             # Have reference
             if refer == 1:
                 shutil.copy(path_name_jpg2,destination)
