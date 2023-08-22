@@ -22,11 +22,15 @@ right_data = [
 ]
 right_data = np.array(right_data) - 2
 x = np.linspace(0, 1, len(right_data[0]))
-print(len(right_data[2]))
+# print(len(right_data[2]))
+
 def func(x, a):
     return (x**2) * (a * 3.598638)
 
+sum = 0
 for i, y in enumerate(right_data):
      params, covariance = curve_fit(func, x, y)
      # print(params[0])
-     print(np.abs(func(x, i/15) - y).mean())
+     # print(np.abs(func(x, i/15) - y).mean())
+     sum+=np.abs(func(x, i/15) - y).mean()
+print(sum/len(right_data))

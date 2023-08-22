@@ -21,17 +21,19 @@ left_data = [
 ]
 left_data = np.array(left_data) - 2
 x = np.linspace(1, 0, len(left_data[0]))
-print(len(left_data[2]))
+# print(len(left_data[2]))
 # def func(x, a):
 #     return (x**3.463) * a 
 
 def func(x, a):
     return (x**3.4470155) * (a*1.24416)
 
+sum = 0
 for i, y in enumerate(left_data):
      params, covariance = curve_fit(func, x, y)
      # print(params)
      # print(np.abs(func(x, params[0], params[1]) - y).sum())
-     print(np.abs(func(x, i/15) - y).mean())
-
+    #  print(np.abs(func(x, i/15) - y).mean())
+     sum+=np.abs(func(x, i/15) - y).mean()
+print(sum/len(left_data))
 # print(0.08247972 * 15)
