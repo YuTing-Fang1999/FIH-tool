@@ -12,6 +12,8 @@ from PIL.ExifTags import TAGS
 
 class UIParser():
     def __init__(self, inputLogPath, inputPhotoPath, outputPath, configFolder, projectName):
+        self.platform = "MTK" #switch by platform. valid values are ["QC", "MTK"]
+        self.logCheckKeyword = ""
         self.inputLogPath = inputLogPath
         self.inputPhotoPath = inputPhotoPath
         self.outputPath = outputPath
@@ -32,6 +34,7 @@ class UIParser():
         self.currentProcessPhotoNum = 0
         self.totalPhotoNum = len(os.listdir(inputPhotoPath))
         self.isParseError = False
+        self.isPrecheckError = False
         self.parseErrorMessage = "解析錯誤。請確認資料夾是否有照片和log；或是有遺失log，導致解析不完全。"
         self.parseState = ""
     
@@ -40,8 +43,11 @@ class UIParser():
             configSettings = self.readConfigFile(self.configFolder, self.projectName)
             
             self.clearPrevOutputFolder(self.outputPath)
-            #self.processOfflineLogFileExtensionQC(self.inputLogPath)
-            self.processOfflineLogFileExtensionMTK(self.inputLogPath)
+            
+            if self.platform == "QC":
+                self.processOfflineLogFileExtensionQC(self.inputLogPath)
+            elif self.platform == "MTK":
+                self.processOfflineLogFileExtensionMTK(self.inputLogPath)
          
             for i in range(self.totalPhotoNum):
                 currentProcessPhotoName = os.listdir(self.inputPhotoPath)[i]
@@ -83,18 +89,30 @@ class UIParser():
     
     def isPhotoAndLogInTheFolder(self):
         if len(os.listdir(self.inputPhotoPath)) > 0 and len(os.listdir(self.inputLogPath)) > 0:
-            return True
+            if self.platform == "QC":
+                self.logCheckKeyword = "alog"
+            elif self.platform == "MTK":
+                self.logCheckKeyword = "main_log"
+            print("Precheck log with valid keyword: ", self.logCheckKeyword)
+            if any(self.logCheckKeyword in fileName for fileName in os.listdir(self.inputLogPath)):
+                print("contain valid log, continue analysis")
+                return True
+            else:
+                print("log does not contain valid name")
+                self.isPrecheckError = True
+                self.parseErrorMessage = "log 資料夾內沒有帶" + self.logCheckKeyword + "字眼的檔案，請確認log是否有放錯。"
+                return False
         elif len(os.listdir(self.inputPhotoPath)) == 0 and len(os.listdir(self.inputLogPath)) > 0:
             print("No photo in the \"0_input_photo\" folders. Press Enter to continue...")
-            self.isParseError = True
+            self.isPrecheckError = True
             self.parseErrorMessage = "圖片 資料夾內沒有照片。"
         elif len(os.listdir(self.inputPhotoPath)) > 0 and len(os.listdir(self.inputLogPath)) == 0:
             print("No log in the \"0_input_log\" folders. Press Enter to continue...")
-            self.isParseError = True
-            self.parseErrorMessage = "log 資料夾內沒有alog檔案。"
+            self.isPrecheckError = True
+            self.parseErrorMessage = "log 資料夾內沒有log檔案。"
         else:
             print("No log and photo in the \"0_input_log\" and \"0_input_photo\" folders. Press Enter to continue...")
-            self.isParseError = True
+            self.isPrecheckError = True
             self.parseErrorMessage = "圖片 資料夾 和 log 資料夾內沒有檔案。"
         return False
         
@@ -125,14 +143,40 @@ class UIParser():
         for file in os.listdir(inputLogPath):
             if not file.startswith("main_log"):
                 os.remove(inputLogPath + file)
-        #rename log with .txt extension
-        originalLogs = sorted(os.listdir(inputLogPath), reverse = False)
-    
-        for logName in originalLogs:
+        #rename main_log with .txt extension
+        for logName in os.listdir(inputLogPath):
             if logName.split(".")[-1] != "txt":
                 os.rename(inputLogPath + logName, inputLogPath + logName + ".txt")
-
-        self.allUpdatedLogsFileName= sorted(os.listdir(inputLogPath), reverse = False)
+        # METHOD1: sorted log files by modified datetime
+        # logFilesContainDatetime = []
+        # for fileName in os.listdir(inputLogPath):
+        #     datetimeObj = datetime.datetime.strptime(datetime.datetime.fromtimestamp(os.path.getmtime(inputLogPath + fileName)).strftime('%Y-%m-%d %H:%M:%S'), '%Y-%m-%d %H:%M:%S')
+        #     logFilesContainDatetime.append({'logname': fileName, 'logModTime' : datetimeObj})
+        # sortedLogFilesByModTime = sorted(logFilesContainDatetime, key = lambda x : x['logModTime'])
+        # sortedOnlyLogFileName = [logFile['logname'] for logFile in sortedLogFilesByModTime]
+        # self.allUpdatedLogsFileName = sortedOnlyLogFileName
+        # print("sorted log:")
+        # print(self.allUpdatedLogsFileName)
+        
+        
+        # METHOD2: sorted log files by main_log naming index
+        # {key : value} = {檔名 : 檔名數字}，透過value的檔名數字做排序
+        sortedLogFileName = []
+        tempLogFile = dict()
+        for fileName in os.listdir(inputLogPath):
+            startCharacterIndex = 9
+            endFilterKeyword = "__"  #根據數字後面的2個下底線作為數字擷取的標記
+            endCharacterIndex = fileName.find(endFilterKeyword)
+            indexNumOfLogFile = int(fileName[startCharacterIndex : endCharacterIndex])
+            tempLogFile[fileName] = indexNumOfLogFile
+        
+        tempSortedLogFiles = sorted(tempLogFile.items(), key=lambda item: item[1])
+        for (k, v) in tempSortedLogFiles:
+            sortedLogFileName.append(k)
+        self.allUpdatedLogsFileName = sortedLogFileName
+        print("Log will start to search one by one as follows:")
+        print(self.allUpdatedLogsFileName)
+        
     
     def writeLogContent(self, outputPath, photoName, logContentToWrite):
         with open(outputPath + photoName + ".txt", 'w', newline = '', encoding='UTF-8') as newLogFile:
@@ -152,15 +196,14 @@ class UIParser():
     
     def fetchLogContent(self, photoName, isFirstPhoto, prevNsecHour, prevNsecMinute, prevNsecSecond, after3secPhotoHour, after3secPhotoMinute, after3secPhotoSecond, logRecordKeyword, saveKeyword):
         #避免照片沒有在所有的log被紀錄，然後搜尋完整份log的index會跑到最後一份log。若下一張照片的資訊有存在log，就會因為log搜尋index已到底，而被當成是沒有紀錄到log
-        if self.startLogSearchingFileIdx == 20:
-            self.startLogSearchingFileIdx = 0     
+        if self.startLogSearchingFileIdx == len(self.allUpdatedLogsFileName):
+            print("index reach MAXIMUM log length, ", self.startLogSearchingFileIdx)
+            self.startLogSearchingFileIdx = 0
         
         tempAllLines = []
         self.savedLogForCurrentPhotoStage1 = []
         if self.exportEmptyLog:
-            self.savedLogForCurrentPhotoStage1 += self.losslogRecordStage1
             self.exportEmptyLog = False
-            self.losslogRecordStage1 = []
         
         isFindFirstLine = False if isFirstPhoto else True #flag to set if it is the starting point to record log for the current photo
         isNotReadyToLogNextPhoto = True
@@ -169,6 +212,7 @@ class UIParser():
         isNeedEnterStage2 = True
         stage2NotFoundSavePhotoLogPosition = False
         isPhotoLogIncludeInLog = False
+        self.isParseError = False
         
         ### Stage 1 ###
         while(isNotReadyToLogNextPhoto):
@@ -177,100 +221,82 @@ class UIParser():
                 self.isParseError = True
                 self.parseErrorMessage = "照片: " + photoName + " 未找到對應的log片段，可能有掉log的問題存在。"
                 isNeedEnterStage2 = False
+                self.exportEmptyLog = True
                 #log index out of bounds
                 break
             with open(self.inputLogPath + self.allUpdatedLogsFileName[self.startLogSearchingFileIdx], 'r', encoding="utf-8") as f:
                 print("Now process log: ", self.allUpdatedLogsFileName[self.startLogSearchingFileIdx])
                 lines = f.readlines()
                 f.close()
-                for line in lines:
+                #In v9.3, if NUL characters saved in large text file, it will cause iostream time out problem.
+                #below code will replace NUL to empty character and remove empty line cause by eliminate NUL characters
+                removeNULLines = [line.replace('\0', '') for line in lines]
+                while ("" in removeNULLines):
+                    removeNULLines.remove("")
+                ### save log without NUL characters
+                for line in removeNULLines:
                     tempAllLines.append(line)
             for idx, oneline in enumerate(tempAllLines):
                 if isFindCaptureTimestamp:
                     break
                 if (not isFirstPhoto and self.lastTimeEndWriteLogLinesIdx >= idx) or oneline.startswith("-"):
                     continue
-                
                 oneline_split_hour = int(oneline.split(" ")[1].split(":")[0])
                 oneline_split_minute = int(oneline.split(" ")[1].split(":")[1])
                 oneline_split_second = int(oneline.split(" ")[1].split(":")[2].split(".")[0])
                 
-                #如果目前這張照片的EXIF時間前N秒比log最早的紀錄時間還要晚，代表照片的時序資訊一定會紀錄在log裡
-                if (prevNsecHour >= oneline_split_hour) and (prevNsecMinute >= oneline_split_minute) and (prevNsecSecond >= oneline_split_second):
+                #如果第1張照片的EXIF時間前N秒比log最早的紀錄時間還要晚，代表照片的時序資訊一定會紀錄在log裡
+                if isFirstPhoto and (prevNsecHour >= oneline_split_hour) and (prevNsecMinute >= oneline_split_minute) and (prevNsecSecond >= oneline_split_second):
                     isPhotoLogIncludeInLog = True
                 
-                #如果目前這張照片的EXIF時間前N秒比log最早的紀錄時間還要早，而且isPhotoLogIncludeInLog被標示為False，代表照片的時序資訊沒有完整被log紀錄，或是都沒被log記錄到
-                if  (prevNsecHour <= oneline_split_hour) and (prevNsecMinute <= oneline_split_minute) and (prevNsecSecond <= oneline_split_second) and not isPhotoLogIncludeInLog:
+                #如果第1張照片的EXIF時間前N秒比log最早的紀錄時間還要早，而且isPhotoLogIncludeInLog被標示為False，代表照片的時序資訊沒有完整被log紀錄，或是都沒被log記錄到
+                if isFirstPhoto and (prevNsecHour <= oneline_split_hour) and (prevNsecMinute <= oneline_split_minute) and (prevNsecSecond <= oneline_split_second) and not isPhotoLogIncludeInLog:
                     print("WARNING: The information of this photo is not fully recorded in the log file. Export empty log file.")
                     self.lastTimeEndWriteLogLinesIdx = -1
                     isNotReadyToLogNextPhoto = False
                     isNeedEnterStage2 = False
                     stage2NotFoundSavePhotoLogPosition = True
                     self.exportEmptyLog = True
-                    self.losslogRecordStage1 = self.savedLogForCurrentPhotoStage1
+                    self.isParseError = True
+                    self.parseErrorMessage = "log可能沒有完整記錄到照片: " + photoName + " 的前期資訊。"
                     break
                 
                 #第1張
                 if isFirstPhoto and oneline_split_hour == prevNsecHour and oneline_split_minute == prevNsecMinute and oneline_split_second == prevNsecSecond \
                     and not isFindFirstLine and self.containKeywords(oneline, logRecordKeyword):
                     #the current line is the start position to record log
+                    print("The current line %d of log %s is the start position to record log" % (idx + 1, self.allUpdatedLogsFileName[self.startLogSearchingFileIdx]))
                     isFindFirstLine = True
-                    self.savedLogForCurrentPhotoStage1.append(oneline)
-                
-                #拍照當下時戳:  紀錄 這張照片的時間 與 log的時間 匹配的log檔、行數
-                elif ((currentPhotoHour == oneline_split_hour) and (currentPhotoMinute == oneline_split_minute) and (currentPhotoSecond == oneline_split_second))\
-                    and isFindFirstLine and self.containKeywords(oneline, logRecordKeyword):
-                    #若找到跟照片相同的時間戳，就會進到stage 2
-                    self.lastTimeEndWriteLogLinesIdx = idx
-                    self.savedLogForCurrentPhotoStage1.append(oneline)
-                    isNotReadyToLogNextPhoto = False
-                    isFindCaptureTimestamp = True
-                    self.stage1captureTimestampFileIdx = self.startLogSearchingFileIdx
-                    self.stage1captureTimestampLogLinesIdx = idx
-                #當前log時間已經大於照片時戳，要另外處理。此case可能發生在同1秒內連拍多張
-                elif self.containKeywords(oneline, saveKeyword) and self.containKeywords(oneline, [photoName]):
-                    print("Continuous shot detected.")
-                    self.lastTimeEndWriteLogLinesIdx = idx
-                    self.savedLogForCurrentPhotoStage1.append(oneline)
-                    isNotReadyToLogNextPhoto = False
-                    isNeedEnterStage2 = False
-                    stage2NotFoundSavePhotoLogPosition = True
-                    break
-                #當前log時間已經大於照片時戳，要另外處理。此case可能發生在同1秒內連拍多張，但log沒記錄到存檔的片段
-                elif (oneline_split_hour == after3secPhotoHour) and (oneline_split_minute == after3secPhotoMinute) and (oneline_split_second == after3secPhotoSecond):
-                    #roll back to 前一張最後紀錄的位置
-                    print("WARNING: Continuous shot or loss log detected. Export empty log file.")
-                    self.lastTimeEndWriteLogLinesIdx = idx - 1
-                    isNotReadyToLogNextPhoto = False
-                    isNeedEnterStage2 = False
-                    stage2NotFoundSavePhotoLogPosition = True
-                    self.exportEmptyLog = True
-                    self.losslogRecordStage1 = self.savedLogForCurrentPhotoStage1
-                    break
-                else:
-                    #若遇到當前照片EXIF的時、分、秒是整點(0,0,0)的時候，if判斷時間會誤判而少紀錄到接近整點的log
-                    #為避免次情況發生，所以對照片EXIF的時、分、秒是整點(0,0,0)的情況加一個shift(24,60,60)，再來進行判斷
-                    tempCurrentPhotoHour = 0
-                    tempCurrnetPhotoMinute = 0
-                    tempCurrnetPhotoSecond = 0
-                    if currentPhotoHour == 0:
-                        tempCurrentPhotoHour = currentPhotoHour + 24
-                    else:
-                        tempCurrentPhotoHour = currentPhotoHour
                     
-                    if currentPhotoMinute == 0:
-                        tempCurrnetPhotoMinute = currentPhotoMinute + 60
-                    else:
-                        tempCurrnetPhotoMinute = currentPhotoMinute
-                    if currentPhotoSecond == 0:
-                        tempCurrnetPhotoSecond = currentPhotoSecond + 60
-                    else:
-                        tempCurrnetPhotoSecond = currentPhotoSecond
-                    #當前行數有要記錄的關鍵字並且已經有起始flag位置
-                    #@v9.0 if self.containKeywords(oneline, logRecordKeyword) and isFindFirstLine and (tempCurrentPhotoHour >= oneline_split_hour >= prevNsecHour) and (tempCurrnetPhotoMinute >= oneline_split_minute >= prevNsecMinute) and (tempCurrnetPhotoSecond >= oneline_split_second >= prevNsecSecond):
-                    if self.containKeywords(oneline, logRecordKeyword) and isFindFirstLine and (tempCurrentPhotoHour >= oneline_split_hour) and (tempCurrnetPhotoMinute >= oneline_split_minute) and (tempCurrnetPhotoSecond >= oneline_split_second):
-                    	#append oneline to output log
-                        self.savedLogForCurrentPhotoStage1.append(oneline)
+                #紀錄這張照片的EXIF時間戳，在哪一份log的哪一行
+                if oneline_split_hour == currentPhotoHour and oneline_split_minute == currentPhotoMinute and oneline_split_second == currentPhotoSecond:
+                    self.stage1captureTimestampFileIdx = self.startLogSearchingFileIdx
+                    self.stage1captureTimestampLogLinesIdx = idx - 1
+                    self.lastTimeEndWriteLogLinesIdx = idx - 1 #stage 2會從這行繼續搜尋
+                    print("Get photo timestamp log, go to stage 2.")
+                    isNotReadyToLogNextPhoto = False
+                    break
+                    
+
+                #若saveKeyword在EXIF time之前就已經出現，而且saveKeyword落在前N秒跟後N秒之間，足以代表這個keyword就是專屬這張照片的log
+                prevTime = datetime.time(int(prevNsecHour), int(prevNsecMinute), int(prevNsecSecond))
+                currTime = datetime.time(int(oneline_split_hour), int(oneline_split_minute), int(oneline_split_second))
+                afterTime = datetime.time(int(after3secPhotoHour), int(after3secPhotoMinute), int(after3secPhotoSecond))
+                
+                if self.containKeywords(oneline, saveKeyword) and prevTime < currTime < afterTime:
+                    print("Save keyword appears before the EXIF time. Skip stage 2.")
+                    self.savedLogForCurrentPhotoStage1.append(oneline)
+                    self.lastTimeEndWriteLogLinesIdx = idx #下一張照片從這行繼續搜尋
+                    isNotReadyToLogNextPhoto = False
+                    isNeedEnterStage2 = False
+                    stage2NotFoundSavePhotoLogPosition = True
+                    break
+                
+
+                #當前行數有要記錄的關鍵字並且已經有起始flag位置
+                if self.containKeywords(oneline, logRecordKeyword) and isFindFirstLine:
+                    #append oneline to output log
+                    self.savedLogForCurrentPhotoStage1.append(oneline)
             
                 if idx == len(tempAllLines) - 1:
                     #move to new log.txt to continue record
@@ -282,7 +308,7 @@ class UIParser():
         ### Stage 2 ###
         
         if isNeedEnterStage2:
-            #print("Enter stage 2!")
+            print("Enter stage 2!")
             isNotReadyToLogNextPhoto = True
             stage2TempAllLines = []
             self.savedLogForCurrentPhotoStage2 = []
@@ -306,7 +332,7 @@ class UIParser():
                     oneline_split_minute = int(oneline.split(" ")[1].split(":")[1])
                     oneline_split_second = int(oneline.split(" ")[1].split(":")[2].split(".")[0])
                     
-                    if isFindFirstLine and self.containKeywords(oneline, saveKeyword) and self.containKeywords(oneline, [photoName]):
+                    if isFindFirstLine and self.containKeywords(oneline, saveKeyword):
                         #the current line is the end of recording because it shows to save the photo
                         self.savedLogForCurrentPhotoStage2.append(oneline)
                         isNotReadyToLogNextPhoto = False
@@ -314,7 +340,7 @@ class UIParser():
                         break
                     elif (oneline_split_hour == after3secPhotoHour) and (oneline_split_minute == after3secPhotoMinute) and (oneline_split_second == after3secPhotoSecond):
                         #超過拍照3秒以後的時間，都沒有找到存檔的關鍵字log
-                        print("WARNING: Save keyword for photo %s is not found, log will stop record according to photo timestamp. Press Enter to continue..." % photoName)
+                        print("WARNING: Loss log detected. Save keyword for photo %s is not found, log will stop record according to photo timestamp. Press Enter to continue..." % photoName)
                         stage2NotFoundSavePhotoLogPosition = True
                         isNotReadyToLogNextPhoto = False
                         #reset 3秒前的檔案跟index行數
@@ -336,7 +362,7 @@ class UIParser():
                             break
         
         if self.exportEmptyLog:
-            errorMessage = "This photo might be continuous shot / log info not found in logs, and cannot record because the timestamp is already ahead of the " + photoName + " timestamp / photo time stamp is ahead of first log file's timestamp."
+            errorMessage = "The log information of photo %s is not fully recorded in the log file or loss log. Export empty log file." % photoName
             self.writeLogContent(self.outputPath, photoName, [errorMessage])
         elif stage2NotFoundSavePhotoLogPosition:
             #只寫入stage1留下來的log
