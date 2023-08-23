@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import shutil
 from pathlib import Path
 
+import matplotlib
+matplotlib.use('agg')
 def atoi(text):
     return int(text) if text.isdigit() else text
 
@@ -66,7 +68,7 @@ def classify(BVnum,B2D,midratio,B2D_region,midratio_region, exif_path):
             Path(final_path).mkdir(parents=True, exist_ok=True)
     return final_path
 
-def plot_and_save(BV_list, title, file_name, B2Dthd, midratioThd, file_path, xlim=[0,10000], ylim=[0,1000]):
+def plot_and_save(BV_list, title, file_name, B2Dthd, midratioThd, file_path, xlim, ylim):
     x = [item[2] for item in BV_list]
     y = [item[3] for item in BV_list]
     z = [item[0] for item in BV_list]
@@ -111,6 +113,8 @@ def B2Dmidratio(exif_path):
     midratio_region = [300,425,550,700] 
     BV_all = []
     data = {}
+    max_x = 0
+    max_y = 0
     for numBV in range(0,np.size(BV_region)+1):
         locals()['BV'+str(numBV+1)] = []
 
@@ -137,17 +141,19 @@ def B2Dmidratio(exif_path):
                     faceProb.append(int(re.sub("[^0-9-,]","", line)))
                 if "AE_TAG_PROB_NS" in line:
                     nsProb.append(int(re.sub("[^0-9-,]","", line)))
-                    
+            
+            max_x = max(B2D+1000, max_x)
+            max_y = max(midratio+1000, max_y)
             for j in range(0,(np.size(allFileList_jpg))):
                 path_name_jpg = exif_path + "/" + allFileList_jpg[j]
                 file_name_jpg = os.path.basename(path_name_jpg)
                 base2 = os.path.splitext(file_name_jpg)[0]
                 
                 if file_name_jpg == base:
-                    if j+1<np.size(allFileList_jpg) and allFileList_jpg[j+1].split("_")[0] == path_name.split("_")[0]: 
+                    if j+1<np.size(allFileList_jpg) and allFileList_jpg[j+1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
                         refer = 1
-                    if j-1>=0 and allFileList_jpg[j-1].split("_")[0] == path_name.split("_")[0]: 
+                    if j-1>=0 and allFileList_jpg[j-1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
                         refer = 1
                     
@@ -192,7 +198,7 @@ def B2Dmidratio(exif_path):
             Path(destination+"/small/").mkdir(parents=True, exist_ok=True)
             import cv2
             img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-            width = 200
+            width = 300
             height = int(width * img.shape[0] / img.shape[1])
             img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
             # print(img.shape)
@@ -201,6 +207,7 @@ def B2Dmidratio(exif_path):
             cv2.imencode('.jpg', img)[1].tofile(destination+"/small/"+path_name_jpg.split("/")[-1])
             
             # Have reference
+            # print("refer", refer)
             if refer == 1:
                 shutil.copy(path_name_jpg2,destination)
                 
@@ -220,7 +227,7 @@ def B2Dmidratio(exif_path):
             xlim = level2.split("_")[1:]
             if len(xlim) == 1:
                 if "up" in xlim[0]:
-                    xlim = [B2D_region[-1],10000]
+                    xlim = [B2D_region[-1],max_x]
                 elif "down" in xlim[0]:
                     xlim = [0,B2D_region[0]]
             else:
@@ -233,7 +240,7 @@ def B2Dmidratio(exif_path):
                 ylim = level3.split("_")[1:]
                 if len(ylim) == 1:
                     if "up" in ylim[0]:
-                        ylim = [midratio_region[-1],1000]
+                        ylim = [midratio_region[-1],max_y]
                     elif "down" in ylim[0]:
                         ylim = [0,midratio_region[0]]
                 else:
@@ -242,10 +249,10 @@ def B2Dmidratio(exif_path):
                 plot_and_save(data[level1][level2][level3], f"{level1}_{level2}_{level3}", f"{path}/{level1}_{level2}_{level3}.png", B2Dthd, midratioThd, exif_path, xlim, ylim)
                 EVD_list += data[level1][level2][level3]
                 
-            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/{level1}_{level2}.png", B2Dthd, midratioThd, exif_path, xlim, [0,1000])
+            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/{level1}_{level2}.png", B2Dthd, midratioThd, exif_path, xlim, [0,max_y])
             BV_list += EVD_list
         
-        plot_and_save(BV_list, f"{level1}", f"/{level1}/{level1}.png", B2Dthd, midratioThd, exif_path, [0,10000], [0,1000])
+        plot_and_save(BV_list, f"{level1}", f"/{level1}/{level1}.png", B2Dthd, midratioThd, exif_path, [0,max_x], [0,max_y])
 
 if __name__ == "__main__":
     exif_path = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/all"
