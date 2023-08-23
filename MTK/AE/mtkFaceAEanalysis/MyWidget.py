@@ -672,7 +672,7 @@ class MyWidget(ParentWidget):
 
         self.set_all_btn_enable(True)
         self.ui.optimize_btn.setText("最佳化")
-        QMessageBox.information(self, "Optimization Result", "last_avg_dif: {:.2f}\nnow_avg_dif: {:.2f}".format(self.last_avg_dif, self.now_avg_dif))
+        QMessageBox.about(self, "Optimization Result", "last_avg_dif: {:.2f}\nnow_avg_dif: {:.2f}".format(self.last_avg_dif, self.now_avg_dif))
 
         
     def restore(self):
