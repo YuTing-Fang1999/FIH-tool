@@ -540,7 +540,7 @@ class MyWidget(ParentWidget):
                 #     self.img_viewer[i].text = "NG"
                 #     self.img_viewer[i].setText()
                 #     break
-        self.statusBar.showMessage("成功load完資料", 3000)
+        self.statusBar.showMessage("Load data successfully!", 3000)
         self.set_all_enable(True)
 
     def open_excel(self):
@@ -553,7 +553,10 @@ class MyWidget(ParentWidget):
         app.books[0].close()
         # Maximize the Excel window
         app.api.WindowState = xw.constants.WindowState.xlMaximized
-        wb = app.books.open(self.xml_worker.xml_excel_path)
+        if self.ui.sheet_selecter.currentText() == "LSC golden OTP(txt)":
+            wb = app.books.open(self.excel_template_path)
+        else:
+            wb = app.books.open(self.xml_worker.xml_excel_path)
         # Set the Excel window as the foreground window
         wb.app.activate(steal_focus=True)
         
