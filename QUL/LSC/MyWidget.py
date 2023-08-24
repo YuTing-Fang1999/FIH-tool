@@ -531,8 +531,10 @@ class MyWidget(ParentWidget):
         for i in range(4):
             for j in range(4):
                 r, c = i*2+j//2+i, 1+j%2
-                remove_widget(r, c)
-                self.ui.corner_grid.addWidget(QLabel(data[i][j]), r, c)
+                # remove_widget(r, c)
+                widget_item = self.ui.corner_grid.itemAtPosition(r, c)
+                if widget_item:
+                    widget_item.widget().setText(data[i][j])
                 # Cells2 = float(sheet.Cells(r2+row_shift, c2).Value)
                 
                 # if(abs(Cells1 - Cells2) > 0.2):
