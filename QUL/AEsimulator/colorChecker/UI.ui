@@ -27,8 +27,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>956</width>
-        <height>589</height>
+        <width>966</width>
+        <height>624</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -356,13 +356,6 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_info">
-     <property name="text">
-      <string/>
-     </property>
     </widget>
    </item>
   </layout>

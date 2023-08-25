@@ -18,13 +18,6 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label_info">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="widgetResizable">
       <bool>true</bool>
@@ -34,8 +27,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>921</width>
-        <height>571</height>
+        <width>931</width>
+        <height>606</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
