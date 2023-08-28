@@ -246,13 +246,13 @@ def B2Dmidratio(exif_path):
                 else:
                     ylim = [int(ylim[0]),int(ylim[1])]
                     
-                plot_and_save(data[level1][level2][level3], f"{level1}_{level2}_{level3}", f"{path}/{level1}_{level2}_{level3}.png", B2Dthd, midratioThd, exif_path, xlim, ylim)
+                plot_and_save(data[level1][level2][level3], f"{level1}_{level2}_{level3}", f"{path}/B2D_{level1}_{level2}_{level3}.png", B2Dthd, midratioThd, exif_path, xlim, ylim)
                 EVD_list += data[level1][level2][level3]
                 
-            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/{level1}_{level2}.png", B2Dthd, midratioThd, exif_path, xlim, [0,max_y])
+            plot_and_save(EVD_list, f"{level1}_{level2}", f"/{level1}/{level2}/B2D_{level1}_{level2}.png", B2Dthd, midratioThd, exif_path, xlim, [0,max_y])
             BV_list += EVD_list
         
-        plot_and_save(BV_list, f"{level1}", f"/{level1}/{level1}.png", B2Dthd, midratioThd, exif_path, [0,max_x], [0,max_y])
+        plot_and_save(BV_list, f"{level1}", f"/{level1}/B2D_{level1}.png", B2Dthd, midratioThd, exif_path, [0,max_x], [0,max_y])
 
 if __name__ == "__main__":
     exif_path = "C:/Users/s830s/OneDrive/文件/github/FIH-tool整合/說明/4.mtkAEclassify/all"

@@ -12,3 +12,4 @@ kornia
 tqdm
 pulp
 openpyxl-image-loader
+lpips

@@ -35,6 +35,7 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.worker = WorkerThread()
         self.pre_dir = ""
+        self.pre_radio = None
         
         self.setupUi()
         self.controller()
@@ -205,7 +206,11 @@ class MyWidget(ParentWidget):
     def set_graph(self):
                 
         dir = self.worker.exif_path + "/"
-        filename = ""
+        if self.now_radio == self.ui.weighting_radio:
+            filename = "B2D_"
+        elif self.now_radio == self.ui.THD_radio:
+            filename = "EVD_"
+        
         if self.ui.BV_comboBox.currentText() != "" : 
             dir += self.ui.BV_comboBox.currentText() + "/"
             filename += self.ui.BV_comboBox.currentText()
@@ -218,8 +223,9 @@ class MyWidget(ParentWidget):
             dir += self.ui.Mid_B2M_comboBox.currentText() + "/"
             filename += "_"+self.ui.Mid_B2M_comboBox.currentText()
             
-        if self.pre_dir == dir or dir == self.worker.exif_path + "/": return
+        if (self.pre_dir == dir or dir == self.worker.exif_path + "/") and self.pre_radio == self.now_radio: return
         self.pre_dir = dir
+        self.pre_radio = self.now_radio
         filename += ".png"
         
         self.set_all_enable(False, "載入中，請稍後...")
