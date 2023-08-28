@@ -14,9 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(1156, 635)
+        Form.resize(1033, 559)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.project_type_selecter = QtWidgets.QComboBox(Form)
-        self.project_type_selecter.setGeometry(QtCore.QRect(20, 100, 102, 24))
         font = QtGui.QFont()
         font.setPointSize(-1)
         font.setBold(False)
@@ -28,27 +31,41 @@ class Ui_Form(object):
         self.project_type_selecter.setSizeAdjustPolicy(QtWidgets.QComboBox.AdjustToContents)
         self.project_type_selecter.setObjectName("project_type_selecter")
         self.project_type_selecter.addItem("")
-        self.load_code_btn = QtWidgets.QPushButton(Form)
-        self.load_code_btn.setGeometry(QtCore.QRect(450, 100, 251, 51))
-        self.load_code_btn.setStyleSheet("font:20px ;\n"
-"text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
-        self.load_code_btn.setObjectName("load_code_btn")
+        self.horizontalLayout.addWidget(self.project_type_selecter)
         self.load_exif_btn = QtWidgets.QPushButton(Form)
-        self.load_exif_btn.setGeometry(QtCore.QRect(220, 100, 221, 51))
+        self.load_exif_btn.setMinimumSize(QtCore.QSize(0, 50))
+        self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.load_exif_btn.setStyleSheet("font:20px ;\n"
 "text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.load_exif_btn.setObjectName("load_exif_btn")
+        self.horizontalLayout.addWidget(self.load_exif_btn)
+        self.load_code_btn = QtWidgets.QPushButton(Form)
+        self.load_code_btn.setMinimumSize(QtCore.QSize(0, 50))
+        self.load_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.load_code_btn.setStyleSheet("font:20px ;\n"
+"text-align:center;\n"
+"background:rgb(68, 114, 196); \n"
+"color:rgb(255, 255, 255);")
+        self.load_code_btn.setObjectName("load_code_btn")
+        self.horizontalLayout.addWidget(self.load_code_btn)
         self.open_excel_btn = QtWidgets.QPushButton(Form)
-        self.open_excel_btn.setGeometry(QtCore.QRect(710, 100, 221, 51))
+        self.open_excel_btn.setMinimumSize(QtCore.QSize(0, 50))
+        self.open_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.open_excel_btn.setStyleSheet("font:20px ;\n"
 "text-align:center;\n"
 "background:rgb(68, 114, 196); \n"
 "color:rgb(255, 255, 255);")
         self.open_excel_btn.setObjectName("open_excel_btn")
+        self.horizontalLayout.addWidget(self.open_excel_btn)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.progressBar = QtWidgets.QProgressBar(Form)
+        self.progressBar.setProperty("value", 24)
+        self.progressBar.setObjectName("progressBar")
+        self.verticalLayout.addWidget(self.progressBar)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -57,8 +74,8 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.project_type_selecter.setItemText(0, _translate("Form", "選擇專案"))
-        self.load_code_btn.setText(_translate("Form", "選擇 code"))
         self.load_exif_btn.setText(_translate("Form", "選擇照片、exif 資料夾"))
+        self.load_code_btn.setText(_translate("Form", "選擇 code"))
         self.open_excel_btn.setText(_translate("Form", "開啟 excel"))
 
 

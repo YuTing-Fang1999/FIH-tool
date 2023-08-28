@@ -6,100 +6,129 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1156</width>
-    <height>635</height>
+    <width>1033</width>
+    <height>559</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QComboBox" name="project_type_selecter">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>100</y>
-     <width>102</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>-1</pointsize>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font:18px ;
-text-align:center;</string>
-   </property>
-   <property name="sizeAdjustPolicy">
-    <enum>QComboBox::AdjustToContents</enum>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <property name="text">
-     <string>選擇專案</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QComboBox" name="project_type_selecter">
+       <property name="font">
+        <font>
+         <pointsize>-1</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font:18px ;
+text-align:center;</string>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToContents</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>選擇專案</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="load_exif_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font:20px ;
+text-align:center;
+background:rgb(68, 114, 196); 
+color:rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>選擇照片、exif 資料夾</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="load_code_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font:20px ;
+text-align:center;
+background:rgb(68, 114, 196); 
+color:rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>選擇 code</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="open_excel_btn">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font:20px ;
+text-align:center;
+background:rgb(68, 114, 196); 
+color:rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>開啟 excel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-  </widget>
-  <widget class="QPushButton" name="load_code_btn">
-   <property name="geometry">
-    <rect>
-     <x>450</x>
-     <y>100</y>
-     <width>251</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font:20px ;
-text-align:center;
-background:rgb(68, 114, 196); 
-color:rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>選擇 code</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="load_exif_btn">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>100</y>
-     <width>221</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font:20px ;
-text-align:center;
-background:rgb(68, 114, 196); 
-color:rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>選擇照片、exif 資料夾</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="open_excel_btn">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>100</y>
-     <width>221</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font:20px ;
-text-align:center;
-background:rgb(68, 114, 196); 
-color:rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>開啟 excel</string>
-   </property>
-  </widget>
+   <item>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>24</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
