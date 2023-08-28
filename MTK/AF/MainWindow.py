@@ -24,7 +24,7 @@ isConfig = False
 
 #main window settings
 mainWindow = tk.Tk()
-mainWindow.title('AF log parser V4.1')
+mainWindow.title('AF log parser V9.5')
 mainWindow.geometry('420x600')
 mainWindow.resizable(False, False)
 
@@ -162,6 +162,9 @@ def executeProgress(parser):
         #config UI when parse error
         if parser.isParseError:
             tk.messagebox.showwarning("解析錯誤", parser.parseErrorMessage)
+        
+        #config UI when invalid log is detected
+        if parser.isPrecheckError:
             projectNameEntry["state"] = "normal"
             prevSecClipSpinbox["state"] = "normal"
             filterKeywordText["state"] = "normal"

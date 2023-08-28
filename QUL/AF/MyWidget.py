@@ -302,6 +302,9 @@ class MyWidget(ParentWidget):
                 self.update_executeParser_state_signal.emit("解析錯誤")
                 self.show_error_message_signal.emit(parser.parseErrorMessage)
                 break
+
+            if parser.isPrecheckError:
+                self.update_executeParser_state_signal.emit("處理完成")
             
             #update progress bar
             time.sleep(0.001) #do not modify. Remove this line will cause stuck, set longer will make warning message not pop up.

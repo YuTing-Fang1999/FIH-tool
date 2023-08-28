@@ -5,12 +5,14 @@ from PyQt5.QtWidgets import (
     QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
 )
 import win32com.client as win32
+from PyQt5.QtCore import Qt
 # from win32gui import SetForegroundWindow
 
 class OpenExcelBtn(QPushButton):
     def __init__(self, text, fname, sheet_name=None):
         super().__init__(text)
         self.clicked.connect(lambda: self.open_excel(fname, sheet_name))
+        self.setCursor(Qt.PointingHandCursor)
 
     def open_excel(self, fname, sheet_name=None):
         import xlwings as xw

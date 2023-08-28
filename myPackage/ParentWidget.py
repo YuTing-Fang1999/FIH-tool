@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QPushButton
 
 import os
 import json
@@ -42,6 +42,14 @@ class ParentWidget(QWidget):
         if key not in self.setting or (key in self.setting and self.setting[key] != path):
             self.setting[key] = path
             self.write_setting(self.setting_folder + "setting.json")
+
+    def set_btn_enable(self, btn: QPushButton, enable):
+        if enable:
+            style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
+        else:
+            style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
+        btn.setStyleSheet(style)
+        btn.setEnabled(enable)
         
     # def closeEvent(self, e):
     #     print("closeEvent")

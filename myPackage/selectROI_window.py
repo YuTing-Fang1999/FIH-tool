@@ -143,6 +143,8 @@ class SelectROI_window(QtWidgets.QWidget):
     def __init__(self, filefolder):
         super(SelectROI_window, self).__init__()
         self.filefolder = filefolder
+        self.filename = None
+        self.tab_idx = None
 
         # Widgets
         self.viewer = ImageViewer(self)
@@ -218,10 +220,11 @@ class SelectROI_window(QtWidgets.QWidget):
         # filepath = '../test img/grid2.jpg'
         self.filefolder = '/'.join(filepath.split('/')[:-1])
         self.filename = filepath.split('/')[-1]
-        
         # load img
-        img = cv2.imdecode(np.fromfile(
-            file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
+        img = cv2.imdecode(np.fromfile(file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
+        self.selectROI(img)
+
+    def selectROI(self, img):
         self.viewer.img = img
         qimg = QImage(img, img.shape[1], img.shape[0], img.shape[1]
                       * img.shape[2], QImage.Format_RGB888).rgbSwapped()
