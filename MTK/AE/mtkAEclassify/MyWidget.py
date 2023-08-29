@@ -18,15 +18,20 @@ from MTK.AE.mtkAEclassify.mtkAEclassify_EVDB2M import EVDB2M
 import re
 
 class ClassifyThread(QThread):
-    finish_signal = pyqtSignal() 
+    finish_signal = pyqtSignal()
+    failed_signal = pyqtSignal(str) 
     exif_path = None
     def __init__(self):
         super().__init__()
             
     def run(self):
-        B2Dmidratio(self.exif_path)
-        EVDB2M(self.exif_path)
-        self.finish_signal.emit()
+        try:
+            B2Dmidratio(self.exif_path)
+            EVDB2M(self.exif_path)
+            self.finish_signal.emit()
+        except Exception as error:
+            print(error)
+            self.failed_signal.emit("Failed\n"+str(error))
 
 class SetImgGridThread(QThread):
     finish_signal = pyqtSignal(int)
@@ -101,7 +106,10 @@ class MyWidget(ParentWidget):
         self.ui.Mid_B2M_comboBox.currentTextChanged.connect(self.change_Mid_B2M_comboBox)
         
         self.classify_thread.finish_signal.connect(self.after_load_exif)
+        self.classify_thread.failed_signal.connect(self.failed)
+        
         self.set_img_grid_thread.finish_signal.connect(self.after_set_img_grid)
+        self.set_img_grid_thread.failed_signal.connect(self.failed)
         self.set_img_grid_thread.set_img_grid_signal.connect(self.set_img_grid)
         
     def failed(self, text="Failed"):
