@@ -65,7 +65,7 @@ class ComputeThread(QThread):
                 self.update_status_bar_signal.emit("Ecel公式計算中，請稍後...")
                 pythoncom.CoInitialize()
                 excel = win32.Dispatch("Excel.Application")
-                keep_open = excel.Visible
+                pre_count = excel.Workbooks.Count
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_template_path)
                 colorChecker_sheet = workbook.Worksheets('colorChecker')
@@ -81,7 +81,9 @@ class ComputeThread(QThread):
                 self.finish_signal.emit(round(colorChecker_sheet.Range('L14').Value, 4), round(colorChecker_sheet.Range('L15').Value, 4))
                 
                 workbook.Save()
-                if not keep_open:workbook.Close()
+                if excel.Workbooks.Count > pre_count:
+                    workbook.Close()
+                if excel.Workbooks.Count == 0: excel.Quit()
                 excel.DisplayAlerts = True
 
             except Exception as error:
@@ -174,6 +176,7 @@ class MyWidget(ParentWidget):
         self.selectROI_window.selectROI(img)
         
     def compute(self):
+        self.open_excel_btn.close_excel(self.excel_template_path)
         def check_gamma(gamma):
             gamma.replace('\n', ' ')
             gamma = gamma.split()

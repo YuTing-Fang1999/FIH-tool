@@ -66,7 +66,6 @@ class ComputeThread(QThread):
                 pythoncom.CoInitialize()
                 excel = win32.Dispatch("Excel.Application")
                 pre_count = excel.Workbooks.Count
-                keep_open = excel.Visible
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_template_path)
                 sheet = workbook.Worksheets('colorChecker')
@@ -80,7 +79,8 @@ class ComputeThread(QThread):
                 
                 sheet.Activate()
                 workbook.Save()
-                if excel.Workbooks.Count > pre_count: workbook.Close()
+                if excel.Workbooks.Count > pre_count:
+                    workbook.Close()
                 if excel.Workbooks.Count == 0: excel.Quit()
                 excel.DisplayAlerts = True
 
@@ -172,6 +172,7 @@ class MyWidget(ParentWidget):
         self.selectROI_window.selectROI(img)
         
     def compute(self): 
+        self.open_excel_btn.close_excel(self.excel_template_path)
         def check_input(text):
             try:
                 float(text)
