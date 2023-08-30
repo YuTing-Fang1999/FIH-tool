@@ -12,12 +12,13 @@ import time
 import cv2
 import openpyxl
 import xlwings as xw
+import pythoncom
 
 
-class TxtWorkerThread(QThread):
+class GenTxtThread(QThread):
         update_status_bar_signal = pyqtSignal(str)
         failed_signal = pyqtSignal(str)
-        finish_signal = pyqtSignal()
+        finish_signal = pyqtSignal(np.ndarray)
         txt_path = ""
 
         def __init__(self, excel_template_path):
@@ -28,8 +29,8 @@ class TxtWorkerThread(QThread):
             print(f"Selected file: {self.txt_path}")
             try:
                 self.update_status_bar_signal.emit("Loading txt...")
-                self.load_txt(self.txt_path)
-                self.finish_signal.emit()
+                gain_arr = self.load_txt(self.txt_path)
+                self.finish_signal.emit(gain_arr)
             except Exception as error:
                 print(error)
                 self.update_status_bar_signal.emit("Failed to Load txt..."+str(error))
@@ -45,17 +46,20 @@ class TxtWorkerThread(QThread):
             # print(gain_arr.shape)
 
             # open excel
+            pythoncom.CoInitialize()
             excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
+            keep_open = excel.Visible
             excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_template_path)
             sheet = workbook.Worksheets('goldenOTP_check')
             sheet.Range('C3:F223').Value = gain_arr
+            
             workbook.Save()
-            workbook.Close()
+            sheet.Activate()
+            if not keep_open:workbook.Close()
             excel.DisplayAlerts = True
-
-            self.update_status_bar_signal.emit("Load txt successfully")
+            
+            return gain_arr
             
         def parse_txt(self, fanme):
             
@@ -76,7 +80,7 @@ class TxtWorkerThread(QThread):
             
             return gain_title, gain_arr
         
-class XmlWorkerThread(QThread):
+class GenXmlThread(QThread):
         finish_signal = pyqtSignal(list)   
         failed_signal = pyqtSignal(str)
         update_status_bar_signal = pyqtSignal(str)
@@ -300,7 +304,7 @@ class SetChartWorkerThread(QThread):
             try:
                 self.update_status_bar_signal.emit("load 資料中，請稍後")   
                 excel = win32.Dispatch("Excel.Application")
-                excel.Visible = False  # Set to True if you want to see the Excel application
+                keep_open = excel.Visible
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_path)
                 sheet = workbook.Worksheets(self.sheet_name)
@@ -346,7 +350,8 @@ class SetChartWorkerThread(QThread):
 
 
                 workbook.Save()
-                workbook.Close()
+                sheet.Activate()
+                if not keep_open:workbook.Close()
                 excel.DisplayAlerts = True
 
                 self.update_grid_signal.emit(data)
@@ -364,8 +369,8 @@ class MyWidget(ParentWidget):
         self.setupUi()
 
         self.excel_template_path = os.path.abspath("QUL/LSC/LSC_checkTool.xlsm")
-        self.xml_worker = XmlWorkerThread()
-        self.txt_worker = TxtWorkerThread(self.excel_template_path)
+        self.xml_worker = GenXmlThread()
+        self.txt_worker = GenTxtThread(self.excel_template_path)
         self.set_chart_worker = SetChartWorkerThread()
 
         self.controller()
@@ -421,7 +426,7 @@ class MyWidget(ParentWidget):
         self.set_all_enable(False)
         self.txt_worker.start()
 
-    def after_load_txt(self):
+    def after_load_txt(self, gain_arr=None):
         index = self.ui.sheet_selecter.findText("LSC golden OTP(txt)")
         if index < 0:
             self.ui.sheet_selecter.addItem("LSC golden OTP(txt)")
@@ -430,22 +435,10 @@ class MyWidget(ParentWidget):
             self.set_chart("LSC golden OTP(txt)")
         else:
             self.ui.sheet_selecter.setCurrentText("LSC golden OTP(txt)")
-        self.export_txt()
+        self.export_txt(gain_arr)
         self.set_all_enable(True)
 
-    def export_txt(self):
-            # open excel
-            excel = win32.Dispatch("Excel.Application")
-            excel.Visible = False  # Set to True if you want to see the Excel application
-            excel.DisplayAlerts = False
-            workbook = excel.Workbooks.Open(self.excel_template_path)
-            sheet = workbook.Worksheets('goldenOTP_check')
-            gain_arr = sheet.Range('C3:F223').Value
-            workbook.Save()
-            workbook.Close()
-            excel.DisplayAlerts = True
-
-            # localtime = time.localtime()
+    def export_txt(self, gain_arr=None):
             filepath, filetype=QFileDialog.getSaveFileName(self,'save the transposed matrix',self.get_path("QUL_LSC_filefolder")+"/goldenOTP_check","*.txt")
             if filepath == '': return
 
@@ -455,6 +448,9 @@ class MyWidget(ParentWidget):
                 for row in gain_arr:
                     f.write(''.join(map(formater, row)))
                     f.write('\n')
+            
+            self.update_status_bar("Load txt successfully")
+            
 
     def load_xml(self):
         # Open file dialog
@@ -550,7 +546,6 @@ class MyWidget(ParentWidget):
             QMessageBox.about(self, "請先load xml", "請先load xml，才能打開所產生的excel")
             return
         self.statusBar.showMessage("開啟中，請稍後", 3000)
-        import xlwings as xw
         app = xw.App(visible=True)
         app.books[0].close()
         # Maximize the Excel window
