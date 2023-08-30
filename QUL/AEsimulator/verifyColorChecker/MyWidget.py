@@ -29,12 +29,12 @@ class DetectColorcheckerThread(QThread):
                 self.update_status_bar_signal.emit("正在偵測color checker，請稍後...")
                 img = self.read_img(self.img_path)
                 norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
-                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=True)
+                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
                 if len(colour_checker_swatches_data) == 0 or len(colour_checker_swatches_data) > 1:
                     self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
                     self.selectROI_signal.emit(img)
                 else:
-                    swatch_colours, colour_checker_image, swatch_masks = (colour_checker_swatches_data[0].values)
+                    swatch_colours = colour_checker_swatches_data[0]
                     self.finish_signal.emit(self.type, self.pixel_to_luma(swatch_colours[18]), self.pixel_to_luma(swatch_colours[19]))
             except Exception as error:
                 print(error)
@@ -65,22 +65,23 @@ class ComputeThread(QThread):
                 self.update_status_bar_signal.emit("Ecel公式計算中，請稍後...")
                 pythoncom.CoInitialize()
                 excel = win32.Dispatch("Excel.Application")
+                pre_count = excel.Workbooks.Count
                 keep_open = excel.Visible
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_template_path)
-                colorChecker_sheet = workbook.Worksheets('colorChecker')
+                sheet = workbook.Worksheets('colorChecker')
                 
                 # input data to excel
-                colorChecker_sheet.Range('E14').Value = self.data['ref19']
-                colorChecker_sheet.Range('E15').Value = self.data['ref20']
-                colorChecker_sheet.Range('D14').Value = self.data['ours19']
-                colorChecker_sheet.Range('D15').Value = self.data['ours20']
-                self.finish_signal.emit(round(colorChecker_sheet.Range('F14').Value, 4), round(colorChecker_sheet.Range('F15').Value, 4))
+                sheet.Range('E14').Value = self.data['ref19']
+                sheet.Range('E15').Value = self.data['ref20']
+                sheet.Range('D14').Value = self.data['ours19']
+                sheet.Range('D15').Value = self.data['ours20']
+                self.finish_signal.emit(round(sheet.Range('F14').Value, 4), round(sheet.Range('F15').Value, 4))
                 
+                sheet.Activate()
                 workbook.Save()
-                # Activate colorChecker_sheet
-                colorChecker_sheet.Activate()
-                if not keep_open:workbook.Close()
+                if excel.Workbooks.Count > pre_count: workbook.Close()
+                if excel.Workbooks.Count == 0: excel.Quit()
                 excel.DisplayAlerts = True
 
             except Exception as error:
@@ -167,6 +168,7 @@ class MyWidget(ParentWidget):
         self.set_all_enable(True)
 
     def selectROI(self, img):
+        self.set_all_enable(True)
         self.selectROI_window.selectROI(img)
         
     def compute(self): 
