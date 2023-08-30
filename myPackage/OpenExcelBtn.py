@@ -18,21 +18,20 @@ def is_workbook_open(workbook_name):
                 return True
     return False
 
+def close_excel(fname):
+    for app in xw.apps:
+        for wb in app.books:
+            print(wb.name, fname)
+            if wb.name == fname.split(os.sep)[-1]:
+                wb.close()
+                app.quit()
+                return
+
 class OpenExcelBtn(QPushButton):
     def __init__(self, text, fname, sheet_name=None):
         super().__init__(text)
         self.clicked.connect(lambda: self.open_excel(fname, sheet_name))
-        self.setCursor(Qt.PointingHandCursor)
-        
-    def close_excel(self, fname):
-        for app in xw.apps:
-            for wb in app.books:
-                print(wb.name, fname)
-                if wb.name == fname.split(os.sep)[-1]:
-                    wb.close()
-                    app.quit()
-                    return
-            
+        self.setCursor(Qt.PointingHandCursor)         
 
     def open_excel(self, fname, sheet_name=None):
         if is_workbook_open(fname):
