@@ -48,15 +48,22 @@ class GenTxtThread(QThread):
             # open excel
             pythoncom.CoInitialize()
             excel = win32.Dispatch("Excel.Application")
+            pre_count = excel.Workbooks.Count
+            excel.ScreenUpdating = False
             excel.DisplayAlerts = False
+            excel.EnableEvents = False
             workbook = excel.Workbooks.Open(self.excel_template_path)
+            workbook.Activate()
             sheet = workbook.Worksheets('goldenOTP_check')
             sheet.Range('C3:F223').Value = gain_arr
             
             sheet.Activate()
             workbook.Save()
-            workbook.Close()
+            if excel.Workbooks.Count > pre_count: workbook.Close()
+            if excel.Workbooks.Count == 0: excel.Quit()
+            excel.ScreenUpdating = True
             excel.DisplayAlerts = True
+            excel.EnableEvents = True
             
             return gain_arr
             
