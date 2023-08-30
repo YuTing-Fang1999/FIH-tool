@@ -29,12 +29,12 @@ class DetectColorcheckerThread(QThread):
                 self.update_status_bar_signal.emit("正在偵測color checker，請稍後...")
                 img = self.read_img(self.img_path)
                 norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
-                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=True)
+                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
                 if len(colour_checker_swatches_data) == 0 or len(colour_checker_swatches_data) > 1:
                     self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
                     self.selectROI_signal.emit(img)
                 else:
-                    swatch_colours, colour_checker_image, swatch_masks = (colour_checker_swatches_data[0].values)
+                    swatch_colours = colour_checker_swatches_data[0]
                     self.finish_signal.emit(self.type, self.pixel_to_luma(swatch_colours[18]), self.pixel_to_luma(swatch_colours[19]))
             except Exception as error:
                 print(error)
@@ -170,6 +170,7 @@ class MyWidget(ParentWidget):
         self.set_all_enable(True)
 
     def selectROI(self, img):
+        self.set_all_enable(True)
         self.selectROI_window.selectROI(img)
         
     def compute(self):
