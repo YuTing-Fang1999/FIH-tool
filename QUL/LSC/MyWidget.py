@@ -48,15 +48,14 @@ class GenTxtThread(QThread):
             # open excel
             pythoncom.CoInitialize()
             excel = win32.Dispatch("Excel.Application")
-            keep_open = excel.Visible
             excel.DisplayAlerts = False
             workbook = excel.Workbooks.Open(self.excel_template_path)
             sheet = workbook.Worksheets('goldenOTP_check')
             sheet.Range('C3:F223').Value = gain_arr
             
-            workbook.Save()
             sheet.Activate()
-            if not keep_open:workbook.Close()
+            workbook.Save()
+            workbook.Close()
             excel.DisplayAlerts = True
             
             return gain_arr
@@ -304,7 +303,6 @@ class SetChartWorkerThread(QThread):
             try:
                 self.update_status_bar_signal.emit("load 資料中，請稍後")   
                 excel = win32.Dispatch("Excel.Application")
-                keep_open = excel.Visible
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_path)
                 sheet = workbook.Worksheets(self.sheet_name)
@@ -348,10 +346,9 @@ class SetChartWorkerThread(QThread):
                         #     break
                     data.append(d)
 
-
-                workbook.Save()
                 sheet.Activate()
-                if not keep_open:workbook.Close()
+                workbook.Save()
+                workbook.Close()
                 excel.DisplayAlerts = True
 
                 self.update_grid_signal.emit(data)
