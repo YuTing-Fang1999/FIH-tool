@@ -1,23 +1,48 @@
 import sys
 sys.path.append('../..')  # add parent folder to the system path
 from PyQt5.QtWidgets import (
-    QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
+    QApplication, QMessageBox, QLabel, QVBoxLayout, QPushButton, QTableWidget, QTableWidgetItem,
     QScrollArea, QFileDialog, QHBoxLayout, QSpacerItem, QSizePolicy
 )
 import win32com.client as win32
 from PyQt5.QtCore import Qt
 # from win32gui import SetForegroundWindow
+import xlwings as xw
+import os
+
+def is_workbook_open(workbook_name):
+    for app in xw.apps:
+        for wb in app.books:
+            print(wb.name, workbook_name)
+            if wb.name == workbook_name.split(os.sep)[-1]:
+                return True
+    return False
 
 class OpenExcelBtn(QPushButton):
     def __init__(self, text, fname, sheet_name=None):
         super().__init__(text)
         self.clicked.connect(lambda: self.open_excel(fname, sheet_name))
         self.setCursor(Qt.PointingHandCursor)
+        
+    def close_excel(self, fname):
+        for app in xw.apps:
+            for wb in app.books:
+                print(wb.name, fname)
+                if wb.name == fname.split(os.sep)[-1]:
+                    wb.close()
+                    app.quit()
+                    return
+            
 
     def open_excel(self, fname, sheet_name=None):
-        import xlwings as xw
+        if is_workbook_open(fname):
+            QMessageBox.about(self, "about", "The Excel file is already open.")
+            print("Workbook is already open.")
+            return
+        
         app = xw.App(visible=True)
         app.books[0].close()
+        
         # Maximize the Excel window
         app.api.WindowState = xw.constants.WindowState.xlMaximized
         wb = app.books.open(fname)
