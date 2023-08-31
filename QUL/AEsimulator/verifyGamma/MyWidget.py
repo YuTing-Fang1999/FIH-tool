@@ -4,7 +4,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 from .ROI_tune_window import ROI_tune_window
 import win32com.client as win32
-from myPackage.OpenExcelBtn import OpenExcelBtn
+from myPackage.OpenExcelBtn import OpenExcelBtn, close_excel
 from myPackage.ParentWidget import ParentWidget
 from myPackage.selectROI_window import SelectROI_window
 from .ROI_tune_window import ROI_tune_window
@@ -46,6 +46,7 @@ class ComputeThread(QThread):
             self.excel_template_path = excel_template_path
         def run(self):
             try:
+                close_excel(self.excel_template_path)
                 pythoncom.CoInitialize()
                 excel = win32.Dispatch("Excel.Application")
                 excel.DisplayAlerts = False
