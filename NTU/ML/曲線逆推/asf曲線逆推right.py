@@ -22,7 +22,7 @@ right_data = [
 ]
 right_data = np.array(right_data) - 2
 x = np.linspace(0, 1, len(right_data[0]))
-# print(len(right_data[2]))
+print(len(right_data[2]))
 
 def func(x, a):
     return (x**2) * (a * 3.598638)

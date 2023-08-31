@@ -21,7 +21,7 @@ left_data = [
 ]
 left_data = np.array(left_data) - 2
 x = np.linspace(1, 0, len(left_data[0]))
-# print(len(left_data[2]))
+print(len(left_data[2]))
 # def func(x, a):
 #     return (x**3.463) * a 
 
