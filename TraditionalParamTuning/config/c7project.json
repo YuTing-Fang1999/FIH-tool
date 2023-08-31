@@ -122,37 +122,6 @@
                 1
             ],
             "step": 0.01
-        },
-        "AF": {
-            "file_path": "/Scenario.Default/XML/OPE/bpcabf41_ope.xml",
-            "xml_node": "chromatix_bpcabf41_core/mod_bpcabf41_drc_gain_data/drc_gain_data/mod_bpcabf41_hdr_aec_data/hdr_aec_data/mod_bpcabf41_aec_data",
-            "data_node": "bpcabf41_rgn_data",
-            "param_names": [
-                "edge_softness"
-            ],
-            "defult_range": [
-                [
-                    0,
-                    10
-                ]
-            ],
-            "title": [
-                "AF"
-            ],
-            "name": [
-                [
-                    "edge_softness"
-                ]
-            ],
-            "col": [
-                [
-                    1
-                ]
-            ],
-            "expand": [
-                1
-            ],
-            "step": 0.01
         }
     }
 }

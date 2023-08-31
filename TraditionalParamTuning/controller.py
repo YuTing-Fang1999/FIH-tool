@@ -275,12 +275,12 @@ class MainWindow_controller(QWidget):
         ##### ISP_Tree #####
         tree_data = {}
         for root in self.config[self.setting["platform"]]:
-            if "root" not in self.setting: self.setting["root"] = root
-            if root not in self.setting: self.setting[root] = {}
+            self.setting["root"] = root
+            self.setting[root] = {}
             tree_data[root] = []
             for key in self.config[self.setting["platform"]][root]:
-                if "key" not in self.setting: self.setting["key"] = key
-                if key not in self.setting[root]: self.setting[root][key] = {}
+                self.setting["key"] = key
+                self.setting[root][key] = {}
                 tree_data[root].append(key)
         self.ui.param_page.ISP_tree.update_UI(tree_data)
 
