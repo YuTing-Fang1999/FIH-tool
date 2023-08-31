@@ -21,7 +21,7 @@ class MyWidget(ParentWidget):
         cmd = CMDRunner()
         self.camera = Camera("c7project", cmd)
         self.projectMgr = C7ProjectManager(self.setting, cmd)
-        self.config = Config().c7_config
+        self.config = Config().config["c7_config"]
         
         self.setupSettingUI()
         

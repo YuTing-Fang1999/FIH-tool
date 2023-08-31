@@ -80,15 +80,39 @@ class C7ProjectManager(ProjectManager):
             # print(aec_trigger_datas)
         return aec_trigger_datas
 
+    def gen_lut_curve(self, overall, shadow, highlight):
+        # print(overall, shadow, highlight)
+        curve = np.zeros(64)
+        curve += overall/10
+        
+        highlight_x = np.linspace(0, 1, 24)
+        highlight_x = (highlight_x**2) * (highlight/15 * 3.598638)
+        curve[-24:] += highlight_x
+        
+        shadow_x = np.linspace(1, 0, 25)
+        shadow_x = (shadow_x**3.4470155) * ((shadow-15)/15*1.24416)
+        curve[:25] += shadow_x
+        
+        curve[curve<0] = 0
+        return curve
+    
     def set_param_value(self, param_value):
         # expand param
         expand_param_value = np.array([-1])
         i = 0
         for key in self.config:
-            for e in self.config[key]["expand"]:
-                # print([param_value[i]]*e)
-                expand_param_value = np.concatenate((expand_param_value, [param_value[i]]*e))
-                i += 1
+            if key == "ASF":
+                expand_param_value = np.concatenate((expand_param_value, 
+                    self.gen_lut_curve(param_value[i], param_value[i+1], param_value[i+2])))
+                i += 3
+                expand_param_value = np.concatenate((expand_param_value, 
+                    self.gen_lut_curve(param_value[i], param_value[i+1], param_value[i+2])))
+                i += 3
+            elif self.config[key]["expand"] is not None:
+                for e in self.config[key]["expand"]:
+                    # print([param_value[i]]*e)
+                    expand_param_value = np.concatenate((expand_param_value, [param_value[i]]*e))
+                    i += 1
         expand_param_value = expand_param_value[1:]
         # print('expand_param_value', expand_param_value)
         dim = 0
