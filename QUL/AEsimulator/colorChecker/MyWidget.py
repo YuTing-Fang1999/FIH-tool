@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QSt
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from .UI import Ui_Form
 import win32com.client as win32
-from myPackage.OpenExcelBtn import OpenExcelBtn
+from myPackage.OpenExcelBtn import OpenExcelBtn, close_excel
 from myPackage.ParentWidget import ParentWidget
 from myPackage.selectROI_window import SelectROI_window
 from myPackage.ROI_tune_window import ROI_tune_window
@@ -65,7 +65,6 @@ class ComputeThread(QThread):
                 self.update_status_bar_signal.emit("Ecel公式計算中，請稍後...")
                 pythoncom.CoInitialize()
                 excel = win32.Dispatch("Excel.Application")
-                pre_count = excel.Workbooks.Count
                 excel.DisplayAlerts = False
                 workbook = excel.Workbooks.Open(self.excel_template_path)
                 colorChecker_sheet = workbook.Worksheets('colorChecker')
@@ -81,8 +80,7 @@ class ComputeThread(QThread):
                 self.finish_signal.emit(round(colorChecker_sheet.Range('L14').Value, 4), round(colorChecker_sheet.Range('L15').Value, 4))
                 
                 workbook.Save()
-                if excel.Workbooks.Count > pre_count:
-                    workbook.Close()
+                workbook.Close()
                 if excel.Workbooks.Count == 0: excel.Quit()
                 excel.DisplayAlerts = True
 
@@ -176,7 +174,7 @@ class MyWidget(ParentWidget):
         self.selectROI_window.selectROI(img)
         
     def compute(self):
-        self.open_excel_btn.close_excel(self.excel_template_path)
+        close_excel(self.excel_template_path)
         def check_gamma(gamma):
             gamma.replace('\n', ' ')
             gamma = gamma.split()

@@ -27,8 +27,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>931</width>
-        <height>606</height>
+        <width>921</width>
+        <height>596</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -84,7 +84,7 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string/>
+            <string>255</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -103,7 +103,7 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string/>
+            <string>255</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -122,7 +122,7 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string/>
+            <string>255</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -191,7 +191,7 @@
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string/>
+            <string>255</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

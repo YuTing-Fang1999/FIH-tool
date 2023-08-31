@@ -17,7 +17,7 @@ import cv2
 import openpyxl
 import xlwings as xw
 import shutil
-
+import pythoncom
 
 class ExcelWorkerThread(QThread):
         update_list_signal = pyqtSignal(list)   
@@ -109,6 +109,45 @@ class ExcelWorkerThread(QThread):
                 self.error_xml_signal.emit()
                 return
 
+class ComputeThread(QThread):
+        failed_signal = pyqtSignal(str)
+        finish_signal = pyqtSignal()
+        set_before_table_signal = pyqtSignal(list, int)
+        data = None
+
+        def __init__(self, excel_template_path):
+            super().__init__()
+            self.excel_template_path = excel_template_path
+        def run(self):
+            try:
+                pythoncom.CoInitialize()
+                excel = win32.Dispatch("Excel.Application")
+                excel.DisplayAlerts = False
+                workbook = excel.Workbooks.Open(self.excel_template_path)
+                sheet = workbook.Worksheets('stepChart')
+                
+                sheet.Range('C12:C31').Value = self.data["ref"]
+                sheet.Range('B12:B31').Value = self.data["ori"]
+                workbook.Save()
+
+                # round to 2 decimal places
+                self.set_before_table_signal.emit([[round(float(v[0]), 2)] for v in sheet.Range('O12:O31').Value], 2)
+                self.set_before_table_signal.emit(list(sheet.Range('P12:P31').Value), 3)
+                
+                sheet.Activate()
+                workbook.Save()
+                workbook.Close()
+                # 關閉當前Excel實例
+                if excel.Workbooks.Count == 0:
+                    excel.Quit()
+                excel.DisplayAlerts = True
+                
+                self.finish_signal.emit()
+
+            except Exception as error:
+                print(error)
+                self.failed_signal.emit("Failed\n"+str(error))
+                
 class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
@@ -251,6 +290,9 @@ class MyWidget(ParentWidget):
 
         workbook.Save()
         workbook.Close()
+        # 關閉當前Excel實例
+        if excel.Workbooks.Count == 0:
+            excel.Quit()
 
     def export_and_open_excel(self):
         self.update_status_bar("開啟中，請稍後...")
@@ -356,6 +398,9 @@ class MyWidget(ParentWidget):
         
         workbook.Save()
         workbook.Close()
+        # 關閉當前Excel實例
+        if excel.Workbooks.Count == 0:
+            excel.Quit()
     
     def ROI_to_luma(self, roi):
         luma = 0.299*roi[:,:,0] + 0.587*roi[:,:,1] + 0.114*roi[:,:,2]
