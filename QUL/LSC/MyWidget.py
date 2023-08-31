@@ -4,6 +4,7 @@ from .UI import Ui_Form
 import win32com.client as win32
 from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageViewer import ImageViewer
+from myPackage.OpenExcelBtn import is_workbook_open, close_excel
 import os
 import numpy as np
 import re
@@ -44,7 +45,7 @@ class GenTxtThread(QThread):
 
             gain_arr = np.array(gain_arr).T
             # print(gain_arr.shape)
-
+            close_excel(self.excel_template_path)
             # open excel
             pythoncom.CoInitialize()
             excel = win32.Dispatch("Excel.Application")
@@ -356,6 +357,9 @@ class SetChartWorkerThread(QThread):
                 sheet.Activate()
                 workbook.Save()
                 workbook.Close()
+                # 關閉當前Excel實例
+                if excel.Workbooks.Count == 0:
+                    excel.Quit()
                 excel.DisplayAlerts = True
 
                 self.update_grid_signal.emit(data)
@@ -548,6 +552,10 @@ class MyWidget(ParentWidget):
     def open_excel(self):
         if self.xml_worker.xml_excel_path == None:
             QMessageBox.about(self, "請先load xml", "請先load xml，才能打開所產生的excel")
+            return
+        if is_workbook_open(self.xml_worker.xml_excel_path):
+            QMessageBox.about(self, "about", "The Excel file is already open.")
+            print("Workbook is already open.")
             return
         self.statusBar.showMessage("開啟中，請稍後", 3000)
         app = xw.App(visible=True)
