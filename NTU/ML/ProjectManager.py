@@ -29,7 +29,7 @@ class ProjectManager(ABC):
 class C7ProjectManager(ProjectManager):
     def __init__(self, setting, cmd:CMDRunner):
         self.setting = setting
-        self.config = Config().c7_config
+        self.config = Config().config["c7_config"]
         self.cmd = cmd
         
     # def read_config(self, config_path):
