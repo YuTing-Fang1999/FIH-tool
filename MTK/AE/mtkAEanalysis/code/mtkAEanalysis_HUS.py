@@ -347,12 +347,14 @@ def create_xls(file_path):
     print("AE.cpp is ok!")
     return wb
 
+##############################
 class HUS(QWidget):
     update_progress_bar_signal = pyqtSignal(int)
     set_progress_bar_value_signal = pyqtSignal(int)
     def __init__(self) -> None:
         super().__init__()
     def run(self, exif_path, code_path):
+##############################
         print("mtkAEanalysis is runing...")
 
         # root = tk.Tk()
@@ -390,7 +392,7 @@ class HUS(QWidget):
             
             if i % 10 == 0:
                 startNum = base.split("_")[0]
-                wb = create_xls(exif_path)
+                wb = create_xls(code_path)
             
             sheet = wb[wb.sheetnames[0]]
             target = wb.copy_worksheet(sheet)
@@ -676,3 +678,6 @@ class HUS(QWidget):
 
         print("mtkAEanalysis is ok!")
         # os.system("pause")
+        ##############################
+        return file
+        ##############################

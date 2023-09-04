@@ -643,10 +643,10 @@ class SX3(QWidget):
                     
                     refer = 0
                     if j+1 < np.size(allFileList_jpg) and allFileList_jpg[j+1].split("_")[0] == path_name.split("_")[0]: 
-                        path_name_jpg2 = code_path + "/" + allFileList_jpg[j+1]
+                        path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
                         refer = 1
                     if j-1>=0 and allFileList_jpg[j-1].split("_")[0] == path_name.split("_")[0]: 
-                        path_name_jpg2 = code_path + "/" + allFileList_jpg[j-1]
+                        path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
                         refer = 1
                         
                     if refer == 1:

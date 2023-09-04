@@ -22,6 +22,8 @@ from MTK.AE.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidge
 from MTK.AE.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
 from MTK.AE.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
 from MTK.AE.mtkAEclassify.Intro import Intro as mtkAEclassifyIntro
+from MTK.AE.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidget
+from MTK.AE.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
 
 from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Intro import Intro as MTK_AFIntro
@@ -134,6 +136,11 @@ class Config():
                             "name": "mtkAEclassify",
                             "instruction": mtkAEclassifyIntro(),
                             "widget": mtkAEclassifyWidget(),
+                        },
+                        {
+                            "name": "mtkAEanalysis",
+                            "instruction": mtkAEanalysisIntro(),
+                            "widget": mtkAEanalysisWidget(),
                         }
                     ]
                 },

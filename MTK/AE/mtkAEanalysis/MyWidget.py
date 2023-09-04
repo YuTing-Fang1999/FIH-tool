@@ -7,6 +7,8 @@ from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import os
 from MTK.AE.mtkAEanalysis.code.Config import Config
+from myPackage.OpenExcelBtn import is_workbook_open
+import xlwings as xw
 
 class WorkerThread(QThread):
     finish_signal = pyqtSignal() 
@@ -64,14 +66,6 @@ class MyWidget(ParentWidget):
         self.ui.progressBar.show()
         self.ui.progressBar.setMaximum(i)
         
-    def set_btn_enable(self, btn: QPushButton, enable):
-        if enable:
-            style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
-        else:
-            style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
-        btn.setStyleSheet(style)
-        btn.setEnabled(enable)
-        
     def set_project_type(self):
         self.project_type = self.ui.project_type_selecter.currentText()
         if self.project_type == "選擇專案": 
@@ -107,16 +101,34 @@ class MyWidget(ParentWidget):
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkAEanalysis_code", filefolder)
         
+        self.set_all_enable(False)
         self.worker.start()
         
     def after_work(self):
-        self.set_btn_enable(self.ui.load_exif_btn, True)
-        self.set_btn_enable(self.ui.load_code_btn, True)
-        self.set_btn_enable(self.ui.open_excel_btn, True)
+        self.set_all_enable(True)
         self.ui.progressBar.hide()
         
     def open_excel(self):
-        pass
+        fname = self.worker.excel_path
+        if is_workbook_open(fname):
+            QMessageBox.about(self, "about", "The Excel file is already open.")
+            print("Workbook is already open.")
+            return
+        
+        app = xw.App(visible=True)
+        app.books[0].close()
+        
+        # Maximize the Excel window
+        app.api.WindowState = xw.constants.WindowState.xlMaximized
+        wb = app.books.open(fname)
+        # Set the Excel window as the foreground window
+        wb.app.activate(steal_focus=True)
+        
+    def set_all_enable(self, enable):
+        self.ui.project_type_selecter.setEnabled(enable)
+        self.set_btn_enable(self.ui.load_exif_btn, enable)
+        self.set_btn_enable(self.ui.load_code_btn, enable)
+        self.set_btn_enable(self.ui.open_excel_btn, enable)
     
     
 if __name__ == "__main__":
