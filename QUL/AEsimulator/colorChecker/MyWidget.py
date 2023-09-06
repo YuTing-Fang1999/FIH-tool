@@ -74,7 +74,7 @@ class ComputeThread(QThread):
                 gamma_sheet.Range('O2').Value = self.data['gamma']
                 colorChecker_sheet.Range('E14').Value = self.data['ref19']
                 colorChecker_sheet.Range('E15').Value = self.data['ref20']
-                colorChecker_sheet.Range('H14').Value = self.data['before_target']
+                colorChecker_sheet.Range('H14').Value = self.data['luma_target']
                 colorChecker_sheet.Range('I14').Value = self.data['ours19']
                 colorChecker_sheet.Range('I15').Value = self.data['ours20']
                 self.finish_signal.emit(round(colorChecker_sheet.Range('L14').Value, 4), round(colorChecker_sheet.Range('L15').Value, 4))
@@ -195,7 +195,7 @@ class MyWidget(ParentWidget):
             "gamma": self.ui.gamma_textEdit.toPlainText(),
             "ref19": self.ui.lineEdit_Ref19.text(),
             "ref20": self.ui.lineEdit_Ref20.text(),
-            "before_target": self.ui.lineEdit_before_target.text(),
+            "luma_target": self.ui.lineEdit_before_target.text(),
             "ours19": self.ui.lineEdit_Ours19.text(),
             "ours20": self.ui.lineEdit_Ours20.text(),
         }
