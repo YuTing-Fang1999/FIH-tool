@@ -674,7 +674,6 @@ class HUS(QWidget):
                 file = "mtkAEanalysis_HUS_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
                 wb.active = 0
                 wb.save(file)
-            break
 
         print("mtkAEanalysis is ok!")
         # os.system("pause")

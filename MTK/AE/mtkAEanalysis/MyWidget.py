@@ -103,7 +103,7 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.open_excel_btn, False)
         
     def load_code(self):
-        filepath, filetype = QFileDialog.getOpenFileName(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEanalysis_code"), '*.cpp')
+        filepath, filetype = QFileDialog.getOpenFileName(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEanalysis_code"), 'Code Files(*.cpp *.h)')
 
         if filepath == '':
             return
