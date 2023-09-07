@@ -13,7 +13,8 @@ class Intro(QTextBrowser):
 4. 點”選擇照片、exif 資料夾”按鈕，選擇放置照片與exif的資料夾   
 5. 點”選擇code”按鈕，選取照片拍攝時使用的AE.cpp檔   
 6. 選完會自動產生mtkAEanalysis_yy_mm_dd_ss_startNum_endNum.xlsx   
-
+7. 由於每20組照片產生一個excel，若照片組數數量超過20會產生多個excel，點下拉式選單選擇要顯示的excel  
+8. 點 ”開啟excel” 按鈕，便可以檢視分析結果的 excel，若要開啟其餘 excel，便重複步驟7、步驟8  
 """
         html = markdown.markdown(markdown_content)
         self.setHtml(html)

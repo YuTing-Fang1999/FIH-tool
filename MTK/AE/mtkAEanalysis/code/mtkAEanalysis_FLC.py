@@ -463,6 +463,7 @@ class FLC(QWidget):
         
         ##############################
         self.set_progress_bar_value_signal.emit(np.size(allFileList_exif))
+        files = []
         ##############################
         for i in range(0,(np.size(allFileList_exif))):
             ##############################
@@ -736,9 +737,10 @@ class FLC(QWidget):
                 file = "mtkAEanalysis_FLC_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
                 wb.active = 0
                 wb.save(file)
+                files.append(file)
 
         print("mtkAEanalysis is ok!")
         # os.system("pause")
         ##############################
-        return file
+        return files
         ##############################

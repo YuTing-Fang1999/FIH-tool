@@ -11,7 +11,7 @@ from myPackage.OpenExcelBtn import is_workbook_open
 import xlwings as xw
 
 class WorkerThread(QThread):
-    finish_signal = pyqtSignal() 
+    finish_signal = pyqtSignal(list) 
     failed_signal = pyqtSignal(str) 
     set_progress_bar_value_signal = pyqtSignal(int)
     update_progress_bar_signal = pyqtSignal(int)
@@ -27,8 +27,8 @@ class WorkerThread(QThread):
             widget = Config().config[self.func_key]()
             widget.set_progress_bar_value_signal.connect(self.set_progress_bar_value)
             widget.update_progress_bar_signal.connect(self.update_progress_bar)
-            self.excel_path = widget.run(self.exif_path, self.code_path)
-            self.finish_signal.emit()
+            files = widget.run(self.exif_path, self.code_path)
+            self.finish_signal.emit(files)
         except Exception as error:
             print(error)
             self.failed_signal.emit("Failed\n"+str(error))
@@ -60,15 +60,16 @@ class MyWidget(ParentWidget):
         self.worker.update_progress_bar_signal.connect(self.ui.progressBar.setValue)
         self.worker.failed_signal.connect(self.failed)
         
+        self.ui.excel_selecter.currentTextChanged.connect(self.select_excel)
+        
     def failed(self, text="Failed"):
         self.set_all_enable(True)
         QMessageBox.about(self, "Failed", text)
         
     def setupUi(self):
         self.ui.project_type_selecter.addItems(Config().config.keys())
-        self.set_btn_enable(self.ui.load_exif_btn, False)
-        self.set_btn_enable(self.ui.load_code_btn, False)
-        self.set_btn_enable(self.ui.open_excel_btn, False)
+        self.set_all_enable(False)
+        self.ui.project_type_selecter.setEnabled(True)
         self.ui.progressBar.setValue(0)
         self.ui.progressBar.hide()
         
@@ -84,9 +85,10 @@ class MyWidget(ParentWidget):
             self.set_btn_enable(self.ui.open_excel_btn, False)
             return
         print("select "+self.project_type)
+        self.set_all_enable(False)
+        self.ui.project_type_selecter.setEnabled(True)
         self.set_btn_enable(self.ui.load_exif_btn, True)
-        self.set_btn_enable(self.ui.load_code_btn, False)
-        self.set_btn_enable(self.ui.open_excel_btn, False)
+        self.ui.progressBar.hide()
         
     def load_exif(self):
         filepath = QFileDialog.getExistingDirectory(self,"選擇Exif資料夾", self.get_path("MTK_AE_mtkAEanalysis_exif"))
@@ -114,9 +116,15 @@ class MyWidget(ParentWidget):
         self.set_all_enable(False)
         self.worker.start()
         
-    def after_work(self):
+    def after_work(self, files):
         self.set_all_enable(True)
-        self.ui.progressBar.hide()
+        # self.ui.progressBar.hide()
+        self.ui.excel_selecter.clear()
+        self.ui.excel_selecter.addItems(files)
+        
+    def select_excel(self, text):
+        if text == "": return
+        self.worker.excel_path = text
         
     def open_excel(self):
         fname = self.worker.excel_path
@@ -136,6 +144,7 @@ class MyWidget(ParentWidget):
         
     def set_all_enable(self, enable):
         self.ui.project_type_selecter.setEnabled(enable)
+        self.ui.excel_selecter.setEnabled(enable)
         self.set_btn_enable(self.ui.load_exif_btn, enable)
         self.set_btn_enable(self.ui.load_code_btn, enable)
         self.set_btn_enable(self.ui.open_excel_btn, enable)
