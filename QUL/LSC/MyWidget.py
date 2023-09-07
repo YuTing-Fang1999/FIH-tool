@@ -397,7 +397,7 @@ class MyWidget(ParentWidget):
         self.ui.load_and_export_txt_btn.clicked.connect(self.load_txt)
         self.ui.load_xml_btn.clicked.connect(self.load_xml)
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
-        self.ui.sheet_selecter.currentIndexChanged[str].connect(self.set_chart)
+        self.ui.sheet_selector.currentIndexChanged[str].connect(self.set_chart)
 
         self.xml_worker.finish_signal.connect(self.after_load_xml)
         self.xml_worker.failed_signal.connect(self.failed)
@@ -435,14 +435,14 @@ class MyWidget(ParentWidget):
         self.txt_worker.start()
 
     def after_load_txt(self, gain_arr=None):
-        index = self.ui.sheet_selecter.findText("LSC golden OTP(txt)")
+        index = self.ui.sheet_selector.findText("LSC golden OTP(txt)")
         if index < 0:
-            self.ui.sheet_selecter.addItem("LSC golden OTP(txt)")
+            self.ui.sheet_selector.addItem("LSC golden OTP(txt)")
     
-        if self.ui.sheet_selecter.currentText() == "LSC golden OTP(txt)":
+        if self.ui.sheet_selector.currentText() == "LSC golden OTP(txt)":
             self.set_chart("LSC golden OTP(txt)")
         else:
-            self.ui.sheet_selecter.setCurrentText("LSC golden OTP(txt)")
+            self.ui.sheet_selector.setCurrentText("LSC golden OTP(txt)")
         self.export_txt(gain_arr)
         self.set_all_enable(True)
 
@@ -480,13 +480,13 @@ class MyWidget(ParentWidget):
         self.xml_worker.start()
 
     def after_load_xml(self, item_name):
-        index = self.ui.sheet_selecter.findText("LSC golden OTP(txt)")
-        self.ui.sheet_selecter.clear()
+        index = self.ui.sheet_selector.findText("LSC golden OTP(txt)")
+        self.ui.sheet_selector.clear()
         if index >= 0:
-            self.ui.sheet_selecter.addItem("LSC golden OTP(txt)")
+            self.ui.sheet_selector.addItem("LSC golden OTP(txt)")
 
-        self.ui.sheet_selecter.addItems(item_name)
-        self.ui.sheet_selecter.setCurrentText(item_name[0])
+        self.ui.sheet_selector.addItems(item_name)
+        self.ui.sheet_selector.setCurrentText(item_name[0])
         self.set_all_enable(True)
 
     def set_chart(self, text):
@@ -511,7 +511,7 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.load_and_export_txt_btn, enable)
         self.set_btn_enable(self.ui.load_xml_btn, enable)
         self.set_btn_enable(self.ui.open_excel_btn, enable)
-        self.ui.sheet_selecter.setEnabled(enable)
+        self.ui.sheet_selector.setEnabled(enable)
 
     def set_img_viewer(self, path, i):
         img = cv2.imdecode( np.fromfile( file = path, dtype = np.uint8 ), cv2.IMREAD_COLOR )
@@ -562,7 +562,7 @@ class MyWidget(ParentWidget):
         app.books[0].close()
         # Maximize the Excel window
         app.api.WindowState = xw.constants.WindowState.xlMaximized
-        if self.ui.sheet_selecter.currentText() == "LSC golden OTP(txt)":
+        if self.ui.sheet_selector.currentText() == "LSC golden OTP(txt)":
             wb = app.books.open(self.excel_template_path)
         else:
             wb = app.books.open(self.xml_worker.xml_excel_path)

@@ -51,7 +51,7 @@ class MyWidget(ParentWidget):
         self.setupUi()
     
     def controller(self):
-        self.ui.project_type_selecter.currentIndexChanged[int].connect(self.set_project_type)
+        self.ui.project_type_selector.currentIndexChanged[int].connect(self.set_project_type)
         self.ui.load_exif_btn.clicked.connect(self.load_exif)
         self.ui.load_code_btn.clicked.connect(self.load_code)
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
@@ -60,16 +60,16 @@ class MyWidget(ParentWidget):
         self.worker.update_progress_bar_signal.connect(self.ui.progressBar.setValue)
         self.worker.failed_signal.connect(self.failed)
         
-        self.ui.excel_selecter.currentTextChanged.connect(self.select_excel)
+        self.ui.excel_selector.currentTextChanged.connect(self.select_excel)
         
     def failed(self, text="Failed"):
         self.set_all_enable(True)
         QMessageBox.about(self, "Failed", text)
         
     def setupUi(self):
-        self.ui.project_type_selecter.addItems(Config().config.keys())
+        self.ui.project_type_selector.addItems(Config().config.keys())
         self.set_all_enable(False)
-        self.ui.project_type_selecter.setEnabled(True)
+        self.ui.project_type_selector.setEnabled(True)
         self.ui.progressBar.setValue(0)
         self.ui.progressBar.hide()
         
@@ -78,7 +78,7 @@ class MyWidget(ParentWidget):
         self.ui.progressBar.setMaximum(i)
         
     def set_project_type(self):
-        self.project_type = self.ui.project_type_selecter.currentText()
+        self.project_type = self.ui.project_type_selector.currentText()
         if self.project_type == "選擇專案": 
             self.set_btn_enable(self.ui.load_exif_btn, False)
             self.set_btn_enable(self.ui.load_code_btn, False)
@@ -86,7 +86,7 @@ class MyWidget(ParentWidget):
             return
         print("select "+self.project_type)
         self.set_all_enable(False)
-        self.ui.project_type_selecter.setEnabled(True)
+        self.ui.project_type_selector.setEnabled(True)
         self.set_btn_enable(self.ui.load_exif_btn, True)
         self.ui.progressBar.hide()
         
@@ -119,8 +119,8 @@ class MyWidget(ParentWidget):
     def after_work(self, files):
         self.set_all_enable(True)
         # self.ui.progressBar.hide()
-        self.ui.excel_selecter.clear()
-        self.ui.excel_selecter.addItems(files)
+        self.ui.excel_selector.clear()
+        self.ui.excel_selector.addItems(files)
         
     def select_excel(self, text):
         if text == "": return
@@ -143,8 +143,8 @@ class MyWidget(ParentWidget):
         wb.app.activate(steal_focus=True)
         
     def set_all_enable(self, enable):
-        self.ui.project_type_selecter.setEnabled(enable)
-        self.ui.excel_selecter.setEnabled(enable)
+        self.ui.project_type_selector.setEnabled(enable)
+        self.ui.excel_selector.setEnabled(enable)
         self.set_btn_enable(self.ui.load_exif_btn, enable)
         self.set_btn_enable(self.ui.load_code_btn, enable)
         self.set_btn_enable(self.ui.open_excel_btn, enable)

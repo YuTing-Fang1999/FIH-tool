@@ -181,7 +181,7 @@ class MyWidget(ParentWidget):
         self.ui.export_and_open_excel_btn.clicked.connect(self.export_and_open_excel)
         self.ui.reload_excel_btn.clicked.connect(self.reload_excel)
         # self.ui.gamma_plainEdit.keyPressEvent = self.text_edit_keyPressEvent
-        self.ui.trigger_selecter.currentIndexChanged[str].connect(self.set_sheet)
+        self.ui.trigger_selector.currentIndexChanged[str].connect(self.set_sheet)
 
         self.excel_worker.update_list_signal.connect(self.update_item_list)
         self.excel_worker.update_status_bar_signal.connect(self.update_status_bar)
@@ -191,8 +191,8 @@ class MyWidget(ParentWidget):
         QMessageBox.about(self, "Error", "僅能選擇gamma15.xml")
 
     def update_item_list(self, item_name):
-        self.ui.trigger_selecter.clear()
-        self.ui.trigger_selecter.addItems(item_name)
+        self.ui.trigger_selector.clear()
+        self.ui.trigger_selector.addItems(item_name)
         self.update_before_status_ok("xml", True)
 
     def update_status_bar(self, text):

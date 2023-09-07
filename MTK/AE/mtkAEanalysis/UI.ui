@@ -20,7 +20,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="project_type_selecter">
+      <widget class="QComboBox" name="project_type_selector">
        <property name="font">
         <font>
          <pointsize>-1</pointsize>
@@ -97,7 +97,7 @@ color:rgb(255, 255, 255);</string>
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="excel_selecter">
+    <widget class="QComboBox" name="excel_selector">
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
      </property>

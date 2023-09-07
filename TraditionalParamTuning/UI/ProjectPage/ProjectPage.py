@@ -23,7 +23,7 @@ class ProjectPage(QWidget):
         self.HLayout.setAlignment(Qt.AlignCenter)
         self.gridLayout = QGridLayout()
 
-        self.platform_selecter = PlatformSelecter()
+        self.platform_selector = PlatformSelecter()
         self.label_platform = QLabel("平台選擇")
         self.label_platform.adjustSize()
 
@@ -39,7 +39,7 @@ class ProjectPage(QWidget):
         self.label_bin_name.setToolTip("將project編譯過後的bin檔名")
         self.lineEdits_bin_name = QLineEdit("")
 
-        self.addRow(self.label_platform, self.platform_selecter)
+        self.addRow(self.label_platform, self.platform_selector)
         self.addRow(self.btn_select_project, self.label_project_path)
         self.addRow(self.btn_select_exe, self.label_exe_path)
         self.addRow(self.label_bin_name, self.lineEdits_bin_name)
@@ -97,7 +97,7 @@ class ProjectPage(QWidget):
         self.lineEdits_bin_name.show()
 
     def set_all_enable(self, enable):
-        self.platform_selecter.setEnabled(enable)
+        self.platform_selector.setEnabled(enable)
         set_btn_enable(self.btn_select_project, enable)
         set_btn_enable(self.btn_select_exe, enable)
 

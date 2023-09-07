@@ -73,7 +73,7 @@ class MainWindow_controller(QWidget):
         #############################
 
         ##### project_page #####
-        self.ui.project_page.platform_selecter.buttongroup1.buttonClicked.connect(self.onPlatformSelecterClicked)
+        self.ui.project_page.platform_selector.buttongroup1.buttonClicked.connect(self.onPlatformSelecterClicked)
         self.ui.project_page.btn_select_project.clicked.connect(self.select_project)
         self.ui.project_page.btn_select_exe.clicked.connect(self.select_exe)
 
@@ -217,12 +217,12 @@ class MainWindow_controller(QWidget):
         
     def set_platform_UI(self):
         try:
-            if self.ui.project_page.platform_selecter.buttongroup1.checkedId() == 1:
-                self.setting["platform"] = self.ui.project_page.platform_selecter.rb1.text()
+            if self.ui.project_page.platform_selector.buttongroup1.checkedId() == 1:
+                self.setting["platform"] = self.ui.project_page.platform_selector.rb1.text()
                 self.ui.project_page.setc6Form()
 
-            if self.ui.project_page.platform_selecter.buttongroup1.checkedId() == 2:
-                self.setting["platform"] = self.ui.project_page.platform_selecter.rb2.text()
+            if self.ui.project_page.platform_selector.buttongroup1.checkedId() == 2:
+                self.setting["platform"] = self.ui.project_page.platform_selector.rb2.text()
                 self.ui.project_page.setc7Form()
         except Exception as error:
             print(error)
@@ -446,7 +446,7 @@ class MainWindow_controller(QWidget):
             
             ##### project_page #####
             if "platform" in setting:
-                self.ui.project_page.platform_selecter.set_platform(setting["platform"])
+                self.ui.project_page.platform_selector.set_platform(setting["platform"])
                 self.set_platform_UI()
 
             if "project_path" in setting:
