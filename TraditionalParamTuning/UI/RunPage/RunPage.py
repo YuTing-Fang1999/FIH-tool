@@ -36,8 +36,3 @@ class RunPage(QWidget):
         # self.setStyleSheet("QLabel{font-size:12pt; font-family:微軟正黑體; color:white;}"
         #                   "QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0);}")
         ###### Set Style ###### 
-
-    
-            
-            
-            

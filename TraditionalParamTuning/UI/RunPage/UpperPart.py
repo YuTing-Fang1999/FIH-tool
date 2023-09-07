@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import Qt, pyqtSignal
 from .MyTimer import MyTimer
+from TraditionalParamTuning.myPackage.set_btn_enable import set_btn_enable
 
 
 
@@ -82,6 +83,13 @@ class UpperPart(QWidget):
 
     def set_individual(self, ind_idx):
         self.label_individual.setText(ind_idx)
+        
+    def set_all_enable_by_case(self, case):
+        if case=="push" or case=="capture":
+            set_btn_enable(self.btn_run, False)
+        elif case=="done":
+            set_btn_enable(self.btn_run, True)
+            set_btn_enable(self.btn_param_window, True)
 
     
     

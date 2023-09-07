@@ -34,15 +34,6 @@ class Score(QWidget):
             label = QLabel()
             self.label_score.append(label)
             gridLayout.addWidget(label, j, 2)
-            
-        self.setStyleSheet(
-            """
-            QToolTip { 
-                background-color: black; 
-                border: black solid 1px
-            }
-            """
-        )
 
 class Block(QWidget):
     def __init__(self, name, tip, title):

@@ -90,8 +90,8 @@ def get_perceptual_distance(img0_origin, img1_origin):
     dist01 = loss_fn.forward(img0, img1)
     return float('%.4f'%dist01)
 
-def get_log_AF():
-    pass
+# def get_log_AF():
+#     pass
 
 def get_cal_func():
     calFunc = {}
@@ -101,8 +101,8 @@ def get_cal_func():
     calFunc["sharpness"] = get_sharpness
     calFunc["DL accutance"] = get_average_gnorm
     calFunc["perceptual distance"] = get_perceptual_distance
-    ######### no ROI #########
-    calFunc["AF"] = get_log_AF()
+    # ######### no ROI #########
+    # calFunc["AF"] = get_log_AF()
 
     return calFunc
 
@@ -116,8 +116,8 @@ def get_calFunc_typeName_tip(no_ROI = False):
         "以二階微分的Laplacian算子取標準差，適合用於edge邊緣",
         "使用averge norm 近似 DXO Dead Leaves accutance數值，適合用於紋路",
         "近似人眼感知做量化，數值越小代表與參考相片越像，圈哪裡都可以",
-        ######### no ROI #########
-        "AF"
+        # ######### no ROI #########
+        # "AF"
     ]
     
     if no_ROI:

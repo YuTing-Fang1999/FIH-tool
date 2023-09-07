@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt, pyqtSignal
 from .PlatformSelecter import PlatformSelecter
-import os
+from TraditionalParamTuning.myPackage.set_btn_enable import set_btn_enable
 
 class ProjectPage(QWidget):
     set_project_signal = pyqtSignal(str)
@@ -96,9 +96,10 @@ class ProjectPage(QWidget):
         self.label_bin_name.show()
         self.lineEdits_bin_name.show()
 
-    def set_btn_enable(self, b):
-        self.platform_selecter.setEnabled(b)
-        self.btn_select_project.setEnabled(b)
+    def set_all_enable(self, enable):
+        self.platform_selecter.setEnabled(enable)
+        set_btn_enable(self.btn_select_project, enable)
+        set_btn_enable(self.btn_select_exe, enable)
 
 
 

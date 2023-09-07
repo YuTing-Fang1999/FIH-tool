@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 from time import sleep
 import os
 from TraditionalParamTuning.myPackage.func import mkdir
+from TraditionalParamTuning.myPackage.set_btn_enable import set_btn_enable
 
 class PushAndSaveBlock(QWidget):
     alert_info_signal = pyqtSignal(str, str)
@@ -97,12 +98,12 @@ class PushAndSaveBlock(QWidget):
 
         self.push_to_camera_signal.emit(is_capture, saved_path)
 
-    def set_btn_enable(self, b):
-        self.btn_set_to_xml.setEnabled(b)
-        self.btn_capture.setEnabled(b)
-        self.btn_push_phone.setEnabled(b)
-        self.btn_push_phone_capture.setEnabled(b)
-        self.btn_input_param.setEnabled(b)
+    def set_all_enable(self, b):
+        set_btn_enable(self.btn_set_to_xml, b)
+        set_btn_enable(self.btn_capture, b)
+        set_btn_enable(self.btn_push_phone, b)
+        set_btn_enable(self.btn_push_phone_capture, b)
+        set_btn_enable(self.btn_input_param, b)
 
     def do_capture(self):
         print("PushAndSaveBlock do_capture")

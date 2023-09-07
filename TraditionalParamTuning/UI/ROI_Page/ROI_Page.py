@@ -1,13 +1,12 @@
-from PyQt5.QtCore import Qt, pyqtSignal, QThread
+from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import (
-    QWidget, QSpacerItem, QSizePolicy,
-    QVBoxLayout, QHBoxLayout, QFrame, QGridLayout,
-    QPushButton, QLabel, QApplication, QCheckBox, QTableWidget, QHeaderView, QLineEdit,
-    QTableWidgetItem, QFileDialog, QScrollArea
+    QWidget, QSizePolicy,QVBoxLayout, QHBoxLayout, QGridLayout,
+    QPushButton, QLabel, QApplication, QTableWidget, QHeaderView, QLineEdit,
+    QFileDialog, QScrollArea
 )    
 import cv2
 import numpy as np
-from copy import deepcopy
+from TraditionalParamTuning.myPackage.set_btn_enable import set_btn_enable
 
 import sys
 sys.path.append(".")
@@ -34,6 +33,7 @@ class DeleteBtn(QPushButton):
         self.page = page
         self.setText("刪除")
         self.clicked.connect(self.deleteClicked)
+        self.setStyleSheet("QPushButton {font-weight:bold; font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:black;}")
 
     def deleteClicked(self):
         button = self.sender()
@@ -97,6 +97,7 @@ class ROI_Page(QWidget):
         self.btn_add_target_item.setCursor(Qt.PointingHandCursor)
         self.btn_add_target_item.setText("增加目標指標")
         self.btn_add_target_item.setToolTip("按下後會新增一個目標指標")
+        self.btn_add_target_item.hide()
 
         self.GLayout = QGridLayout()
 
@@ -127,19 +128,6 @@ class ROI_Page(QWidget):
         scroll.setWidgetResizable(True)
         scroll.setWidget(layout_wrapper)
         scroll_wrapper.addWidget(scroll)
-
-        self.setStyleSheet(
-        #     "QWidget{background-color: rgb(66, 66, 66);}"
-        #     "QLabel{font-size:12pt; font-family:微軟正黑體; color:white;}"
-            """
-            QToolTip { 
-                background-color: black; 
-                border: black solid 1px
-            }
-            QPushButton{font-size:12pt; font-family:微軟正黑體; background-color:rgb(255, 170, 0); color:black;}
-            """
-            # "QLineEdit{font-size:12pt; font-family:微軟正黑體; background-color: rgb(255, 255, 255); border: 2px solid gray; border-radius: 5px; width: 90px}"
-        )
 
     def setup_controller(self):
         self.ROI_select_window.to_main_window_signal.connect(self.select_ROI)
@@ -249,12 +237,13 @@ class ROI_Page(QWidget):
         self.ROI_select_window.my_viewer.set_img(img)
         self.draw_ROI(self.my_rois)
 
-    def set_btn_enable(self, case):
+    def set_all_enable_by_case(self, case):
         if case=="run":
-            self.btn_capture.setEnabled(False)
-            self.btn_gen_ref.setEnabled(False)
-            self.btn_load_target_pic.setEnabled(False)
-            self.btn_add_ROI_item.setEnabled(False)
+            
+            set_btn_enable(self.btn_capture, False)
+            set_btn_enable(self.btn_gen_ref, False)
+            set_btn_enable(self.btn_load_target_pic, False)
+            set_btn_enable(self.btn_add_ROI_item, False)
 
             for row in range(self.table.rowCount()): 
                 for col in range(self.table.columnCount()): 
@@ -263,16 +252,16 @@ class ROI_Page(QWidget):
                         _item.setEnabled(False)
         
         elif case=="push" or case=="capture":
-            self.btn_capture.setEnabled(False)
-            self.btn_gen_ref.setEnabled(False)
-            self.btn_load_target_pic.setEnabled(True)
-            self.btn_add_ROI_item.setEnabled(False)
+            set_btn_enable(self.btn_capture, False)
+            set_btn_enable(self.btn_gen_ref, False)
+            set_btn_enable(self.btn_load_target_pic, True)
+            set_btn_enable(self.btn_add_ROI_item, True)
 
         elif case=="done":
-            self.btn_capture.setEnabled(True)
-            self.btn_gen_ref.setEnabled(True)
-            self.btn_load_target_pic.setEnabled(True)
-            self.btn_add_ROI_item.setEnabled(True)
+            set_btn_enable(self.btn_capture, True)
+            set_btn_enable(self.btn_gen_ref, True)
+            set_btn_enable(self.btn_load_target_pic, True)
+            set_btn_enable(self.btn_add_ROI_item, True)
 
             for row in range(self.table.rowCount()): 
                 for col in range(self.table.columnCount()): 

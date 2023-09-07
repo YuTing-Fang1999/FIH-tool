@@ -66,6 +66,7 @@ class MainWindow_controller(QWidget):
                                 self.set_param_value, self.build_and_push, self.get_file_path)
 
         self.setup_controller()
+        self.set_all_enable_by_case("done")
 
     def setup_controller(self):
         ########## trigger ##########
@@ -124,7 +125,7 @@ class MainWindow_controller(QWidget):
         # do_capture
         self.ui.ROI_page.capture_signal.connect(self.do_capture_start)
         self.ui.param_page.push_and_save_block.capture_signal.connect(self.do_capture_start)
-        self.set_ROI_page_photo_signal.connect(lambda: self.ui.ROI_page.set_photo("TraditionalParamTuning/capture.jpg"))
+        self.set_ROI_page_photo_signal.connect(lambda: self.ui.ROI_page.set_photo("capture.jpg"))
 
         self.ui.param_page.push_and_save_block.get_and_set_param_value_signal.connect(self.get_and_set_param_value_slot)
         self.ui.param_page.push_and_save_block.push_to_camera_signal.connect(self.get_and_build_and_push_start)
@@ -157,7 +158,7 @@ class MainWindow_controller(QWidget):
         self.push_task.start()
 
     def build_and_push_logger(self, exe_path, project_path, bin_name, is_capture, saved_path):
-        self.set_btn_enable("push")
+        self.set_all_enable_by_case("push")
         self.ui.logger.show_info('push bin to camera...')
         self.ui.logger.run_cmd('adb shell input keyevent = KEYCODE_HOME')
         self.build_and_push[self.setting["platform"]](self.ui.logger, exe_path, project_path, bin_name)
@@ -166,7 +167,7 @@ class MainWindow_controller(QWidget):
         sleep(7)
         if is_capture: self.do_capture(saved_path)
         else:
-            self.set_btn_enable("done")
+            self.set_all_enable_by_case("done")
             self.ui.logger.show_info("done")
 
     def do_capture_start(self, saved_path):
@@ -175,7 +176,7 @@ class MainWindow_controller(QWidget):
         self.capture_task.start()
 
     def do_capture(self, saved_path):
-        self.set_btn_enable("capture")
+        self.set_all_enable_by_case("capture")
 
         if(saved_path=="Ref_Pic/capture/capture"):
             if os.path.exists('Ref_Pic'): shutil.rmtree('Ref_Pic')
@@ -193,7 +194,7 @@ class MainWindow_controller(QWidget):
         else:
             self.capture.capture(saved_path, capture_num=1)
 
-        self.set_btn_enable("done")
+        self.set_all_enable_by_case("done")
         
     def set_platform_UI(self):
         if self.ui.project_page.platform_selecter.buttongroup1.checkedId() == 1:
@@ -325,7 +326,7 @@ class MainWindow_controller(QWidget):
         if not self.get_UI_data(alert=True): return
         self.ui.logger.clear_info()
         self.ui.logger.signal.emit("START")
-        self.set_btn_enable("run")
+        self.set_all_enable_by_case("run")
 
         self.tuning.is_run = True
         self.ui.run_page.upper_part.btn_run.setText('STOP')
@@ -343,7 +344,7 @@ class MainWindow_controller(QWidget):
         self.tuning.is_run = False
         self.ui.run_page.upper_part.btn_run.setText('Run')
         self.ui.run_page.upper_part.mytimer.stopTimer()
-        self.set_btn_enable("done")
+        self.set_all_enable_by_case("done")
         # self.tuning.ML.save_model()
         os.chdir(self.origin_dir)
         if success: self.tuning.finish()
@@ -367,23 +368,25 @@ class MainWindow_controller(QWidget):
         self.ui.logger.signal.emit(text)
         QMessageBox.about(self, title, text)
 
-    def set_btn_enable(self, case):
-        self.ui.ROI_page.set_btn_enable(case)
+    def set_all_enable_by_case(self, case):
+        self.ui.ROI_page.set_all_enable_by_case(case)
         if case=="run":
-            self.ui.project_page.set_btn_enable(False)
-            self.ui.param_page.push_and_save_block.set_btn_enable(False)
+            self.ui.project_page.set_all_enable(False)
+            self.ui.param_page.push_and_save_block.set_all_enable(False)
         
         elif case=="push" or case=="capture":
-            self.ui.project_page.set_btn_enable(False)
+            self.ui.project_page.set_all_enable(False)
             # self.ui.ROI_page.set_btn_enable(False)
-            self.ui.param_page.push_and_save_block.set_btn_enable(False)
+            self.ui.param_page.push_and_save_block.set_all_enable(False)
             self.ui.run_page.upper_part.btn_run.setEnabled(False)
+            self.ui.run_page.upper_part.set_all_enable_by_case(case)
 
         elif case=="done":
-            self.ui.project_page.set_btn_enable(True)
+            self.ui.project_page.set_all_enable(True)
             # self.ui.ROI_page.set_btn_enable(True)
-            self.ui.param_page.push_and_save_block.set_btn_enable(True)
+            self.ui.param_page.push_and_save_block.set_all_enable(True)
             self.ui.run_page.upper_part.btn_run.setEnabled(True)
+            self.ui.run_page.upper_part.set_all_enable_by_case(case)
 
 
     def set_UI_data(self, setting):
@@ -411,8 +414,8 @@ class MainWindow_controller(QWidget):
             setting["bin_name"] = ""
 
         ##### ROI_page #####
-        if os.path.exists('TraditionalParamTuning/capture.jpg'):
-            self.ui.ROI_page.set_photo('TraditionalParamTuning/capture.jpg')
+        if os.path.exists('capture.jpg'):
+            self.ui.ROI_page.set_photo('capture.jpg')
             if "my_rois" in setting:
                 self.ui.ROI_page.target_rois = setting["target_rois"]
                 self.ui.ROI_page.my_rois = setting["my_rois"]
