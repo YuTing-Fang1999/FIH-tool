@@ -1,14 +1,10 @@
 {
-    "OPE": {
+    "cpp": {
         "WNR": {
             "file_path": "/cpp/",
             "main_node": [4, 1, 5],
             "trigger_node": 0,
             "param_node": [6, 7],
-            "param_names": [
-                "denoise_weight_y",
-                "denoise_weight_chroma"
-            ],
             "defult_range": [
                 [0, 1], [0, 1]
             ],
@@ -34,9 +30,6 @@
             "main_node": [1, 3],
             "trigger_node": 0,
             "param_node": [9],
-            "param_names": [
-                "H / Lut1"
-            ],
             "defult_range": [
                 [0, 8]
             ],
@@ -54,15 +47,14 @@
                 ]
             ],
             "step": 0.01
-        },
+        }
+    },
+    "isp": {
         "ABF": {
             "file_path": "/isp/",
             "main_node": [1, 3, 5],
             "trigger_node": 0,
             "param_node": [1, 2],
-            "param_names": [
-                "12-bit pixels"
-            ],
             "defult_range": [
                 [0, 3000],
                 [0, 1]

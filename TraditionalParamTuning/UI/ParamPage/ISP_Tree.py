@@ -18,6 +18,7 @@ class ISP_Tree(QWidget):
         super().__init__()
         self.HLayout = QHBoxLayout(self)
         self.tree=QTreeWidget()
+        self.tree.setMinimumWidth(200)
         self.tree.setColumnWidth(0, 1)
         self.tree.setColumnWidth(1, 1)
         self.tree.setHeaderHidden( True )
