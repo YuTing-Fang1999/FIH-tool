@@ -35,11 +35,14 @@ from QUL.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
 from QUL.AEsimulator.stepChart.Intro import Intro as stepChartIntro
 from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
 from QUL.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
-from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
 from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
 from NTU.ML.MLPushAndCapture.Intro import Intro as MLPushAndCaptureIntro
+
+from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
+from TraditionalParamTuning.Intro import Intro as TraditionalParamTuningIntro
+
 
 
 class MyLabel(QLabel):
@@ -198,7 +201,7 @@ class Config():
                     "參數推薦(傳統)":[
                         {
                             "name": "參數推薦(傳統算法)",
-                            "instruction": MyLabel("參數推薦(傳統算法)"),
+                            "instruction": TraditionalParamTuningIntro(),
                             "widget": TraditionalParamTuningWidget(),
                         },
                        
