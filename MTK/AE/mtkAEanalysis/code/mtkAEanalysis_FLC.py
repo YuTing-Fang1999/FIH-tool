@@ -33,7 +33,7 @@ def file_filter_jpg(f):
         return False
 
 def create_xls(file_path):
-    fn = 'mtkAEanalysis_FLC.xlsm'
+    fn = 'MTK/AE/mtkAEanalysis/code/mtkAEanalysis_FLC.xlsm'
     wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
     wb.active = 0
     ws = wb.active
@@ -441,10 +441,10 @@ class FLC(QWidget):
     ##############################
         print("mtkAEanalysis is runing...")
 
-        root = tk.Tk()
-        root.withdraw()
-        code_path = filedialog.askopenfilename()
-        print(code_path)
+        # root = tk.Tk()
+        # root.withdraw()
+        # code_path = filedialog.askopenfilename()
+        # print(code_path)
 
         # refer = input("Have reference or not (0: no, 1: yes): ")
         # refer = int(refer)
@@ -625,7 +625,7 @@ class FLC(QWidget):
                 file_name_jpg = os.path.basename(path_name_jpg)
                 base2 = os.path.splitext(file_name_jpg)[0]
                 if file_name_jpg == base or base2 == base[0:-8]:
-                    img = cv2.imread(path_name_jpg)
+                    img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                     height, width = img.shape[0], img.shape[1]
                     
                     if height > width:
@@ -642,17 +642,17 @@ class FLC(QWidget):
                         ws.add_image(save_img)
                         
                     refer = 0
-                    if j+1 < np.size(allFileList_jpg) and allFileList_jpg[j+1].split("_")[0] == path_name.split("_")[0]: 
+                    if j+1<np.size(allFileList_jpg) and allFileList_jpg[j+1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
                         refer = 1
-                    if j-1>=0 and allFileList_jpg[j-1].split("_")[0] == path_name.split("_")[0]: 
+                    if j-1>=0 and allFileList_jpg[j-1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
                         refer = 1
                     
                     # Have reference
                     if refer == 1:
                         file_name_jpg2 = os.path.basename(path_name_jpg2)
-                        img2 = cv2.imread(path_name_jpg2)
+                        img2 = cv2.imdecode( np.fromfile( file = path_name_jpg2, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                         height2, width2 = img2.shape[0], img2.shape[1]
                         
                         save_img2 = openpyxl.drawing.image.Image(path_name_jpg2)
@@ -722,7 +722,7 @@ class FLC(QWidget):
                     faceCase = "faceCase.png"
                     if os.path.exists(faceCase):
                         face_img = openpyxl.drawing.image.Image(faceCase)
-                        face_img_2 = cv2.imread(faceCase)
+                        face_img_2 = cv2.imdecode( np.fromfile( file = faceCase, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                         height3, width3 = face_img_2.shape[0], face_img_2.shape[1]
                         face_img.height = 176
                         face_img.width = 176 * width3 / height3
@@ -736,7 +736,6 @@ class FLC(QWidget):
                 file = "mtkAEanalysis_FLC_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
                 wb.active = 0
                 wb.save(file)
-            break
 
         print("mtkAEanalysis is ok!")
         # os.system("pause")

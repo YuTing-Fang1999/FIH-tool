@@ -12,6 +12,7 @@ import xlwings as xw
 
 class WorkerThread(QThread):
     finish_signal = pyqtSignal() 
+    failed_signal = pyqtSignal(str) 
     set_progress_bar_value_signal = pyqtSignal(int)
     update_progress_bar_signal = pyqtSignal(int)
     exif_path = None
@@ -22,11 +23,15 @@ class WorkerThread(QThread):
         super().__init__()
             
     def run(self):
-        widget = Config().config[self.func_key]()
-        widget.set_progress_bar_value_signal.connect(self.set_progress_bar_value)
-        widget.update_progress_bar_signal.connect(self.update_progress_bar)
-        self.excel_path = widget.run(self.exif_path, self.code_path)
-        self.finish_signal.emit()
+        try:
+            widget = Config().config[self.func_key]()
+            widget.set_progress_bar_value_signal.connect(self.set_progress_bar_value)
+            widget.update_progress_bar_signal.connect(self.update_progress_bar)
+            self.excel_path = widget.run(self.exif_path, self.code_path)
+            self.finish_signal.emit()
+        except Exception as error:
+            print(error)
+            self.failed_signal.emit("Failed\n"+str(error))
         
     def set_progress_bar_value(self, i):
         self.set_progress_bar_value_signal.emit(i)
@@ -53,7 +58,12 @@ class MyWidget(ParentWidget):
         self.worker.finish_signal.connect(self.after_work)
         self.worker.set_progress_bar_value_signal.connect(self.set_progress_bar)
         self.worker.update_progress_bar_signal.connect(self.ui.progressBar.setValue)
-    
+        self.worker.failed_signal.connect(self.failed)
+        
+    def failed(self, text="Failed"):
+        self.set_all_enable(True)
+        QMessageBox.about(self, "Failed", text)
+        
     def setupUi(self):
         self.ui.project_type_selecter.addItems(Config().config.keys())
         self.set_btn_enable(self.ui.load_exif_btn, False)

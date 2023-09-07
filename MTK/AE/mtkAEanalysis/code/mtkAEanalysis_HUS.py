@@ -33,7 +33,7 @@ def file_filter_jpg(f):
         return False
 
 def create_xls(file_path):
-    fn = 'mtkAEanalysis_HUS.xlsm'
+    fn = 'MTK/AE/mtkAEanalysis/code/mtkAEanalysis_HUS.xlsm'
     wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
     wb.active = 0
     ws = wb.active
@@ -359,8 +359,8 @@ class HUS(QWidget):
 
         # root = tk.Tk()
         # root.withdraw()
-        # exif_path = filedialog.askopenfilename()
-        print(exif_path)
+        # code_path = filedialog.askopenfilename()
+        # print(code_path)
 
         # refer = input("Have reference or not (0: no, 1: yes): ")
         # refer = int(refer)
@@ -368,8 +368,8 @@ class HUS(QWidget):
         localtime = time.localtime()
         clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
 
-        yourPath = "Exif"
-        allFileList = os.listdir(yourPath)
+        # exif_path = "Exif"
+        allFileList = os.listdir(exif_path)
         allFileList_exif = np.sort(allFileList,axis=0)
         allFileList_exif = list(filter(file_filter, allFileList_exif))
         allFileList_exif.sort(key=natural_keys)
@@ -384,7 +384,7 @@ class HUS(QWidget):
             ##############################
             self.update_progress_bar_signal.emit(i+1) 
             ##############################
-            path_name = yourPath + "/" + allFileList_exif[i]
+            path_name = exif_path + "/" + allFileList_exif[i]
             exifFile = open(path_name, "r")
             file_name = os.path.basename(path_name)
             base = os.path.splitext(file_name)[0]
@@ -536,16 +536,16 @@ class HUS(QWidget):
             ws.cell(column=53, row=13).value = int(AE_TAG_FACE_STS_SIZE[0])
             
             for j in range(0,(np.size(allFileList_jpg))):
-                path_name_jpg = yourPath + "/" + allFileList_jpg[j]
+                path_name_jpg = exif_path + "/" + allFileList_jpg[j]
                 file_name_jpg = os.path.basename(path_name_jpg)
                 base2 = os.path.splitext(file_name_jpg)[0]
                 if file_name_jpg == base or base2 == base[0:-8]:
-                    img = cv2.imread(path_name_jpg)
+                    img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                     height, width = img.shape[0], img.shape[1]
                     
                     save_img = openpyxl.drawing.image.Image(path_name_jpg)
                     if height > width and save_img.height < save_img.width:
-                        rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg)[0] + "_rotate.png"
+                        rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_rotate.png"
                         img_rotate = Image.open(path_name_jpg)
                         img_rotate = img_rotate.rotate(90, expand = True)
                         img_rotate.save(rotate_name)
@@ -560,7 +560,7 @@ class HUS(QWidget):
                         save_img.anchor = 'Y2'
                         ws.add_image(save_img)
                     elif height < width and save_img.height > save_img.width:
-                        rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg)[0] + "_rotate.png"
+                        rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_rotate.png"
                         img_rotate = Image.open(path_name_jpg)
                         img_rotate = img_rotate.rotate(90, expand = True)
                         img_rotate.save(rotate_name)
@@ -576,26 +576,26 @@ class HUS(QWidget):
                         ws.add_image(save_img)
                         
                     refer = 0
-                    if j+1 < np.size(allFileList_jpg) and allFileList_jpg[j+1].split("_")[0] == path_name.split("_")[0]: 
+                    if j+1<np.size(allFileList_jpg) and allFileList_jpg[j+1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
                         refer = 1
-                    if j-1>=0 and allFileList_jpg[j-1].split("_")[0] == path_name.split("_")[0]: 
+                    if j-1>=0 and allFileList_jpg[j-1].split("/")[-1].split("_")[0] == path_name.split("/")[-1].split("_")[0]: 
                         path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
                         refer = 1
                     
                     # Have reference
                     if refer == 1:
                         if j % 2 == 0:
-                            path_name_jpg2 = yourPath + "/" + allFileList_jpg[j+1]
+                            path_name_jpg2 = exif_path + "/" + allFileList_jpg[j+1]
                         else:
-                            path_name_jpg2 = yourPath + "/" + allFileList_jpg[j-1]
+                            path_name_jpg2 = exif_path + "/" + allFileList_jpg[j-1]
                         file_name_jpg2 = os.path.basename(path_name_jpg2)
-                        img2 = cv2.imread(path_name_jpg2)
+                        img2 = cv2.imdecode( np.fromfile( file = path_name_jpg2, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                         height2, width2 = img2.shape[0], img2.shape[1]
                         
                         save_img2 = openpyxl.drawing.image.Image(path_name_jpg2)
                         if height > width and save_img2.height < save_img2.width:
-                            rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
+                            rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
                             img2_rotate = Image.open(path_name_jpg2)
                             img2_rotate = img2_rotate.rotate(270, expand = True)
                             img2_rotate.save(rotate_name)
@@ -610,7 +610,7 @@ class HUS(QWidget):
                             save_img2.anchor = 'AD2'
                             ws.add_image(save_img2)
                         elif height < width and save_img2.height > save_img2.width:
-                            rotate_name = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
+                            rotate_name = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_rotate.png"
                             img2_rotate = Image.open(path_name_jpg2)
                             img2_rotate = img2_rotate.rotate(270, expand = True)
                             img2_rotate.save(rotate_name)
@@ -631,7 +631,7 @@ class HUS(QWidget):
                         plt.yticks(alpha=0)
                         # plt.xlim(0,255)
                         # plt.ylim(0,350000)
-                        save_name2 = yourPath + "/" + os.path.splitext(file_name_jpg2)[0] + "_histogram.png"
+                        save_name2 = exif_path + "/" + os.path.splitext(file_name_jpg2)[0] + "_histogram.png"
                         plt.savefig(save_name2,dpi=100)
                         plt.close()
                         save_img_hist2 = openpyxl.drawing.image.Image(save_name2)
@@ -650,7 +650,7 @@ class HUS(QWidget):
                     plt.yticks(alpha=0)
                     # plt.xlim(0,255)
                     # plt.ylim(0,350000)
-                    save_name1 = yourPath + "/" + os.path.splitext(file_name_jpg)[0] + "_histogram.png"
+                    save_name1 = exif_path + "/" + os.path.splitext(file_name_jpg)[0] + "_histogram.png"
                     plt.savefig(save_name1,dpi=100)
                     plt.close()
                     save_img_hist = openpyxl.drawing.image.Image(save_name1)
@@ -660,7 +660,7 @@ class HUS(QWidget):
                     faceCase = "faceCase.png"
                     if os.path.exists(faceCase):
                         face_img = openpyxl.drawing.image.Image(faceCase)
-                        face_img_2 = cv2.imread(faceCase)
+                        face_img_2 = cv2.imdecode( np.fromfile( file = faceCase, dtype = np.uint8 ), cv2.IMREAD_COLOR )
                         height3, width3 = face_img_2.shape[0], face_img_2.shape[1]
                         face_img.height = 176
                         face_img.width = 176 * width3 / height3
