@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QPushButton
+from PyQt5 import QtCore
+from PyQt5.QtGui import QCursor
 
 import os
 import json
@@ -46,6 +48,7 @@ class ParentWidget(QWidget):
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
             style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
+            btn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         else:
             style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
         btn.setStyleSheet(style)

@@ -37,6 +37,7 @@ from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
 from QUL.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
+from NTU.ML.MLAlignDataset.MyWidget import MyWidget as MLAlignDatasetWidget
 from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
 from NTU.ML.MLPushAndCapture.Intro import Intro as MLPushAndCaptureIntro
 
@@ -211,6 +212,11 @@ class Config():
                             "name": "產生資料集",
                             "instruction": MyLabel("產生資料集"),
                             "widget": MLGenDatasetWidget(),
+                        },
+                        {
+                            "name": "對齊資料集",
+                            "instruction": MyLabel("對齊資料集"),
+                            "widget": MLAlignDatasetWidget(),
                         },
                         {
                             "name": "推入參數\n拍攝結果照片",
