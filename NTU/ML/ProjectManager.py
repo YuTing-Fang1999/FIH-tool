@@ -94,6 +94,7 @@ class C7ProjectManager(ProjectManager):
         curve[:25] += shadow_x
         
         curve[curve<0] = 0
+        print(curve)
         return curve
     
     def set_param_value(self, param_value):
@@ -110,11 +111,15 @@ class C7ProjectManager(ProjectManager):
                 i += 3
             elif self.config[key]["expand"] is not None:
                 for e in self.config[key]["expand"]:
-                    # print([param_value[i]]*e)
                     expand_param_value = np.concatenate((expand_param_value, [param_value[i]]*e))
                     i += 1
+            elif self.config[key]["expand"] is None:
+                for j in range(len(self.config[key]["bounds"])):
+                    expand_param_value = np.concatenate((expand_param_value, [param_value[i]]))
+                    i += 1
+        
         expand_param_value = expand_param_value[1:]
-        # print('expand_param_value', expand_param_value)
+        print('expand_param_value', expand_param_value)
         dim = 0
         for key in self.config:
             print('set_param_value:', key)
@@ -136,7 +141,7 @@ class C7ProjectManager(ProjectManager):
                             length = int(parent.attrib['length'])
 
                             param_value_new = expand_param_value[dim: dim+length]
-                            print("length, param_value", length, param_value_new)
+                            print("length, len(param_value)", length, len(param_value_new))
                             assert length == len(param_value_new)
                             param_value_new = [str(x) for x in param_value_new]
                             param_value_new = ' '.join(param_value_new)
