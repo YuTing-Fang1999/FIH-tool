@@ -48,6 +48,15 @@ class MainWindow(QMainWindow):
 
         wrapper.addWidget(Vsplitter)
 
+        MainWindow.setStyleSheet(
+            """
+            QToolTip { 
+                background-color: black; 
+                color: white; 
+                border: black solid 1px
+            }
+            """
+        )
         # MainWindow.setStyleSheet(
         #     """
         #     * {

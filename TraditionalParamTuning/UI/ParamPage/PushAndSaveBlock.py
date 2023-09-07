@@ -34,14 +34,14 @@ class PushAndSaveBlock(QWidget):
         gridLayout = QGridLayout()
 
         label = QLabel("資料夾名稱")
-        label.setToolTip("要存入的資料夾名稱")
+        label.setToolTip("要存入的資料夾名稱，如果不填，預設會存在FIH-tool資料夾裡\n此設定只與下方的拍照按鈕功能有關")
         gridLayout.addWidget(label, 0, 0)
 
         self.lineEdits_dir_name = QLineEdit()
         gridLayout.addWidget(self.lineEdits_dir_name, 0, 1)
 
         label = QLabel("圖片檔名")
-        label.setToolTip("要存入的圖片檔名")
+        label.setToolTip("要存入的圖片檔名(不須加上.jpg)，如果不填，預設會存成.jpg\n此設定只與下方的拍照按鈕功能有關")
         gridLayout.addWidget(label, 1, 0)
 
         self.lineEdits_img_name = QLineEdit()
@@ -50,18 +50,23 @@ class PushAndSaveBlock(QWidget):
         VLayout.addLayout(gridLayout)
 
         self.btn_set_to_xml = QPushButton("寫入")
+        self.btn_set_to_xml.setToolTip("將UI介面上的參數值寫入到project裡")
         VLayout.addWidget(self.btn_set_to_xml)
 
         self.btn_push_phone = QPushButton("推到手機")
+        self.btn_push_phone.setToolTip("將project推到手機")
         VLayout.addWidget(self.btn_push_phone)
 
         self.btn_capture = QPushButton("拍照")
+        self.btn_capture.setToolTip("讓手機拍照，並且存成上面設定的 資料夾名稱/圖片檔名")
         VLayout.addWidget(self.btn_capture)
 
         self.btn_push_phone_capture = QPushButton("寫入 + 推到手機 + 拍照")
+        self.btn_push_phone_capture.setToolTip("將上面三種功能結合")
         VLayout.addWidget(self.btn_push_phone_capture)
 
         self.btn_input_param = QPushButton("使用文本框輸入參數")
+        self.btn_input_param.setToolTip("可將csv的參數直接複製到此，輸入後點寫入按鈕，即可寫入到project")
         VLayout.addWidget(self.btn_input_param)
         
 
