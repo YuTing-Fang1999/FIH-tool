@@ -231,6 +231,9 @@ class ROI_Page(QWidget):
         
     def set_photo(self, img_name):
         img = cv2.imread(img_name)
+        if img is None:
+            self.alert_info_signal.emit("讀取照片失敗", "請確認照片路徑是否正確")
+            return
         self.img = img
         self.label_img.setPhoto(img)
         self.ROI_select_window.my_label.setText(img_name)
