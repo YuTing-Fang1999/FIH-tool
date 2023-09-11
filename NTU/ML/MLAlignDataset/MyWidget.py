@@ -1,19 +1,16 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QFrame
 from NTU.ML.MLAlignDataset.UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
-from NTU.ML.ProjectManager import C7ProjectManager
-from NTU.ML.ParamGenerater import ParamGenerater
-from NTU.ML.CMDRunner import CMDRunner
-from NTU.ML.Camara import Camera
-from NTU.ML.Config import Config
+from PyQt5.QtCore import pyqtSignal
 import numpy as np
-from tqdm import tqdm
-from time import sleep
 import threading
 import ctypes, inspect
 import os
+import cv2
+from NTU.ML.MLAlignDataset.aux2 import FeatureExtraction, align
 
 class MyWidget(ParentWidget):
+    update_progress_bar_signal = pyqtSignal(int)
     def __init__(self):
         super().__init__("NTU/ML/MLAlignDataset/") 
         self.ui = Ui_Form()
@@ -28,6 +25,7 @@ class MyWidget(ParentWidget):
         self.ui.load_dir_btn.clicked.connect(lambda: self.load_dir())
         self.ui.load_img_btn.clicked.connect(lambda: self.load_img())
         self.ui.start_align_btn.clicked.connect(lambda: self.run())
+        self.update_progress_bar_signal.connect(self.ui.progressBar.setValue)
         
     def load_dir(self):
         path = QFileDialog.getExistingDirectory(self,"選擇project", self.get_path("dir_folder")) # start path
@@ -53,11 +51,28 @@ class MyWidget(ParentWidget):
             self.start()
         else:
             self.finish()
-        
+    
     def start_align(self):
         self.set_all_enable(False)
         self.set_btn_enable(self.ui.start_align_btn, True)
-        sleep(3)
+
+        jpg_path_list = [f for f in os.listdir(self.ui.dir_label.text()) if ".jpg" in f or ".png" in f]
+        self.ui.progressBar.show()
+        self.ui.progressBar.setMaximum(len(jpg_path_list))
+        # align by this
+        img1 = cv2.imdecode( np.fromfile( file = self.ui.img_label.text(), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+        img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGBA)
+        features1 = FeatureExtraction(img1)
+
+        for i, f in enumerate(jpg_path_list):
+            self.update_progress_bar_signal.emit(i+1)
+            img0 = cv2.imdecode( np.fromfile( file = os.path.join(self.ui.dir_label.text(),f), dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            warped = align(img0, img1, features1)
+            cv2.imencode('.jpg', cv2.cvtColor(warped, cv2.COLOR_RGBA2BGR))[1].tofile(os.path.join(self.ui.dir_label.text(),f))
+            if f=="0.jpg":
+                cv2.imencode('.jpg', cv2.cvtColor(warped, cv2.COLOR_RGBA2BGR))[1].tofile(os.path.join(self.ui.dir_label.text(),"noisy.jpg"))
+
+        os.rename(self.ui.dir_label.text(), self.ui.dir_label.text()+"_align")
         self.finish()
         
     def start(self):
