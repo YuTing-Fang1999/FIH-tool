@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QTextBrowser
+from PyQt5.QtGui import QCursor
+from PyQt5.QtCore import Qt
 import markdown
 
 class Intro(QTextBrowser):
@@ -20,3 +22,4 @@ img name會跟param.txt的檔名一樣
             font-size: 15pt;
             """
         )
+        self.viewport().setCursor(QCursor(Qt.IBeamCursor))

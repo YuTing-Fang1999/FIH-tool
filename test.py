@@ -1,30 +1,45 @@
-import numpy as np
-from scipy.optimize import curve_fit
-import matplotlib.pyplot as plt
+import sys
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QTextBrowser, QVBoxLayout, QWidget
 
-# Define the function you want to fit
-def common_function(x, a, b, c):
-    return a * np.exp(b * x) + c
+def set_cursor_position():
+    # Create a PyQt application
+    app = QApplication(sys.argv)
 
-# Combine all the data into one array
-x_data = np.array([1, 2, 3, 4, 5])
-y_data_1 = np.array([2.3, 4.1, 6.0, 8.2, 9.8])
-y_data_2 = np.array([1.8, 3.5, 5.2, 7.0, 8.5])
+    # Create a QWidget as the main window
+    window = QWidget()
+    window.setWindowTitle('QTextBrowser Cursor Example')
 
-# Combine y_data_1 and y_data_2 into one array
-y_data_combined = np.concatenate((y_data_1, y_data_2))
+    # Create a QTextBrowser widget
+    text_browser = QTextBrowser()
+    text_browser.setPlainText("This is some sample text.\nYou can set the cursor position in this text.")
 
-# Perform curve fitting on the combined data
-params, covariance = curve_fit(common_function, x_data, y_data_combined)
+    # Create a QVBoxLayout to add the QTextBrowser to the window
+    layout = QVBoxLayout()
+    layout.addWidget(text_browser)
 
-a, b, c = params
+    # Set the layout for the main window
+    window.setLayout(layout)
 
-# Plot the original data and the fitted curve
-plt.scatter(x_data, y_data_1, label='Data 1')
-plt.scatter(x_data, y_data_2, label='Data 2')
-plt.plot(x_data, common_function(x_data, a, b, c), label='Fitted Curve')
+    def set_ibeam_cursor(event):
+        cursor_position = text_browser.cursorForPosition(event.pos())
+        cursor_position.select(QTextCursor.WordUnderCursor)
+        text_browser.setTextCursor(cursor_position)
+        text_browser.setCursor(Qt.IBeamCursor)
 
-plt.xlabel('x')
-plt.ylabel('y')
-plt.legend()
-plt.show()
+    def reset_cursor():
+        text_browser.unsetCursor()
+
+    # Connect the mouse hover event to set the I-beam cursor
+    text_browser.setMouseTracking(True)
+    text_browser.viewport().installEventFilter(text_browser)
+    text_browser.viewport().setCursor(Qt.IBeamCursor)
+
+    # Show the window
+    window.show()
+
+    # Run the PyQt application
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    set_cursor_position()

@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QTextBrowser
+from PyQt5.QtGui import QCursor
+from PyQt5.QtCore import Qt
 import markdown
 
 class Intro(QTextBrowser):
@@ -64,3 +66,4 @@ class Intro(QTextBrowser):
             font-size: 15pt;
             """
         )
+        self.viewport().setCursor(QCursor(Qt.IBeamCursor))

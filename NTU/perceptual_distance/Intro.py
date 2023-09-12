@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QTextBrowser
+from PyQt5.QtGui import QCursor
+from PyQt5.QtCore import Qt
 import markdown
 
 class Intro(QTextBrowser):
@@ -20,3 +22,4 @@ resize成相同大小: 是等比例縮放後，再以左上角為原點剪裁
             font-size: 15pt;
             """
         )
+        self.viewport().setCursor(QCursor(Qt.IBeamCursor))
