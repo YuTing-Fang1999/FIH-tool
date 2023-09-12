@@ -38,8 +38,11 @@ from QUL.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
 from NTU.ML.MLAlignDataset.MyWidget import MyWidget as MLAlignDatasetWidget
+from NTU.ML.MLTrain.Intro import Intro as MLTrainIntro
+from NTU.ML.MLRecommand.Intro import Intro as MLRecommandIntro
 from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
 from NTU.ML.MLPushAndCapture.Intro import Intro as MLPushAndCaptureIntro
+
 
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 from TraditionalParamTuning.Intro import Intro as TraditionalParamTuningIntro
@@ -217,6 +220,16 @@ class Config():
                             "name": "對齊資料集",
                             "instruction": MyLabel("對齊資料集"),
                             "widget": MLAlignDatasetWidget(),
+                        },
+                        {
+                            "name": "訓練模型",
+                            "instruction": MyLabel("請看教學說明"),
+                            "widget": MLTrainIntro(),
+                        },
+                        {
+                            "name": "利用之前訓練好的模型做推薦",
+                            "instruction": MyLabel("請看教學說明"),
+                            "widget": MLRecommandIntro(),
                         },
                         {
                             "name": "推入參數\n拍攝結果照片",
