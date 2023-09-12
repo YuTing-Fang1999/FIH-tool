@@ -69,8 +69,8 @@ class MyWidget(ParentWidget):
             img0 = cv2.imdecode( np.fromfile( file = os.path.join(self.ui.dir_label.text(),f), dtype = np.uint8 ), cv2.IMREAD_COLOR )
             warped = align(img0, img1, features1)
             cv2.imencode('.jpg', cv2.cvtColor(warped, cv2.COLOR_RGBA2BGR))[1].tofile(os.path.join(self.ui.dir_label.text(),f))
-            if f=="0.jpg":
-                cv2.imencode('.jpg', cv2.cvtColor(warped, cv2.COLOR_RGBA2BGR))[1].tofile(os.path.join(self.ui.dir_label.text(),"noisy.jpg"))
+            # if f=="0.jpg":
+            #     cv2.imencode('.jpg', cv2.cvtColor(warped, cv2.COLOR_RGBA2BGR))[1].tofile(os.path.join(self.ui.dir_label.text(),"noisy.jpg"))
 
         os.rename(self.ui.dir_label.text(), self.ui.dir_label.text()+"_align")
         self.finish()

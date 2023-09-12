@@ -37,7 +37,9 @@ from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
 from QUL.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
+from NTU.ML.MLGenDataset.Intro import Intro as MLGenDatasetIntro
 from NTU.ML.MLAlignDataset.MyWidget import MyWidget as MLAlignDatasetWidget
+from NTU.ML.MLAlignDataset.Intro import Intro as MLAlignDatasetIntro
 from NTU.ML.MLTrain.Intro import Intro as MLTrainIntro
 from NTU.ML.MLRecommand.Intro import Intro as MLRecommandIntro
 from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
@@ -213,12 +215,12 @@ class Config():
                     "參數推薦(ML)":[
                         {
                             "name": "產生資料集",
-                            "instruction": MyLabel("產生資料集"),
+                            "instruction": MLGenDatasetIntro(),
                             "widget": MLGenDatasetWidget(),
                         },
                         {
                             "name": "對齊資料集",
-                            "instruction": MyLabel("對齊資料集"),
+                            "instruction": MLAlignDatasetIntro(),
                             "widget": MLAlignDatasetWidget(),
                         },
                         {
@@ -227,7 +229,7 @@ class Config():
                             "widget": MLTrainIntro(),
                         },
                         {
-                            "name": "利用之前訓練好的模型做推薦",
+                            "name": "利用模型做推薦",
                             "instruction": MyLabel("請看教學說明"),
                             "widget": MLRecommandIntro(),
                         },
@@ -239,87 +241,4 @@ class Config():
                     ],
                 },
             },
-                    
-                    # "AE2":{
-                    #     "Calibration2":[
-                    #         {
-                    #             "name": "OTPgolden22",
-                    #             "widget": OTPgoldenWidget(),
-                    #             "instruction": MyLabel("OTPgolden instruction")
-                    #         },
-                    #         {
-                    #             "name": "QUL AE222",
-                    #             "widget": MyLabel("QUL AE2"),
-                    #             "instruction": MyLabel("QUL AE2 instruction")
-                    #         },
-                    #     ]
-                    # }
         }
-            # { 
-            #     "name": "MTK",
-            #     "navigation_list":
-            #     [
-            #         {
-            #             "name": "AE",
-            #             "widget_list":[
-            #                 {
-            #                     "name": "MTK AE1",
-            #                     "widget": MyLabel("MTK AE1")
-            #                 },
-            #                 {
-            #                     "name": "MTK AE2",
-            #                     "widget": QTextEdit("MTK AE2")
-            #                 },
-            #             ]
-            #         },
-            #         {
-            #             "name": "AF",
-            #             "widget_list":[
-            #                 {
-            #                     "name": "MTK AF1",
-            #                     "widget": MyLabel("MTK AF1")
-            #                 },
-            #                 {
-            #                     "name": "MTK AF2",
-            #                     "widget": MyLabel("MTK AF2")
-            #                 },
-            #             ]
-            #         },
-            #     ]
-            # },
-            
-            # { 
-            #     "name": "NTU",
-            #     "navigation_list":
-            #     [
-            #         {
-            #             "name": "NTU",
-            #             "widget_list":[
-            #                 {
-            #                     "name": "sharpness",
-            #                     "widget": SharpnessWidget(),
-            #                     "instruction": MyLabel("sharpness instruction")
-            #                 },
-            #                 {
-            #                     "name": "colorcheck",
-            #                     "widget": ColorcheckWidget(),
-            #                     "instruction": MyLabel("colorcheck instruction")
-            #                 },
-            #                 # {
-            #                 #     "name": "perceptual_distance",
-            #                 #     "widget": PerceptualDistancekWidget()
-            #                 # },
-            #                 {
-            #                     "name": "fft",
-            #                     "widget": FFTWidget(),
-            #                     "instruction": MyLabel("fft instruction")
-            #                 },
-            #                 # {
-            #                 #     "name": "dxo_dead_leaves",
-            #                 #     "widget": DXO_DFWidget()
-            #                 # }
-            #             ]
-            #         }
-            #     ]
-            # },
-        # ]
