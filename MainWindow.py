@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
     QLayout, QButtonGroup, QStyle, QStackedWidget, QListWidgetItem, QToolButton, QStyledItemDelegate, QSpacerItem, QSizePolicy
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QPen, QColor, QPalette
+from PyQt5.QtGui import QCursor, QPen, QColor, QPalette, QFont, QIcon, QPixmap, QPainter
 from Config import Config
 
 class HLine(QFrame):
@@ -18,9 +18,33 @@ class HLine(QFrame):
         
         
 class StyleBytton(QPushButton):
-    def __init__(self, text):
-        super().__init__(text)
+    def __init__(self, title, subtitle):
+        super().__init__()
+        self.title = title
+        self.subtitle = subtitle
         self.setFixedSize(250, 80)
+        self.setCursor(QCursor(Qt.OpenHandCursor))
+        
+        
+    def paintEvent(self, event):
+        super().paintEvent(event)
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        # Set the font and size for the first text
+        font1 = QFont("Arial", 14)  # Adjust the font and size as needed
+        painter.setFont(font1)
+        rect = self.rect()
+        rect.adjust(0, -20, 0, 0)
+        painter.drawText(rect, Qt.AlignCenter, self.title)
+
+        # Set the font and size for the second text
+        font2 = QFont("Arial", 10)  # Adjust the font and size as needed
+        painter.setFont(font2)
+        rect = self.rect()
+        rect.adjust(0, 30, 0, 0)  # Adjust the position of the second text
+        painter.drawText(rect, Qt.AlignCenter, self.subtitle)
+        
         # self.setStyleSheet(
         #     """
         #     QPushButton {
@@ -130,7 +154,7 @@ class BtnPage(QWidget):
         self.total_btn_group = QButtonGroup()
         self.total_btn_group.setExclusive(True)
         for i, widget_config in enumerate(config):
-            btn = StyleBytton(widget_config["name"])
+            btn = StyleBytton(widget_config["title"], widget_config["subtitle"])
             btn.setCheckable(True)
             if i==0: btn.setChecked(True)
             if i!=0: self.addRightArowLabel()

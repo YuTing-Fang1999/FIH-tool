@@ -65,7 +65,8 @@ class Config():
                 "AF":{
                     "Analysis":[
                         {
-                            "name": "AF log parser",
+                            "title": "AF log parser",
+                            "subtitle": "subtitle",
                             "instruction": QUL_AFIntro(),
                             "widget": QUL_AFWidget(),
                             
@@ -75,29 +76,34 @@ class Config():
                 "AE":{
                     "Calibration":[
                         {
-                            "name": "LSC分析小工具",
+                            "title": "LSC分析小工具",
+                            "subtitle": "subtitle",
                             "instruction": LSCIntro(),
                             "widget": LSCWidget(),
                         },
                     ],
                     "Tuning":[
                         {
-                            "name": "colorChecker\n(求luma target)",
+                            "title": "colorChecker\n(求luma target)",
+                            "subtitle": "subtitle",
                             "instruction": colorCheckerIntro(),
                             "widget": colorCheckerWidget(),
                         },
                         {
-                            "name": "verifyColorChecker",
+                            "title": "verifyColorChecker",
+                            "subtitle": "subtitle",
                             "instruction": verifyColorCheckerIntro(),
                             "widget": verifyColorCheckerWidget(),
                         },
                         {
-                            "name": "stepChart\n(計算 Gamma)",
+                            "title": "stepChart\n(計算 Gamma)",
+                            "subtitle": "subtitle",
                             "instruction": stepChartIntro(),
                             "widget": stepChartWidget(),
                         },
                         {
-                            "name": "verifyStepChart\n(復驗 Gamma)",
+                            "title": "verifyStepChart\n(復驗 Gamma)",
+                            "subtitle": "subtitle",
                             "instruction": verifyGammaIntro(),
                             "widget": verifyGammaWidget(),
                         },
@@ -106,14 +112,16 @@ class Config():
                 "CCM":{
                     "Tuning":[
                         {
-                            "name": "CCMsimulator",
+                            "title": "CCMsimulator",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("評估各顏色的Δlightness, Δchroma, Δhue並微調r_gain, b_gain, AWB, 亮度，後求CCM矩陣"),
                             "widget": MyLabel("CCMsimulator"),
                         },
                     ],
                     "Analysis":[
                         {
-                            "name": "colorCheckerAnalysis",
+                            "title": "colorCheckerAnalysis",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("評估AWB、CCM"),
                             "widget": MyLabel("colorCheckerAnalysis"),
                         }
@@ -124,7 +132,8 @@ class Config():
                 "AF":{
                     "Analysis":[
                         {
-                            "name": "AF log parser",
+                            "title": "AF log parser",
+                            "subtitle": "subtitle",
                             "instruction": MTK_AFIntro(),
                             "widget": MTK_AFWidget(),
                             
@@ -134,7 +143,8 @@ class Config():
                 "AE":{
                     "Tuning":[
                         {
-                            "name": "mtkFaceAEanalysis",
+                            "title": "mtkFaceAEanalysis",
+                            "subtitle": "subtitle",
                             "instruction": mtkFaceAEanalysisIntro(),
                             "widget": mtkFaceAEanalysisWidget(),
                             
@@ -142,12 +152,14 @@ class Config():
                     ],
                     "Analysis":[
                         {
-                            "name": "mtkAEclassify",
+                            "title": "mtkAEclassify",
+                            "subtitle": "subtitle",
                             "instruction": mtkAEclassifyIntro(),
                             "widget": mtkAEclassifyWidget(),
                         },
                         {
-                            "name": "mtkAEanalysis",
+                            "title": "mtkAEanalysis",
+                            "subtitle": "subtitle",
                             "instruction": mtkAEanalysisIntro(),
                             "widget": mtkAEanalysisWidget(),
                         }
@@ -156,14 +168,16 @@ class Config():
                 "AWB":{
                     "Tuning":[
                         {
-                            "name": "CCMsimulator",
+                            "title": "CCMsimulator",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("評估各顏色的Δlightness, Δchroma, Δhue並微調r_gain, b_gain, AWB, 亮度後，調整CCM"),
                             "widget": MyLabel("CCMsimulator"),
                         },
                     ],
                     "Analysis":[
                         {
-                            "name": "colorCalculate",
+                            "title": "colorCalculate",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("評估AWB、CCM"),
                             "widget": MyLabel("colorCalculate"),
                         }
@@ -174,31 +188,36 @@ class Config():
                 "NTU":{
                     "影像分析工具":[
                         {
-                            "name": "頻譜分析",
+                            "title": "頻譜分析",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("頻譜分析"),
                             "widget": FFTWidget(),
                             
                         },
                         {
-                            "name": "colorcheck",
+                            "title": "colorcheck",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("colorcheck"),
                             "widget": ColorcheckWidget(),
                             
                         },
                         {
-                            "name": "dxo_dead_leaves",
+                            "title": "dxo_dead_leaves",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算\n但很容易偵測失敗"),
                             "widget": DXO_DLWidget(),
                             
                         },
                         {
-                            "name": "sharpness/noise",
+                            "title": "sharpness/noise",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("sharpness/noise"),
                             "widget": SharpnessWidget(),
                             
                         },
                         {
-                            "name": "perceptual_distance",
+                            "title": "perceptual_distance",
+                            "subtitle": "subtitle",
                             "instruction": PerceptualDistancekIntro(),
                             "widget": PerceptualDistancekWidget(),
                             
@@ -206,7 +225,8 @@ class Config():
                     ],
                     "參數推薦(傳統)":[
                         {
-                            "name": "參數推薦(傳統算法)",
+                            "title": "參數推薦(傳統算法)",
+                            "subtitle": "subtitle",
                             "instruction": TraditionalParamTuningIntro(),
                             "widget": TraditionalParamTuningWidget(),
                         },
@@ -214,27 +234,32 @@ class Config():
                     ],
                     "參數推薦(ML)":[
                         {
-                            "name": "產生資料集",
+                            "title": "產生資料集",
+                            "subtitle": "subtitle",
                             "instruction": MLGenDatasetIntro(),
                             "widget": MLGenDatasetWidget(),
                         },
                         {
-                            "name": "對齊資料集",
+                            "title": "對齊資料集",
+                            "subtitle": "subtitle",
                             "instruction": MLAlignDatasetIntro(),
                             "widget": MLAlignDatasetWidget(),
                         },
                         {
-                            "name": "訓練模型",
+                            "title": "訓練模型",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("請看教學說明"),
                             "widget": MLTrainIntro(),
                         },
                         {
-                            "name": "利用模型做推薦",
+                            "title": "利用模型做推薦",
+                            "subtitle": "subtitle",
                             "instruction": MyLabel("請看教學說明"),
                             "widget": MLRecommandIntro(),
                         },
                         {
-                            "name": "推入參數\n拍攝結果照片",
+                            "title": "推入參數\n拍攝結果照片",
+                            "subtitle": "subtitle",
                             "instruction": MLPushAndCaptureIntro(),
                             "widget": MLPushAndCaptureWidget(),
                         }
