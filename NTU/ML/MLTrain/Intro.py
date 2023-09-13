@@ -10,6 +10,7 @@ class Intro(QTextBrowser):
 1. 請使用4090那台電腦    
 2. 打開桌面的ML資料夾   
 3. 請先將資料集放到datasets資料夾裡   
+將競品機
 4. 在ML資料夾裡開起cmd，輸入以下指令   
 #### python train.py --is_recommand False --input_param_dim 16 --lr 1e-3 --outdir=training_run --run_dir 要儲存的資料夾名稱 --img_data=datasets/資料集名稱 --gpus 1 --kimg 50 --gamma 10 --aug noaug --metrics True --eval_img_data None --batch 16 --snap 1 --resume "places.pkl"
 

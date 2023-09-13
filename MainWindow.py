@@ -182,30 +182,7 @@ class RightArowLabel(QLabel):
         arrow_icon = style.standardIcon(QStyle.SP_MediaPlay)
         # Create a QLabel with the right arrow icon
         self.setPixmap(arrow_icon.pixmap(24, 24)) # set the size of the icon
-        
-class ActionList(QListWidget):
-    def __init__(self, config) -> None:
-        super().__init__()
-        
-        self.pipeline_stack = QStackedWidget()
-        self.instruction_stack = QStackedWidget()
-        self.widget_stack = QStackedWidget()
-        for i, key in enumerate(config):
-            self.addItem(key)
-            pipeline_btn = BtnPage(config[key])
-            self.pipeline_stack.addWidget(pipeline_btn)
-            self.instruction_stack.addWidget(pipeline_btn.instruction_stack)
-            self.widget_stack.addWidget(pipeline_btn.widget_stack)
-        
-        self.currentRowChanged.connect(self.display_stack)
-        self.item(0).setSelected(True)
-
-    def display_stack(self, i):
-        self.pipeline_stack.setCurrentIndex(i)
-        self.instruction_stack.setCurrentIndex(i)
-        self.widget_stack.setCurrentIndex(i)
-            
-
+    
 class CustomItemDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         if index.row() == 0:  # 第一個項目不產生懸停效果
@@ -246,6 +223,36 @@ class FunctionList(QListWidget):
     def display_stack(self, i):
         i-=1 # 0 是header
         self.action_stack.setCurrentIndex(i)
+        self.pipeline_stack.setCurrentIndex(i)
+        self.instruction_stack.setCurrentIndex(i)
+        self.widget_stack.setCurrentIndex(i)
+        
+class ActionList(QListWidget):
+    def __init__(self, config) -> None:
+        super().__init__()
+        # # 設定自訂的 ItemDelegate
+        itemDelegate = CustomItemDelegate()
+        self.setItemDelegate(itemDelegate)
+        # create header
+        header_item = QListWidgetItem("Stage")
+        header_item.setFlags(header_item.flags() & ~Qt.ItemIsSelectable)
+        self.insertItem(0, header_item)
+        
+        self.pipeline_stack = QStackedWidget()
+        self.instruction_stack = QStackedWidget()
+        self.widget_stack = QStackedWidget()
+        for i, key in enumerate(config):
+            self.addItem(key)
+            pipeline_btn = BtnPage(config[key])
+            self.pipeline_stack.addWidget(pipeline_btn)
+            self.instruction_stack.addWidget(pipeline_btn.instruction_stack)
+            self.widget_stack.addWidget(pipeline_btn.widget_stack)
+        
+        self.currentRowChanged.connect(self.display_stack)
+        self.item(1).setSelected(True) # 0 是header
+
+    def display_stack(self, i):
+        i-=1 # 0 是header
         self.pipeline_stack.setCurrentIndex(i)
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
@@ -384,16 +391,7 @@ class FoldMenu(QWidget):
 class PlatFormBtn(QPushButton):
     def __init__(self, name):
         super().__init__(name)
-        # self.setStyleSheet(
-        #     """
-        #     QPushButton{
-        #         color:rgb(255, 255, 255);
-        #         background-color: rgb(127, 127, 127);
-        #         border: none;
-        #         padding: 10px;
-        #     }
-        #     """
-        # )
+        self.setCursor(QCursor(Qt.OpenHandCursor))
 
         palette = self.palette()
         palette.setColor(QPalette.Button, QColor(0, 0, 255))  # Set blue color for the button
@@ -471,9 +469,9 @@ class MainWindow(QWidget):
         )
         
     def closeEvent(self, event):
-        TraditionalParamTuning = self.widget_display.widget_stack.widget(2).widget(0).widget(1).widget(0)
+        # TraditionalParamTuning = self.widget_display.widget_stack.widget(2).widget(0).widget(1).widget(0)
         # print(TraditionalParamTuning)
-        TraditionalParamTuning.close()
+        # TraditionalParamTuning.close()
         print("closeEvent MainWindow")
         super(MainWindow, self).closeEvent(event)
 

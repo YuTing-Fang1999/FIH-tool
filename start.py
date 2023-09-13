@@ -31,21 +31,21 @@ if __name__ == '__main__':
 # sys.exit(app.exec_())
 
 # import sys
-# from QUL.LSC.MyWidget import MyWidget
+# from QC.LSC.MyWidget import MyWidget
 # app = QApplication(sys.argv)
 # Form = MyWidget()
 # Form.show()
 # sys.exit(app.exec_())
 
 # import sys
-# from QUL.AEsimulator.stepChart.Intro import Intro
+# from QC.AEsimulator.stepChart.Intro import Intro
 # app = QApplication(sys.argv)
 # Form = Intro()
 # Form.show()
 # sys.exit(app.exec_())
 
 # import sys
-# from QUL.AEsimulator.verifyGamma.MyWidget import MyWidget
+# from QC.AEsimulator.verifyGamma.MyWidget import MyWidget
 # app = QApplication(sys.argv)
 # Form = MyWidget()
 # Form.show()

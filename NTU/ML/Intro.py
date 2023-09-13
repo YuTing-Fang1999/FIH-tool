@@ -7,7 +7,8 @@ class Intro(QTextBrowser):
     def __init__(self):
         super().__init__()
         markdown_content = """
-#### 在開始前請記得adb root 與 adb remont  
+### MLGenDataset
+#### 在開始前請記得adb root 與 adb remont   
 1. 選擇 c6project 或 c7project   
     * 如果是c6project  
         * 請選擇CMax資料夾   
@@ -23,6 +24,20 @@ class Intro(QTextBrowser):
     	-- param_norm.csv (標準化後的參數 50組)   
         -- param_denorm.csv (還原後的參數 50組)   
         -- 0.jpg、1.jpg、.....49.jpg (總共50張照片)     
+        
+### MLAlignDataset
+對齊是很關鍵的一步，資料集與競品機的照片都要對齊後才能進行後續的訓練  
+
+### MLTrain
+請看TrainIntro  
+
+### MLRecommand
+請看RecommandIntro  
+
+### MLPushAndCapture
+#### 在開始前請記得adb root 與 adb remont    
+img name會跟param.txt的檔名一樣   
+設定好後，按開始拍攝的按鈕，就能將param.txt的參數推入手機，拍攝結果照片   
 """
         html = markdown.markdown(markdown_content)
         self.setHtml(html)

@@ -161,7 +161,6 @@ color:rgb(255, 255, 255);</string>
           <widget class="QComboBox" name="BV_comboBox">
            <property name="font">
             <font>
-             <pointsize>-1</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -180,7 +179,6 @@ text-align:center;</string>
           <widget class="QComboBox" name="B2D_EVD_comboBox">
            <property name="font">
             <font>
-             <pointsize>-1</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
@@ -199,7 +197,6 @@ text-align:center;</string>
           <widget class="QComboBox" name="Mid_B2M_comboBox">
            <property name="font">
             <font>
-             <pointsize>-1</pointsize>
              <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>

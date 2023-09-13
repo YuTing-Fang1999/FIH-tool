@@ -22,7 +22,6 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.project_type_selector = QtWidgets.QComboBox(Form)
         font = QtGui.QFont()
-        font.setPointSize(-1)
         font.setBold(False)
         font.setItalic(False)
         font.setWeight(50)

@@ -4,7 +4,7 @@ from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import os
 import json
-from QUL.AF import main_UIParser
+from QC.AF import main_UIParser
 import threading
 import time
 
@@ -23,7 +23,7 @@ class MyWidget(ParentWidget):
         self.ui.prevSecClipSpinbox.lineEdit().setReadOnly(True)
         
         #global variable
-        self.CONFIG_FOLDER = "QUL\\AF\\config\\"
+        self.CONFIG_FOLDER = "QC\\AF\\config\\"
         self.PHOTO_DIR = ""
         self.LOG_DIR = ""
         self.OUTPUT_DIR = ""
