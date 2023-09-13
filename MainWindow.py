@@ -177,12 +177,15 @@ class BtnPage(QWidget):
 class RightArowLabel(QLabel):
     def __init__(self):
         super().__init__()
+        self.setFixedSize(25, 80)
+        
         # Get the right arrow icon from the QStyle class
         style = QApplication.style()
         arrow_icon = style.standardIcon(QStyle.SP_MediaPlay)
         # Create a QLabel with the right arrow icon
         self.setPixmap(arrow_icon.pixmap(24, 24)) # set the size of the icon
-    
+        self.setAlignment(Qt.AlignCenter)
+        
 class CustomItemDelegate(QStyledItemDelegate):
     def paint(self, painter, option, index):
         if index.row() == 0:  # 第一個項目不產生懸停效果
