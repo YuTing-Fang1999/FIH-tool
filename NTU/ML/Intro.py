@@ -33,6 +33,7 @@ class Intro(QTextBrowser):
         -- param_denorm.csv (還原後的參數 50組)   
         -- 0.jpg、1.jpg、.....49.jpg (總共50張照片)   
         -- target.jpg (競品機的照片)  
+3. 選擇dataset dir後，按「開始對齊」按鈕即可開始對齊  
 
 ### MLTrain
 請看TrainIntro  
