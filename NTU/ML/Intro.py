@@ -26,7 +26,13 @@ class Intro(QTextBrowser):
         -- 0.jpg、1.jpg、.....49.jpg (總共50張照片)     
         
 ### MLAlignDataset
-對齊是很關鍵的一步，資料集與競品機的照片都要對齊後才能進行後續的訓練  
+1. 請將競品機的照片放到dataset dir中，並且將照片命名為target.jpg   
+2. 確定資料集的資料如下    
+	* dataset dir  
+    	-- param_norm.csv (標準化後的參數 50組)   
+        -- param_denorm.csv (還原後的參數 50組)   
+        -- 0.jpg、1.jpg、.....49.jpg (總共50張照片)   
+        -- target.jpg (競品機的照片)  
 
 ### MLTrain
 請看TrainIntro  
