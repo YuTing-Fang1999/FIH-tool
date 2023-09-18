@@ -91,7 +91,6 @@ class MyWidget(ParentWidget):
 
         if filepath == '':
             return
-        # filepath = "QUL/LSC/shinetech_fm24c6d_s5k3l6_lsc_OTP.txt"
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("param_txt_folder", filefolder)
         self.ui.txt_path_label.setText(filepath)

@@ -1,40 +1,38 @@
-from PyQt5.QtWidgets import (
-    QWidget, QLabel, QApplication, QBoxLayout, QHBoxLayout, QVBoxLayout, QPushButton, QListWidget, QStackedWidget, QSplitter,
-    QTextEdit, QButtonGroup, QStyle
-)
+from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import Qt
+
 from NTU.sharpness.controller import MainWindow_controller as SharpnessWidget
 from NTU.colorcheck.controller import MainWindow_controller as ColorcheckWidget
 from NTU.fft.controller import MainWindow_controller as FFTWidget
 from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.perceptual_distance.Intro import Intro as PerceptualDistancekIntro
 from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DLWidget
-from QC.LSC.MyWidget import MyWidget as LSCWidget
-from QC.LSC.Intro import Intro as LSCIntro
 
-from QC.AEsimulator.colorChecker.MyWidget import MyWidget as colorCheckerWidget
-from QC.AEsimulator.colorChecker.Intro import Intro as colorCheckerIntro
+from QC.AE.Analysis.LSC.MyWidget import MyWidget as LSCWidget
+from QC.AE.Analysis.LSC.Intro import Intro as LSCIntro
 
-from QC.AEsimulator.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
-from QC.AEsimulator.verifyColorChecker.Intro import Intro as verifyColorCheckerIntro
+from QC.AE.Calibration.colorChecker.MyWidget import MyWidget as colorCheckerWidget
+from QC.AE.Calibration.colorChecker.Intro import Intro as colorCheckerIntro
+from QC.AE.Calibration.verifyColorChecker.MyWidget import MyWidget as verifyColorCheckerWidget
+from QC.AE.Calibration.verifyColorChecker.Intro import Intro as verifyColorCheckerIntro
+from QC.AE.Calibration.stepChart.MyWidget import MyWidget as stepChartWidget
+from QC.AE.Calibration.stepChart.Intro import Intro as stepChartIntro
+from QC.AE.Calibration.verifyStepChart.MyWidget import MyWidget as verifyStepChartWidget
+from QC.AE.Calibration.verifyStepChart.Intro import Intro as verifyStepChartIntro
 
-from MTK.AE.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
-from MTK.AE.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
-from MTK.AE.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
-from MTK.AE.mtkAEclassify.Intro import Intro as mtkAEclassifyIntro
-from MTK.AE.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidget
-from MTK.AE.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
+from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
+from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 
-from MTK.AF.MyWidget import MyWidget as MTK_AFWidget
-from MTK.AF.Intro import Intro as MTK_AFIntro
+from MTK.AE.Tuning.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
+from MTK.AE.Tuning.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
+from MTK.AE.Analysis.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
+from MTK.AE.Analysis.mtkAEclassify.Intro import Intro as mtkAEclassifyIntro
+from MTK.AE.Analysis.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidget
+from MTK.AE.Analysis.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
 
-from QC.AF.MyWidget import MyWidget as QC_AFWidget
-from QC.AF.Intro import Intro as QC_AFIntro
+from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
+from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 
-from QC.AEsimulator.stepChart.MyWidget import MyWidget as stepChartWidget
-from QC.AEsimulator.stepChart.Intro import Intro as stepChartIntro
-from QC.AEsimulator.verifyGamma.MyWidget import MyWidget as verifyGammaWidget
-from QC.AEsimulator.verifyGamma.Intro import Intro as verifyGammaIntro
 # from myPackage.OpenToolBtn import OpenToolBtn
 from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
 from NTU.ML.MLGenDataset.Intro import Intro as MLGenDatasetIntro
@@ -133,8 +131,8 @@ class Config():
                         {
                             "title": "Gamma Verifier",
                             "subtitle": "Compute delta Y via Step Chart",
-                            "instruction": verifyGammaIntro(),
-                            "widget": verifyGammaWidget(),
+                            "instruction": verifyStepChartIntro(),
+                            "widget": verifyStepChartWidget(),
                         },
                     ]
                 },
