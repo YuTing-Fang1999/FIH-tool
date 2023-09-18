@@ -23,6 +23,8 @@ from QC.AE.Calibration.verifyStepChart.Intro import Intro as verifyStepChartIntr
 from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
 from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 
+from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
+
 from MTK.AE.Tuning.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
 from MTK.AE.Tuning.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
 from MTK.AE.Analysis.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
@@ -33,15 +35,6 @@ from MTK.AE.Analysis.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
 from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 
-# from myPackage.OpenToolBtn import OpenToolBtn
-from NTU.ML.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
-from NTU.ML.MLGenDataset.Intro import Intro as MLGenDatasetIntro
-from NTU.ML.MLAlignDataset.MyWidget import MyWidget as MLAlignDatasetWidget
-from NTU.ML.MLAlignDataset.Intro import Intro as MLAlignDatasetIntro
-from NTU.ML.MLTrain.Intro import Intro as MLTrainIntro
-from NTU.ML.MLRecommand.Intro import Intro as MLRecommandIntro
-from NTU.ML.MLPushAndCapture.MyWidget import MyWidget as MLPushAndCaptureWidget
-from NTU.ML.MLPushAndCapture.Intro import Intro as MLPushAndCaptureIntro
 from NTU.ML.MyWidget import MyWidget as MLWidget
 from NTU.ML.Intro import Intro as MLIntro
 
@@ -150,7 +143,7 @@ class Config():
                             "title": "CCM Initializer",
                             "subtitle": "CCM calibrate via Color Checker",
                             "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
+                            "widget": CCMCVInitializerWidget(),
                         },
                     ]
                 },

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>803</width>
+    <height>516</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>700</width>
+        <height>330</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>80</y>
+         <width>601</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,1,0,0,0" columnstretch="0,1,0">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <item row="4" column="1">
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0">
+          <property name="horizontalSpacing">
+           <number>15</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: white;
+color: rgb(32,62,125);</string>
+            </property>
+            <property name="text">
+             <string>Solver</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="pushButton_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: white;
+color: rgb(32,62,125);</string>
+            </property>
+            <property name="text">
+             <string>Open Excel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Original CCM:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background: rgb(66,66,66);
+border-radius: 4px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="margin">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:rgb(68, 114, 196); color: white;</string>
+          </property>
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>0 18 30 42 54 66 78 92 106 118 133 147 159 171 183 195 207 217 227 239 249 259 269 277 287 297 305 313 321 329 337 345 351 357 365 373 381 388 394 400 406 414 420 426 434 440 444 450 458 464 468 474 480 486 492 496 502 508 512 518 524 528 534 538 542 548 552 558 564 568 572 576 580 584 588 592 598 602 606 610 614 618 622 626 630 632 636 640 645 649 653 657 661 665 669 672 675 679 681 685 688 691 695 699 701 704 707 711 713 716 719 723 725 728 731 735 737 741 744 747 749 752 755 757 760 763 765 768 771 773 776 779 781 784 787 789 792 795 797 800 803 805 808 811 813 816 819 821 823 825 827 829 831 833 836 839 841 844 846 848 851 853 855 857 859 861 864 866 868 870 872 874 876 878 880 882 884 886 888 890 892 894 896 898 900 903 905 907 909 911 913 915 916 918 920 922 923 925 927 929 931 932 934 935 937 939 941 943 945 947 948 950 952 954 955 957 959 961 963 964 966 967 969 971 972 974 975 976 978 980 982 983 985 987 988 990 992 994 995 997 999 1001 1003 1004 1005 1007 1008 1010 1011 1013 1015 1016 1017 1019 1020 1022 1023</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Data Path:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::TabFocus</enum>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Gamma:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLabel" name="label_5">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>＊ref. &amp; tst pic name msut according to the specifications.
+　Ex: A_1, A_2 ; B_1, B_2...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lineEdit_2"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

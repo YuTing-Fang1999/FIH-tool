@@ -1,26 +1,36 @@
 import sys
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt5.QtWidgets import QApplication, QMainWindow, QScrollArea, QWidget, QVBoxLayout, QPushButton
 
-class Window(QWidget):
-    def __init__(self, *args, **kwargs):
-        QWidget.__init__(self, *args, **kwargs)
+class MyWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
 
-        self.label = QLabel("Test", self)
-        self.label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setStyleSheet("QLabel {background-color: red;}")
+    def initUI(self):
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
 
-        self.button = QPushButton("Test", self)
+        scroll_area = QScrollArea(self)
+        central_widget.layout = QVBoxLayout()
+        central_widget.layout.addWidget(scroll_area)
+        central_widget.setLayout(central_widget.layout)
 
-        self.layout = QGridLayout()
-        self.layout.addWidget(self.label, 0, 0)
-        self.layout.addWidget(self.button, 0, 1)
+        scroll_content = QWidget(self)
+        scroll_area.setWidget(scroll_content)
+        scroll_area.setWidgetResizable(True)
 
-        self.setLayout(self.layout)
+        scroll_content.layout = QVBoxLayout()
+        scroll_content.setLayout(scroll_content.layout)
+
+        for i in range(20):  # 添加一些按钮到滚动区域
+            button = QPushButton(f"Button {i+1}", self)
+            scroll_content.layout.addWidget(button)
+
+        self.setGeometry(100, 100, 300, 400)
+        self.setWindowTitle('PyQt ScrollArea Example')
         self.show()
 
-app = QApplication(sys.argv)
-win = Window()
-sys.exit(app.exec_())
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MyWindow()
+    sys.exit(app.exec_())
