@@ -5,8 +5,8 @@ import xlwings as xw
 import time
 import re
 import openpyxl
+import win32com.client as win32
 from colour_checker_detection import detect_colour_checkers_segmentation
-
 
 def create_xls():
     file_path = "CCMCVsimulator.xlsm"
@@ -49,40 +49,37 @@ allFileList_jpg = [os.path.join(dir_path, f) for f in allFileList_jpg]
 localtime = time.localtime()
 clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
 
+
+# copy the template file
 wb = create_xls()
 file = f"CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
 wb.active = 0
 wb.save(file)
-
+# copy the sheet with chart
 app = xw.App(visible=False)
 wb = xw.Book(file)
 macro_vba = wb.app.macro('CopySheetWithChart')
-
-# fn = 'CCMCVsimulator.xlsm'
-# app = xw.App(visible=False)
-# wb = app.books.open(fn)
-# ws = wb.sheets[0]
-
 i = 0
 while i < np.size(allFileList_jpg):
     macro_vba(os.path.basename(allFileList_jpg[i]).split('_')[0])
     i+=2
 wb.sheets[0].activate()
 wb.save()
+wb.close()
 app.quit()
-
-wb = openpyxl.load_workbook(file, read_only=False, keep_vba=True)
+# write the data
+excel = win32.Dispatch("Excel.Application")
+pre_count = excel.Workbooks.Count
+workbook = excel.Workbooks.Open(os.path.abspath(file))
 i = 0
 while i < np.size(allFileList_jpg):
-    wb.active = i//2 + 4
-    ws = wb.active
     print(os.path.basename(allFileList_jpg[i]))
-    
+    print(os.path.basename(allFileList_jpg[i+1]))
     path_name1 = allFileList_jpg[i]
     path_name2 = allFileList_jpg[i+1]
     base = os.path.splitext(os.path.basename(path_name1))[0][:-2]
-    ws.cell(range="B8").value = base
-    # ws.cell(range='B8').value = base
+    sheet = workbook.Worksheets(base.split('_')[0])
+    sheet.Range('B8').Value = base
     
     img1 = cv2.imread(path_name1, cv2.IMREAD_COLOR)
     img2 = cv2.imread(path_name2, cv2.IMREAD_COLOR)
@@ -90,23 +87,14 @@ while i < np.size(allFileList_jpg):
     img2_crop = detect_colour_checkers_segmentation(img2, additional_data=True)[0]
     
     for j in range(0,24):
-        ws.cell(range=f'B{j+15}').value = RGBtosRGB(img1_crop[0][j])[0]
-        ws.cell(range=f'C{j+15}').value = RGBtosRGB(img1_crop[0][j])[1]
-        ws.cell(range=f'D{j+15}').value = RGBtosRGB(img1_crop[0][j])[2]
-        ws.cell(range=f'I{j+15}').value = RGBtosRGB(img2_crop[0][j])[0]
-        ws.cell(range=f'J{j+15}').value = RGBtosRGB(img2_crop[0][j])[1]
-        ws.cell(range=f'K{j+15}').value = RGBtosRGB(img2_crop[0][j])[2]
-        # ws.cell(range=f'B{j+15}').value = RGBtosRGB(img1_crop[0][j])[0]
-        # ws.cell(range=f'C{j+15}').value = RGBtosRGB(img1_crop[0][j])[1]
-        # ws.cell(range=f'D{j+15}').value = RGBtosRGB(img1_crop[0][j])[2]
-        # ws.cell(range=f'I{j+15}').value = RGBtosRGB(img2_crop[0][j])[0]
-        # ws.cell(range=f'J{j+15}').value = RGBtosRGB(img2_crop[0][j])[1]
-        # ws.cell(range=f'K{j+15}').value = RGBtosRGB(img2_crop[0][j])[2]
-    
+        sheet.Range(f'B{j+15}').Value = RGBtosRGB(img1_crop[0][j])[0]
+        sheet.Range(f'C{j+15}').Value = RGBtosRGB(img1_crop[0][j])[1]
+        sheet.Range(f'D{j+15}').Value = RGBtosRGB(img1_crop[0][j])[2]
+        sheet.Range(f'I{j+15}').Value = RGBtosRGB(img2_crop[0][j])[0]
+        sheet.Range(f'J{j+15}').Value = RGBtosRGB(img2_crop[0][j])[1]
+        sheet.Range(f'K{j+15}').Value = RGBtosRGB(img2_crop[0][j])[2]
     i+=2
-wb.save()
-# else:
-#     print("CCMCV simulator only supports one set of photos at a time!")
-
+workbook.Save()
+if excel.Workbooks.Count > pre_count: workbook.Close()
+if excel.Workbooks.Count == 0: excel.Quit()
 print("CCMCVsimulator is ok!")
-# os.system("pause")
