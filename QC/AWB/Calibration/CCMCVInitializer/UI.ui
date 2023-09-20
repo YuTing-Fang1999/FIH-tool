@@ -65,7 +65,7 @@
            <number>0</number>
           </property>
           <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="solver_btn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -93,7 +93,7 @@ color: rgb(32,62,125);</string>
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="pushButton_3">
+           <widget class="QPushButton" name="open_excel_btn">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -141,7 +141,7 @@ color: rgb(32,62,125);</string>
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="data_path_label">
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -160,7 +160,7 @@ border-radius: 4px;</string>
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="browse_btn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -184,7 +184,7 @@ border-radius: 4px;</string>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="gamma_edit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -258,7 +258,7 @@ border-radius: 4px;</string>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="CCM_edit"/>
         </item>
        </layout>
       </widget>
