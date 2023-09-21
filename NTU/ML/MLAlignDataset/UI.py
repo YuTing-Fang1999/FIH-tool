@@ -23,7 +23,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 972, 628))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 962, 618))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -126,7 +126,7 @@ class Ui_Form(object):
         self.load_dir_btn.setText(_translate("Form", "選擇要做對齊處理的資料夾"))
         self.label.setText(_translate("Form", "如果選擇資料集，預設會直接選擇0.jpg做為目標對齊照片，之後所有的照片都要對齊0.jpg，包括競品機。\n"
 "不一定要用0.jpg做對齊，但不管是資料集或是競品機照片，一定要有一個共同的目標對齊照片。"))
-        self.label_2.setText(_translate("Form", "請將要對齊的照片都存到一個資料夾，或是直接選擇生成完的資料集，之後會對資料夾裡所有的照片都做對齊後覆蓋原檔，並且將資料夾加上_align。"))
+        self.label_2.setText(_translate("Form", "請將要對齊的照片都存到一個資料夾，或是直接選擇生成完的資料集，之後會對資料夾裡所有的照片都做對齊後覆蓋原檔。"))
         self.label_3.setText(_translate("Form", "processed directory"))
         self.img_label.setText(_translate("Form", "#"))
         self.dir_label.setText(_translate("Form", "#"))
