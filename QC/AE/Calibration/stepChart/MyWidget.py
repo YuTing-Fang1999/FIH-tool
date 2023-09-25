@@ -6,6 +6,7 @@ import win32com.client as win32
 from myPackage.ParentWidget import ParentWidget
 from myPackage.ImageViewer import ImageViewer
 from myPackage.selectROI_window import SelectROI_window
+from myPackage.ExcelFunc import get_excel_addin_path
 from .ROI_tune_window import ROI_tune_window
 import xml.etree.ElementTree as ET
 from myPackage.ImageMeasurement import get_roi_img
@@ -297,29 +298,14 @@ class MyWidget(ParentWidget):
     def export_and_open_excel(self):
         self.update_status_bar("開啟中，請稍後...")
         
-        def get_excel_addin_path(addin_name):
-            try:
-                excel = win32.Dispatch("Excel.Application")
-                addins = excel.AddIns
-                
-                # Iterate through the add-ins collection
-                for addin in addins:
-                    # print(addin.Name)
-                    if addin.Name == addin_name:
-                        # Retrieve the add-in file path
-                        return os.path.join(addin.Path, addin_name)
-                
-                # If add-in not found, return None
-                return None
-            except Exception as e:
-                print("Error: ", str(e))
-                return None
-        
         # Open Excel application
         excel = win32.Dispatch("Excel.Application")
 
-        # Open the Excel file in read-only mode
-        excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
+        # run solver
+        try:
+            excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
+        except Exception as e:
+            print(f"Workbook SOLVER.XLAM is not open or is not being referenced.")
         workbook = excel.Workbooks.Open(self.excel_worker.xml_excel_path)
 
         # Set Excel window to Maximized
