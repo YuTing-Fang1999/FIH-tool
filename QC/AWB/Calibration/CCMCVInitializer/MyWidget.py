@@ -79,8 +79,11 @@ class SolverThread(QThread):
             wb.sheets['gamma_B'].range('O2').value = self.data["gamma"]
             macro_vba = wb.app.macro('CopySheetWithChart')
             i = 0
+            n = np.size(allFileList_jpg)//2
             while i < np.size(allFileList_jpg):
-                macro_vba(os.path.basename(allFileList_jpg[i]).split('_')[0])
+                base = os.path.basename(allFileList_jpg[i]).split('_')[0]
+                self.update_status_bar_signal.emit(f"CopySheetWithChart {base}".ljust(16) + f"({i//2}/{n})".rjust(8))
+                macro_vba(base)
                 i+=2
             wb.sheets[0].activate()
             wb.save()
