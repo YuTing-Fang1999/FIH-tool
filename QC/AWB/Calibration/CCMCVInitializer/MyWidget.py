@@ -89,13 +89,17 @@ class SolverThread(QThread):
             
             # detect color checker
             self.update_status_bar_signal.emit("Detect color checker...")
+            print("detect color checker")
             self.img_crop = []
             i = 0
             while i < np.size(allFileList_jpg):
                 path_name = allFileList_jpg[i]
-                self.update_status_bar_signal.emit(f"Detect {path_name}")
+                print(os.path.basename(path_name))
+                self.update_status_bar_signal.emit(f"Detect {os.path.basename(path_name)}")
                 img = cv2.imdecode( np.fromfile( file = path_name, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-                colour_checker_swatches_data = detect_colour_checkers_segmentation(img, additional_data=False)
+                #### 記得要先norm!!! ####
+                norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
+                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
                 if len(colour_checker_swatches_data) != 1:
                     self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
                     self.selectROI_signal.emit(img)
@@ -132,10 +136,11 @@ class SolverThread(QThread):
                 print(f"Workbook SOLVER.XLAM is not open or is not being referenced.")
             
             pre_count = excel.Workbooks.Count
-            print(os.path.abspath(self.excel_path))
+            print("write to "+os.path.abspath(self.excel_path))
             workbook = excel.Workbooks.Open(os.path.abspath(self.excel_path))
             
             # write the data
+            print("write the data")
             i = 0
             n = np.size(allFileList_jpg)//2
             while i < np.size(allFileList_jpg):
@@ -151,7 +156,7 @@ class SolverThread(QThread):
                 sheet = workbook.Worksheets(base)
                 sheet.Activate()
                 sheet.Range('B8').Value = base
-                self.update_status_bar_signal.emit(base.ljust(8) + f"({i//2}/{n})".rjust(8))
+                self.update_status_bar_signal.emit(f"Write {base}".ljust(8) + f"({i//2}/{n})".rjust(8))
                 
                 for j in range(0,24):
                     # print(self.RGBtosRGB(self.img_crop[i][j][0]))
@@ -346,7 +351,7 @@ class MyWidget(ParentWidget):
         for coor in roi_coordinate:
             r1, c1, r2, c2 = coor
             patch = self.ROI_tune_window.viewer.img[r1:r2, c1:c2, :]
-            patch = np.array(patch).mean(axis=(0,1)) / 255
+            patch = list(cv2.cvtColor(patch, cv2.COLOR_BGR2RGB).reshape(-1, 3).mean(axis=0)/255)
             patchs.append(patch)
             # cv2.imshow('patch', patch)
             # cv2.waitKey(0)

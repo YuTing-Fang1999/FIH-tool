@@ -166,7 +166,7 @@ class Ui_Form(object):
         self.label_4.setText(_translate("Form", "Gamma:"))
         self.label_5.setText(_translate("Form", "＊ref. & tst pic name msut according to the specifications.\n"
 "　Ex: A_1, A_2 ; B_1, B_2..."))
-        self.CCM_edit.setText(_translate("Form", "1 2 3 4 5 6 7 8 9"))
+        self.CCM_edit.setText(_translate("Form", "1 0 0 0 1 0 0 0 1"))
 
 
 if __name__ == "__main__":
