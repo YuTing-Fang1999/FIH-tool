@@ -252,6 +252,10 @@ class MyWidget(ParentWidget):
     def failed(self, text="Failed"):
         self.set_all_enable(True)
         QMessageBox.about(self, "Failed", text)
+
+    def solver_finish(self):
+        self.set_all_enable(True)
+        self.statusBar.hide()
         
     def load_data_path(self):
         filepath = QFileDialog.getExistingDirectory(self,"選擇Data Path", self.get_path("QC_AWB_CCM_data_path"))
@@ -307,10 +311,6 @@ class MyWidget(ParentWidget):
         self.set_all_enable(False)
         self.statusBar.show()
         self.solver_thread.start()
-        
-    def solver_finish(self):
-        self.set_all_enable(True)
-        self.statusBar.hide()
     
     def open_excel(self):
         if is_workbook_open(self.solver_thread.excel_path):
