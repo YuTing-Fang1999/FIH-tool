@@ -22,190 +22,190 @@ import win32com.client as win32
 from colour_checker_detection import detect_colour_checkers_segmentation
 
 class SolverThread(QThread):
-        update_status_bar_signal = pyqtSignal(str)
-        failed_signal = pyqtSignal(str)
-        finish_signal = pyqtSignal()
-        selectROI_signal = pyqtSignal(np.ndarray)
-        excel_template_path = ""
-        dir_path = ""
-        excel_path = ""
-        img_crop = []
-        data = {}
+    update_status_bar_signal = pyqtSignal(str)
+    failed_signal = pyqtSignal(str)
+    finish_signal = pyqtSignal()
+    selectROI_signal = pyqtSignal(np.ndarray)
+    excel_template_path = ""
+    dir_path = ""
+    excel_path = ""
+    img_crop = []
+    data = {}
 
-        def __init__(self, excel_template_path, mutex, cond):
-            super().__init__()
-            self.excel_template_path = excel_template_path
-            self.mtx = mutex
-            self.cond = cond
+    def __init__(self, excel_template_path, mutex, cond):
+        super().__init__()
+        self.excel_template_path = excel_template_path
+        self.mtx = mutex
+        self.cond = cond
 
-        def run(self):
-            print(f"Selected dir: {self.dir_path}")
-            try:
-                self.gen_excel()
-                self.finish_signal.emit()
-            except Exception as error:
-                print(error)
-                self.update_status_bar_signal.emit("Failed...")
-                self.failed_signal.emit("Failed...\n"+str(error))            
-                
-        def gen_excel(self):
-            self.update_status_bar_signal.emit("CCMCVsimulator is runing...")
+    def run(self):
+        print(f"Selected dir: {self.dir_path}")
+        try:
+            self.gen_excel()
+            self.finish_signal.emit()
+        except Exception as error:
+            print(error)
+            self.update_status_bar_signal.emit("Failed...")
+            self.failed_signal.emit("Failed...\n"+str(error))            
+            
+    def gen_excel(self):
+        self.update_status_bar_signal.emit("CCMCVsimulator is runing...")
 
-            allFileList = os.listdir(self.dir_path)
-            allFileList_jpg = np.sort(allFileList,axis=0)
-            allFileList_jpg = list(filter(self.file_filter_jpg, allFileList_jpg))
-            allFileList_jpg.sort(key=self.natural_keys)
-            allFileList_jpg = [os.path.join(self.dir_path, f) for f in allFileList_jpg]
-            assert len(allFileList_jpg) != 0, "No jpg file in the folder"
-                
-            localtime = time.localtime()
-            clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
+        allFileList = os.listdir(self.dir_path)
+        allFileList_jpg = np.sort(allFileList,axis=0)
+        allFileList_jpg = list(filter(self.file_filter_jpg, allFileList_jpg))
+        allFileList_jpg.sort(key=self.natural_keys)
+        allFileList_jpg = [os.path.join(self.dir_path, f) for f in allFileList_jpg]
+        assert len(allFileList_jpg) != 0, "No jpg file in the folder"
+            
+        localtime = time.localtime()
+        clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
 
-            # copy the template file
-            self.update_status_bar_signal.emit("Copy the template file...")
-            wb = self.create_xls()
-            self.excel_path = f"CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
-            self.excel_path = os.path.abspath(self.excel_path)
-            wb.active = 0
-            wb.save(self.excel_path)
-            
-            # copy the sheet with chart
-            self.update_status_bar_signal.emit("Copy the sheet with chart...")
-            app = xw.App(visible=False)
-            wb = xw.Book(self.excel_path)
-            wb.sheets['colorCalculate'].range('W3:Y5').value = np.array(self.data["CCM"].split()).reshape(3,3)
-            wb.sheets['gamma_R'].range('O2').value = self.data["gamma"]
-            wb.sheets['gamma_G'].range('O2').value = self.data["gamma"]
-            wb.sheets['gamma_B'].range('O2').value = self.data["gamma"]
-            macro_vba = wb.app.macro('CopySheetWithChart')
-            i = 0
-            n = np.size(allFileList_jpg)//2
-            while i < np.size(allFileList_jpg):
-                base = os.path.basename(allFileList_jpg[i]).split('_')[0]
-                self.update_status_bar_signal.emit(f"CopySheetWithChart {base}".ljust(16) + f"({i//2}/{n})".rjust(8))
-                macro_vba(base)
-                i+=2
-            wb.sheets[0].activate()
-            wb.save()
-            wb.close()
-            app.quit()
-            
-            # detect color checker
-            self.update_status_bar_signal.emit("Detect color checker...")
-            print("detect color checker")
-            self.img_crop = []
-            i = 0
-            while i < np.size(allFileList_jpg):
-                path_name = allFileList_jpg[i]
-                print(os.path.basename(path_name))
-                self.update_status_bar_signal.emit(f"Detect {os.path.basename(path_name)}")
-                img = cv2.imdecode( np.fromfile( file = path_name, dtype = np.uint8 ), cv2.IMREAD_COLOR )
-                #### 記得要先norm!!! ####
-                norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
-                colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
-                if len(colour_checker_swatches_data) != 1:
-                    self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
-                    self.selectROI_signal.emit(img)
-                    self.mtx.lock()
-                    try:
-                        self.cond.wait(self.mtx)
-                    finally:
-                        self.mtx.unlock()
-                else:
-                    swatch_colours = colour_checker_swatches_data[0]
-                    self.add_img_crop(swatch_colours)
-                
-                i+=1
-                
-            self.write_excel()
-            
-        def add_img_crop(self, img_crop):
-            self.img_crop.append(img_crop)
-            
-        def write_excel(self):
-            allFileList = os.listdir(self.dir_path)
-            allFileList_jpg = np.sort(allFileList,axis=0)
-            allFileList_jpg = list(filter(self.file_filter_jpg, allFileList_jpg))
-            allFileList_jpg.sort(key=self.natural_keys)
-            allFileList_jpg = [os.path.join(self.dir_path, f) for f in allFileList_jpg]
-            
-            # Open Excel application
-            excel = win32.Dispatch("Excel.Application")
-            
-            # run solver
-            try:
-                excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
-            except Exception as e:
-                print(f"Workbook SOLVER.XLAM is not open or is not being referenced.")
-            
-            pre_count = excel.Workbooks.Count
-            print("write to "+os.path.abspath(self.excel_path))
-            workbook = excel.Workbooks.Open(os.path.abspath(self.excel_path))
-            
-            # write the data
-            print("write the data")
-            i = 0
-            n = np.size(allFileList_jpg)//2
-            while i < np.size(allFileList_jpg):
-                path_name1 = allFileList_jpg[i]
-                path_name2 = allFileList_jpg[i+1]
-                base1 = os.path.basename(path_name1)
-                base2 = os.path.basename(path_name2)
-                print(base1)
-                print(base2)
-                assert base1.split('_')[0] == base2.split('_')[0], "The file name is not match"
-                
-                base = base1.split('_')[0]
-                sheet = workbook.Worksheets(base)
-                sheet.Activate()
-                sheet.Range('B8').Value = base
-                self.update_status_bar_signal.emit(f"Write {base}".ljust(8) + f"({i//2}/{n})".rjust(8))
-                
-                for j in range(0,24):
-                    # print(self.RGBtosRGB(self.img_crop[i][j][0]))
-                    sheet.Range(f'B{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[0]
-                    sheet.Range(f'C{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[1]
-                    sheet.Range(f'D{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[2]
-                    sheet.Range(f'I{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[0]
-                    sheet.Range(f'J{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[1]
-                    sheet.Range(f'K{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[2]
-                i+=2
-                
-                # run solver using excel macro_name
-                excel.Run("colorSolver")
-            # save and close the workbook
-            workbook.Save()
-            if excel.Workbooks.Count > pre_count: workbook.Close()
-            if excel.Workbooks.Count == 0: excel.Quit()
-            self.update_status_bar_signal.emit("CCMCVsimulator is ok!")
-            
-        def create_xls(self):
-            wb = openpyxl.load_workbook(self.excel_template_path, read_only=False, keep_vba=True)
-            wb.active = 0
-            return wb
-
-        def atoi(self, text):
-            return int(text) if text.isdigit() else text
-
-        def natural_keys(self, text):
-            return [ self.atoi(c) for c in re.split(r'(\d+)', text) ]
-
-        def file_filter_jpg(self, f):
-            if f[-4:] in ['.jpg', '.JPG']:
-                return True
+        # copy the template file
+        self.update_status_bar_signal.emit("Copy the template file...")
+        wb = self.create_xls()
+        self.excel_path = f"CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
+        self.excel_path = os.path.abspath(self.excel_path)
+        wb.active = 0
+        wb.save(self.excel_path)
+        
+        # copy the sheet with chart
+        self.update_status_bar_signal.emit("Copy the sheet with chart...")
+        app = xw.App(visible=False)
+        wb = xw.Book(self.excel_path)
+        wb.sheets['colorCalculate'].range('W3:Y5').value = np.array(self.data["CCM"].split()).reshape(3,3)
+        wb.sheets['gamma_R'].range('O2').value = self.data["gamma"]
+        wb.sheets['gamma_G'].range('O2').value = self.data["gamma"]
+        wb.sheets['gamma_B'].range('O2').value = self.data["gamma"]
+        macro_vba = wb.app.macro('CopySheetWithChart')
+        i = 0
+        n = np.size(allFileList_jpg)//2
+        while i < np.size(allFileList_jpg):
+            base = os.path.basename(allFileList_jpg[i]).split('_')[0]
+            self.update_status_bar_signal.emit(f"CopySheetWithChart {base}".ljust(16) + f"({i//2}/{n})".rjust(8))
+            macro_vba(base)
+            i+=2
+        wb.sheets[0].activate()
+        wb.save()
+        wb.close()
+        app.quit()
+        
+        # detect color checker
+        self.update_status_bar_signal.emit("Detect color checker...")
+        print("detect color checker")
+        self.img_crop = []
+        i = 0
+        while i < np.size(allFileList_jpg):
+            path_name = allFileList_jpg[i]
+            print(os.path.basename(path_name))
+            self.update_status_bar_signal.emit(f"Detect {os.path.basename(path_name)}")
+            img = cv2.imdecode( np.fromfile( file = path_name, dtype = np.uint8 ), cv2.IMREAD_COLOR )
+            #### 記得要先norm!!! ####
+            norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
+            colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
+            if len(colour_checker_swatches_data) != 1:
+                self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
+                self.selectROI_signal.emit(img)
+                self.mtx.lock()
+                try:
+                    self.cond.wait(self.mtx)
+                finally:
+                    self.mtx.unlock()
             else:
-                return False
+                swatch_colours = colour_checker_swatches_data[0]
+                self.add_img_crop(swatch_colours)
+            
+            i+=1
+            
+        self.write_excel()
+        
+    def add_img_crop(self, img_crop):
+        self.img_crop.append(img_crop)
+        
+    def write_excel(self):
+        allFileList = os.listdir(self.dir_path)
+        allFileList_jpg = np.sort(allFileList,axis=0)
+        allFileList_jpg = list(filter(self.file_filter_jpg, allFileList_jpg))
+        allFileList_jpg.sort(key=self.natural_keys)
+        allFileList_jpg = [os.path.join(self.dir_path, f) for f in allFileList_jpg]
+        
+        # Open Excel application
+        excel = win32.Dispatch("Excel.Application")
+        
+        # run solver
+        try:
+            excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
+        except Exception as e:
+            print(f"Workbook SOLVER.XLAM is not open or is not being referenced.")
+        
+        pre_count = excel.Workbooks.Count
+        print("write to "+os.path.abspath(self.excel_path))
+        workbook = excel.Workbooks.Open(os.path.abspath(self.excel_path))
+        
+        # write the data
+        print("write the data")
+        i = 0
+        n = np.size(allFileList_jpg)//2
+        while i < np.size(allFileList_jpg):
+            path_name1 = allFileList_jpg[i]
+            path_name2 = allFileList_jpg[i+1]
+            base1 = os.path.basename(path_name1)
+            base2 = os.path.basename(path_name2)
+            print(base1)
+            print(base2)
+            assert base1.split('_')[0] == base2.split('_')[0], "The file name is not match"
+            
+            base = base1.split('_')[0]
+            sheet = workbook.Worksheets(base)
+            sheet.Activate()
+            sheet.Range('B8').Value = base
+            self.update_status_bar_signal.emit(f"Write {base}".ljust(8) + f"({i//2}/{n})".rjust(8))
+            
+            for j in range(0,24):
+                # print(self.RGBtosRGB(self.img_crop[i][j][0]))
+                sheet.Range(f'B{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[0]
+                sheet.Range(f'C{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[1]
+                sheet.Range(f'D{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[2]
+                sheet.Range(f'I{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[0]
+                sheet.Range(f'J{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[1]
+                sheet.Range(f'K{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[2]
+            i+=2
+            
+            # run solver using excel macro_name
+            excel.Run("colorSolver")
+        # save and close the workbook
+        workbook.Save()
+        if excel.Workbooks.Count > pre_count: workbook.Close()
+        if excel.Workbooks.Count == 0: excel.Quit()
+        self.update_status_bar_signal.emit("CCMCVsimulator is ok!")
+        
+    def create_xls(self):
+        wb = openpyxl.load_workbook(self.excel_template_path, read_only=False, keep_vba=True)
+        wb.active = 0
+        return wb
 
-        def RGBtosRGB(self, rgb):
-            srgb = []
-            for i in range(0,3):
-                if rgb[i] > 0.00304:
-                    V = (1+0.055)*((rgb[i])**(1/2.4))-0.055
-                    srgb.append(round(V*255,2))
-                else:
-                    V = 12.92*rgb[i]
-                    srgb.append(round(V*255,2))
-            return srgb
+    def atoi(self, text):
+        return int(text) if text.isdigit() else text
+
+    def natural_keys(self, text):
+        return [ self.atoi(c) for c in re.split(r'(\d+)', text) ]
+
+    def file_filter_jpg(self, f):
+        if f[-4:] in ['.jpg', '.JPG']:
+            return True
+        else:
+            return False
+
+    def RGBtosRGB(self, rgb):
+        srgb = []
+        for i in range(0,3):
+            if rgb[i] > 0.00304:
+                V = (1+0.055)*((rgb[i])**(1/2.4))-0.055
+                srgb.append(round(V*255,2))
+            else:
+                V = 12.92*rgb[i]
+                srgb.append(round(V*255,2))
+        return srgb
                 
 class MyWidget(ParentWidget):
     def __init__(self):
@@ -347,10 +347,7 @@ class MyWidget(ParentWidget):
         self.ROI_tune_window.tune(tab_idx, roi_img)
 
     def set_24_roi_coordinate(self, tab_idx, roi_coordinate):
-        # 要分開不然畫框框的現也截進去
         patchs = []
-        h, w, c = self.ROI_tune_window.viewer.img.shape
-        thickness = int(min(w, h)/200)
         for coor in roi_coordinate:
             r1, c1, r2, c2 = coor
             patch = self.ROI_tune_window.viewer.img[r1:r2, c1:c2, :]
