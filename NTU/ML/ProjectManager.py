@@ -78,7 +78,7 @@ class C7ProjectManager(ProjectManager):
                 else:
                     if aec_trigger_datas[i][2]!=data[2] or aec_trigger_datas[i][3]!=data[3]:
                         print("Error", congfig_key, "與", key, "的 gain trigger 配置不同")
-                        return  f"{congfig_key} 與 {key} 的 gain trigger 配置不同", aec_trigger_datas
+                        return  f"{congfig_key} 與 {key} 的 gain trigger 配置不同\n {congfig_key}: gain start {data[2]} end {data[3]}\n {key}: gain start {aec_trigger_datas[i][2]} end {aec_trigger_datas[i][3]}", aec_trigger_datas
                         
             # print(aec_trigger_datas)
         return "Success", aec_trigger_datas
