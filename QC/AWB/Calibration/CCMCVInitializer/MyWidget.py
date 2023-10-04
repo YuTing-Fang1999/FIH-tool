@@ -17,7 +17,6 @@ import os
 import xlwings as xw
 import time
 import re
-import openpyxl
 import win32com.client as win32
 from colour_checker_detection import detect_colour_checkers_segmentation
 
@@ -63,7 +62,11 @@ class SolverThread(QThread):
 
         # copy the template file
         self.update_status_bar_signal.emit("Copy the template file...")
-        wb = self.create_xls()
+        app = xw.App(visible=False)
+        wb = app.books.open(self.excel_template_path)
+        file = f'colorCalculate_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm'
+        wb.save(file)
+        
         self.excel_path = f"CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
         self.excel_path = os.path.abspath(self.excel_path)
         wb.active = 0
@@ -120,7 +123,7 @@ class SolverThread(QThread):
         self.write_excel()
         
     def add_img_crop(self, img_crop):
-        self.img_crop.append(img_crop)
+        self.img_crop.append(np.around(img_crop*255, 2))
         
     def write_excel(self):
         allFileList = os.listdir(self.dir_path)
@@ -163,12 +166,18 @@ class SolverThread(QThread):
             
             for j in range(0,24):
                 # print(self.RGBtosRGB(self.img_crop[i][j][0]))
-                sheet.Range(f'B{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[0]
-                sheet.Range(f'C{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[1]
-                sheet.Range(f'D{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[2]
-                sheet.Range(f'I{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[0]
-                sheet.Range(f'J{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[1]
-                sheet.Range(f'K{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[2]
+                # sheet.Range(f'B{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[0]
+                # sheet.Range(f'C{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[1]
+                # sheet.Range(f'D{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[2]
+                # sheet.Range(f'I{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[0]
+                # sheet.Range(f'J{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[1]
+                # sheet.Range(f'K{j+15}').Value = self.RGBtosRGB(self.img_crop[i+1][j])[2]
+                sheet.Range(f'B{j+15}').Value = self.img_crop[i][j][0]
+                sheet.Range(f'C{j+15}').Value = self.img_crop[i][j][1]
+                sheet.Range(f'D{j+15}').Value = self.img_crop[i][j][2]
+                sheet.Range(f'I{j+15}').Value = self.img_crop[i+1][j][0]
+                sheet.Range(f'J{j+15}').Value = self.img_crop[i+1][j][1]
+                sheet.Range(f'K{j+15}').Value = self.img_crop[i+1][j][2]
             i+=2
             
             # run solver using excel macro_name
@@ -178,11 +187,6 @@ class SolverThread(QThread):
         if excel.Workbooks.Count > pre_count: workbook.Close()
         if excel.Workbooks.Count == 0: excel.Quit()
         self.update_status_bar_signal.emit("CCMCVsimulator is ok!")
-        
-    def create_xls(self):
-        wb = openpyxl.load_workbook(self.excel_template_path, read_only=False, keep_vba=True)
-        wb.active = 0
-        return wb
 
     def atoi(self, text):
         return int(text) if text.isdigit() else text
@@ -196,16 +200,16 @@ class SolverThread(QThread):
         else:
             return False
 
-    def RGBtosRGB(self, rgb):
-        srgb = []
-        for i in range(0,3):
-            if rgb[i] > 0.00304:
-                V = (1+0.055)*((rgb[i])**(1/2.4))-0.055
-                srgb.append(round(V*255,2))
-            else:
-                V = 12.92*rgb[i]
-                srgb.append(round(V*255,2))
-        return srgb
+    # def RGBtosRGB(self, rgb):
+    #     srgb = []
+    #     for i in range(0,3):
+    #         if rgb[i] > 0.00304:
+    #             V = (1+0.055)*((rgb[i])**(1/2.4))-0.055
+    #             srgb.append(round(V*255,2))
+    #         else:
+    #             V = 12.92*rgb[i]
+    #             srgb.append(round(V*255,2))
+    #     return srgb
                 
 class MyWidget(ParentWidget):
     def __init__(self):
