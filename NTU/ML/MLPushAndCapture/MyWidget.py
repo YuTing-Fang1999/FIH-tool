@@ -63,8 +63,12 @@ class MyWidget(ParentWidget):
         self.set_trigger()
         
     def set_trigger(self):
-        trigger_data=self.projectMgr.get_trigger_data()
-        item_names = ["Gain {:>2}x (gain start {} end {})".format(int(d[2]), d[2], d[3]) for d in trigger_data]
+        msg, trigger_data=self.projectMgr.get_trigger_data()
+        if msg != "Success":
+            QMessageBox.about(self, "Error", msg)
+            self.set_path("project_path", "./")
+
+        item_names = ["Gain {:>2}x (gain start {} end {})".format(int(round(float(d[2]), 0)), d[2], d[3]) for d in trigger_data]
         self.ui.trigger_comboBox.clear()
         self.ui.trigger_comboBox.addItems(item_names) # -> set_trigger_idx 0
         
