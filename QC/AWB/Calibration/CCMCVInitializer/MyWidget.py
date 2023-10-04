@@ -104,8 +104,8 @@ class SolverThread(QThread):
             self.update_status_bar_signal.emit(f"Detect {os.path.basename(path_name)}")
             img = cv2.imdecode( np.fromfile( file = path_name, dtype = np.uint8 ), cv2.IMREAD_COLOR )
             #### 記得要先norm!!! ####
-            norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
-            colour_checker_swatches_data = detect_colour_checkers_segmentation(norm_img, additional_data=False)
+            # norm_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)/255
+            colour_checker_swatches_data = detect_colour_checkers_segmentation(img, additional_data=False)
             if len(colour_checker_swatches_data) != 1:
                 self.update_status_bar_signal.emit("Failed to detect color checker\n請手動選取ROI")
                 self.selectROI_signal.emit(img)
@@ -116,14 +116,27 @@ class SolverThread(QThread):
                     self.mtx.unlock()
             else:
                 swatch_colours = colour_checker_swatches_data[0]
+                for j in range(24):
+                    swatch_colours[j] = self.RGBtosRGB(swatch_colours[j])
                 self.add_img_crop(swatch_colours)
             
             i+=1
             
         self.write_excel()
         
-    def add_img_crop(self, img_crop):
-        self.img_crop.append(np.around(img_crop*255, 2))
+    def add_img_crop(self, data):
+        self.img_crop.append(np.around(np.array(data)*255, 2))
+        
+    def RGBtosRGB(self, rgb):
+        srgb = []
+        for i in range(0,3):
+            if rgb[i] > 0.00304:
+                V = (1+0.055)*((rgb[i])**(1/2.4))-0.055
+                srgb.append(V)
+            else:
+                V = 12.92*rgb[i]
+                srgb.append(V)
+        return srgb
         
     def write_excel(self):
         allFileList = os.listdir(self.dir_path)
@@ -139,7 +152,7 @@ class SolverThread(QThread):
         try:
             excel.Workbooks.Open(Filename=get_excel_addin_path("SOLVER.XLAM"))
         except Exception as e:
-            print(f"Workbook SOLVER.XLAM is not open or is not being referenced.")
+            print(f"Workbook SOLVER.XLAM is opened or is being referenced.")
         
         pre_count = excel.Workbooks.Count
         print("write to "+os.path.abspath(self.excel_path))
@@ -163,9 +176,8 @@ class SolverThread(QThread):
             sheet.Activate()
             sheet.Range('B8').Value = base
             self.update_status_bar_signal.emit(f"Write {base}".ljust(8) + f"({i//2}/{n})".rjust(8))
-            
+            print(np.array(self.img_crop[i]).shape)
             for j in range(0,24):
-                # print(self.RGBtosRGB(self.img_crop[i][j][0]))
                 # sheet.Range(f'B{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[0]
                 # sheet.Range(f'C{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[1]
                 # sheet.Range(f'D{j+15}').Value = self.RGBtosRGB(self.img_crop[i][j])[2]
