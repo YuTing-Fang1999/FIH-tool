@@ -42,6 +42,7 @@ class C7ProjectManager(ProjectManager):
         for key in self.config:
             file_path = self.get_file_path(self.config[key]["file_path"])
             if not os.path.exists(file_path):
+                print(file_path, "not found")
                 return False
         return True
         
@@ -77,8 +78,10 @@ class C7ProjectManager(ProjectManager):
                 else:
                     if aec_trigger_datas[i][2]!=data[2] or aec_trigger_datas[i][3]!=data[3]:
                         print("Error", congfig_key, "與", key, "的 gain trigger 配置不同")
+                        return  f"{congfig_key} 與 {key} 的 gain trigger 配置不同", aec_trigger_datas
+                        
             # print(aec_trigger_datas)
-        return aec_trigger_datas
+        return "Success", aec_trigger_datas
 
     def gen_lut_curve(self, overall, shadow, highlight):
         # print(overall, shadow, highlight)
