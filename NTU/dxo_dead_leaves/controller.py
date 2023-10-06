@@ -51,12 +51,12 @@ class MainWindow_controller(ParentWidget):
         # load img
         img = cv2.imdecode(np.fromfile(file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
 
-        dxo_roi_img, _ = get_dxo_roi_img(img, TEST=True)
+        dxo_roi_img, _ = get_dxo_roi_img(img, TEST=True, img_idx=img_idx)
         if dxo_roi_img is None:
             QMessageBox.about(self, "失敗", "自動偵測ROI失敗")
             return
+        self.ui.filename[img_idx].setText(f"PIC{img_idx+1}: {filename}")
         self.ui.img_block[img_idx].dxo_roi_img = dxo_roi_img
-
         self.ui.img_block[img_idx].setPhoto(dxo_roi_img, filename)
         self.ui.img_block[img_idx].show()
         self.ui.score_region[img_idx].show()

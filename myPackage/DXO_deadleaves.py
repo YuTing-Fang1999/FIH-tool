@@ -42,7 +42,7 @@ def get_rec_roi(im, p, w):
     cv2.rectangle(im, (topLeft[1], topLeft[0]), (bottomRight[1], bottomRight[0]), (255,0,0), int(w/30))
     return rec_roi
 
-def get_roi_img_and_coor(im, TEST):
+def get_roi_img_and_coor(im, TEST, img_idx):
     resize_im = ResizeWithAspectRatio(im, height=1200)
     resize_gray_im = cv2.cvtColor(resize_im, cv2.COLOR_BGR2GRAY)
     edged = cv2.Canny(resize_gray_im, 100, 490)
@@ -106,17 +106,30 @@ def get_roi_img_and_coor(im, TEST):
                 
 
             coor.append((r,c,angle)) # row, col
-    
-    if TEST:
+            
+    if len(coor) != 4:
+        r1 = 1e9
+        r2 = 0
+        c1 = 1e9
+        c2 = 0
+        for c in coor:
+            r1 = min(r1, c[0])
+            r2 = max(r2, c[0])
+            c1 = min(c1, c[1])
+            c2 = max(c2, c[1])
+        for c in coor:
+            if((abs(c[0] - r1)>100 and abs(c[0] - r2)>100) or (abs(c[1] - c1)>100 and abs(c[1] - c2)>100)):
+                coor.remove(c)
+        
+    if TEST and len(coor) != 4:
         # 由下到上，右到左
         for c in coor:
             # 在中心點畫上黃色實心圓
             cv2.circle(resize_im, (c[1], c[0]), int(10), (1, 227, 254), -1)
-        cv2.imshow("resize_im_mark_cicle", ResizeWithAspectRatio(resize_im, height=600))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-            
-    # assert len(coor) == 4
+        cv2.imshow("resize_im_mark_cicle"+str(img_idx), ResizeWithAspectRatio(resize_im, height=600))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+        
     if len(coor) != 4:
         print("len(coor) =", len(coor))
         return None, None
@@ -166,7 +179,7 @@ def get_roi_img_and_coor(im, TEST):
 
     return crop_dxo_im, coor - topLeft
 
-def get_roi_region(crop_im, coor, file_name, TEST):
+def get_roi_region(crop_im, coor, file_name, TEST, img_idx):
 
     # find center
     vec = coor[0] - coor[3] # → ↓
@@ -231,9 +244,9 @@ def get_roi_region(crop_im, coor, file_name, TEST):
             cv2.putText(crop_im, "{}".format(np.around(rec_roi).reshape(-1,3).mean(axis=0).astype(int)), (p[1]-int(length/20), p[0]+int(length/50)), cv2.FONT_HERSHEY_SIMPLEX, length/2000, (255, 0, 0), int(length/500), cv2.LINE_AA)
 
     if TEST:
-        cv2.imshow("roi", ResizeWithAspectRatio(crop_im, height=600))
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        cv2.imshow("roi"+str(img_idx), ResizeWithAspectRatio(crop_im, height=600))
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
     
     return roi_img, np.array(OECF_patch)
 
@@ -241,11 +254,11 @@ def cal_mean_OECF_patch(OECF_patch):
     mean_value = OECF_patch.reshape(12,-1,3).mean(axis=1)
     return np.sort(np.array(mean_value).T)/255
 
-def get_dxo_roi_img(img, TEST):
-    crop_dxo_im, coor = get_roi_img_and_coor(img.copy(), TEST)
+def get_dxo_roi_img(img, TEST, img_idx):
+    crop_dxo_im, coor = get_roi_img_and_coor(img.copy(), TEST, img_idx)
     if crop_dxo_im is None:
         return None, None
-    roi_img, OECF_patch = get_roi_region(crop_dxo_im.copy(), coor, "", TEST)
+    roi_img, OECF_patch = get_roi_region(crop_dxo_im.copy(), coor, "", TEST, img_idx)
     return roi_img, cal_mean_OECF_patch(OECF_patch)
 
 # compute the average of over all directions

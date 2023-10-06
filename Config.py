@@ -164,7 +164,7 @@ class Config():
                         {
                             "title": "DL acutance",
                             "subtitle": "DL Acutance via DeadLeaves",
-                            "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算\n但很容易偵測失敗"),
+                            "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算"),
                             "widget": DXO_DLWidget(),
                         },
                         {
