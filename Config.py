@@ -140,8 +140,8 @@ class Config():
                     ],
                     "Calibration":[
                         {
-                            "title": "CCM Initializer",
-                            "subtitle": "CCM calibrate via Color Checker",
+                            "title": "CCM/CV Initializer",
+                            "subtitle": "CCM/CV calibration via Color Checker",
                             "instruction": MyLabel(""),
                             "widget": CCMCVInitializerWidget(),
                         },

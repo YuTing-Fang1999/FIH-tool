@@ -282,7 +282,7 @@ class MyWidget(ParentWidget):
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("QC_AWB_CCM_data_path", filefolder)
         
-        self.ui.data_path_label.setText(filepath)
+        self.ui.data_path.setText(filepath)
         self.set_btn_enable(self.ui.solver_btn, True)
         self.set_btn_enable(self.ui.open_excel_btn, False)
         
@@ -345,7 +345,10 @@ class MyWidget(ParentWidget):
     
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:
-            style =  "QPushButton {background: white; color: rgb(32,62,125);}"
+            if btn == self.ui.browse_btn:
+                style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
+            else:
+                style =  "QPushButton {background: white; color: rgb(32,62,125);}"
             btn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         else:
             style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
