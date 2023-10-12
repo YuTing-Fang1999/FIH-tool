@@ -126,7 +126,7 @@ def get_roi_img_and_coor(im, TEST, img_idx):
         for c in coor:
             # 在中心點畫上黃色實心圓
             cv2.circle(resize_im, (c[1], c[0]), int(10), (1, 227, 254), -1)
-        cv2.imshow("resize_im_mark_cicle"+str(img_idx), ResizeWithAspectRatio(resize_im, height=600))
+        cv2.imshow("resize_im_mark_cicle"+str(img_idx+1), ResizeWithAspectRatio(resize_im, height=600))
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
         
@@ -244,7 +244,7 @@ def get_roi_region(crop_im, coor, file_name, TEST, img_idx):
             cv2.putText(crop_im, "{}".format(np.around(rec_roi).reshape(-1,3).mean(axis=0).astype(int)), (p[1]-int(length/20), p[0]+int(length/50)), cv2.FONT_HERSHEY_SIMPLEX, length/2000, (255, 0, 0), int(length/500), cv2.LINE_AA)
 
     if TEST:
-        cv2.imshow("roi"+str(img_idx), ResizeWithAspectRatio(crop_im, height=600))
+        cv2.imshow("roi"+str(img_idx+1), ResizeWithAspectRatio(crop_im, height=600))
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
     

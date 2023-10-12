@@ -158,7 +158,7 @@ class MyWidget(ParentWidget):
         # param_norm = [0]*12
         param_norm = self.param_norm
         assert len(param_norm) == len(bounds)
-        param_denorm = param_generater.denorm_param(param_norm, step=0.0001)
+        param_denorm = param_generater.denorm_param(param_norm, units=0.0001)
         
         self.camera.clear_camera_folder()
         sleep(2)

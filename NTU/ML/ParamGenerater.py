@@ -24,23 +24,22 @@ class ParamGenerater:
         param = (param-min_b)/diff
         return param
     
-    def denorm_param(self, param, step):
+    def denorm_param(self, param, units):
         min_b, max_b = np.asarray(self.bounds).T
         diff = np.fabs(min_b - max_b)
 
         param = min_b + param * diff #denorm
-        param = self.round_step_size(param, step)
+        param = self.round_step_size(param, units)
         return param
 
-    def round_step_size(self, x, step) -> float:
+    def round_step_size(self, x, units) -> float:
         # https://stackoverflow.com/questions/7859147/round-in-numpy-to-nearest-step
         """Rounds a given quantity to a specific step size
         :param quantity: required
         :param step_size: required
         :return: decimal
         """
-        precision: int = int(np.round(-math.log(step, 10), 0))
-        return np.round(x, precision)
+        return np.round(x/units, 0) * units
     
     def save_to_csv(self, filename, param):
         # 儲存csv
