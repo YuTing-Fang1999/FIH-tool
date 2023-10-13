@@ -121,7 +121,11 @@ class SimulatorProjectManager(ProjectManager):
         print(self.config)
 
     def build_and_push(self):
-        self.cmd.run(self.setting["project_path"]+"/MMFBlend/runsimulator.bat")
+        origin_dir = os.getcwd()
+        os.chdir(self.setting["project_path"]+"/MMFBlend")
+        self.cmd.run("runsimulator.bat", show_detail=True)
+        os.chdir(origin_dir)
+        
 
 class C6ProjectManager(ProjectManager):
     pass

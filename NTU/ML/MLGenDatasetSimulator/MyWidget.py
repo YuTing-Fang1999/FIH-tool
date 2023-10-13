@@ -21,6 +21,7 @@ class MyWidget(ParentWidget):
         cmd = CMDRunner()
         self.config = SimulatorConfig().config["c7_config"]
         self.projectMgr = SimulatorProjectManager(self.setting, self.config, cmd)
+        self.origin_dir = os.getcwd()
         
         self.setupSettingUI()        
         
@@ -93,7 +94,8 @@ class MyWidget(ParentWidget):
         print('單位設定\n', units)
         # self.finish()
         # return
-    
+        self.ui.progressBar.show()
+        self.ui.progressBar.setMaximum(self.config["gen_num"])
         param_generater = ParamGenerater(bounds=bounds, gen_num=self.config["gen_num"])
         param_norm = param_generater.gen_param()
         param_norm[0] = [0]*len(bounds)
@@ -105,11 +107,11 @@ class MyWidget(ParentWidget):
         param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
         
         for  i, param in enumerate(tqdm(param_denorm)):
+            self.ui.progressBar.setValue(i+1)
             param = [float(x) for x in param]
             self.projectMgr.set_param_value(param)
             self.projectMgr.build_and_push()
-            os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_video_FULL.jpg", self.setting["saved_dir"] + f"{i}.jpg")
-            break
+            os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{i}.jpg")
         self.finish()
         
     def start(self):
@@ -125,7 +127,9 @@ class MyWidget(ParentWidget):
 
     def finish(self):
         self.ui.start_btn.setText('Start')
+        self.ui.progressBar.hide()
         stop_thread(self.capture_task)
+        os.chdir(self.origin_dir)
         
 def _async_raise(tid, exctype):
         """raises the exception, performs cleanup if needed"""
