@@ -3,8 +3,8 @@ from myPackage.ParentWidget import ParentWidget
 from NTU.ML.ParamGenerater import ParamGenerater
 from NTU.ML.CMDRunner import CMDRunner
 from .UI import Ui_Form
-from .SimulatorConfig import SimulatorConfig
-from .SimulatorProjectManager import SimulatorProjectManager
+from NTU.ML.MLISPSimulator.SimulatorConfig import SimulatorConfig
+from NTU.ML.MLISPSimulator.SimulatorProjectManager import SimulatorProjectManager
 
 import os
 import numpy as np
@@ -14,7 +14,7 @@ import ctypes, inspect
 
 class MyWidget(ParentWidget):
     def __init__(self):
-        super().__init__("NTU/ML/MLGenDatasetSimulator/") 
+        super().__init__("NTU/ML/MLISPSimulator/MLGenDataset") 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()

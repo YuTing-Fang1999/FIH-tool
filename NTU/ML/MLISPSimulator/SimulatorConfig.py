@@ -3,7 +3,7 @@ class SimulatorConfig():
         self.config = \
         {
             "c7_config":{
-                "gen_num": 50,
+                "gen_num": 100,
                 "ISP":{
                     "ASF": {
                         "file_path": "/Chromatix/Scenario.Default/Sensor.0/Usecase.Snapshot/Feature1.None/Feature2.MMFPostFilter/XML/IPE/asf35_ipe_v2.xml",
