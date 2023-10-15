@@ -114,11 +114,13 @@ class SimulatorProjectManager(ProjectManager):
                 param_value_new = [str(x) for x in param_value_new]
                 param_value_new = ' '.join(param_value_new)
                 node.text = param_value_new
+                print(tag_key, node.text)
+                print()
 
             # write the xml file
             tree.write(file_path, encoding='UTF-8', xml_declaration=True)
             
-        print(self.config)
+        # print(self.config)
 
     def build_and_push(self):
         origin_dir = os.getcwd()

@@ -1,3 +1,5 @@
+# \Chromatix\Scenario.Default\Sensor.0\Usecase.Snapshot\Feature1.None\Feature2.MMFPostFilter\XML\IPE\
+
 class SimulatorConfig():
     def __init__(self) -> None:
         self.config = \
