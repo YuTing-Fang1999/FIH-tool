@@ -1,27 +1,26 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QFrame
-from NTU.ML.MLPushAndCapture.UI import Ui_Form
+from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
-from NTU.ML.ProjectManager import C7ProjectManager
 from NTU.ML.ParamGenerater import ParamGenerater
 from NTU.ML.CMDRunner import CMDRunner
-from NTU.ML.Camara import Camera
-from NTU.ML.Config import Config
+from NTU.ML.MLISPSimulator.SimulatorConfig import SimulatorConfig
+from NTU.ML.MLISPSimulator.SimulatorProjectManager import SimulatorProjectManager
 import numpy as np
 from tqdm import tqdm
 from time import sleep
 import threading
 import ctypes, inspect
+import os
 
 class MyWidget(ParentWidget):
     def __init__(self):
-        super().__init__("NTU/ML/MLPushAndCapture/") 
+        super().__init__("NTU/ML/MLISPSimulator/MLPushParam") 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()
         cmd = CMDRunner()
-        self.camera = Camera("c7project", cmd)
-        self.projectMgr = C7ProjectManager(self.setting, cmd)
-        self.config = Config().config["c7_config"]
+        self.config = SimulatorConfig().config["c7_config"]
+        self.projectMgr = SimulatorProjectManager(self.setting, self.config, cmd)
         self.param_norm = None
         
         self.setupSettingUI()
@@ -29,22 +28,15 @@ class MyWidget(ParentWidget):
     def setupSettingUI(self):
         if self.get_path("project_path") != "./": 
             self.ui.project_path.setText(self.setting["project_path"])
-            self.set_trigger()
-            if "trigger_idx" in self.setting and self.setting["trigger_idx"] != -1:
-                self.ui.trigger_comboBox.setCurrentIndex(int(self.setting["trigger_idx"]))
-        # else:
-            
-            
-        if self.get_path("exe_path") != "./": self.ui.exe_path.setText(self.setting["exe_path"])
         
-        if self.get_path("saved_dir") != "./": self.ui.saved_dir.setText(self.setting["saved_dir"])
+        if self.get_path("saved_dir") != "./": 
+            self.ui.saved_dir.setText(self.setting["saved_dir"])
         
     def controller(self):
         self.ui.load_project_btn.clicked.connect(lambda: self.load_project())
-        self.ui.load_exe_btn.clicked.connect(lambda: self.load_exe())
         self.ui.set_saved_dir_btn.clicked.connect(lambda: self.set_saved_dir())
         self.ui.load_txt_btn.clicked.connect(lambda: self.load_txt())
-        self.ui.start_capture_btn.clicked.connect(lambda: self.run())
+        self.ui.start_btn.clicked.connect(lambda: self.run())
         
     def load_project(self):
         path = QFileDialog.getExistingDirectory(self,"選擇project", self.get_path("project_folder")) # start path
@@ -57,28 +49,8 @@ class MyWidget(ParentWidget):
             return
         
         self.ui.project_path.setText(path)
-        self.setting["project_folder"] = '/'.join(path.split('/')[:-1])
-        self.setting["project_name"] = path.split('/')[-1]
-        self.write_setting(self.setting_folder + "setting.json")
-        self.set_trigger()
-        
-    def set_trigger(self):
-        msg, trigger_data=self.projectMgr.get_trigger_data()
-        if msg != "Success":
-            QMessageBox.about(self, "Error", msg)
-            self.set_path("project_path", "./")
-
-        item_names = ["Gain {:>2}x (gain start {} end {})".format(int(round(float(d[2]), 0)), d[2], d[3]) for d in trigger_data]
-        self.ui.trigger_comboBox.clear()
-        self.ui.trigger_comboBox.addItems(item_names) # -> set_trigger_idx 0
-        
-    def load_exe(self):
-        path, filetype  = QFileDialog.getOpenFileName(self,"選擇ParameterParser.exe", self.get_path("project_folder")) # start path
-        if path == "": return
-        self.ui.exe_path.setText(path)
-        
-        self.set_path('project_folder', '/'.join(path.split('/')[:-1]))
-        self.set_path('exe_path', path)
+        self.set_path("project_folder", '/'.join(path.split('/')[:-1]))
+        self.set_path("project_name", path.split('/')[-1])
         
     def set_saved_dir(self):
         path = QFileDialog.getExistingDirectory(self,"選擇儲存資料夾", self.get_path("saved_folder"))
@@ -116,73 +88,62 @@ class MyWidget(ParentWidget):
             QMessageBox.about(self, "Notice", "project路徑未填")
             return False
         
-        if self.get_path("exe_path") == "./":
-            QMessageBox.about(self, "Notice", "exe路徑未填")
-            return False
-        
         if self.get_path("saved_dir") == "./":
             QMessageBox.about(self, "Notice", "儲存路徑未填")
-            return False
-        
-        if self.ui.bin_name_edit.text() == "":
-            QMessageBox.about(self, "Notice", "bin檔名未填")
             return False
         
         if self.ui.txt_path_label.text() == "":
             QMessageBox.about(self, "Notice", "param.txt 還沒load")
             return False
         
-        self.setting["bin_name"] = self.ui.bin_name_edit.text()
-        self.setting["trigger_idx"] = self.ui.trigger_comboBox.currentIndex()
-        self.write_setting(self.setting_folder + "setting.json")
-        
         return True
     
     def run(self):
-        if self.ui.start_capture_btn.text() == '開始拍攝':
+        if self.ui.start_btn.text() == 'Start':
             self.start()
         else:
             self.finish()
         
-    def start_capture(self):
+    def start_gen(self):
         bounds = None
-        for key in self.config:
-            if bounds is None:
-                bounds = np.array(self.config[key]["bounds"])
-            else:
-                bounds = np.concatenate((bounds, np.array(self.config[key]["bounds"])))
-        print('範圍設定\n', bounds, len(bounds))
+        units = None
+        for ISP_key in self.config["ISP"]:
+            ISP_block = self.config["ISP"][ISP_key]
+            for tag_key in ISP_block["tag"]:
+                if "bounds" not in ISP_block["tag"][tag_key]: continue
+                if bounds is None:
+                    bounds = np.array(ISP_block["tag"][tag_key]["bounds"])
+                    units = np.array(ISP_block["tag"][tag_key]["units"])
+                else:
+                    bounds = np.concatenate((bounds, np.array(ISP_block["tag"][tag_key]["bounds"])))
+                    units = np.concatenate((units, np.array(ISP_block["tag"][tag_key]["units"])))
+                    
+        print('範圍設定\n', bounds)
+        print('單位設定\n', units)
         # self.finish()
         # return
         param_generater = ParamGenerater(bounds=bounds, gen_num=0)
-        # param_norm = [0]*12
         param_norm = self.param_norm
         assert len(param_norm) == len(bounds)
-        param_denorm = param_generater.denorm_param(param_norm, units=0.0001)
-        
-        self.camera.clear_camera_folder()
-        sleep(2)
-        
+        param_denorm = param_generater.denorm_param(param_norm, units=units)
         self.projectMgr.set_param_value(param_denorm)
         self.projectMgr.build_and_push()
-        sleep(7)
-        self.camera.capture(path="{}/{}".format(self.get_path("saved_dir"), self.img_name), focus_time = 5, save_time = 0.5, transfer_time = 0.5, capture_num = 1)
-    
+        os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{self.img_name}")
         self.finish()
         
     def start(self):
         if self.check_setting() == False: return
-        self.ui.start_capture_btn.setText('停止拍攝')
+        self.ui.start_btn.setText('Stop')
         
         # 建立一個子執行緒
-        self.capture_task = threading.Thread(target=lambda: self.start_capture())
+        self.capture_task = threading.Thread(target=lambda: self.start_gen())
         # 當主程序退出，該執行緒也會跟著結束
         self.capture_task.daemon = True
         # 執行該子執行緒
         self.capture_task.start()
 
     def finish(self):
-        self.ui.start_capture_btn.setText('開始拍攝')
+        self.ui.start_btn.setText('Start')
         stop_thread(self.capture_task)
         
 def _async_raise(tid, exctype):
