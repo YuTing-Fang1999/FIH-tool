@@ -14,7 +14,7 @@ import os
 
 class MyWidget(ParentWidget):
     def __init__(self):
-        super().__init__("NTU/ML/MLISPSimulator/MLPushParam") 
+        super().__init__("NTU/ML/MLISPSimulator/MLPushParam/") 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.controller()

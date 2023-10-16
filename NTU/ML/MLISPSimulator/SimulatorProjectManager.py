@@ -78,8 +78,10 @@ class SimulatorProjectManager(ProjectManager):
                 p = np.array(param_value[i:i+param_num])
                 if tag_key == "layer_1_gain_positive_lut":
                     ISP_block["tag"][tag_key]["value"] = self.gen_gain_lut_tab(p[0], p[1], p[2])
-                    ISP_block["tag"]["layer_1_gain_negative_lut"]["value"] = ISP_block["tag"][tag_key]["value"]
-                
+                    ISP_block["tag"]["layer_1_gain_negative_lut"]["value"] = ISP_block["tag"][tag_key]["value"] + 0.3
+                    ISP_block["tag"]["layer_1_gain_positive_lut"]["value"][ISP_block["tag"][tag_key]["value"]>3] = 3
+                    ISP_block["tag"]["layer_1_gain_negative_lut"]["value"][ISP_block["tag"][tag_key]["value"]>3] = 3
+                    
                 elif tag_key == "layer_1_gain_weight_lut":
                     ISP_block["tag"][tag_key]["value"] = self.get_gain_weight_lut(p[0], p[1])
                     
@@ -94,6 +96,19 @@ class SimulatorProjectManager(ProjectManager):
                 elif tag_key == "layer_1_clamp_ul":
                         ISP_block["tag"][tag_key]["value"] = p
                         ISP_block["tag"]["layer_1_clamp_ll"]["value"] = -p
+                        
+                elif tag_key == "layer_2_gain_positive_lut":
+                    ISP_block["tag"][tag_key]["value"] = self.gen_gain_lut_tab(p[0], p[1], p[2]) / 3
+                    ISP_block["tag"]["layer_2_gain_negative_lut"]["value"] = ISP_block["tag"][tag_key]["value"]
+                    ISP_block["tag"]["layer_2_gain_positive_lut"]["value"][ISP_block["tag"][tag_key]["value"]>0.8] = 0.8
+                    ISP_block["tag"]["layer_2_gain_negative_lut"]["value"][ISP_block["tag"][tag_key]["value"]>0.8] = 0.8
+                
+                elif tag_key == "layer_2_gain_weight_lut":
+                    ISP_block["tag"][tag_key]["value"] = self.get_gain_weight_lut(p[0], p[1])
+                        
+                elif tag_key == "layer_2_clamp_ul":
+                        ISP_block["tag"][tag_key]["value"] = p
+                        ISP_block["tag"]["layer_2_clamp_ll"]["value"] = -p
                 else:
                     ISP_block["tag"][tag_key]["value"] = p
                         

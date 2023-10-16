@@ -69,6 +69,54 @@ class SimulatorConfig():
                                     ],
                                 ]
                             },
+                            "layer_2_gain_positive_lut":{
+                                "idx": 1,
+                                "units": [1, 1, 1],
+                                "bounds": [
+                                    [
+                                        2,
+                                        28
+                                    ],
+                                    [
+                                        0,
+                                        30
+                                    ],
+                                    [
+                                        0,
+                                        15
+                                    ],
+                                ]
+                            },
+                            "layer_2_gain_negative_lut":{
+                                "idx": 1,
+                            },
+                            "layer_2_clamp_ul":{
+                                "idx": 1,
+                                "units": [5],
+                                "bounds": [
+                                    [
+                                        0,
+                                        255
+                                    ],
+                                ]
+                            },
+                            "layer_2_clamp_ll":{
+                                "idx": 1,
+                            },
+                            "layer_2_gain_weight_lut":{
+                                "idx": 1,
+                                "units": [1, 0.05],
+                                "bounds": [
+                                    [
+                                        1,
+                                        10
+                                    ],
+                                    [
+                                        0,
+                                        0.5
+                                    ],
+                                ]
+                            },
                         }
                     },
                     # "ANR": {
