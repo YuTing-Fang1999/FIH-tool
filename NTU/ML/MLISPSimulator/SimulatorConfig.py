@@ -71,6 +71,22 @@ class SimulatorConfig():
                             },
                         }
                     },
+                    # "ANR": {
+                    #     "file_path": "/Chromatix/Scenario.Default/Sensor.0/Usecase.Snapshot/Feature1.None/Feature2.MMFPostFilter/XML/IPE/asf35_ipe_v2.xml",
+                    #     "enable_tag": ".//asf_enable[1]",
+                    #     "tag": {
+                    #         "layer_1_hpf_symmetric_coeff": {
+                    #             "idx": 1,
+                    #             "units": [1],
+                    #             "bounds": [
+                    #                 [
+                    #                     0, # thin kernel 
+                    #                     1  # mid kernel 
+                    #                 ],
+                    #             ]
+                    #         },
+                    #     },
+                    # },
                 }
                 
             }

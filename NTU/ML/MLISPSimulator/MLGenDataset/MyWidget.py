@@ -94,8 +94,10 @@ class MyWidget(ParentWidget):
         print('單位設定\n', units)
         # self.finish()
         # return
-        self.ui.progressBar.show()
         self.ui.progressBar.setMaximum(self.config["gen_num"])
+        self.ui.progressBar.setValue(0)
+        self.ui.progressBar.show()
+        
         param_generater = ParamGenerater(bounds=bounds, gen_num=self.config["gen_num"])
         param_norm = param_generater.gen_param()
         param_norm[0] = [0]*len(bounds)
@@ -106,6 +108,12 @@ class MyWidget(ParentWidget):
         param_generater.save_to_csv(self.get_path("saved_dir")+'/param_norm.csv', param_norm)
         param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
         
+        self.projectMgr.set_isp_enable(0)
+        self.projectMgr.set_param_value([0]*len(bounds))
+        self.projectMgr.build_and_push()
+        os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/unprocessed.jpg")
+        
+        self.projectMgr.set_isp_enable(1)
         for  i, param in enumerate(tqdm(param_denorm)):
             self.ui.progressBar.setValue(i+1)
             param = [float(x) for x in param]

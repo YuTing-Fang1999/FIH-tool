@@ -27,6 +27,7 @@ class SimulatorProjectManager(ProjectManager):
         self.setting = setting
         self.config = config
         self.cmd = cmd
+        self.isp_enable = 1
         
     # def read_config(self, config_path):
     #     assert os.path.exists(config_path)
@@ -98,6 +99,9 @@ class SimulatorProjectManager(ProjectManager):
                         
                 i += param_num
                 
+    def set_isp_enable(self, enable):
+        self.isp_enable = enable
+        
     def set_param_value(self, param_value):
         self.update_config(param_value)
         
@@ -107,6 +111,10 @@ class SimulatorProjectManager(ProjectManager):
             file_path = self.get_file_path(ISP_block["file_path"])
             # 從檔案載入並解析 XML 資料
             tree = ET.parse(file_path)
+            
+            # set isp enable
+            tree.find(ISP_block["enable_tag"]).text = str(self.isp_enable)
+            
             for tag_key in ISP_block["tag"]:
                 idx = ISP_block["tag"][tag_key]["idx"]
                 node = tree.find(f".//{tag_key}[{idx}]")
