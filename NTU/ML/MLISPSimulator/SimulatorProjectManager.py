@@ -128,11 +128,14 @@ class SimulatorProjectManager(ProjectManager):
             tree = ET.parse(file_path)
             
             # set isp enable
-            tree.find(ISP_block["enable_tag"]).text = str(self.isp_enable)
+            for tag in ISP_block["enable_tag"]:
+                tree.find(tag).text = str(self.isp_enable)
             
             for tag_key in ISP_block["tag"]:
-                idx = ISP_block["tag"][tag_key]["idx"]
-                node = tree.find(f".//{tag_key}[{idx}]")
+                node = tree
+                for path in ISP_block["tag"][tag_key]["path"]:
+                    print(node)
+                    node = node.find(path)
                 param_value_new = ISP_block["tag"][tag_key]["value"]
                 param_value_new = [str(x) for x in param_value_new]
                 param_value_new = ' '.join(param_value_new)
