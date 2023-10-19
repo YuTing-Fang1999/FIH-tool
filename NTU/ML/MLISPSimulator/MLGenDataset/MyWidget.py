@@ -108,6 +108,14 @@ class MyWidget(ParentWidget):
         param_generater.save_to_csv(self.get_path("saved_dir")+'/param_norm.csv', param_norm)
         param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
         
+        dir_name = self.setting["saved_dir"].split('/')[-1]
+        with open(self.setting["saved_dir"]+'/cmd.txt', 'w') as f:
+            f.write('# Train\n')
+            f.write(f'python train.py --is_recommand False --kimg 50 --resume places.pkl --img_data=datasets/'+dir_name+' --outdir=training_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 20 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
+            f.write('\n')
+            f.write('# Recommand\n')
+            f.write(f'python train.py --is_recommand True --kimg 10 --resume training_run/'+dir_name+'/Model.pkl --img_data=datasets/'+dir_name+' --outdir=target_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 1 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
+        
         self.projectMgr.set_isp_enable(0)
         self.projectMgr.set_param_value([0]*len(bounds))
         self.projectMgr.build_and_push()
@@ -120,15 +128,7 @@ class MyWidget(ParentWidget):
             self.projectMgr.set_param_value(param)
             self.projectMgr.build_and_push()
             os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{i}.jpg")
-        
-        dir_name = self.setting["saved_dir"].split('/')[-1]
-        with open(self.setting["saved_dir"]+'/cmd.txt', 'w') as f:
-            f.write('# Train\n')
-            f.write(f'python train.py --is_recommand False --kimg 50 --resume places.pkl --img_data=datasets/'+dir_name+' --outdir=training_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 20 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
-            f.write('\n')
-            f.write('# Recommand\n')
-            f.write(f'python train.py --is_recommand True --kimg 10 --resume training_run/'+dir_name+'/Model.pkl --img_data=datasets/'+dir_name+' --outdir=target_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 1 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
-            
+
         self.finish()
         
     def start(self):
