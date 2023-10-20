@@ -28,45 +28,62 @@ class ExcelWorkerThread(QThread):
         is_processing = False
         filepath = None
         excel_path = None
-
-        def __init__(self):
+        
+        def __init__(self, platform):
             super().__init__()
-
+            self.selected_text = platform
+        
         def create_xls(self, fn):
             wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
             wb.active = 0
             return wb
-
+        
         def run(self):
             try:
                 print(f"Selected file: {self.filepath}")
-
+        
                 self.is_processing = True
-
+        
                 tree = ET.parse(self.filepath)
                 root = tree.getroot()
-
+        
                 data = []
-                for i, mod_gamma15_led_idx_data in enumerate(root.findall('.//mod_gamma15_led_idx_data')):
-                    led_idx_trigger = mod_gamma15_led_idx_data.find('led_idx_trigger').text
-
-                    for mod_gamma15_aec_data in mod_gamma15_led_idx_data.findall('led_idx_data/mod_gamma15_aec_data'):
-                        aec_trigger = mod_gamma15_aec_data.find('aec_trigger')
-                        lux_idx_start = aec_trigger.find('lux_idx_start').text
-                        lux_idx_end = aec_trigger.find('lux_idx_end').text
-
-                        gamma15_rgn_data = mod_gamma15_aec_data.find('.//gamma15_rgn_data')
-
-                        sheet_name = "stepChart_flash_{}_lux_{}_{}".format(led_idx_trigger, lux_idx_start, lux_idx_end)
-                        gamma = gamma15_rgn_data.find('table').text
-
-                        # print(sheet_name)
-                        # print(gamma)
-
-                        data.append({
-                            "gamma": gamma,
-                            "name": sheet_name
-                        })
+                if self.selected_text == "SM4350_SX1":
+                    for i, mod_gamma15_led_idx_data in enumerate(root.findall('.//mod_gamma15_led_idx_data')):
+                        led_idx_trigger = mod_gamma15_led_idx_data.find('led_idx_trigger').text
+                        for mod_gamma15_aec_data in mod_gamma15_led_idx_data.findall('led_idx_data/mod_gamma15_aec_data'):
+                            aec_trigger = mod_gamma15_aec_data.find('aec_trigger')
+                            lux_idx_start = aec_trigger.find('lux_idx_start').text
+                            lux_idx_end = aec_trigger.find('lux_idx_end').text
+                            
+                            gamma15_rgn_data = mod_gamma15_aec_data.find('.//gamma15_rgn_data')
+                            sheet_name = "stepChart_flash_{}_lux_{}_{}".format(led_idx_trigger, lux_idx_start, lux_idx_end)
+                            gamma = gamma15_rgn_data.find('table').text
+                            
+                            data.append({
+                                "gamma": gamma,
+                                "name": sheet_name
+                            })
+                if self.selected_text == "SM8550_DG2":
+                    for mod_gamma15_trigger_data in root.findall('.//mod_gamma15_trigger_data'):
+                        for aec_data in mod_gamma15_trigger_data.findall('.//trigger'):
+                            for led_idx_data in aec_data.findall('.//trigger'):
+                                led_idx_start = led_idx_data.find('start').text
+                                for lux_idx_data in led_idx_data.findall('.//trigger'):
+                                    lux_idx_start = lux_idx_data.find('start').text
+                                    lux_idx_end = lux_idx_data.find('end').text
+                                    for cct_data in lux_idx_data.findall('.//trigger'):
+                                        cct_start = cct_data.find('start').text
+                                        cct_end = cct_data.find('end').text
+                                        
+                                        channel_r = cct_data.find('.//region/channel_r_tab/channel_r').text
+                                        sheet_name = f"LED_{led_idx_start}_Lux_{lux_idx_start}_{lux_idx_end}_CCT_{cct_start}_{cct_end}"
+                                        gamma = channel_r
+                                        
+                                        data.append({
+                                            "gamma": gamma,
+                                            "name": sheet_name
+                                        })
                 assert data != [], "No data in xml file!"
                 localtime = time.localtime()
                 clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
@@ -76,32 +93,32 @@ class ExcelWorkerThread(QThread):
                 
                 # copy sheet
                 shutil.copyfile(self.excel_path, self.xml_excel_path)
-
+        
                 app = xw.App(visible=False)
                 wb = xw.Book(self.xml_excel_path)
                 macro_vba = wb.app.macro('CopySheetWithChart')
-
+        
                 for i, item in enumerate(data, start=2):
                     sheet_name = item["name"]
-
+        
                     print(sheet_name)
                     self.update_status_bar_signal.emit(sheet_name)
                     macro_vba(sheet_name)
                     wb.sheets[sheet_name].range("T2").value=item["gamma"]
-
+        
                 wb.sheets[0].activate()
                 wb.save()
                 app.quit()
-
-                self.update_status_bar_signal.emit("stepChar is ok!")
-                print("stepChar is ok!")
+        
+                self.update_status_bar_signal.emit("stepChart is ok!")
+                print("stepChart is ok!")
                 
                 self.is_processing = False
-
+        
                 item_list = []
                 for i, item in enumerate(data, start=2):
                     item_list.append(item["name"])
-
+        
                 self.update_list_signal.emit(item_list)
             except Exception as e:
                 print("Error: ", str(e))
@@ -158,7 +175,7 @@ class MyWidget(ParentWidget):
         self.ui.verticalLayout.addWidget(self.statusBar)
         self.ui.before_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ui.after_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
+        self.ui.platform_selector.addItems(["SM4350_SX1", "SM8550_DG2"])
 
         self.img_viewer = ImageViewer()
         self.ui.img_layout.addWidget(self.img_viewer)
@@ -169,7 +186,7 @@ class MyWidget(ParentWidget):
         self.our_roi = None
         self.ref_roi = None
         self.before_status_ok = np.array([False, False, False])
-        self.excel_worker = ExcelWorkerThread()
+        self.excel_worker = ExcelWorkerThread(self.ui.platform_selector.currentText())
         self.controller()
         
     def controller(self):
@@ -229,7 +246,8 @@ class MyWidget(ParentWidget):
         # filepath = "QC/LSC/lsc34_bps.xml"
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("QC_stepChart_filefolder", filefolder)
-
+        self.excel_worker = ExcelWorkerThread(self.ui.platform_selector.currentText())
+        self.controller()
         self.excel_worker.excel_path = self.excel_path
         self.excel_worker.filepath = filepath
         self.excel_worker.start()
