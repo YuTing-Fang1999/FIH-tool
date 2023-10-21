@@ -43,7 +43,8 @@ class MyWidget(ParentWidget):
         text = ""
         for roi in roi_coordinate:
             text += f"[{roi[0]}, {roi[1]}],"
-        self.ui.ROI_label.setText(text[:-1])
+        text = "[" + text[:-1] + "]"
+        self.ui.ROI_label.setText(text)
         
 if __name__ == "__main__":
     import sys
