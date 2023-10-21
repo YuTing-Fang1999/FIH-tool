@@ -16,15 +16,13 @@ class MyWidget(ParentWidget):
         self.controller()
         
         
-        
     def setupSettingUI(self):
         if self.get_path("img_path") != "./": 
             self.ui.img_path.setText(self.setting["img_path"])
-            img = cv2.imdecode(np.fromfile(file=self.setting["img_path"], dtype=np.uint8), cv2.IMREAD_COLOR)
-            self.select_ROI_window.tune(-1, img)
         
     def controller(self):
         self.ui.load_img_btn.clicked.connect(lambda: self.load_img())
+        self.ui.select_btn.clicked.connect(lambda: self.select())
         self.select_ROI_window.to_main_window_signal.connect(self.get_ROI_coordinate)
         
     def load_img(self):
@@ -36,7 +34,9 @@ class MyWidget(ParentWidget):
         
         self.ui.img_path.setText(filepath)
         self.set_path("img_path", filepath)
-        img = cv2.imdecode(np.fromfile(file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
+        
+    def select(self):
+        img = cv2.imdecode(np.fromfile(file=self.get_path("img_path"), dtype=np.uint8), cv2.IMREAD_COLOR)
         self.select_ROI_window.tune(-1, img)
         
     def get_ROI_coordinate(self, idx, roi_coordinate):

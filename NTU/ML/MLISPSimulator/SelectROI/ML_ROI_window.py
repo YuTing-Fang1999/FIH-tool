@@ -41,10 +41,6 @@ class ImageViewer(QtWidgets.QGraphicsView):
         self.roi_coordinate_rate = None
 
         self.is_key_press_ctrl = False
-        self.square_rate = 0.08
-        self.padding_rate = 0.088
-        self.start_h_rate = 0.038
-        self.start_w_rate = 0.038
 
     def hasPhoto(self):
         return not self._empty
@@ -90,8 +86,8 @@ class ImageViewer(QtWidgets.QGraphicsView):
     def gen_roi_coordinate_rate(self):
         self.roi_coordinate_rate = []
         h, w, c = self.img.shape
-        for i in range(0, h-256, 256):
-            for j in range(0, w-256, 256):
+        for i in range(0, h-256, 128):
+            for j in range(0, w-256, 128):
                 self.roi_coordinate_rate.append([i, j])
         self.roi_coordinate_rate = np.array(self.roi_coordinate_rate)
 
@@ -206,7 +202,7 @@ class ROI_tune_window(QtWidgets.QWidget):
         self.tab_idx = tab_idx
         self.viewer.setPhoto(img)
         self.viewer.gen_RectItem()
-        self.show()
+        self.showMaximized()
 
     def get_roi_coordinate(self):
         # items = self.viewer._scene.items()[:-1]

@@ -28,8 +28,8 @@ font-weight: bold;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>808</width>
-        <height>445</height>
+        <width>818</width>
+        <height>455</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -62,9 +62,16 @@ font-weight: bold;</string>
         </layout>
        </item>
        <item>
+        <widget class="QPushButton" name="select_btn">
+         <property name="text">
+          <string>select</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="ROI_label">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
