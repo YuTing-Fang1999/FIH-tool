@@ -205,23 +205,23 @@ class ROI_tune_window(QtWidgets.QWidget):
         self.showMaximized()
 
     def get_roi_coordinate(self):
-        # items = self.viewer._scene.items()[:-1]
-        # items.reverse()
-        # roi_coordinate = []
-        # for item in items:
-        #     scenePos = item.mapToScene(item.boundingRect().topLeft())
-        #     r1, c1 = scenePos.y()+0.5, scenePos.x()+0.5 # border也有占空間，要去掉
-        #     scenePos = item.mapToScene(item.boundingRect().bottomRight())
-        #     r2, c2 = scenePos.y()-0.5, scenePos.x()-0.5
-        #     roi_coordinate.append([r1, c1, r2, c2])
+        items = self.viewer._scene.items()[:-1]
+        items.reverse()
+        roi_coordinate = []
+        for item in items:
+            scenePos = item.mapToScene(item.boundingRect().topLeft())
+            r1, c1 = scenePos.y()+0.5, scenePos.x()+0.5 # border也有占空間，要去掉
+            scenePos = item.mapToScene(item.boundingRect().bottomRight())
+            r2, c2 = scenePos.y()-0.5, scenePos.x()-0.5
+            roi_coordinate.append([r1, c1, r2, c2])
 
         #     # cv2.imshow('a', self.viewer.img[r1:r2,c1:c2,:])
         #     # cv2.waitKey(0)
         #     # cv2.destroyAllWindows()
-        # roi_coordinate = np.array(roi_coordinate)
+        roi_coordinate = np.array(roi_coordinate)
         # w = self.viewer.img.shape[1]
         # self.viewer.roi_coordinate_rate = roi_coordinate/w
-        self.to_main_window_signal.emit(self.tab_idx, self.viewer.roi_coordinate_rate.astype(int))
+        self.to_main_window_signal.emit(self.tab_idx, roi_coordinate.astype(int))
         self.close()
 
 
