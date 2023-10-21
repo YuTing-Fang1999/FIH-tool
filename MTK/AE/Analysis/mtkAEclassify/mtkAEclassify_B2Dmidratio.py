@@ -203,7 +203,7 @@ def B2Dmidratio(exif_path):
             img = cv2.resize(img, (width, height), interpolation=cv2.INTER_AREA)
             # print(img.shape)
             # print(destination+"/"+path_name_jpg.split("/")[-1])
-            # 儲存含中文檔名的圖片
+            # 儲存含檔名的圖片
             cv2.imencode('.jpg', img)[1].tofile(destination+"/small/"+path_name_jpg.split("/")[-1])
             
             # Have reference
