@@ -126,6 +126,7 @@ class MyWidget(ParentWidget):
         param_norm = self.param_norm
         assert len(param_norm) == len(bounds)
         param_denorm = param_generater.denorm_param(param_norm, units=units)
+        self.projectMgr.set_isp_enable(1)
         self.projectMgr.set_param_value(param_denorm)
         self.projectMgr.build_and_push()
         os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{self.img_name}")
