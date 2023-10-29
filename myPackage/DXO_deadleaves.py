@@ -8,6 +8,16 @@ from math import e
 import torch
 
 ############ DXO deadleaves #############
+
+def adjust_gamma(image, gamma=1.0):
+	# build a lookup table mapping the pixel values [0, 255] to
+	# their adjusted gamma values
+	invGamma = 1.0 / gamma
+	table = np.array([((i / 255.0) ** invGamma) * 255
+		for i in np.arange(0, 256)]).astype("uint8")
+	# apply gamma correction using the lookup table
+	return cv2.LUT(image, table)
+
 def ResizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
     dim = None
     (h, w) = image.shape[:2]
@@ -43,7 +53,9 @@ def get_rec_roi(im, p, w):
     return rec_roi
 
 def get_roi_img_and_coor(im, TEST, img_idx):
-    resize_im = ResizeWithAspectRatio(im, height=1200)
+    # resize_im = ResizeWithAspectRatio(im, height=1200)
+    resize_im = im.copy()
+    resize_im = adjust_gamma(resize_im, 1.5)
     resize_gray_im = cv2.cvtColor(resize_im, cv2.COLOR_BGR2GRAY)
     edged = cv2.Canny(resize_gray_im, 100, 490)
     kernel = np.ones((2,2), np.uint8) 
@@ -97,7 +109,7 @@ def get_roi_img_and_coor(im, TEST, img_idx):
             r, c = int(r), int(c)
 
             # 避免重複尋找
-            if find and np.linalg.norm(np.array(coor[-1][:2])-np.array([r,c]))<5:
+            if find and np.linalg.norm(np.array(coor[-1][:2])-np.array([r,c]))<50:
                 continue
 
             if not find:
@@ -117,9 +129,16 @@ def get_roi_img_and_coor(im, TEST, img_idx):
             r2 = max(r2, c[0])
             c1 = min(c1, c[1])
             c2 = max(c2, c[1])
-        for c in coor:
-            if((abs(c[0] - r1)>100 and abs(c[0] - r2)>100) or (abs(c[1] - c1)>100 and abs(c[1] - c2)>100)):
-                coor.remove(c)
+        # print(r1, r2, c1, c2)
+        # print("len(coor) =", len(coor))
+        i = 0
+        while i < len(coor):
+            # print(abs(coor[i][0] - r1), abs(coor[i][0] - r2), abs(coor[i][1] - c1), abs(coor[i][1] - c2))
+            if((abs(coor[i][0] - r1)>100 and abs(coor[i][0] - r2)>100) or (abs(coor[i][1] - c1)>100 and abs(coor[i][1] - c2)>100)):
+                coor.remove(coor[i])
+                # print("remove", coor[i])
+                # print("len(coor) =", len(coor))
+            else: i += 1
         
     if TEST and len(coor) != 4:
         # 由下到上，右到左
