@@ -224,7 +224,9 @@ class SelectROI_window(QtWidgets.QWidget):
         img = cv2.imdecode(np.fromfile(file=filepath, dtype=np.uint8), cv2.IMREAD_COLOR)
         self.selectROI(img)
 
-    def selectROI(self, img):
+    def selectROI(self, img, tab_idx=None):
+        if tab_idx != None:
+            self.tab_idx = tab_idx
         self.viewer.img = img
         qimg = QImage(img, img.shape[1], img.shape[0], img.shape[1]
                       * img.shape[2], QImage.Format_RGB888).rgbSwapped()

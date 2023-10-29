@@ -140,12 +140,12 @@ def get_roi_img_and_coor(im, TEST, img_idx):
                 # print("len(coor) =", len(coor))
             else: i += 1
         
-    if TEST and len(coor) != 4:
+    # if TEST and len(coor) != 4:
         # 由下到上，右到左
-        for c in coor:
-            # 在中心點畫上黃色實心圓
-            cv2.circle(resize_im, (c[1], c[0]), int(10), (1, 227, 254), -1)
-        cv2.imshow("resize_im_mark_cicle"+str(img_idx+1), ResizeWithAspectRatio(resize_im, height=600))
+        # for c in coor:
+        #     # 在中心點畫上黃色實心圓
+        #     cv2.circle(resize_im, (c[1], c[0]), int(10), (1, 227, 254), -1)
+        # cv2.imshow("resize_im_mark_cicle"+str(img_idx+1), ResizeWithAspectRatio(resize_im, height=600))
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
         
