@@ -24,6 +24,7 @@ from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
 from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
+from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
 
 from MTK.AE.Tuning.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
 from MTK.AE.Tuning.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
@@ -142,7 +143,7 @@ class Config():
                         {
                             "title": "CCM/CV Initializer",
                             "subtitle": "CCM/CV calibration via Color Checker",
-                            "instruction": MyLabel(""),
+                            "instruction": CCMCVInitializerIntro(),
                             "widget": CCMCVInitializerWidget(),
                         },
                     ]

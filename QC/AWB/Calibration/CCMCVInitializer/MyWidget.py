@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QPushButton, QWidget, QApplication, QFileDialog, QMessageBox, QLabel, QStatusBar
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QMutex, QWaitCondition
+from PyQt5.QtGui import QCursor, QImage, QPixmap
+
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 from myPackage.selectROI_window import SelectROI_window
@@ -7,9 +9,8 @@ from myPackage.ROI_tune_window import ROI_tune_window
 from myPackage.ImageMeasurement import get_roi_img
 from myPackage.OpenExcelBtn import is_workbook_open, close_excel
 from myPackage.ExcelFunc import get_excel_addin_path
+from myPackage.DXO_deadleaves import ResizeWithAspectRatio
 
-from PyQt5 import QtCore
-from PyQt5.QtGui import QCursor
 
 import cv2
 import numpy as np
@@ -64,22 +65,18 @@ class SolverThread(QThread):
         self.update_status_bar_signal.emit("Copy the template file...")
         app = xw.App(visible=False)
         wb = app.books.open(self.excel_template_path)
-        file = f'colorCalculate_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm'
-        wb.save(file)
         
-        self.excel_path = f"CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
+        self.excel_path = self.dir_path + f"/CCMCVsimulator_{localtime[0]}_{localtime[1]}_{localtime[2]}_{clock}.xlsm"
         self.excel_path = os.path.abspath(self.excel_path)
         wb.active = 0
         wb.save(self.excel_path)
         
         # copy the sheet with chart
         self.update_status_bar_signal.emit("Copy the sheet with chart...")
-        app = xw.App(visible=False)
-        wb = xw.Book(self.excel_path)
+        # app = xw.App(visible=False)
+        # wb = xw.Book(self.excel_path)
         wb.sheets['colorCalculate'].range('W3:Y5').value = np.array(self.data["CCM"].split()).reshape(3,3)
-        wb.sheets['gamma_R'].range('O2').value = self.data["gamma"]
-        wb.sheets['gamma_G'].range('O2').value = self.data["gamma"]
-        wb.sheets['gamma_B'].range('O2').value = self.data["gamma"]
+        wb.sheets['colorCalculate'].range('CC2').value = self.data["gamma"]
         macro_vba = wb.app.macro('CopySheetWithChart')
         i = 0
         n = np.size(allFileList_jpg)//2
@@ -222,7 +219,22 @@ class SolverThread(QThread):
     #             V = 12.92*rgb[i]
     #             srgb.append(round(V*255,2))
     #     return srgb
-                
+           
+class HoverLabel(QLabel):
+    show_img_signal = pyqtSignal(str)
+    hide_img_signal = pyqtSignal()
+    def __init__(self, text, img_path):
+        super().__init__(text)
+        self.setMouseTracking(True)  # Required to receive hover events
+        self.img_path = img_path
+
+    def enterEvent(self, event):
+        super().enterEvent(event)
+        self.show_img_signal.emit(self.img_path)
+
+    def leaveEvent(self, event):
+        super().leaveEvent(event)     
+        self.hide_img_signal.emit()
 class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
@@ -245,8 +257,35 @@ class MyWidget(ParentWidget):
         self.set_btn_enable(self.ui.open_excel_btn, False)
         # Create the status bar
         self.statusBar = QStatusBar()
-        self.ui.verticalLayout.addWidget(self.statusBar)
+        self.ui.progress_bar_layout.addWidget(self.statusBar)
         self.statusBar.hide()
+        
+        if os.path.exists(self.get_path("QC_AWB_CCM_data_path")):
+            self.ui.data_path.setText(self.get_path("QC_AWB_CCM_data_path"))
+            self.set_btn_enable(self.ui.solver_btn, True)
+            
+        self.ui.pic_format_label = HoverLabel(
+            "＊ref. & tst pic name msut according to the specifications.\n　Ex: A_1, A_2 ; B_1, B_2...",
+            "QC/AWB/Calibration/CCMCVInitializer/FileNaming-02.jpg")
+        self.ui.CCM_label = HoverLabel(
+            "CCM",
+            "QC/AWB/Calibration/CCMCVInitializer/CCM.jpg")
+        self.ui.CCM_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        def remove_widget(grid, row, col):
+            # Retrieve the widget at the specified row and column
+            widget_item = grid.itemAtPosition(row, col)
+            if widget_item:
+                widget = widget_item.widget()
+                
+                # Remove the widget from the layout
+                grid.removeWidget(widget)
+                
+                # Delete the widget
+                widget.deleteLater()
+        remove_widget(self.ui.grid, 1, 1)
+        remove_widget(self.ui.grid, 2, 0)
+        self.ui.grid.addWidget(self.ui.pic_format_label, 1, 1)
+        self.ui.grid.addWidget(self.ui.CCM_label, 2, 0)
         
     def controller(self):
         self.ui.browse_btn.clicked.connect(self.load_data_path)
@@ -261,12 +300,38 @@ class MyWidget(ParentWidget):
         # 選好ROI後觸發
         self.selectROI_window.to_main_window_signal.connect(self.set_roi_coordinate)
         self.ROI_tune_window.to_main_window_signal.connect(self.set_24_roi_coordinate)
-    
+        
+        self.ui.data_path.textChanged.connect(self.data_path_changed_event)
+        self.ui.pic_format_label.show_img_signal.connect(self.show_img)
+        self.ui.pic_format_label.hide_img_signal.connect(self.ui.hover_img.hide)
+        self.ui.CCM_label.show_img_signal.connect(self.show_img)
+        self.ui.CCM_label.hide_img_signal.connect(self.ui.hover_img.hide)
+        
+    def show_img(self, path):
+        # self.ui.hover_img = HoverLabel("")
+        img = cv2.imdecode(np.fromfile(file=path, dtype=np.uint8), cv2.IMREAD_COLOR)
+        img = ResizeWithAspectRatio(img, height=400)
+        self.ui.hover_img.resize(img.shape[1], img.shape[0])
+        qimg = QImage(np.array(img), img.shape[1], img.shape[0],
+                      img.shape[1]*img.shape[2], QImage.Format_RGB888).rgbSwapped()
+        self.ui.hover_img.setPixmap(QPixmap(qimg))
+        self.ui.hover_img.show()
+        
+        # cursor_pos = self.mapToGlobal(self.rect().center())
+        # self.ui.hover_img.move(cursor_pos.x(), cursor_pos.y())
+        
+    def data_path_changed_event(self, text):
+        if(text == ""):
+            self.set_btn_enable(self.ui.solver_btn, False)
+        else:
+            self.set_btn_enable(self.ui.solver_btn, True)
+            
     def update_status_bar(self, text):
         self.statusBar.showMessage(text, 8000)
         
     def failed(self, text="Failed"):
         self.set_all_enable(True)
+        self.set_btn_enable(self.ui.open_excel_btn, False)
         QMessageBox.about(self, "Failed", text)
 
     def solver_finish(self):
@@ -278,9 +343,6 @@ class MyWidget(ParentWidget):
 
         if filepath == '':
             return
-        self.solver_thread.dir_path = filepath
-        filefolder = '/'.join(filepath.split('/')[:-1])
-        self.set_path("QC_AWB_CCM_data_path", filefolder)
         
         self.ui.data_path.setText(filepath)
         self.set_btn_enable(self.ui.solver_btn, True)
@@ -322,6 +384,17 @@ class MyWidget(ParentWidget):
             elif not check_num_list(value):
                 QMessageBox.about(self, "Failed", key+"格式錯誤")
                 return
+        
+        data_path = self.ui.data_path.text()
+        if os.path.isdir(data_path) == False:
+            self.failed("Data Path不存在")
+            return
+        
+        data_path = data_path.replace('\\', '/')
+        self.solver_thread.dir_path = data_path
+        self.set_path("QC_AWB_CCM_data_path", data_path)
+        print(self.get_path("QC_AWB_CCM_data_path"))
+        
                 
         self.solver_thread.data = data
         self.set_all_enable(False)
@@ -349,7 +422,7 @@ class MyWidget(ParentWidget):
                 style =  "QPushButton {background:rgb(68, 114, 196); color: white;}"
             else:
                 style =  "QPushButton {background: white; color: rgb(32,62,125);}"
-            btn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+            btn.setCursor(QCursor(Qt.PointingHandCursor))
         else:
             style =  "QPushButton {background: rgb(150, 150, 150); color: rgb(100, 100, 100);}"
         btn.setStyleSheet(style)
