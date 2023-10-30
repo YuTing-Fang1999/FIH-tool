@@ -61,6 +61,7 @@ class Ui_Form(object):
         self.trigger_grid.addWidget(self.load_txt_btn, 1, 0, 1, 1)
         self.param_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.param_label.setText("")
+        self.param_label.setWordWrap(True)
         self.param_label.setObjectName("param_label")
         self.trigger_grid.addWidget(self.param_label, 2, 1, 1, 1)
         self.txt_path_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
