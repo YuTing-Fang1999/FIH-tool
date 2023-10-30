@@ -1,54 +1,33 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QToolButton, QLabel, QVBoxLayout, QWidget
-from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+from PyQt5.QtCore import QTimer
 
-class HoverButton(QToolButton):
-    def __init__(self, text, image_path, parent=None):
-        super(HoverButton, self).__init__(parent)
-        self.setText(text)
-        self.image_path = image_path
-        self.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
-        self.setIconSize(QSize(50, 50))
-        self.setAutoRaise(True)
-        self.setStyleSheet("QToolButton { border: none; }")
-        self.installEventFilter(self)
+class HoverLabel(QLabel):
+    def __init__(self, text, parent=None):
+        super().__init__(text, parent)
+        self.hover_timer = QTimer(self)
+        self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
+        self.hover_timer.setInterval(1000)  # 1000 milliseconds = 1 second
+        self.is_hovered = False
 
-    def eventFilter(self, obj, event):
-        if obj == self and event.type() == QEvent.Enter:
-            pixmap = QPixmap(self.image_path)
-            label = QLabel()
-            label.setPixmap(pixmap)
-            label.setAlignment(Qt.AlignCenter)
+    def enterEvent(self, event):
+        if not self.is_hovered:
+            self.is_hovered = True
+            self.hover_timer.start()
 
-            popup = QWidget(self)
-            layout = QVBoxLayout(popup)
-            layout.addWidget(label)
-            popup.setLayout(layout)
-            popup.move(self.mapToGlobal(self.rect().bottomRight()))
-            popup.show()
-            popup.setStyleSheet("background-color: white; border: 1px solid black;")
-            self.popup = popup
+    def leaveEvent(self, event):
+        self.is_hovered = False
+        self.hover_timer.stop()
 
-        if obj == self and event.type() == QEvent.Leave:
-            if hasattr(self, 'popup'):
-                self.popup.close()
+    def on_hover_timer_timeout(self):
+        # This method will be called after 1 second of hovering
+        print("Label has been hovered for 1 second")
 
-        return super(HoverButton, self).eventFilter(obj, event)
-
-def main():
+if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = QMainWindow()
-    central_widget = QWidget()
-    layout = QVBoxLayout()
-
-    button = HoverButton("Hover Button", "image.png")
-    layout.addWidget(button)
-    
-    central_widget.setLayout(layout)
-    window.setCentralWidget(central_widget)
+    window = QWidget()
+    label = HoverLabel("Hover over me for 1 second", window)
+    label.setGeometry(100, 100, 200, 50)
+    window.setGeometry(100, 100, 400, 200)
     window.show()
     sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    main()

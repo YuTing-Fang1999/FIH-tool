@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QPushButton, QWidget, QApplication, QFileDialog, QMessageBox, QLabel, QStatusBar
-from PyQt5.QtCore import QThread, pyqtSignal, Qt, QMutex, QWaitCondition
+from PyQt5.QtCore import QThread, pyqtSignal, Qt, QMutex, QWaitCondition, QTimer
 from PyQt5.QtGui import QCursor, QImage, QPixmap
 
 from .UI import Ui_Form
@@ -225,16 +225,27 @@ class HoverLabel(QLabel):
     hide_img_signal = pyqtSignal()
     def __init__(self, text, img_path):
         super().__init__(text)
-        self.setMouseTracking(True)  # Required to receive hover events
         self.img_path = img_path
-
+        
+        self.hover_timer = QTimer(self)
+        self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
+        self.hover_timer.setInterval(1000)  # 1000 milliseconds = 1 second
+        self.is_hovered = False
+        
     def enterEvent(self, event):
-        super().enterEvent(event)
-        self.show_img_signal.emit(self.img_path)
+        if not self.is_hovered:
+            self.is_hovered = True
+            self.hover_timer.start()
 
     def leaveEvent(self, event):
-        super().leaveEvent(event)     
+        self.is_hovered = False
+        self.hover_timer.stop()
         self.hide_img_signal.emit()
+
+    def on_hover_timer_timeout(self):
+        # This method will be called after 1 second of hovering
+        self.show_img_signal.emit(self.img_path)
+        
 class MyWidget(ParentWidget):
     def __init__(self):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
@@ -266,10 +277,10 @@ class MyWidget(ParentWidget):
             
         self.ui.pic_format_label = HoverLabel(
             "＊ref. & tst pic name msut according to the specifications.\n　Ex: A_1, A_2 ; B_1, B_2...",
-            "QC/AWB/Calibration/CCMCVInitializer/FileNaming-02.jpg")
+            "QC/AWB/Calibration/CCMCVInitializer/legend_FileNaming-02.jpg")
         self.ui.CCM_label = HoverLabel(
             "CCM",
-            "QC/AWB/Calibration/CCMCVInitializer/CCM.jpg")
+            "QC/AWB/Calibration/CCMCVInitializer/legend_CCM.jpg")
         self.ui.CCM_label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         def remove_widget(grid, row, col):
             # Retrieve the widget at the specified row and column
@@ -317,8 +328,12 @@ class MyWidget(ParentWidget):
         self.ui.hover_img.setPixmap(QPixmap(qimg))
         self.ui.hover_img.show()
         
-        # cursor_pos = self.mapToGlobal(self.rect().center())
-        # self.ui.hover_img.move(cursor_pos.x(), cursor_pos.y())
+        cursor = QCursor()
+        global_pos = cursor.pos()
+        local_pos = self.mapFromGlobal(global_pos)
+        # print(f"Global Position: {global_pos.x()}, {global_pos.y()}")
+        # print(f"Local Position: {local_pos.x()}, {local_pos.y()}")
+        self.ui.hover_img.move(local_pos.x(), local_pos.y())
         
     def data_path_changed_event(self, text):
         if(text == ""):
