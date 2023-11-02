@@ -108,7 +108,8 @@ class MyWidget(ParentWidget):
 
         self.gen_excel_worker.update_status_signal.connect(self.update_btn_status)
         self.gen_excel_worker.gen_finish_signal.connect(self.after_gen_excel)
-
+        self.gen_excel_worker.failed_signal.connect(self.failed)
+        
     def setupUi(self):
         delegate = AlignDelegate(self.ui.exif_table)
         self.ui.exif_table.setItemDelegate(delegate)
@@ -136,6 +137,12 @@ class MyWidget(ParentWidget):
         
         # self.load_exif()
         # self.load_code()
+        
+    def failed(self, text="Failed"):
+        self.set_all_btn_enable(False)
+        self.set_btn_enable(self.ui.load_code_btn, True)
+        self.ui.load_code_btn.setText("Load Code")
+        QMessageBox.about(self, "Failed", text)
 
     def open_excel(self):
         if self.gen_excel_worker.excel_path is None:
@@ -164,7 +171,12 @@ class MyWidget(ParentWidget):
         self.gen_excel_worker.excel_path = filepath
         filefolder = '/'.join(filepath.split('/')[:-1])
         self.set_path("MTK_AE_mtkFaceAEanalysis_excel", filefolder)
-        self.after_gen_excel()
+        try:
+            self.after_gen_excel()
+        except Exception as error:
+            print(error)
+            self.failed("File provided is incorrect, please confirm.\n\n"+str(error))
+
 
     def update_btn_status(self, status):
         self.ui.load_code_btn.setText(status)
@@ -339,8 +351,7 @@ class MyWidget(ParentWidget):
         if filepath == '':
             return
         self.gen_excel_worker.exif_path = filepath
-        filefolder = '/'.join(filepath.split('/')[:-1])
-        self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filefolder)
+        self.set_path("MTK_AE_mtkFaceAEanalysis_exif", filepath)
 
         self.set_all_btn_enable(False)
         self.ui.load_code_btn.setText("解析中，請稍後...")

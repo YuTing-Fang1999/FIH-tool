@@ -304,125 +304,127 @@ if __name__ == "__main__":
 
 
 class GenExcelWorkerThread(QThread):
-        update_status_signal = pyqtSignal(str)
-        gen_finish_signal = pyqtSignal()
-        excel_path = None
-        code_path = None
-        exif_path = None
-        base_excel_path = os.path.abspath("MTK/AE/Tuning/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
+    failed_signal = pyqtSignal(str) 
+    update_status_signal = pyqtSignal(str)
+    gen_finish_signal = pyqtSignal()
+    excel_path = None
+    code_path = None
+    exif_path = None
+    base_excel_path = os.path.abspath("MTK/AE/Tuning/mtkFaceAEanalysis/mtkFaceAEanalysis.xlsm")
 
-        def __init__(self):
-            super().__init__()
+    def __init__(self):
+        super().__init__()
 
-        def create_xls(self, code_path, base_excel_path):
-            wb = openpyxl.load_workbook(base_excel_path, read_only=False, keep_vba=True)
-            wb.active = 0
-            ws = wb.active
-            
-            f = open(code_path, "r")
-            
-            fbt_bv = []
-            fbt_dr = []
-            fbt_ns_bv = []
-            fbt_ns_dr = []
-            TH_tbl_5 = []
-            TH_tbl_6 = []
-            TH_tbl_7 = []
-            TH_tbl_8 = []
-            
-            ws.cell(column=2, row=6).value = code_path.split("/")[-3]
-            for line in f:
-                if "//u4_FD_TH: FD brightness target" in line:
-                    line2, line3, line4, line5, line6, line7, line8, line9, line10, line11 = [next(f) for _ in range(10)]
-                    if TH_tbl_5 == []:
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
-                        TH_tbl_5.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
-                    elif TH_tbl_5 != [] and TH_tbl_6 == []:
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
-                        TH_tbl_6.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
-                    elif TH_tbl_6 != [] and TH_tbl_7 == []:
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
-                        TH_tbl_7.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
-                    elif TH_tbl_7 != [] and TH_tbl_8 == []:
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
-                        TH_tbl_8.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
-                    
-                if "//int32_t  fbt_bv" in line:
-                    if fbt_bv != []:
-                        flt_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                    else:
-                        fbt_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                if "//int32_t  fbt_dr" in line:
-                    if fbt_dr != []:
-                        flt_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                    else:
-                        fbt_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                if "//int32_t  fbt_ns_bv" in line:
-                    if fbt_ns_bv != []:
-                        flt_ns_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                    else:
-                        fbt_ns_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                if "//int32_t  fbt_ns_dr" in line:
-                    if fbt_ns_dr != []:
-                        flt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                    else:
-                        fbt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
-                    
-            for j in range(0,np.size(flt_bv)):
-                ws.cell(column=j+10, row=4).value = int(flt_bv[j])
-            for j in range(0,np.size(flt_dr)):
-                ws.cell(column=j+10, row=5).value = int(flt_dr[j])
-            for j in range(0,np.size(flt_ns_bv)):
-                ws.cell(column=j+22, row=4).value = int(flt_ns_bv[j])
-            for j in range(0,np.size(flt_ns_dr)):
-                ws.cell(column=j+22, row=5).value = int(flt_ns_dr[j])
-            for j in range(0,np.size(flt_dr)):
-                for i in range(0,np.size(flt_bv)):
-                    ws.cell(column=j+10, row=8+i).value = int(TH_tbl_5[i][j])
-            for j in range(0,np.size(flt_ns_dr)):
-                for i in range(0,np.size(flt_bv)):
-                    ws.cell(column=j+22, row=8+i).value = int(TH_tbl_7[i][j])
-            
-            sheet = wb[wb.sheetnames[0]]
-            target = wb.copy_worksheet(sheet)
-            target.title = "default"
-            
-            print("AE.cpp is ok!")
-            return wb
+    def create_xls(self, code_path, base_excel_path):
+        wb = openpyxl.load_workbook(base_excel_path, read_only=False, keep_vba=True)
+        wb.active = 0
+        ws = wb.active
+        
+        f = open(code_path, "r")
+        
+        fbt_bv = []
+        fbt_dr = []
+        fbt_ns_bv = []
+        fbt_ns_dr = []
+        TH_tbl_5 = []
+        TH_tbl_6 = []
+        TH_tbl_7 = []
+        TH_tbl_8 = []
+        
+        ws.cell(column=2, row=6).value = code_path.split("/")[-3]
+        for line in f:
+            if "//u4_FD_TH: FD brightness target" in line:
+                line2, line3, line4, line5, line6, line7, line8, line9, line10, line11 = [next(f) for _ in range(10)]
+                if TH_tbl_5 == []:
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
+                    TH_tbl_5.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
+                elif TH_tbl_5 != [] and TH_tbl_6 == []:
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
+                    TH_tbl_6.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
+                elif TH_tbl_6 != [] and TH_tbl_7 == []:
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
+                    TH_tbl_7.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
+                elif TH_tbl_7 != [] and TH_tbl_8 == []:
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line2).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line3).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line4).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line5).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line6).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line7).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line8).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line9).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line10).split(",")[0:-1])
+                    TH_tbl_8.append(re.sub("[^0-9-,]","", line11).split(",")[0:-1])
+                
+            if "//int32_t  fbt_bv" in line:
+                if fbt_bv != []:
+                    flt_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+                else:
+                    fbt_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+            if "//int32_t  fbt_dr" in line:
+                if fbt_dr != []:
+                    flt_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+                else:
+                    fbt_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+            if "//int32_t  fbt_ns_bv" in line:
+                if fbt_ns_bv != []:
+                    flt_ns_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+                else:
+                    fbt_ns_bv = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+            if "//int32_t  fbt_ns_dr" in line:
+                if fbt_ns_dr != []:
+                    flt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+                else:
+                    fbt_ns_dr = re.sub("[^0-9-,]","", line).split(",")[0:-2]
+                
+        for j in range(0,np.size(flt_bv)):
+            ws.cell(column=j+10, row=4).value = int(flt_bv[j])
+        for j in range(0,np.size(flt_dr)):
+            ws.cell(column=j+10, row=5).value = int(flt_dr[j])
+        for j in range(0,np.size(flt_ns_bv)):
+            ws.cell(column=j+22, row=4).value = int(flt_ns_bv[j])
+        for j in range(0,np.size(flt_ns_dr)):
+            ws.cell(column=j+22, row=5).value = int(flt_ns_dr[j])
+        for j in range(0,np.size(flt_dr)):
+            for i in range(0,np.size(flt_bv)):
+                ws.cell(column=j+10, row=8+i).value = int(TH_tbl_5[i][j])
+        for j in range(0,np.size(flt_ns_dr)):
+            for i in range(0,np.size(flt_bv)):
+                ws.cell(column=j+22, row=8+i).value = int(TH_tbl_7[i][j])
+        
+        sheet = wb[wb.sheetnames[0]]
+        target = wb.copy_worksheet(sheet)
+        target.title = "default"
+        
+        print("AE.cpp is ok!")
+        return wb
 
-        def run(self):
+    def run(self):
+        try:
             print("mtkAEfaceAuto is runing...")
             print(self.code_path)
 
@@ -436,6 +438,9 @@ class GenExcelWorkerThread(QThread):
             allFileList_jpg = np.sort(allFileList,axis=0)
             allFileList_jpg = list(filter(file_filter_jpg, allFileList_jpg))
             allFileList_jpg.sort(key=natural_keys)
+            
+            assert len(allFileList_exif)!=0, f"Exif file not found"
+            assert len(allFileList_exif)*2 == len(allFileList_jpg), f"Number of exif and jpg is not match"
 
             real_num = 0
             Pic_path = []
@@ -497,6 +502,8 @@ class GenExcelWorkerThread(QThread):
                     
                     if file_name_jpg == base or base2 == base[0:-8]:
                         img = cv2.imdecode( np.fromfile( file = path_name_jpg, dtype = np.uint8 ), cv2.IMREAD_COLOR )
+                        assert os.path.exists(path_name_jpg), f"{path_name_jpg} not found"
+                        
                         Pic_path.append(path_name_jpg)
                         height, width = img.shape[0], img.shape[1]
                         
@@ -557,14 +564,18 @@ class GenExcelWorkerThread(QThread):
             ws.cell(column=3, row=1).value = "total image:"
             ws.cell(column=4, row=1).value = endNum
 
-            file = "mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
+            file = self.exif_path+"/mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
             self.excel_path = os.path.abspath(file)
             wb.active = 0
             wb.save(file)
 
             print("mtkAEfaceAuto is ok!")
             self.gen_finish_signal.emit()
-    
+            
+        except Exception as error:
+            print(error)
+            self.failed_signal.emit("File provided is incorrect, please confirm.\n\n"+str(error))
+
     
 def parse_code(file_path):
     f = open(file_path, "r")
