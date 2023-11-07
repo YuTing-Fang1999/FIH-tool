@@ -20,6 +20,7 @@ import tkinter as tk
 from tkinter import filedialog
 import os
 from openpyxl import load_workbook
+import urllib.request
 
 
 class WorkerThread(QThread):
@@ -65,14 +66,13 @@ class MyWidget(ParentWidget):
             self.load_data_path_Tonecpp)
         self.ui.btn_download_1.clicked.connect(self.test)
         self.ui.btn_explain_1.clicked.connect(self.do_explain1)
-        self.ui.btn_download_2.clicked.connect(self.test)
+        self.ui.btn_download_2.clicked.connect(self.do_download2)
         self.ui.btn_explain_2.clicked.connect(self.do_explain2)
         self.ui.btn_Reset.clicked.connect(self.do_reset)
         self.ui.btn_Category.clicked.connect(self.do_category)
         self.ui.btn_OpenFolder.clicked.connect(self.do_openfolder)
         self.ui.btn_Update.clicked.connect(self.do_update)
 
-    # 要改路徑,存取路徑
     def load_data_path_dataFolder(self):
         your_path = QFileDialog.getExistingDirectory(
             self, "選擇Data Path", self.get_path("./"))
@@ -93,20 +93,34 @@ class MyWidget(ParentWidget):
         return file_path
 
     # 還沒
-
     def do_download1(self):
-        pass
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
+
+        save_dir = self.ui.lineEdit_DataFolder.text()
+        if (save_dir != ''):
+            print(save_dir)
+            save_path, _ = QFileDialog.getSaveFileName(
+                self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
+            urllib.request.urlretrieve(url, save_path)
+        else:
+            # show the error message
+            QMessageBox.about(
+                self,  "ERROR", "Choose Data Folder first.")
 
     # 還沒
     def do_download2(self):
-        # url = "https://drive.google.com/file/d/1ay4KOdbw_ptQw5dViG6kvqyDa1VaZs3v/view?usp=drive_link"
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
 
-        # # download the data behind the URL
-        # response = requests.get(url)
-
-        # # open the response into a new file called instagram.ico
-        # # open("XLOK", "wb").write(response.content)
-        pass
+        save_dir = self.ui.lineEdit_DataFolder.text()
+        if (save_dir != ''):
+            print(save_dir)
+            save_path, _ = QFileDialog.getSaveFileName(
+                self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
+            urllib.request.urlretrieve(url, save_path)
+        else:
+            # show the error message
+            QMessageBox.about(
+                self,  "ERROR", "Choose Data Folder first.")
 
     def do_explain1(self):
         # tst. pic ISP module Exif

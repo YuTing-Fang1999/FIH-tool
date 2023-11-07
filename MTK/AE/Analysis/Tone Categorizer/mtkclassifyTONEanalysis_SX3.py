@@ -357,6 +357,7 @@ def main(yourPath, file_path, LV_region, DR_region):
                 exifFile.close()
                 shutil.copy(path_name, destination)
                 shutil.copy(path_name_jpg, destination)
+                shutil.copy(path_name_jpg2, destination)
                 destination_set.append(destination)
 
     destination_set = [x for i, x in enumerate(
