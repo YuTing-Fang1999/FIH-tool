@@ -1,11 +1,11 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QUrl
-from ToneUI import Ui_Form
-from explain1 import Ui_Form_explain1
-from explain2 import Ui_Form_explain2
+from .ToneUI import Ui_Form
+from .explain1 import Ui_Form_explain1
+from .explain2 import Ui_Form_explain2
 from time import sleep
-from ParentWidget import ParentWidget
+from .ParentWidget import ParentWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from bs4 import BeautifulSoup
 from openpyxl import Workbook, load_workbook
