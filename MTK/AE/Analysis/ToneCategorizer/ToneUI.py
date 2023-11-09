@@ -459,12 +459,14 @@ class Ui_Form(object):
         self.btn_download_1.setText("")
         self.btn_download_1.setAutoRaise(True)
         self.btn_download_1.setObjectName("btn_download_1")
-        self.btn_download_1.setIcon(QIcon("./icon_download.png"))
+        self.btn_download_1.setIcon(
+            QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_download.png"))
         self.btn_download_1.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_explain_1 = QtWidgets.QPushButton(Form)
         self.btn_explain_1.setGeometry(QtCore.QRect(390, 115, 30, 30))
         self.btn_explain_1.setObjectName("btn_explain_1")
-        self.btn_explain_1.setIcon(QIcon("./icon_explain.png"))
+        self.btn_explain_1.setIcon(
+            QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_explain.png"))
         self.btn_explain_1.setIconSize(QSize(25, 25))
         self.btn_explain_1.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_download_2 = QtWidgets.QToolButton(Form)
@@ -473,12 +475,14 @@ class Ui_Form(object):
         self.btn_download_2.setText("")
         self.btn_download_2.setAutoRaise(True)
         self.btn_download_2.setObjectName("btn_download_2")
-        self.btn_download_2.setIcon(QIcon("./icon_download.png"))
+        self.btn_download_2.setIcon(
+            QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_download.png"))
         self.btn_download_2.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_explain_2 = QtWidgets.QPushButton(Form)
         self.btn_explain_2.setGeometry(QtCore.QRect(200, 655, 30, 30))
         self.btn_explain_2.setObjectName("btn_explain_2")
-        self.btn_explain_2.setIcon(QIcon("./icon_explain.png"))
+        self.btn_explain_2.setIcon(
+            QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_explain.png"))
         self.btn_explain_2.setIconSize(QSize(25, 25))
         self.btn_explain_2.setStyleSheet("QToolButton{border:0px solid;}")
 

@@ -19,7 +19,8 @@ class Ui_Form_explain1(object):
         self.label.setGeometry(QtCore.QRect(10, 10, 1311, 581))
         self.label.setText("")
         self.label.setTextFormat(QtCore.Qt.RichText)
-        self.label.setPixmap(QtGui.QPixmap("./explain1.png"))
+        self.label.setPixmap(QtGui.QPixmap(
+            "./MTK/AE/Analysis/ToneCategorizer/explain1.png"))
         self.label.setScaledContents(True)
         self.label.setObjectName("label")
 
