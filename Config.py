@@ -32,6 +32,8 @@ from MTK.AE.Analysis.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidg
 from MTK.AE.Analysis.mtkAEclassify.Intro import Intro as mtkAEclassifyIntro
 from MTK.AE.Analysis.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidget
 from MTK.AE.Analysis.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
+from MTK.AE.Analysis.ToneCategorizer.ToneWidget import MyWidget as ToneCategorizerWidget
+from MTK.AE.Analysis.ToneCategorizer.Intro import Intro as ToneCategorizerIntro
 
 from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
@@ -234,8 +236,8 @@ class Config():
                         {
                             "title": "Tone Categorizer",
                             "subtitle": "Classify & lookup with LV, DR",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
+                            "instruction": ToneCategorizerIntro(),
+                            "widget": ToneCategorizerWidget(),
                             
                         },
                         {
