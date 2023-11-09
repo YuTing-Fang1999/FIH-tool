@@ -15,7 +15,7 @@ import configparser
 import numpy as np
 import subprocess
 import sys
-import mtkclassifyTONEanalysis_SX3
+from .mtkclassifyTONEanalysis_SX3 import *
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -436,11 +436,11 @@ class MyWidget(ParentWidget):
         your_path = self.ui.lineEdit_DataFolder.text()
 
         # For Windows
-        # os.startfile(your_path)
+        os.startfile(your_path)
 
         # For Linux
-        opener = "open" if sys.platform == "darwin" else "xdg-open"
-        subprocess.call([opener, your_path])
+        # opener = "open" if sys.platform == "darwin" else "xdg-open"
+        # subprocess.call([opener, your_path])
 
     def do_update(self):
         # Load Excel file
