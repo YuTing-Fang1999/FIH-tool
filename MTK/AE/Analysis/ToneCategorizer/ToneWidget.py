@@ -39,7 +39,7 @@ class SolverThread(QThread):
     data = None
 
     def __init__(self):
-        super().__init__()
+        super().__init__() 
 
     def run(self):
         try:
@@ -82,7 +82,7 @@ class MyWidget(ParentWidget):
         self.ui.btn_Category.clicked.connect(self.do_category)
         self.ui.btn_OpenFolder.clicked.connect(self.do_openfolder)
         self.ui.btn_Update.clicked.connect(self.do_update)
-        self.solver_thread.update_status_bar_signal.connect(self.update_status_bar)
+        # self.solver_thread.update_status_bar_signal.connect(self.update_status_bar)
         self.solver_thread.failed_signal.connect(self.failed)
         self.solver_thread.finish_signal.connect(self.solver_finish)
 
@@ -493,8 +493,8 @@ class MyWidget(ParentWidget):
                     if file.endswith(".xlsm"):
                         process_xlsm(os.path.join(root, file))
     
-    def update_status_bar(self, text):
-        self.statusBar.showMessage(text, 8000)
+    # def update_status_bar(self, text):
+    #     self.statusBar.showMessage(text, 8000)
         
     def failed(self, text="Failed"):
         self.set_all_enable(True)
