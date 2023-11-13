@@ -15,7 +15,7 @@ import configparser
 import numpy as np
 import subprocess
 import sys
-from .mtkclassifyTONEanalysis_SX3 import *
+from .mtkclassifyTONEanalysis_SX3 import main as mtk_main
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -36,6 +36,7 @@ class SolverThread(QThread):
     update_status_bar_signal = pyqtSignal(str)
     failed_signal = pyqtSignal(str)
     finish_signal = pyqtSignal()
+    data = None
 
     def __init__(self):
         super().__init__()
@@ -43,11 +44,15 @@ class SolverThread(QThread):
     def run(self):
         try:
             # . . . (要執行的程式)
+            mtk_main(self.data['your_path'],self.data['file_path'], self.data['LV_region'], self.data['DR_region'])
             self.finish_signal.emit()
         except Exception as error:
             print(error)
             self.update_status_bar_signal.emit("Failed...")
             self.failed_signal.emit("Failed...\n"+str(error))
+          
+        
+        
 
 
 class MyWidget(ParentWidget):
@@ -55,16 +60,21 @@ class MyWidget(ParentWidget):
         super().__init__()  # in python3, super(Class, self).xxx = super().xxx
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-
+        self.solver_thread = SolverThread()
         self.controller()
-        thread1 = WorkerThread()
+        
+    # def setupUi(self):
+    #     # Create the status bar
+    #     self.statusBar = QStatusBar()
+    #     self.ui.verticalLayout.addWidget(self.statusBar)
+    #     self.statusBar.hide()
 
     def controller(self):
         self.ui.btn_Browse_DataFolder.clicked.connect(
             self.load_data_path_dataFolder)
         self.ui.btn_Browse_Tonecpp.clicked.connect(
             self.load_data_path_Tonecpp)
-        self.ui.btn_download_1.clicked.connect(self.test)
+        self.ui.btn_download_1.clicked.connect(self.do_download1)
         self.ui.btn_explain_1.clicked.connect(self.do_explain1)
         self.ui.btn_download_2.clicked.connect(self.do_download2)
         self.ui.btn_explain_2.clicked.connect(self.do_explain2)
@@ -72,6 +82,9 @@ class MyWidget(ParentWidget):
         self.ui.btn_Category.clicked.connect(self.do_category)
         self.ui.btn_OpenFolder.clicked.connect(self.do_openfolder)
         self.ui.btn_Update.clicked.connect(self.do_update)
+        self.solver_thread.update_status_bar_signal.connect(self.update_status_bar)
+        self.solver_thread.failed_signal.connect(self.failed)
+        self.solver_thread.finish_signal.connect(self.solver_finish)
 
     def load_data_path_dataFolder(self):
         your_path = QFileDialog.getExistingDirectory(
@@ -418,8 +431,15 @@ class MyWidget(ParentWidget):
             your_path = self.ui.lineEdit_DataFolder.text()
             file_path = self.ui.lineEdit_Tonecpp.text()
             if (your_path != '' and file_path.endswith('TONE.cpp')):
-                mtkclassifyTONEanalysis_SX3.main(your_path,
-                                                 file_path, LV_region, DR_region)
+                data = {
+                    "your_path": your_path,
+                    "file_path": file_path,
+                    "LV_region": LV_region,
+                    "DR_region": DR_region
+                }
+                self.solver_thread.data = data
+                self.solver_thread.start()
+                # mtk_main(your_path,file_path, LV_region, DR_region)
             elif (your_path == ''):
                 # show the error message
                 QMessageBox.about(
@@ -472,13 +492,18 @@ class MyWidget(ParentWidget):
                 for file in files:
                     if file.endswith(".xlsm"):
                         process_xlsm(os.path.join(root, file))
+    
+    def update_status_bar(self, text):
+        self.statusBar.showMessage(text, 8000)
+        
+    def failed(self, text="Failed"):
+        self.set_all_enable(True)
+        QMessageBox.about(self, "Failed", text)
+        
+    def solver_finish(self):
+        self.set_all_enable(True)
+        self.statusBar.hide()
 
-    def test(self):
-        # self.ui = QWidget()
-        # self.ui_test = Ui_Form_test()
-        # self.ui_test.setupUi(self.ui)
-        # self.ui.show()
-        pass
 
 
 if __name__ == "__main__":

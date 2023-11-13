@@ -50,7 +50,7 @@ def classify(LVnum, LV, DR, DR_region, yourPath):
 
 
 def create_xls(file_path):
-    fn = 'mtkTONEanalysis_SX3.xlsm'
+    fn = './MTK/AE/Analysis/ToneCategorizer/mtkTONEanalysis_SX3.xlsm'
     wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
     wb.active = 0
     ws = wb.active
