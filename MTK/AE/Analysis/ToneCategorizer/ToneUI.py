@@ -17,7 +17,7 @@ from PyQt5.QtWidgets import QWidget
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(590, 740)
+        Form.resize(620, 760)
         # self.frame = QtWidgets.QFrame(Form)
         # self.frame.setGeometry(QtCore.QRect(20, 580, 311, 151))
         # self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -31,13 +31,14 @@ class Ui_Form(object):
         # self.gridLayout_5.setObjectName("gridLayout_5")
         self.label_23 = QtWidgets.QLabel(Form)
         self.label_23.setObjectName("label_23")
-        self.label_23.setGeometry(20, 580, 330, 150)
+        self.label_23.setGeometry(20, 580, 390, 180)
         self.label_23.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
         self.label_23.setStyleSheet(
             "border:1px solid white;border-style: dashed")
+        self.label_23.setWordWrap(True)
         self.btn_Update = QtWidgets.QPushButton(Form)
         self.btn_Update.setObjectName("btn_Update")
-        self.btn_Update.setGeometry(30, 690, 87, 32)
+        self.btn_Update.setGeometry(30, 720, 87, 32)
         # self.gridLayout_5.addWidget(self.btn_Update, 2, 0, 1, 1)
         # spacerItem = QtWidgets.QSpacerItem(
         #     40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -411,7 +412,7 @@ class Ui_Form(object):
             20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout_3.addItem(spacerItem2, 3, 2, 1, 1)
         self.layoutWidget2 = QtWidgets.QWidget(Form)
-        self.layoutWidget2.setGeometry(QtCore.QRect(20, 10, 391, 171))
+        self.layoutWidget2.setGeometry(QtCore.QRect(20, 10, 450, 171))
         self.layoutWidget2.setObjectName("layoutWidget2")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.layoutWidget2)
         self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -454,7 +455,7 @@ class Ui_Form(object):
         self.label_Input.setObjectName("label_Input")
         self.gridLayout_6.addWidget(self.label_Input, 0, 0, 1, 3)
         self.btn_download_1 = QtWidgets.QToolButton(Form)
-        self.btn_download_1.setGeometry(QtCore.QRect(360, 120, 20, 20))
+        self.btn_download_1.setGeometry(QtCore.QRect(438, 117, 30, 30))
         self.btn_download_1.setStyleSheet("")
         self.btn_download_1.setText("")
         self.btn_download_1.setAutoRaise(True)
@@ -463,14 +464,14 @@ class Ui_Form(object):
             QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_download.png"))
         self.btn_download_1.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_explain_1 = QtWidgets.QPushButton(Form)
-        self.btn_explain_1.setGeometry(QtCore.QRect(390, 115, 30, 30))
+        self.btn_explain_1.setGeometry(QtCore.QRect(475, 117, 30, 30))
         self.btn_explain_1.setObjectName("btn_explain_1")
         self.btn_explain_1.setIcon(
             QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_explain.png"))
         self.btn_explain_1.setIconSize(QSize(25, 25))
         self.btn_explain_1.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_download_2 = QtWidgets.QToolButton(Form)
-        self.btn_download_2.setGeometry(QtCore.QRect(300, 630, 20, 20))
+        self.btn_download_2.setGeometry(QtCore.QRect(368, 642, 30, 30))
         self.btn_download_2.setStyleSheet("")
         self.btn_download_2.setText("")
         self.btn_download_2.setAutoRaise(True)
@@ -479,7 +480,7 @@ class Ui_Form(object):
             QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_download.png"))
         self.btn_download_2.setStyleSheet("QToolButton{border:0px solid;}")
         self.btn_explain_2 = QtWidgets.QPushButton(Form)
-        self.btn_explain_2.setGeometry(QtCore.QRect(200, 655, 30, 30))
+        self.btn_explain_2.setGeometry(QtCore.QRect(240, 685, 30, 30))
         self.btn_explain_2.setObjectName("btn_explain_2")
         self.btn_explain_2.setIcon(
             QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_explain.png"))
@@ -562,7 +563,7 @@ class Ui_Form(object):
         self.btn_Browse_DataFolder.setText(_translate("Form", "Browse"))
         self.label_input_2.setText(_translate("Form", "* Required data in the folder:\n"
                                               "  1. ref & tst pic must be encoded.\n"
-                                              "  2. tst pic ISP module Exif.(Use MTK tool/ DebugParser        )"))
+                                              "  2. tst pic ISP module Exif.(Use MTK tool/ DebugParser      )"))
         self.label_Tonecpp.setText(_translate("Form", "Tone.cpp:"))
         self.btn_Browse_Tonecpp.setText(_translate("Form", "Browse"))
         self.label_Input.setText(_translate("Form", "------Input------"))
