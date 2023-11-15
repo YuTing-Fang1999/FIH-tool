@@ -23,14 +23,6 @@ from openpyxl import load_workbook
 import urllib.request
 
 
-class WorkerThread(QThread):
-    def __init__(self):
-        super().__init__()
-
-    def run(self):
-        sleep(5)
-        print("i")
-
 
 class SolverThread(QThread):
     update_status_bar_signal = pyqtSignal(str)
@@ -62,12 +54,7 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.solver_thread = SolverThread()
         self.controller()
-        
-    # def setupUi(self):
-    #     # Create the status bar
-    #     self.statusBar = QStatusBar()
-    #     self.ui.verticalLayout.addWidget(self.statusBar)
-    #     self.statusBar.hide()
+
 
     def controller(self):
         self.ui.btn_Browse_DataFolder.clicked.connect(
@@ -315,98 +302,98 @@ class MyWidget(ParentWidget):
             QMessageBox.about(
                 self,  "ERROR", "Range settings are wrong please check.")
         else:
-            # set new data
-            # LV new data
-            self.ui.lineEdit_LV2.setText(str(lv_vector[0]))
-            self.ui.lineEdit_LV3.setText(str(lv_vector[1]))
-            self.ui.lineEdit_LV4.setText(str(lv_vector[2]))
-            self.ui.lineEdit_LV5.setText(str(lv_vector[3]))
-            self.ui.lineEdit_LV6.setText(str(lv_vector[4]))
-            self.ui.lineEdit_LV7.setText(str(lv_vector[5]))
-            self.ui.lineEdit_LV8.setText(str(lv_vector[6]))
-            self.ui.lineEdit_LV9.setText(str(lv_vector[7]))
-            self.ui.lineEdit_LV10.setText(str(lv_vector[8]))
-            if (str(lv_vector[0]) != ""):
-                if (lv_vector[0] == 180):
-                    self.ui.lineEdit_LV2.setText("")
+            # # set new data
+            # # LV new data
+            # self.ui.lineEdit_LV2.setText(str(lv_vector[0]))
+            # self.ui.lineEdit_LV3.setText(str(lv_vector[1]))
+            # self.ui.lineEdit_LV4.setText(str(lv_vector[2]))
+            # self.ui.lineEdit_LV5.setText(str(lv_vector[3]))
+            # self.ui.lineEdit_LV6.setText(str(lv_vector[4]))
+            # self.ui.lineEdit_LV7.setText(str(lv_vector[5]))
+            # self.ui.lineEdit_LV8.setText(str(lv_vector[6]))
+            # self.ui.lineEdit_LV9.setText(str(lv_vector[7]))
+            # self.ui.lineEdit_LV10.setText(str(lv_vector[8]))
+            # if (str(lv_vector[0]) != ""):
+            #     if (lv_vector[0] == 180):
+            #         self.ui.lineEdit_LV2.setText("")
 
-            if (str(lv_vector[1]) != ""):
-                if (lv_vector[1] == 180):
-                    self.ui.lineEdit_LV3.setText("")
+            # if (str(lv_vector[1]) != ""):
+            #     if (lv_vector[1] == 180):
+            #         self.ui.lineEdit_LV3.setText("")
 
-            if (str(lv_vector[2]) != ""):
-                if (lv_vector[2] == 180):
-                    self.ui.lineEdit_LV4.setText("")
+            # if (str(lv_vector[2]) != ""):
+            #     if (lv_vector[2] == 180):
+            #         self.ui.lineEdit_LV4.setText("")
 
-            if (str(lv_vector[3]) != ""):
-                if (lv_vector[3] == 180):
-                    self.ui.lineEdit_LV5.setText("")
+            # if (str(lv_vector[3]) != ""):
+            #     if (lv_vector[3] == 180):
+            #         self.ui.lineEdit_LV5.setText("")
 
-            if (str(lv_vector[4]) != ""):
-                if (lv_vector[4] == 180):
-                    self.ui.lineEdit_LV6.setText("")
+            # if (str(lv_vector[4]) != ""):
+            #     if (lv_vector[4] == 180):
+            #         self.ui.lineEdit_LV6.setText("")
 
-            if (str(lv_vector[5]) != ""):
-                if (lv_vector[5] == 180):
-                    self.ui.lineEdit_LV7.setText("")
+            # if (str(lv_vector[5]) != ""):
+            #     if (lv_vector[5] == 180):
+            #         self.ui.lineEdit_LV7.setText("")
 
-            if (str(lv_vector[6]) != ""):
-                if (lv_vector[6] == 180):
-                    self.ui.lineEdit_LV8.setText("")
+            # if (str(lv_vector[6]) != ""):
+            #     if (lv_vector[6] == 180):
+            #         self.ui.lineEdit_LV8.setText("")
 
-            if (str(lv_vector[7]) != ""):
-                if (lv_vector[7] == 180):
-                    self.ui.lineEdit_LV9.setText("")
+            # if (str(lv_vector[7]) != ""):
+            #     if (lv_vector[7] == 180):
+            #         self.ui.lineEdit_LV9.setText("")
 
-            if (str(lv_vector[8]) != ""):
-                if (lv_vector[8] == 180):
-                    self.ui.lineEdit_LV10.setText("")
+            # if (str(lv_vector[8]) != ""):
+            #     if (lv_vector[8] == 180):
+            #         self.ui.lineEdit_LV10.setText("")
 
-            # DR new data
-            self.ui.lineEdit_DR2.setText(str(dr_vector[0]))
-            self.ui.lineEdit_DR3.setText(str(dr_vector[1]))
-            self.ui.lineEdit_DR4.setText(str(dr_vector[2]))
-            self.ui.lineEdit_DR5.setText(str(dr_vector[3]))
-            self.ui.lineEdit_DR6.setText(str(dr_vector[4]))
-            self.ui.lineEdit_DR7.setText(str(dr_vector[5]))
-            self.ui.lineEdit_DR8.setText(str(dr_vector[6]))
-            self.ui.lineEdit_DR9.setText(str(dr_vector[7]))
-            self.ui.lineEdit_DR10.setText(str(dr_vector[8]))
-            if (str(dr_vector[0]) != ""):
-                if (dr_vector[0] == 1000):
-                    self.ui.lineEdit_DR2.setText("")
+            # # DR new data
+            # self.ui.lineEdit_DR2.setText(str(dr_vector[0]))
+            # self.ui.lineEdit_DR3.setText(str(dr_vector[1]))
+            # self.ui.lineEdit_DR4.setText(str(dr_vector[2]))
+            # self.ui.lineEdit_DR5.setText(str(dr_vector[3]))
+            # self.ui.lineEdit_DR6.setText(str(dr_vector[4]))
+            # self.ui.lineEdit_DR7.setText(str(dr_vector[5]))
+            # self.ui.lineEdit_DR8.setText(str(dr_vector[6]))
+            # self.ui.lineEdit_DR9.setText(str(dr_vector[7]))
+            # self.ui.lineEdit_DR10.setText(str(dr_vector[8]))
+            # if (str(dr_vector[0]) != ""):
+            #     if (dr_vector[0] == 1000):
+            #         self.ui.lineEdit_DR2.setText("")
 
-            if (str(dr_vector[1]) != ""):
-                if (dr_vector[1] == 1000):
-                    self.ui.lineEdit_DR3.setText("")
+            # if (str(dr_vector[1]) != ""):
+            #     if (dr_vector[1] == 1000):
+            #         self.ui.lineEdit_DR3.setText("")
 
-            if (str(dr_vector[2]) != ""):
-                if (dr_vector[2] == 1000):
-                    self.ui.lineEdit_DR4.setText("")
+            # if (str(dr_vector[2]) != ""):
+            #     if (dr_vector[2] == 1000):
+            #         self.ui.lineEdit_DR4.setText("")
 
-            if (str(dr_vector[3]) != ""):
-                if (dr_vector[3] == 1000):
-                    self.ui.lineEdit_DR5.setText("")
+            # if (str(dr_vector[3]) != ""):
+            #     if (dr_vector[3] == 1000):
+            #         self.ui.lineEdit_DR5.setText("")
 
-            if (str(dr_vector[4]) != ""):
-                if (dr_vector[4] == 1000):
-                    self.ui.lineEdit_DR6.setText("")
+            # if (str(dr_vector[4]) != ""):
+            #     if (dr_vector[4] == 1000):
+            #         self.ui.lineEdit_DR6.setText("")
 
-            if (str(dr_vector[5]) != ""):
-                if (dr_vector[5] == 1000):
-                    self.ui.lineEdit_DR7.setText("")
+            # if (str(dr_vector[5]) != ""):
+            #     if (dr_vector[5] == 1000):
+            #         self.ui.lineEdit_DR7.setText("")
 
-            if (str(dr_vector[6]) != ""):
-                if (dr_vector[6] == 1000):
-                    self.ui.lineEdit_DR8.setText("")
+            # if (str(dr_vector[6]) != ""):
+            #     if (dr_vector[6] == 1000):
+            #         self.ui.lineEdit_DR8.setText("")
 
-            if (str(dr_vector[7]) != ""):
-                if (dr_vector[7] == 1000):
-                    self.ui.lineEdit_DR9.setText("")
+            # if (str(dr_vector[7]) != ""):
+            #     if (dr_vector[7] == 1000):
+            #         self.ui.lineEdit_DR9.setText("")
 
-            if (str(dr_vector[8]) != ""):
-                if (dr_vector[8] == 1000):
-                    self.ui.lineEdit_DR10.setText("")
+            # if (str(dr_vector[8]) != ""):
+            #     if (dr_vector[8] == 1000):
+            #         self.ui.lineEdit_DR10.setText("")
 
             ######## do the function ########
             #

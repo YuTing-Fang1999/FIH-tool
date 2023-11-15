@@ -11,24 +11,89 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSpacerItem, QSizePolicy, QScrollArea, QLabel, QWidgetItem
+
+
+class LogicHandler:
+   def __init__(self, ui_form):
+       self.ui_form = ui_form
+       self.connections = []
+
+
+       # Connect signals to slots
+       self.connect_signals()
+
+
+   def connect_signals(self):
+       self.ui_form.lineEdit_LV1_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV2))
+       self.ui_form.lineEdit_LV2_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV3))
+       self.ui_form.lineEdit_LV3_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV4))
+       self.ui_form.lineEdit_LV4_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV5))
+       self.ui_form.lineEdit_LV5_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV6))
+       self.ui_form.lineEdit_LV6_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV7))
+       self.ui_form.lineEdit_LV7_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV8))
+       self.ui_form.lineEdit_LV8_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV9))
+       self.ui_form.lineEdit_LV9_2.textChanged.connect(
+           lambda text: self.update_LV_line_edit(text, self.ui_form.lineEdit_LV10))
+
+
+       self.ui_form.lineEdit_DR1_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR2))
+       self.ui_form.lineEdit_DR2_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR3))
+       self.ui_form.lineEdit_DR3_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR4))
+       self.ui_form.lineEdit_DR4_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR5))
+       self.ui_form.lineEdit_DR5_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR6))
+       self.ui_form.lineEdit_DR6_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR7))
+       self.ui_form.lineEdit_DR7_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR8))
+       self.ui_form.lineEdit_DR8_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR9))
+       self.ui_form.lineEdit_DR9_2.textChanged.connect(
+           lambda text: self.update_DR_line_edit(text, self.ui_form.lineEdit_DR10))
+
+
+   def update_LV_line_edit(self, text, target_lineedit):
+       target_lineedit.setText(text)
+       if text == '180':
+           target_lineedit.setText('')
+
+
+   def update_DR_line_edit(self, text, target_lineedit):
+       target_lineedit.setText(text)
+       if text == '1000':
+           target_lineedit.setText('')
+
 
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(620, 760)
-        # self.frame = QtWidgets.QFrame(Form)
-        # self.frame.setGeometry(QtCore.QRect(20, 580, 311, 151))
-        # self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        # self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        # self.frame.setObjectName("frame")
-        # self.layoutWidget = QtWidgets.QWidget(Form)
-        # self.layoutWidget.setGeometry(QtCore.QRect(0, 0, 395, 150))
-        # self.layoutWidget.setObjectName("layoutWidget")
-        # self.gridLayout_5 = QtWidgets.QGridLayout(self.layoutWidget)
-        # self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
-        # self.gridLayout_5.setObjectName("gridLayout_5")
+        
+        self.gridLayout_5 = QtWidgets.QGridLayout(Form)
+        self.gridLayout_5.setObjectName("gridLayout_5")
+        self.scrollArea = QtWidgets.QScrollArea(Form)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 620, 760))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.gridLayout_5.addWidget(self.scrollArea, 0, 0, 1, 1)
+
         self.label_23 = QtWidgets.QLabel(Form)
         self.label_23.setObjectName("label_23")
         self.label_23.setGeometry(20, 580, 390, 180)
@@ -430,8 +495,7 @@ class Ui_Form(object):
             self.layoutWidget2)
         self.btn_Browse_DataFolder.setObjectName(
             "btn_Browse_DataFolder")
-        # self.btn_Browse_DataFolder.setStyleSheet(
-        #     "background-color:rgb(0, 21,184)")
+
         self.gridLayout_6.addWidget(
             self.btn_Browse_DataFolder, 1, 2, 1, 1)
         self.label_input_2 = QtWidgets.QLabel(self.layoutWidget2)
@@ -588,9 +652,9 @@ class Ui_Form(object):
         self.lineEdit_DR8_2.setText(_translate("Form", ""))
         self.lineEdit_DR9_2.setText(_translate("Form", ""))
         self.lineEdit_DR10_2.setText(_translate("Form", ""))
-        # self.btn_download_1.setToolTip(_translate(
-        #     "Form", "<html><head/><body><p>hi</p></body></html>"))
-
+        
+        self.logic_handler = LogicHandler(self)
+        
 
 if __name__ == "__main__":
     import sys
