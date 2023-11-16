@@ -11,7 +11,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSpacerItem, QSizePolicy, QScrollArea, QLabel, QWidgetItem
+from PyQt5.QtWidgets import (
+    QWidget, QVBoxLayout, QSpacerItem,
+    QSizePolicy, QScrollArea, QLabel,
+    QWidgetItem, QBoxLayout, QFormLayout)
 
 
 class LogicHandler:
@@ -83,17 +86,15 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.resize(620, 760)
         
-        self.gridLayout_5 = QtWidgets.QGridLayout(Form)
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.scrollArea = QtWidgets.QScrollArea(Form)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 620, 760))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout_5.addWidget(self.scrollArea, 0, 0, 1, 1)
-
+        # self.main_layout = QFormLayout()
+        # self.scrollArea = QtWidgets.QScrollArea(Form)
+        # self.scrollArea.setWidgetResizable(True)
+        # self.scrollArea.setObjectName("scrollArea")
+        # self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        # self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 400, 760))
+        # self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        
+        
         self.label_23 = QtWidgets.QLabel(Form)
         self.label_23.setObjectName("label_23")
         self.label_23.setGeometry(20, 580, 390, 180)
@@ -550,6 +551,21 @@ class Ui_Form(object):
             QIcon("./MTK/AE/Analysis/ToneCategorizer/icon_explain.png"))
         self.btn_explain_2.setIconSize(QSize(25, 25))
         self.btn_explain_2.setStyleSheet("QToolButton{border:0px solid;}")
+
+
+        # self.content_layout = QFormLayout(self.scrollAreaWidgetContents)
+        # self.content_layout.addWidget(self.layoutWidget2)
+        # self.content_layout.addWidget(self.btn_download_1)
+        # self.content_layout.addWidget(self.btn_explain_1)
+        # self.content_layout.addWidget(self.layoutWidget1)
+        # self.content_layout.addWidget(self.label_23)
+        # self.content_layout.addWidget(self.btn_download_2)
+        # self.content_layout.addWidget(self.btn_explain_2)
+        # self.content_layout.addWidget(self.btn_Update)
+        
+        # self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        # self.main_layout.addWidget(self.scrollArea)
+        
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

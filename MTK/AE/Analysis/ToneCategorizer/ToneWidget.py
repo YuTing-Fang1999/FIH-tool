@@ -94,7 +94,7 @@ class MyWidget(ParentWidget):
 
     # 還沒
     def do_download1(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
 
         save_dir = self.ui.lineEdit_DataFolder.text()
         if (save_dir != ''):
@@ -427,6 +427,8 @@ class MyWidget(ParentWidget):
                 self.solver_thread.data = data
                 self.solver_thread.start()
                 # mtk_main(your_path,file_path, LV_region, DR_region)
+                input()
+                sys.exit()
             elif (your_path == ''):
                 # show the error message
                 QMessageBox.about(
