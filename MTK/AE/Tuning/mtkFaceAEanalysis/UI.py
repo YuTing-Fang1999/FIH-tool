@@ -9,7 +9,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QLabel, QToolTip
+from myPackage.DXO_deadleaves import ResizeWithAspectRatio
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -1018,6 +1021,7 @@ class Ui_Form(object):
         self.del_btn.setObjectName("del_btn")
         self.horizontalLayout_2.addWidget(self.del_btn)
         self.load_exif_btn = QtWidgets.QPushButton(Form)
+        self.load_exif_btn.setEnabled(True)
         self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_exif_btn.setStyleSheet("text-align:center;\n"
                                          "background:rgb(68, 114, 196); \n"
@@ -1128,7 +1132,22 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.exif_table)
         self.verticalLayout.setStretch(0, 2)
         self.verticalLayout.setStretch(2, 3)
-
+        
+        ######################
+        self.frame = QtWidgets.QFrame(Form)        
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.layoutWidget = QtWidgets.QWidget(self.frame)
+        
+        self.hover_img = QtWidgets.QLabel(self.frame)
+        self.hover_img.setGeometry(QtCore.QRect(590, 10, 931, 651))
+        self.hover_img.setText("")
+        self.hover_img.setObjectName("hover_img")
+        self.verticalLayout.addWidget(self.frame)
+        ########################
+        
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -1186,15 +1205,39 @@ class Ui_Form(object):
             "Form", "Face Link Target (Low light)"))
         self.label_47.setText(_translate("Form", "   BV  "))
         self.del_btn.setText(_translate("Form", "Delete"))
+        self.del_btn.setToolTip("<font color='black'><b>刪除勾選項目(預設勾選FDStable = 0)</b></font>")
         self.load_exif_btn.setText(_translate("Form", "Import data folder"))
-        # self.load_exif_btn.setToolTip('刪除勾選項目(預設勾選FDStable = 0)')
+        
+        # self.load_exif_btn.setToolTip("<img src='./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg'/>")
+        
+        # self.load_exif_btn.setToolTip("Thqpushbutton.settooltip is is a tooltip")
+        # # self.load_exif_btn.setStyleSheet(QToolTip("./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.png"))
+        # image_path = "./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.png"
+        # self.load_exif_btn.setStyleSheet(f"QPushButton {{ border-image: url('{image_path}'); }}")
+        
+        
+        # tst. pic ISP module Exif
+        # self.ui = QWidget()
+        # self.ui_tooltip = Ui_Form_toolTip()
+        # self.ui.setFixedSize(1330, 600)
+        # self.ui_tooltip.setupUi(self.ui)
+        # self.load_exif_btn.enterEvent = self.ui.show
+        # self.load_exif_btn.leaveEvent = self.ui.hide
+        # self.ui.show()
+        # self.load_exif_btn.enterEvent = self.show_tooltip
+        # self.load_exif_btn.leaveEvent = self.hide_tooltip
+        
         self.load_code_btn.setText(_translate("Form", "Import AE.cpp"))
         self.open_excel_btn.setText(_translate("Form", "Open excel"))
         self.load_excel_btn.setText(_translate("Form", "Import excel"))
+        self.load_excel_btn.setToolTip("<font color='black'><b>匯入軟體生成的excel</b></font>")
         self.optimize_btn.setText(_translate("Form", "Optimize"))
+        self.optimize_btn.setToolTip("<font color='black'><b>優化可按數次結果可能不同</b></font>")
         self.restore_btn.setText(_translate("Form", "Reset"))
+        self.restore_btn.setToolTip("<font color='black'><b>回到Optimize前狀態</b></font>")
         self.export_code_btn.setText(_translate("Form", "Export AE.cpp"))
         self.name_btn.setText(_translate("Form", "#NAME"))
+        self.name_btn.setToolTip("<font color='black'><b>點擊進入server解決數值異常問題</b></font>")
         item = self.exif_table.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Delete"))
         item = self.exif_table.horizontalHeaderItem(1)
@@ -1235,6 +1278,16 @@ class Ui_Form(object):
         item.setText(_translate("Form", "After\\nTHD diff"))
         item = self.exif_table.horizontalHeaderItem(19)
         item.setText(_translate("Form", "Target_TH"))
+    
+    def show_tooltip(self, event):
+        self.tooltip.setGeometry(self.mapToGlobal(self.button.pos()).x(), 
+                                 self.mapToGlobal(self.button.pos()).y() + self.button.height(),
+                                 self.tooltip.width(),
+                                 self.tooltip.height())
+        self.tooltip.show()
+
+    def hide_tooltip(self, event):
+        self.tooltip.hide()
 
 
 if __name__ == "__main__":
