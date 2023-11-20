@@ -94,7 +94,7 @@ class MyWidget(ParentWidget):
 
     # 還沒
     def do_download1(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
 
         save_dir = self.ui.lineEdit_DataFolder.text()
         if (save_dir != ''):
@@ -109,7 +109,7 @@ class MyWidget(ParentWidget):
 
     # 還沒
     def do_download2(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
 
         save_dir = self.ui.lineEdit_DataFolder.text()
         if (save_dir != ''):
