@@ -2,8 +2,8 @@ from PyQt5.QtWidgets import (
     QWidget, QApplication, QFileDialog, QMessageBox, QPushButton, QTableWidgetItem, QCheckBox,
     QLabel, QStyledItemDelegate, QHBoxLayout, QLineEdit, QTableWidget, QAbstractItemView
 )
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QPixmap, QIntValidator, QColor, QImage
+from PyQt5.QtCore import QThread, pyqtSignal, Qt, QTimer, QUrl
+from PyQt5.QtGui import QPixmap, QIntValidator, QColor, QImage, QDesktopServices, QCursor
 from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 import win32com.client as win32
@@ -16,12 +16,39 @@ from scipy import interpolate, optimize
 import openpyxl
 from openpyxl_image_loader import SheetImageLoader
 import cv2
+from myPackage.DXO_deadleaves import ResizeWithAspectRatio
 
 import re
 def is_integer(s):
     pattern = r'^[+-]?\d+$'
     return re.match(pattern, s) is not None
 
+# class HoverButton(QPushButton):
+#     show_img_signal = pyqtSignal(str)
+#     hide_img_signal = pyqtSignal()
+#     def __init__(self, text, img_path):
+#         super().__init__(text)
+#         self.img_path = img_path
+        
+#         self.hover_timer = QTimer(self)
+#         self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
+#         self.hover_timer.setInterval(1000)  # 1000 milliseconds = 1 second
+#         self.is_hovered = False
+        
+#     def enterEvent(self, event):
+#         if not self.is_hovered:
+#             self.is_hovered = True
+#             self.hover_timer.start()
+
+#     def leaveEvent(self, event):
+#         self.is_hovered = False
+#         self.hover_timer.stop()
+#         self.hide_img_signal.emit()
+
+#     def on_hover_timer_timeout(self):
+#         # This method will be called after 1 second of hovering
+#         self.show_img_signal.emit(self.img_path)
+        
 class MyLineEdit(QLineEdit):
     calculate_interpolate_signal = pyqtSignal()
     change_range_signal = pyqtSignal(int, str)
@@ -105,17 +132,42 @@ class MyWidget(ParentWidget):
         self.ui.exif_table.itemSelectionChanged.connect(self.table_row_selected_event)
         self.ui.open_excel_btn.clicked.connect(self.open_excel)
         self.ui.load_excel_btn.clicked.connect(self.load_excel)
+        self.ui.name_btn.clicked.connect(self.name_url)
 
         self.gen_excel_worker.update_status_signal.connect(self.update_btn_status)
         self.gen_excel_worker.gen_finish_signal.connect(self.after_gen_excel)
         self.gen_excel_worker.failed_signal.connect(self.failed)
         
+        #hoverimg
+        self.ui.load_exif_btn.show_img_signal.connect(self.show_img)
+        self.ui.load_exif_btn.hide_img_signal.connect(self.ui.hover_img.hide)
+    
+    def show_img(self, path):
+        # self.ui.hover_img = HoverLabel("")
+        img = cv2.imdecode(np.fromfile(file=path, dtype=np.uint8), cv2.IMREAD_COLOR)
+        img = ResizeWithAspectRatio(img, height=400)
+        self.ui.hover_img.resize(img.shape[1], img.shape[0])
+        qimg = QImage(np.array(img), img.shape[1], img.shape[0],
+                      img.shape[1]*img.shape[2], QImage.Format_RGB888).rgbSwapped()
+        self.ui.hover_img.setPixmap(QPixmap(qimg))
+        self.ui.hover_img.show()
+        
+        cursor = QCursor()
+        global_pos = cursor.pos()
+        local_pos = self.mapFromGlobal(global_pos)
+        # print(f"Global Position: {global_pos.x()}, {global_pos.y()}")
+        # print(f"Local Position: {local_pos.x()}, {local_pos.y()}")
+        self.ui.hover_img.move(local_pos.x(), local_pos.y())
+          
     def setupUi(self):
         delegate = AlignDelegate(self.ui.exif_table)
         self.ui.exif_table.setItemDelegate(delegate)
         self.ui.exif_table.verticalHeader().setVisible(False)
         self.ui.exif_table.setSelectionBehavior(QTableWidget.SelectRows)
         self.ui.exif_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        # self.ui.load_exif_btn = HoverLabel(
+        #     "load_exif",
+        #     "./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg")
         
         self.set_btn_enable(self.ui.del_btn, False)
         self.set_btn_enable(self.ui.load_exif_btn, False)
@@ -358,7 +410,6 @@ class MyWidget(ParentWidget):
         self.ui.load_code_btn.repaint()
         self.gen_excel_worker.start()
         
-    
     def set_code_data(self, data):
         # Function to remove a widget from the grid layout by row and column
         def remove_widget(grid, row, col):
@@ -684,7 +735,6 @@ class MyWidget(ParentWidget):
         self.set_all_btn_enable(True)
         self.ui.optimize_btn.setText("最佳化")
         QMessageBox.about(self, "Optimization Result", "last_avg_dif: {:.2f}\nnow_avg_dif: {:.2f}".format(self.last_avg_dif, self.now_avg_dif))
-
         
     def restore(self):
         self.set_all_btn_enable(False)
@@ -753,6 +803,10 @@ class MyWidget(ParentWidget):
                 file.write("Low light\n")
                 file.write("//u4_FD_TH: FD brightness target\n")
                 file.write(low_txt)
+                
+    def name_url(self):
+        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
+        QDesktopServices.openUrl(QUrl(url))
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:

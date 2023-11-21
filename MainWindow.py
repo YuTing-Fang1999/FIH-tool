@@ -157,7 +157,7 @@ class BtnPage(QWidget):
             btn = StyleBytton(widget_config["title"], widget_config["subtitle"])
             btn.setCheckable(True)
             if i==0: btn.setChecked(True)
-            if i!=0: self.addRightArowLabel()
+            # if i!=0: self.addRightArowLabel()
             self.total_btn_group.addButton(btn)
             btn.clicked.connect(lambda checked, i=i: self.display_stack(i))
             self.addBtn(btn)
@@ -215,6 +215,15 @@ class FunctionList(QListWidget):
         for i, key in enumerate(config):
             self.addItem(key)
             action_list = ActionList(config[key])
+            ###################
+            action_list.setGeometry(1000, 100, 150,150)
+            
+            size_policy = action_list.sizePolicy()
+            size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            action_list.setSizePolicy(size_policy)
+            # action_list.setFixedSize(160, 150)
+            ####################
             self.action_stack.addWidget(action_list)
             self.pipeline_stack.addWidget(action_list.pipeline_stack)
             self.instruction_stack.addWidget(action_list.instruction_stack)
@@ -420,6 +429,15 @@ class MainWindow(QWidget):
             if i==0: button.setChecked(True)
             self.tool_selection.platform_btn_group.addButton(button)
             function_list = FunctionList(main_config[key])
+            ############################
+            function_list.setGeometry(1000, 100, 150, 150)
+            print("f")
+            size_policy = function_list.sizePolicy()
+            size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            function_list.setSizePolicy(size_policy)
+            # function_list.setFixedSize(160, 150)
+            #############################
             self.tool_selection.function_stack.addWidget(function_list)
             self.tool_selection.action_stack.addWidget(function_list.action_stack)
             self.tool_selection.pipeline_stack.addWidget(function_list.pipeline_stack)

@@ -10,10 +10,38 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QLabel, QToolTip
 from myPackage.DXO_deadleaves import ResizeWithAspectRatio
+# from .MyWidget import HoverButton
+        
+        
+class HoverButton(QPushButton):
+    show_img_signal = pyqtSignal(str)
+    hide_img_signal = pyqtSignal()
+    def __init__(self, text, img_path):
+        super().__init__(text)
+        self.img_path = img_path
+        
+        self.hover_timer = QTimer(self)
+        self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
+        self.hover_timer.setInterval(1000)  # 1000 milliseconds = 1 second
+        self.is_hovered = False
+        
+    def enterEvent(self, event):
+        if not self.is_hovered:
+            self.is_hovered = True
+            self.hover_timer.start()
 
+    def leaveEvent(self, event):
+        self.is_hovered = False
+        self.hover_timer.stop()
+        self.hide_img_signal.emit()
+
+    def on_hover_timer_timeout(self):
+        # This method will be called after 1 second of hovering
+        self.show_img_signal.emit(self.img_path)
+        
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -1020,7 +1048,9 @@ class Ui_Form(object):
                                    "color:rgb(255, 255, 255);")
         self.del_btn.setObjectName("del_btn")
         self.horizontalLayout_2.addWidget(self.del_btn)
-        self.load_exif_btn = QtWidgets.QPushButton(Form)
+        self.load_exif_btn = HoverButton(
+            "Import data folder",
+            "MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg")
         self.load_exif_btn.setEnabled(True)
         self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_exif_btn.setStyleSheet("text-align:center;\n"
@@ -1133,19 +1163,11 @@ class Ui_Form(object):
         self.verticalLayout.setStretch(0, 2)
         self.verticalLayout.setStretch(2, 3)
         
-        ######################
-        self.frame = QtWidgets.QFrame(Form)        
-        self.frame.setSizePolicy(sizePolicy)
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.layoutWidget = QtWidgets.QWidget(self.frame)
-        
-        self.hover_img = QtWidgets.QLabel(self.frame)
+        ######################\    
+        self.hover_img = QtWidgets.QLabel(Form)
         self.hover_img.setGeometry(QtCore.QRect(590, 10, 931, 651))
         self.hover_img.setText("")
         self.hover_img.setObjectName("hover_img")
-        self.verticalLayout.addWidget(self.frame)
         ########################
         
         self.retranslateUi(Form)
@@ -1206,26 +1228,7 @@ class Ui_Form(object):
         self.label_47.setText(_translate("Form", "   BV  "))
         self.del_btn.setText(_translate("Form", "Delete"))
         self.del_btn.setToolTip("<font color='black'><b>刪除勾選項目(預設勾選FDStable = 0)</b></font>")
-        self.load_exif_btn.setText(_translate("Form", "Import data folder"))
         
-        # self.load_exif_btn.setToolTip("<img src='./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg'/>")
-        
-        # self.load_exif_btn.setToolTip("Thqpushbutton.settooltip is is a tooltip")
-        # # self.load_exif_btn.setStyleSheet(QToolTip("./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.png"))
-        # image_path = "./MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.png"
-        # self.load_exif_btn.setStyleSheet(f"QPushButton {{ border-image: url('{image_path}'); }}")
-        
-        
-        # tst. pic ISP module Exif
-        # self.ui = QWidget()
-        # self.ui_tooltip = Ui_Form_toolTip()
-        # self.ui.setFixedSize(1330, 600)
-        # self.ui_tooltip.setupUi(self.ui)
-        # self.load_exif_btn.enterEvent = self.ui.show
-        # self.load_exif_btn.leaveEvent = self.ui.hide
-        # self.ui.show()
-        # self.load_exif_btn.enterEvent = self.show_tooltip
-        # self.load_exif_btn.leaveEvent = self.hide_tooltip
         
         self.load_code_btn.setText(_translate("Form", "Import AE.cpp"))
         self.open_excel_btn.setText(_translate("Form", "Open excel"))
