@@ -200,6 +200,7 @@ class FunctionList(QListWidget):
 
     def __init__(self, config) -> None:
         super().__init__()
+        self.setFixedSize(160, 150)
         # # 設定自訂的 ItemDelegate
         itemDelegate = CustomItemDelegate()
         self.setItemDelegate(itemDelegate)
@@ -216,12 +217,12 @@ class FunctionList(QListWidget):
             self.addItem(key)
             action_list = ActionList(config[key])
             ###################
-            action_list.setGeometry(1000, 100, 150,150)
+            # action_list.setGeometry(1000, 100, 150,150)
             
-            size_policy = action_list.sizePolicy()
-            size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
-            size_policy.setVerticalPolicy(QSizePolicy.Fixed)
-            action_list.setSizePolicy(size_policy)
+            # size_policy = action_list.sizePolicy()
+            # size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            # size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            # action_list.setSizePolicy(size_policy)
             # action_list.setFixedSize(160, 150)
             ####################
             self.action_stack.addWidget(action_list)
@@ -242,6 +243,7 @@ class FunctionList(QListWidget):
 class ActionList(QListWidget):
     def __init__(self, config) -> None:
         super().__init__()
+        self.setFixedSize(160, 150)
         # # 設定自訂的 ItemDelegate
         itemDelegate = CustomItemDelegate()
         self.setItemDelegate(itemDelegate)
@@ -313,7 +315,7 @@ class ToolSelection(QWidget):
         HLayout.addWidget(self.pipeline_stack)
         HLayout.setStretch(0,1)
         HLayout.setStretch(1,1)
-        HLayout.setStretch(2,10)
+        HLayout.setStretch(2,30)
         
         main_layout.addLayout(Vplatform_layout)
         main_layout.addLayout(HLayout)
@@ -403,6 +405,7 @@ class FoldMenu(QWidget):
 class PlatFormBtn(QPushButton):
     def __init__(self, name):
         super().__init__(name)
+        self.setFixedWidth(160)
         self.setCursor(QCursor(Qt.OpenHandCursor))
 
         palette = self.palette()
@@ -430,12 +433,12 @@ class MainWindow(QWidget):
             self.tool_selection.platform_btn_group.addButton(button)
             function_list = FunctionList(main_config[key])
             ############################
-            function_list.setGeometry(1000, 100, 150, 150)
-            print("f")
-            size_policy = function_list.sizePolicy()
-            size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
-            size_policy.setVerticalPolicy(QSizePolicy.Fixed)
-            function_list.setSizePolicy(size_policy)
+            # function_list.setGeometry(1000, 100, 150, 150)
+            # print("f")
+            # size_policy = function_list.sizePolicy()
+            # size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            # size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            # function_list.setSizePolicy(size_policy)
             # function_list.setFixedSize(160, 150)
             #############################
             self.tool_selection.function_stack.addWidget(function_list)
