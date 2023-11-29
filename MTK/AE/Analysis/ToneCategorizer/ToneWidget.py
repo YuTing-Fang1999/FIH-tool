@@ -21,6 +21,7 @@ from tkinter import filedialog
 import os
 from openpyxl import load_workbook
 import urllib.request
+from urllib.parse import urljoin
 
 
 class SolverThread(QThread):
@@ -88,15 +89,40 @@ class MyWidget(ParentWidget):
         self.ui.lineEdit_Tonecpp.setText(file_path)
         return file_path
 
+    # need test
     def do_download1(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
-        ################
-        save_dir = self.ui.lineEdit_DataFolder.text()
+        save_dir = os.path.join(os.path.expanduser("~"), "Downloads")
         print(save_dir)
         save_path, _ = QFileDialog.getSaveFileName(
-            self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
-        urllib.request.urlretrieve(url, save_path)
+            None, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
 
+        urllib.request.urlretrieve(url, save_path)
+        
+        '''
+        去鴻海測試
+        # Make a request to the server to get the directory listing
+        response = requests.get(url)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Extract filenames from the HTML content (this is a basic example, actual parsing may be more complex)
+            # You may need to use a library like BeautifulSoup for more robust HTML parsing.
+            filenames = ["file1.txt", "file2.txt", "file3.txt"]  # Replace with actual filenames from the directory
+
+            # Download each file
+            for filename in filenames:
+                file_url = urljoin(url, filename)
+                save_path = os.path.join(save_dir, filename)
+
+                urllib.request.urlretrieve(file_url, save_path)
+
+                print(f"File '{filename}' downloaded and saved as {save_path}")
+        else:
+            print(f"Failed to retrieve directory listing. Status code: {response.status_code}")
+        '''
+
+    # change code after download1 is done
     def do_download2(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
         ###############

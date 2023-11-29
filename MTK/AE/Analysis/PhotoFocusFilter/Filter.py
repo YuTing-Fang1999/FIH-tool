@@ -14,8 +14,8 @@ def calculate_focus_score(image):
     return focus_score
 
 
-def main():
-    image_folder = "image"
+def main(path):
+    image_folder = path
     image_files = [f for f in os.listdir(
         image_folder) if f.lower().endswith((".jpg", ".jpeg"))]
 

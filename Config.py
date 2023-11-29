@@ -34,6 +34,8 @@ from MTK.AE.Analysis.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidg
 from MTK.AE.Analysis.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
 from MTK.AE.Analysis.ToneCategorizer.ToneWidget import MyWidget as ToneCategorizerWidget
 from MTK.AE.Analysis.ToneCategorizer.Intro import Intro as ToneCategorizerIntro
+from MTK.AE.Analysis.PhotoFocusFilter.UX import MyWidget as PhotoFocusFilterWidget
+# from MTK.AE.Analysis.PhotoFocusFilter.Intro import Intro as PhotoFocusFilterIntro
 
 from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
@@ -257,6 +259,13 @@ class Config():
                             "subtitle": "Compare ratio, histograms & simulate",
                             "instruction": MyLabel(""),
                             "widget": MyLabel(""),
+                            
+                        },
+                        {
+                            "title": "Photo Focus Filter",
+                            "subtitle": "Filter for blurry images",
+                            "instruction": MyLabel(""),
+                            "widget": PhotoFocusFilterWidget(),
                             
                         },
                     ],

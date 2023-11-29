@@ -58,6 +58,7 @@ class Ui_Form(object):
         self.label_PhotoFolder.setText(_translate("Form", "Photo Folder :"))
         self.btn_Compute.setText(_translate("Form", "Compute"))
         self.btn_OpenFolder.setText(_translate("Form", "Open folder"))
+        self.btn_Compute.setToolTip("<font color='black'>cmd視窗可察看進度</font>")
 
 
 if __name__ == "__main__":

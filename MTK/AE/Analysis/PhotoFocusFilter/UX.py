@@ -1,11 +1,14 @@
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox, QPushButton
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from UI import Ui_Form  # .
+from .UI import Ui_Form  
 from time import sleep
 import os
-from Filter import main as filter_main  # .
-from ParentWidget import ParentWidget
+from .Filter import main as filter_main  
+from myPackage.ParentWidget import ParentWidget
 import subprocess
+import ctypes
+import sys
+
 
 
 class WorkerThread(QThread):
@@ -21,16 +24,16 @@ class SolverThread(QThread):
     update_status_bar_signal = pyqtSignal(str)
     failed_signal = pyqtSignal(str)
     finish_signal = pyqtSignal()
-    data = None
+    path = None
 
     def __init__(self):
         super().__init__()
 
     def run(self):
         try:
-            # . . . (要執行的程式)
-            filter_main()
-            self.finish_signal.emit()
+            filter_main(self.path)
+            # self.finish_signal.emit()
+                
         except Exception as error:
             print(error)
             self.update_status_bar_signal.emit("Failed...")
@@ -49,9 +52,17 @@ class MyWidget(ParentWidget):
     def controller(self):
         self.ui.btn_Browse.clicked.connect(self.browse)
         self.ui.btn_Compute.clicked.connect(self.compute)
+        # self.ui.btn_Compute.clicked.connect(self.test)
         self.ui.btn_OpenFolder.clicked.connect(self.openFolder)
         self.solver_thread.failed_signal.connect(self.failed)
         self.solver_thread.finish_signal.connect(self.solver_finish)
+        
+    def test(self):
+        terminal_handle = ctypes.windll.kernel32.GetConsoleWindow()
+
+        # Bring the terminal window to the front
+        ctypes.windll.user32.ShowWindow(terminal_handle, 9)  # SW_RESTORE
+        ctypes.windll.user32.SetForegroundWindow(terminal_handle)
 
     def setupUi(self):
         # self.set_btn_enable(self.ui.btn_Compute, False)
@@ -76,13 +87,21 @@ class MyWidget(ParentWidget):
     # show cmd in front/ show on btn
     def compute(self):
         if (self.ui.lineEdit_FolderPath.text != ''):
+            #################
+            terminal_handle = ctypes.windll.kernel32.GetConsoleWindow()
+
+            # Bring the terminal window to the front
+            ctypes.windll.user32.ShowWindow(terminal_handle, 9)  # SW_RESTORE
+            ctypes.windll.user32.SetForegroundWindow(terminal_handle)
+            ##################
+            self.solver_thread.path = self.ui.lineEdit_FolderPath.text()
             self.solver_thread.start()
-            input()
-            sys.exit()
+
         else:
             # show the error message
             QMessageBox.about(
                 self,  "ERROR", "Choose Photo Folder first.")
+
 
     def openFolder(self):
         if (self.ui.lineEdit_FolderPath.text != ''):
@@ -92,11 +111,11 @@ class MyWidget(ParentWidget):
             # 防呆
 
             # For Windows
-            # os.startfile(your_path)
+            os.startfile(your_path)
 
             # For Linux
-            opener = "open" if sys.platform == "darwin" else "xdg-open"
-            subprocess.call([opener, your_path])
+            # opener = "open" if sys.platform == "darwin" else "xdg-open"
+            # subprocess.call([opener, your_path])
         else:
             # show the error message
             QMessageBox.about(
