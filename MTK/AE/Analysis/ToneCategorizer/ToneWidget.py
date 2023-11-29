@@ -23,7 +23,6 @@ from openpyxl import load_workbook
 import urllib.request
 
 
-
 class SolverThread(QThread):
     update_status_bar_signal = pyqtSignal(str)
     failed_signal = pyqtSignal(str)
@@ -31,20 +30,18 @@ class SolverThread(QThread):
     data = None
 
     def __init__(self):
-        super().__init__() 
+        super().__init__()
 
     def run(self):
         try:
             # . . . (要執行的程式)
-            mtk_main(self.data['your_path'],self.data['file_path'], self.data['LV_region'], self.data['DR_region'])
+            mtk_main(self.data['your_path'], self.data['file_path'],
+                     self.data['LV_region'], self.data['DR_region'])
             self.finish_signal.emit()
         except Exception as error:
             print(error)
             self.update_status_bar_signal.emit("Failed...")
             self.failed_signal.emit("Failed...\n"+str(error))
-          
-        
-        
 
 
 class MyWidget(ParentWidget):
@@ -54,7 +51,6 @@ class MyWidget(ParentWidget):
         self.ui.setupUi(self)
         self.solver_thread = SolverThread()
         self.controller()
-
 
     def controller(self):
         self.ui.btn_Browse_DataFolder.clicked.connect(
@@ -92,35 +88,23 @@ class MyWidget(ParentWidget):
         self.ui.lineEdit_Tonecpp.setText(file_path)
         return file_path
 
-    # 還沒
     def do_download1(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
-
+        ################
         save_dir = self.ui.lineEdit_DataFolder.text()
-        if (save_dir != ''):
-            print(save_dir)
-            save_path, _ = QFileDialog.getSaveFileName(
-                self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
-            urllib.request.urlretrieve(url, save_path)
-        else:
-            # show the error message
-            QMessageBox.about(
-                self,  "ERROR", "Choose Data Folder first.")
+        print(save_dir)
+        save_path, _ = QFileDialog.getSaveFileName(
+            self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
+        urllib.request.urlretrieve(url, save_path)
 
-    # 還沒
     def do_download2(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
-
+        ###############
         save_dir = self.ui.lineEdit_DataFolder.text()
-        if (save_dir != ''):
-            print(save_dir)
-            save_path, _ = QFileDialog.getSaveFileName(
-                self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
-            urllib.request.urlretrieve(url, save_path)
-        else:
-            # show the error message
-            QMessageBox.about(
-                self,  "ERROR", "Choose Data Folder first.")
+        print(save_dir)
+        save_path, _ = QFileDialog.getSaveFileName(
+            self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
+        urllib.request.urlretrieve(url, save_path)
 
     def do_explain1(self):
         # tst. pic ISP module Exif
@@ -481,18 +465,17 @@ class MyWidget(ParentWidget):
                 for file in files:
                     if file.endswith(".xlsm"):
                         process_xlsm(os.path.join(root, file))
-    
+
     # def update_status_bar(self, text):
     #     self.statusBar.showMessage(text, 8000)
-        
+
     def failed(self, text="Failed"):
         self.set_all_enable(True)
         QMessageBox.about(self, "Failed", text)
-        
+
     def solver_finish(self):
         self.set_all_enable(True)
         self.statusBar.hide()
-
 
 
 if __name__ == "__main__":
