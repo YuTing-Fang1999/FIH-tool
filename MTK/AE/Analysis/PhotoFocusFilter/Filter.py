@@ -24,7 +24,7 @@ def main(path):
         return
 
     focus_scores = []
-    files_to_rename = []
+    files_to_rename = []  
     for file_name in image_files:
         image_path = os.path.join(image_folder, file_name)
         image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
@@ -36,9 +36,33 @@ def main(path):
         focus_scores.append((file_name, focus_score))
     threshold = np.mean([score for _, score in focus_scores]) - \
         np.std([score for _, score in focus_scores])
+        
+    highest_score = []
+    lowest_score = []
+    high = 0
+    low = 1000
     for file_name, focus_score in focus_scores:
         if focus_score < threshold:
             files_to_rename.append(file_name)
+        ############
+        # Find highest
+        if focus_score > high:
+            high = focus_score
+            if len(highest_score) != 0:
+                highest_score.pop()
+                highest_score.append((file_name, focus_score))
+            else:
+                highest_score.append((file_name, focus_score))
+                
+        # Find lowset
+        if focus_score < low:
+            low = focus_score
+            if len(lowest_score) != 0:
+                lowest_score.pop()
+                lowest_score.append((file_name, focus_score))
+            else:
+                lowest_score.append((file_name, focus_score))
+        #############
 
     if len(files_to_rename) > 0:
         for file_name in files_to_rename:
@@ -60,6 +84,11 @@ def main(path):
     # need abs?
     print(f"Pass rate: {abs(num_below_std_deviation/num_images *100-100)}%")
     print("------------------")
+    
+    #######################
+    # Return Fail/Pass img
+    return highest_score, lowest_score
+    #######################
 
 
 if __name__ == "__main__":
