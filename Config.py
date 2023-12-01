@@ -22,6 +22,8 @@ from QC.AE.Calibration.verifyStepChart.Intro import Intro as verifyStepChartIntr
 
 from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
 from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
+from QC.AF.Analysis.PhotoFocusFilter.UX import MyWidget as QC_AFPhotoFocusFilterWidget
+# from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilterIntro
 
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
 from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
@@ -34,11 +36,11 @@ from MTK.AE.Analysis.mtkAEanalysis.MyWidget import MyWidget as mtkAEanalysisWidg
 from MTK.AE.Analysis.mtkAEanalysis.Intro import Intro as mtkAEanalysisIntro
 from MTK.AE.Analysis.ToneCategorizer.ToneWidget import MyWidget as ToneCategorizerWidget
 from MTK.AE.Analysis.ToneCategorizer.Intro import Intro as ToneCategorizerIntro
-from MTK.AE.Analysis.PhotoFocusFilter.UX import MyWidget as PhotoFocusFilterWidget
-# from MTK.AE.Analysis.PhotoFocusFilter.Intro import Intro as PhotoFocusFilterIntro
 
 from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
+from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
+# from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
 
 from NTU.ML.MyWidget import MyWidget as MLWidget
 from NTU.ML.Intro import Intro as MLIntro
@@ -79,7 +81,7 @@ class Config():
                             "title": "Photo Focus Filter",
                             "subtitle": "Filter for blurry images",
                             "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
+                            "widget": QC_AFPhotoFocusFilterWidget(),
                             
                         },
                     ],
@@ -228,7 +230,7 @@ class Config():
                             "title": "Photo Focus Filter",
                             "subtitle": "Filter for blurry images",
                             "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
+                            "widget": MTK_AFPhotoFocusFilterWidget(),
                             
                         },
                     ],
@@ -259,13 +261,6 @@ class Config():
                             "subtitle": "Compare ratio, histograms & simulate",
                             "instruction": MyLabel(""),
                             "widget": MyLabel(""),
-                            
-                        },
-                        {
-                            "title": "Photo Focus Filter",
-                            "subtitle": "Filter for blurry images",
-                            "instruction": MyLabel(""),
-                            "widget": PhotoFocusFilterWidget(),
                             
                         },
                     ],
