@@ -23,7 +23,7 @@ from QC.AE.Calibration.verifyStepChart.Intro import Intro as verifyStepChartIntr
 from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
 from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 from QC.AF.Analysis.PhotoFocusFilter.UX import MyWidget as QC_AFPhotoFocusFilterWidget
-# from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilterIntro
+from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilterIntro
 
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
 from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
@@ -40,7 +40,7 @@ from MTK.AE.Analysis.ToneCategorizer.Intro import Intro as ToneCategorizerIntro
 from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
-# from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
+from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
 
 from NTU.ML.MyWidget import MyWidget as MLWidget
 from NTU.ML.Intro import Intro as MLIntro
@@ -80,7 +80,7 @@ class Config():
                         {
                             "title": "Photo Focus Filter",
                             "subtitle": "Filter for blurry images",
-                            "instruction": MyLabel(""),
+                            "instruction": QC_AFPhotoFocusFilterIntro(),
                             "widget": QC_AFPhotoFocusFilterWidget(),
                             
                         },
@@ -229,7 +229,7 @@ class Config():
                         {
                             "title": "Photo Focus Filter",
                             "subtitle": "Filter for blurry images",
-                            "instruction": MyLabel(""),
+                            "instruction": MTK_AFPhotoFocusFilterIntro(),
                             "widget": MTK_AFPhotoFocusFilterWidget(),
                             
                         },

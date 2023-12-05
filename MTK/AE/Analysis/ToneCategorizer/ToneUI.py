@@ -489,7 +489,7 @@ class Ui_Form(object):
         self.label_DataFolder.setObjectName("label_DataFolder")
         self.gridLayout_6.addWidget(self.label_DataFolder, 1, 0, 1, 1)
         self.lineEdit_DataFolder = QtWidgets.QLineEdit(self.layoutWidget2)
-        self.lineEdit_DataFolder.setReadOnly(True)
+        # self.lineEdit_DataFolder.setReadOnly(True)
         self.lineEdit_DataFolder.setObjectName("lineEdit_DataFolder")
         self.gridLayout_6.addWidget(self.lineEdit_DataFolder, 1, 1, 1, 1)
         self.btn_Browse_DataFolder = QtWidgets.QPushButton(
@@ -508,7 +508,7 @@ class Ui_Form(object):
         self.label_Tonecpp.setObjectName("label_Tonecpp")
         self.gridLayout_6.addWidget(self.label_Tonecpp, 3, 0, 1, 1)
         self.lineEdit_Tonecpp = QtWidgets.QLineEdit(self.layoutWidget2)
-        self.lineEdit_Tonecpp.setReadOnly(True)
+        # self.lineEdit_Tonecpp.setReadOnly(True)
         self.lineEdit_Tonecpp.setObjectName("lineEdit_Tonecpp")
         self.gridLayout_6.addWidget(self.lineEdit_Tonecpp, 3, 1, 1, 1)
         self.btn_Browse_Tonecpp = QtWidgets.QPushButton(

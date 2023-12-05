@@ -25,7 +25,7 @@ class HoverButton(QPushButton):
         
         self.hover_timer = QTimer(self)
         self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
-        self.hover_timer.setInterval(1000)  # 1000 milliseconds = 1 second
+        self.hover_timer.setInterval(100)  # 1000 milliseconds = 1 second
         self.is_hovered = False
         
     def enterEvent(self, event):
@@ -1047,7 +1047,7 @@ class Ui_Form(object):
                                    "background:rgb(68, 114, 196); \n"
                                    "color:rgb(255, 255, 255);")
         self.del_btn.setObjectName("del_btn")
-        self.horizontalLayout_2.addWidget(self.del_btn)
+        # self.horizontalLayout_2.addWidget(self.del_btn)
         self.load_exif_btn = HoverButton(
             "Import data folder",
             "MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg")
@@ -1057,54 +1057,66 @@ class Ui_Form(object):
                                          "background:rgb(68, 114, 196); \n"
                                          "color:rgb(255, 255, 255);")
         self.load_exif_btn.setObjectName("load_exif_btn")
-        self.horizontalLayout_2.addWidget(self.load_exif_btn)
+        # self.horizontalLayout_2.addWidget(self.load_exif_btn)
         self.load_code_btn = QtWidgets.QPushButton(Form)
         self.load_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_code_btn.setStyleSheet("text-align:center;\n"
                                          "background:rgb(68, 114, 196); \n"
                                          "color:rgb(255, 255, 255);")
         self.load_code_btn.setObjectName("load_code_btn")
-        self.horizontalLayout_2.addWidget(self.load_code_btn)
+        # self.horizontalLayout_2.addWidget(self.load_code_btn)
         self.open_excel_btn = QtWidgets.QPushButton(Form)
         self.open_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.open_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
                                           "color:rgb(255, 255, 255);")
         self.open_excel_btn.setObjectName("open_excel_btn")
-        self.horizontalLayout_2.addWidget(self.open_excel_btn)
+        # self.horizontalLayout_2.addWidget(self.open_excel_btn)
         self.load_excel_btn = QtWidgets.QPushButton(Form)
         self.load_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
                                           "color:rgb(255, 255, 255);")
         self.load_excel_btn.setObjectName("load_excel_btn")
-        self.horizontalLayout_2.addWidget(self.load_excel_btn)
+        # self.horizontalLayout_2.addWidget(self.load_excel_btn)
         self.optimize_btn = QtWidgets.QPushButton(Form)
         self.optimize_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.optimize_btn.setStyleSheet("text-align:center;\n"
                                         "background:rgb(68, 114, 196); \n"
                                         "color:rgb(255, 255, 255);")
         self.optimize_btn.setObjectName("optimize_btn")
-        self.horizontalLayout_2.addWidget(self.optimize_btn)
+        # self.horizontalLayout_2.addWidget(self.optimize_btn)
         self.restore_btn = QtWidgets.QPushButton(Form)
         self.restore_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.restore_btn.setStyleSheet("text-align:center;\n"
                                        "background:rgb(68, 114, 196); \n"
                                        "color:rgb(255, 255, 255);")
         self.restore_btn.setObjectName("restore_btn")
-        self.horizontalLayout_2.addWidget(self.restore_btn)
+        # self.horizontalLayout_2.addWidget(self.restore_btn)
         self.export_code_btn = QtWidgets.QPushButton(Form)
         self.export_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.export_code_btn.setStyleSheet("text-align:center;\n"
                                            "background:rgb(68, 114, 196); \n"
                                            "color:rgb(255, 255, 255);")
         self.export_code_btn.setObjectName("export_code_btn")
-        self.horizontalLayout_2.addWidget(self.export_code_btn)
+        # self.horizontalLayout_2.addWidget(self.export_code_btn)
         self.name_btn = QtWidgets.QPushButton(Form)
         self.name_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.name_btn.setStyleSheet("text-align:center;\n"
                                     "background:rgb(68, 114, 196); \n"
                                     "color:rgb(255, 255, 255);")
         self.name_btn.setObjectName("name_btn")
+        # self.horizontalLayout_2.addWidget(self.name_btn)
+        
+        ### 2023.12.05 Change btn position ###
+        self.horizontalLayout_2.addWidget(self.del_btn)
+        self.horizontalLayout_2.addWidget(self.load_code_btn)
+        self.horizontalLayout_2.addWidget(self.load_exif_btn)
+        self.horizontalLayout_2.addWidget(self.optimize_btn)
+        self.horizontalLayout_2.addWidget(self.restore_btn)
+        self.horizontalLayout_2.addWidget(self.open_excel_btn)
+        self.horizontalLayout_2.addWidget(self.load_excel_btn)
+        self.horizontalLayout_2.addWidget(self.export_code_btn)
         self.horizontalLayout_2.addWidget(self.name_btn)
+        
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.exif_table = QtWidgets.QTableWidget(Form)
         self.exif_table.setTabKeyNavigation(False)

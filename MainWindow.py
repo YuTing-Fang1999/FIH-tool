@@ -22,7 +22,7 @@ class StyleBytton(QPushButton):
         super().__init__()
         self.title = title
         self.subtitle = subtitle
-        self.setFixedSize(250, 80)
+        self.setFixedSize(250, 60)
         self.setCursor(QCursor(Qt.OpenHandCursor))
         
         
@@ -298,6 +298,7 @@ class StyleSplitter(QSplitter):
 class ToolSelection(QWidget):
     def __init__(self):
         super().__init__()
+        self.setFixedHeight(220)
         self.function_stack = QStackedWidget()
         self.action_stack = QStackedWidget()
         self.pipeline_stack = QStackedWidget()
@@ -335,45 +336,14 @@ class WidgetDisplay(QWidget):
         self.splitter.setOrientation(Qt.Vertical)
         self.splitter.addWidget(self.widget_stack)
         self.splitter.addWidget(self.instruction_stack)
-        # splitter.setStretchFactor(0,1)
-        # splitter.setStretchFactor(1,1)
+        # self.splitter.setStretchFactor(0,1)
+        # self.splitter.setStretchFactor(1,1)
         main_layout.addWidget(self.splitter)
         # main_layout.addWidget(self.widget_stack)
-        # main_layout.addWidget(FoldMenu2(self.instruction_stack))
         
     def display_widget(self, i):
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
-
-class FoldMenu2(QWidget): # 方向與FoldMenu相反
-    def __init__(self, widget):
-        super().__init__()
-        vLayout = QVBoxLayout(self)
-
-        # # Create the QHBoxLayout
-        # btn_layout = QHBoxLayout()
-        # self.btn_toggle_open = ButtonToggleOpen()
-        # self.btn_toggle_open.setArrowType(Qt.DownArrow)
-        # btn_layout.addWidget(self.btn_toggle_open)
-        # btn_layout.setAlignment(Qt.AlignRight)
-
-        # vLayout.addLayout(btn_layout)
-        # vLayout.addWidget(HLine())
-        vLayout.addWidget(widget)
-        self.widget = widget
-
-        self.widget.setMinimumHeight(300)
-        
-        self.btn_toggle_open.clicked.connect(self.toggle_open)
-        
-    def toggle_open(self):
-        if self.btn_toggle_open.isChecked():
-            self.widget.hide()
-            self.btn_toggle_open.setArrowType(Qt.UpArrow)
-
-        else:
-            self.widget.show()
-            self.btn_toggle_open.setArrowType(Qt.DownArrow)
 
         
 class FoldMenu(QWidget):
@@ -391,6 +361,8 @@ class FoldMenu(QWidget):
         vLayout.addLayout(btn_layout)
         vLayout.addWidget(HLine())
         vLayout.setContentsMargins(0,0,0,0)
+        vLayout.setStretch(0,1)
+        vLayout.setStretch(1,100)
         
         self.btn_toggle_open.clicked.connect(self.toggle_open)
         
@@ -460,7 +432,7 @@ class MainWindow(QWidget):
         # main_layout.addWidget(splitter)
         main_layout.addWidget(FoldMenu(self.tool_selection))
         main_layout.addWidget(self.widget_display)
-        main_layout.setStretch(0, 1)
+        main_layout.setStretch(0, 0)
         main_layout.setStretch(1, 100)
 
         self.set_style()

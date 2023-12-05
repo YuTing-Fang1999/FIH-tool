@@ -1,6 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QApplication, QFileDialog, QMessageBox
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QUrl
+from PyQt5.QtGui import QDesktopServices
 from .ToneUI import Ui_Form
 from .explain1 import Ui_Form_explain1
 from .explain2 import Ui_Form_explain2
@@ -92,46 +93,24 @@ class MyWidget(ParentWidget):
     # need test
     def do_download1(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
-        save_dir = os.path.join(os.path.expanduser("~"), "Downloads")
-        print(save_dir)
-        save_path, _ = QFileDialog.getSaveFileName(
-            None, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
-
-        urllib.request.urlretrieve(url, save_path)
-        
-        '''
-        去鴻海測試
-        # Make a request to the server to get the directory listing
-        response = requests.get(url)
-
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Extract filenames from the HTML content (this is a basic example, actual parsing may be more complex)
-            # You may need to use a library like BeautifulSoup for more robust HTML parsing.
-            filenames = ["file1.txt", "file2.txt", "file3.txt"]  # Replace with actual filenames from the directory
-
-            # Download each file
-            for filename in filenames:
-                file_url = urljoin(url, filename)
-                save_path = os.path.join(save_dir, filename)
-
-                urllib.request.urlretrieve(file_url, save_path)
-
-                print(f"File '{filename}' downloaded and saved as {save_path}")
-        else:
-            print(f"Failed to retrieve directory listing. Status code: {response.status_code}")
-        '''
+        QDesktopServices.openUrl(QUrl(url))
 
     # change code after download1 is done
     def do_download2(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
-        ###############
-        save_dir = self.ui.lineEdit_DataFolder.text()
+        # Direct to the url
+        QDesktopServices.openUrl(QUrl(url))
+         
+        # Save url to directory
+        '''
+        save_dir = self.ui.lineEdit_DataFolder.text() # Save to assigned folder
+        save_dir = os.path.join(os.path.expanduser("~"), "Downloads") # Save to download folder
         print(save_dir)
         save_path, _ = QFileDialog.getSaveFileName(
             self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
         urllib.request.urlretrieve(url, save_path)
-
+        '''
+        
     def do_explain1(self):
         # tst. pic ISP module Exif
         self.ui = QWidget()
