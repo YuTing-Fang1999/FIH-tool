@@ -420,7 +420,7 @@ class MyWidget(ParentWidget):
                 self.solver_thread.start()
                 # mtk_main(your_path,file_path, LV_region, DR_region)
                 # input()
-                # sys.exit()
+                sys.exit()
             elif (your_path == ''):
                 # show the error message
                 QMessageBox.about(
