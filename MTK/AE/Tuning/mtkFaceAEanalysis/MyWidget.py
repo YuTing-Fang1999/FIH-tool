@@ -11,6 +11,7 @@ from .mtkFaceAEanalysis import GenExcelWorkerThread, parse_code
 import os
 import copy
 import numpy as np
+import subprocess
 from scipy import interpolate
 from scipy import interpolate, optimize
 import openpyxl
@@ -805,8 +806,8 @@ class MyWidget(ParentWidget):
                 file.write(low_txt)
                 
     def name_url(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
-        QDesktopServices.openUrl(QUrl(url))
+        path = r'\\10.57.55.72\Camera_ImageQuality\Tuning\5.Tool_工具\#NAME'
+        subprocess.run(["explorer", path])
         
     def set_btn_enable(self, btn: QPushButton, enable):
         if enable:

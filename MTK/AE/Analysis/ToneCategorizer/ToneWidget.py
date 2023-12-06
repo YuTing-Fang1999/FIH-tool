@@ -20,6 +20,7 @@ from .mtkclassifyTONEanalysis_SX3 import main as mtk_main
 import tkinter as tk
 from tkinter import filedialog
 import os
+import subprocess
 from openpyxl import load_workbook
 import urllib.request
 from urllib.parse import urljoin
@@ -93,13 +94,15 @@ class MyWidget(ParentWidget):
     # need test
     def do_download1(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
-        QDesktopServices.openUrl(QUrl(url))
+        # QDesktopServices.openUrl(QUrl(url)) # 有些未知情況會不能跑
+        subprocess.run(["explorer", url])
 
     # change code after download1 is done
     def do_download2(self):
         url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
         # Direct to the url
-        QDesktopServices.openUrl(QUrl(url))
+        # QDesktopServices.openUrl(QUrl(url)) # 有些未知情況會不能跑
+        subprocess.run(["explorer", url])
          
         # Save url to directory
         '''
@@ -416,8 +419,8 @@ class MyWidget(ParentWidget):
                 self.solver_thread.data = data
                 self.solver_thread.start()
                 # mtk_main(your_path,file_path, LV_region, DR_region)
-                input()
-                sys.exit()
+                # input()
+                # sys.exit()
             elif (your_path == ''):
                 # show the error message
                 QMessageBox.about(
