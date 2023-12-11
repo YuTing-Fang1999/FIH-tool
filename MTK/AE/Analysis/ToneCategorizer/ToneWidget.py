@@ -6,7 +6,7 @@ from .ToneUI import Ui_Form
 from .explain1 import Ui_Form_explain1
 from .explain2 import Ui_Form_explain2
 from time import sleep
-from .ParentWidget import ParentWidget
+from myPackage.ParentWidget import ParentWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from bs4 import BeautifulSoup
 from openpyxl import Workbook, load_workbook
@@ -103,7 +103,7 @@ class MyWidget(ParentWidget):
         # Direct to the url
         # QDesktopServices.openUrl(QUrl(url)) # 有些未知情況會不能跑
         subprocess.run(["explorer", url])
-         
+
         # Save url to directory
         '''
         save_dir = self.ui.lineEdit_DataFolder.text() # Save to assigned folder
@@ -113,7 +113,7 @@ class MyWidget(ParentWidget):
             self, 'Save File', os.path.join(save_dir, 'downloaded_file'), 'All Files (*)')
         urllib.request.urlretrieve(url, save_path)
         '''
-        
+
     def do_explain1(self):
         # tst. pic ISP module Exif
         self.ui = QWidget()
