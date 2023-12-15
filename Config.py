@@ -28,6 +28,9 @@ from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilter
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
 from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
 
+from QC.ISP.Analysis.KeywordISOSorter.MyWidget import MyWidget as QC_KeywordISOSorterWidget
+from QC.ISP.Analysis.KeywordISOSorter.Intro import Intro as QC_KeywordISOSorterIntro
+
 from MTK.AE.Tuning.mtkFaceAEanalysis.MyWidget import MyWidget as mtkFaceAEanalysisWidget
 from MTK.AE.Tuning.mtkFaceAEanalysis.Intro import Intro as mtkFaceAEanalysisIntro
 from MTK.AE.Analysis.mtkAEclassify.MyWidget import MyWidget as mtkAEclassifyWidget
@@ -42,12 +45,14 @@ from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
 from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
 
+from MTK.ISP.Analysis.KeywordISOSorter.MyWidget import MyWidget as MTK_KeywordISOSorterWidget
+from MTK.ISP.Analysis.KeywordISOSorter.Intro import Intro as MTK_KeywordISOSorterIntro
+
 from NTU.ML.MyWidget import MyWidget as MLWidget
 from NTU.ML.Intro import Intro as MLIntro
 
 from TraditionalParamTuning.controller import MainWindow_controller as TraditionalParamTuningWidget
 from TraditionalParamTuning.Intro import Intro as TraditionalParamTuningIntro
-
 
 
 class MyLabel(QLabel):
@@ -56,274 +61,275 @@ class MyLabel(QLabel):
         self.setAlignment(Qt.AlignTop)
         self.setWordWrap(True)
 
+
 class Config():
     def __init__(self) -> None:
         self.main_config = \
-        {
-            "QC": { 
-                "AF":{
-                    "Analysis":[
-                        {
-                            "title": "AF Log Fetcher",
-                            "subtitle": "Fetch and sort logs",
-                            "instruction": QC_AFIntro(),
-                            "widget": QC_AFWidget(),
-                            
-                        },
-                        {
-                            "title": "AF Log Analyzer",
-                            "subtitle": "Give advice on log analysis",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                            
-                        },
-                        {
-                            "title": "Photo Focus Filter",
-                            "subtitle": "Filter for blurry images",
-                            "instruction": QC_AFPhotoFocusFilterIntro(),
-                            "widget": QC_AFPhotoFocusFilterWidget(),
-                            
-                        },
-                    ],
+            {
+                "QC": {
+                    "AF": {
+                        "Analysis": [
+                            {
+                                "title": "AF Log Fetcher",
+                                "subtitle": "Fetch and sort logs",
+                                "instruction": QC_AFIntro(),
+                                "widget": QC_AFWidget(),
+
+                            },
+                            {
+                                "title": "AF Log Analyzer",
+                                "subtitle": "Give advice on log analysis",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+
+                            },
+                            {
+                                "title": "Photo Focus Filter",
+                                "subtitle": "Filter for blurry images",
+                                "instruction": QC_AFPhotoFocusFilterIntro(),
+                                "widget": QC_AFPhotoFocusFilterWidget(),
+
+                            },
+                        ],
+                    },
+                    "AE": {
+                        "Analysis": [
+                            {
+                                "title": "Shading Shape Display",
+                                "subtitle": "Visualizing lens shading data",
+                                "instruction": LSCIntro(),
+                                "widget": LSCWidget(),
+                            },
+                            {
+                                "title": "AECX Analyzer",
+                                "subtitle": "AE SA values charting",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+
+                            },
+                            {
+                                "title": "Brightness Comparator",
+                                "subtitle": "Compare ratio, histograms & simulate",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+
+                            },
+                        ],
+                        "Calibration": [
+                            {
+                                "title": "Luma Target Initializer",
+                                "subtitle": "Luma Tuning via Color Checker",
+                                "instruction": colorCheckerIntro(),
+                                "widget": colorCheckerWidget(),
+                            },
+                            {
+                                "title": "Luma Target Verifier",
+                                "subtitle": "Compute delta Y via Color Checker",
+                                "instruction": verifyColorCheckerIntro(),
+                                "widget": verifyColorCheckerWidget(),
+                            },
+                            {
+                                "title": "Gamma15 Initializer",
+                                "subtitle": "Gamma Tuning via Step Chart",
+                                "instruction": stepChartIntro(),
+                                "widget": stepChartWidget(),
+                            },
+                            {
+                                "title": "Gamma Verifier",
+                                "subtitle": "Compute delta Y via Step Chart",
+                                "instruction": verifyStepChartIntro(),
+                                "widget": verifyStepChartWidget(),
+                            },
+                        ]
+                    },
+                    "AWB": {
+                        "Analysis": [
+                            {
+                                "title": "Triangle Gain Optimizer",
+                                "subtitle": "For triangle gain tuning",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+                            },
+                        ],
+                        "Calibration": [
+                            {
+                                "title": "CCM/CV Initializer",
+                                "subtitle": "CCM/CV calibration via Color Checker",
+                                "instruction": CCMCVInitializerIntro(),
+                                "widget": CCMCVInitializerWidget(),
+                            },
+                        ]
+                    },
+                    "ISP": {
+                        "Analysis": [
+                            {
+                                "title": "Spectrum Grapher",
+                                "subtitle": "Display Spectrum and Histogram",
+                                "instruction": MyLabel("頻譜分析"),
+                                "widget": FFTWidget(),
+                            },
+                            {
+                                "title": "Color Checker SNR",
+                                "subtitle": "Comparing YRGB SNR of 24 patch",
+                                "instruction": MyLabel("colorcheck"),
+                                "widget": ColorcheckWidget(),
+                            },
+                            {
+                                "title": "DL acutance",
+                                "subtitle": "DL Acutance via DeadLeaves",
+                                "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算"),
+                                "widget": DXO_DLWidget(),
+                            },
+                            {
+                                "title": "ISP Metrics Calculator",
+                                "subtitle": "Calculate sharpness and noise values",
+                                "instruction": MyLabel("sharpness/noise"),
+                                "widget": SharpnessWidget(),
+                            },
+                            {
+                                "title": "Perceptual Distance",
+                                "subtitle": "Compute perceputal distance",
+                                "instruction": PerceptualDistancekIntro(),
+                                "widget": PerceptualDistancekWidget(),
+                            },
+                            {
+                                "title": "Keyword ISO Sorter",
+                                "subtitle": "Rename, sort by keyword ISO",
+                                "instruction": QC_KeywordISOSorterIntro(),
+                                "widget": QC_KeywordISOSorterWidget(),
+                            },
+                        ],
+                        "Tuning": [
+                            {
+                                "title": "ISP Auto Tune (Basic)",
+                                "subtitle": "Recommended ISP param",
+                                "instruction": TraditionalParamTuningIntro(),
+                                "widget": TraditionalParamTuningWidget(),
+                            },
+                            {
+                                "title": "ISP Auto Tune (ML)",
+                                "subtitle": "Recommended ISP param",
+                                "instruction": MLIntro(),
+                                "widget": MLWidget(),
+                            },
+                        ]
+                    },
                 },
-                "AE":{
-                    "Analysis":[
-                        {
-                            "title": "Shading Shape Display",
-                            "subtitle": "Visualizing lens shading data",
-                            "instruction": LSCIntro(),
-                            "widget": LSCWidget(),
-                        },
-                        {
-                            "title": "AECX Analyzer",
-                            "subtitle": "AE SA values charting",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                            
-                        },
-                        {
-                            "title": "Brightness Comparator",
-                            "subtitle": "Compare ratio, histograms & simulate",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                            
-                        },
-                    ],
-                    "Calibration":[
-                        {
-                            "title": "Luma Target Initializer",
-                            "subtitle": "Luma Tuning via Color Checker",
-                            "instruction": colorCheckerIntro(),
-                            "widget": colorCheckerWidget(),
-                        },
-                        {
-                            "title": "Luma Target Verifier",
-                            "subtitle": "Compute delta Y via Color Checker",
-                            "instruction": verifyColorCheckerIntro(),
-                            "widget": verifyColorCheckerWidget(),
-                        },
-                        {
-                            "title": "Gamma15 Initializer",
-                            "subtitle": "Gamma Tuning via Step Chart",
-                            "instruction": stepChartIntro(),
-                            "widget": stepChartWidget(),
-                        },
-                        {
-                            "title": "Gamma Verifier",
-                            "subtitle": "Compute delta Y via Step Chart",
-                            "instruction": verifyStepChartIntro(),
-                            "widget": verifyStepChartWidget(),
-                        },
-                    ]
-                },
-                "AWB":{
-                    "Analysis":[
-                        {
-                            "title": "Triangle Gain Optimizer",
-                            "subtitle": "For triangle gain tuning",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                        },
-                    ],
-                    "Calibration":[
-                        {
-                            "title": "CCM/CV Initializer",
-                            "subtitle": "CCM/CV calibration via Color Checker",
-                            "instruction": CCMCVInitializerIntro(),
-                            "widget": CCMCVInitializerWidget(),
-                        },
-                    ]
-                },
-                "ISP":{
-                    "Analysis":[
-                        {
-                            "title": "Spectrum Grapher",
-                            "subtitle": "Display Spectrum and Histogram",
-                            "instruction": MyLabel("頻譜分析"),
-                            "widget": FFTWidget(),
-                        },
-                        {
-                            "title": "Color Checker SNR",
-                            "subtitle": "Comparing YRGB SNR of 24 patch",
-                            "instruction": MyLabel("colorcheck"),
-                            "widget": ColorcheckWidget(),
-                        },
-                        {
-                            "title": "DL acutance",
-                            "subtitle": "DL Acutance via DeadLeaves",
-                            "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算"),
-                            "widget": DXO_DLWidget(),
-                        },
-                        {
-                            "title": "ISP Metrics Calculator",
-                            "subtitle": "Calculate sharpness and noise values",
-                            "instruction": MyLabel("sharpness/noise"),
-                            "widget": SharpnessWidget(),
-                        },
-                        {
-                            "title": "Perceptual Distance",
-                            "subtitle": "Compute perceputal distance",
-                            "instruction": PerceptualDistancekIntro(),
-                            "widget": PerceptualDistancekWidget(),
-                        },
-                        {
-                            "title": "Keyword ISO Sorter",
-                            "subtitle": "Rename, sort by keyword ISO",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                        },
-                    ],
-                    "Tuning":[
-                        {
-                            "title": "ISP Auto Tune (Basic)",
-                            "subtitle": "Recommended ISP param",
-                            "instruction": TraditionalParamTuningIntro(),
-                            "widget": TraditionalParamTuningWidget(),
-                        },
-                        {
-                            "title": "ISP Auto Tune (ML)",
-                            "subtitle": "Recommended ISP param",
-                            "instruction": MLIntro(),
-                            "widget": MLWidget(),
-                        },
-                    ]
-                },
-            },
-            "MTK": { 
-                "AF":{
-                    "Analysis":[
-                        {
-                            "title": "AF Log Fetcher",
-                            "subtitle": "Fetch and sort logs",
-                            "instruction": MTK_AFIntro(),
-                            "widget": MTK_AFWidget(),
-                            
-                        },
-                        {
-                            "title": "AF Log Analyzer",
-                            "subtitle": "Give advice on log analysis",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                            
-                        },
-                        {
-                            "title": "Photo Focus Filter",
-                            "subtitle": "Filter for blurry images",
-                            "instruction": MTK_AFPhotoFocusFilterIntro(),
-                            "widget": MTK_AFPhotoFocusFilterWidget(),
-                            
-                        },
-                    ],
-                },
-                "AE":{
-                    "Analysis":[
-                        {
-                            "title": "Tone Categorizer",
-                            "subtitle": "Classify & lookup with LV, DR",
-                            "instruction": ToneCategorizerIntro(),
-                            "widget": ToneCategorizerWidget(),
-                            
-                        },
-                        {
-                            "title": "AE Classify Mapper",
-                            "subtitle": "For Weighting & THD tuning",
-                            "instruction": mtkAEclassifyIntro(),
-                            "widget": mtkAEclassifyWidget(),
-                        },
-                        {
-                            "title": "AE Metrics Analyzer",
-                            "subtitle": "Computation of related values",
-                            "instruction": mtkAEanalysisIntro(),
-                            "widget": mtkAEanalysisWidget(),
-                        },
-                        {
-                            "title": "Brightness Comparator",
-                            "subtitle": "Compare ratio, histograms & simulate",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                            
-                        },
-                    ],
-                    "Tuning":[
-                        {
-                            "title": "Face AE Tuner",
-                            "subtitle": "Adjust Face link target param",
-                            "instruction": mtkFaceAEanalysisIntro(),
-                            "widget": mtkFaceAEanalysisWidget(),
-                            
-                        },
-                    ],
-                    
-                },
-                "AWB":{
-                    "Analysis":[
-                        {
-                            "title": "Preference Gain Optimizer",
-                            "subtitle": "For preference gain tuning",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                        }
-                    ],
-                },
-                "ISP":{
-                    "Analysis":[
-                        {
-                            "title": "Spectrum Grapher",
-                            "subtitle": "Display Spectrum and Histogram",
-                            "instruction": MyLabel("頻譜分析"),
-                            "widget": FFTWidget(),
-                        },
-                        {
-                            "title": "Color Checker SNR",
-                            "subtitle": "Comparing YRGB SNR of 24 patch",
-                            "instruction": MyLabel("colorcheck"),
-                            "widget": ColorcheckWidget(),
-                        },
-                        {
-                            "title": "DL acutance",
-                            "subtitle": "DL Acutance via DeadLeaves",
-                            "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算\n但很容易偵測失敗"),
-                            "widget": DXO_DLWidget(),
-                        },
-                        {
-                            "title": "ISP Metrics Calculator",
-                            "subtitle": "Calculate sharpness and noise values",
-                            "instruction": MyLabel("sharpness/noise"),
-                            "widget": SharpnessWidget(),
-                        },
-                        {
-                            "title": "Perceptual Distance",
-                            "subtitle": "Compute perceputal distance",
-                            "instruction": PerceptualDistancekIntro(),
-                            "widget": PerceptualDistancekWidget(),
-                        },
-                        {
-                            "title": "Keyword ISO Sorter",
-                            "subtitle": "Rename, sort by keyword ISO",
-                            "instruction": MyLabel(""),
-                            "widget": MyLabel(""),
-                        },
-                    ],
+                "MTK": {
+                    "AF": {
+                        "Analysis": [
+                            {
+                                "title": "AF Log Fetcher",
+                                "subtitle": "Fetch and sort logs",
+                                "instruction": MTK_AFIntro(),
+                                "widget": MTK_AFWidget(),
+
+                            },
+                            {
+                                "title": "AF Log Analyzer",
+                                "subtitle": "Give advice on log analysis",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+
+                            },
+                            {
+                                "title": "Photo Focus Filter",
+                                "subtitle": "Filter for blurry images",
+                                "instruction": MTK_AFPhotoFocusFilterIntro(),
+                                "widget": MTK_AFPhotoFocusFilterWidget(),
+
+                            },
+                        ],
+                    },
+                    "AE": {
+                        "Analysis": [
+                            {
+                                "title": "Tone Categorizer",
+                                "subtitle": "Classify & lookup with LV, DR",
+                                "instruction": ToneCategorizerIntro(),
+                                "widget": ToneCategorizerWidget(),
+
+                            },
+                            {
+                                "title": "AE Classify Mapper",
+                                "subtitle": "For Weighting & THD tuning",
+                                "instruction": mtkAEclassifyIntro(),
+                                "widget": mtkAEclassifyWidget(),
+                            },
+                            {
+                                "title": "AE Metrics Analyzer",
+                                "subtitle": "Computation of related values",
+                                "instruction": mtkAEanalysisIntro(),
+                                "widget": mtkAEanalysisWidget(),
+                            },
+                            {
+                                "title": "Brightness Comparator",
+                                "subtitle": "Compare ratio, histograms & simulate",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+
+                            },
+                        ],
+                        "Tuning": [
+                            {
+                                "title": "Face AE Tuner",
+                                "subtitle": "Adjust Face link target param",
+                                "instruction": mtkFaceAEanalysisIntro(),
+                                "widget": mtkFaceAEanalysisWidget(),
+
+                            },
+                        ],
+
+                    },
+                    "AWB": {
+                        "Analysis": [
+                            {
+                                "title": "Preference Gain Optimizer",
+                                "subtitle": "For preference gain tuning",
+                                "instruction": MyLabel(""),
+                                "widget": MyLabel(""),
+                            }
+                        ],
+                    },
+                    "ISP": {
+                        "Analysis": [
+                            {
+                                "title": "Spectrum Grapher",
+                                "subtitle": "Display Spectrum and Histogram",
+                                "instruction": MyLabel("頻譜分析"),
+                                "widget": FFTWidget(),
+                            },
+                            {
+                                "title": "Color Checker SNR",
+                                "subtitle": "Comparing YRGB SNR of 24 patch",
+                                "instruction": MyLabel("colorcheck"),
+                                "widget": ColorcheckWidget(),
+                            },
+                            {
+                                "title": "DL acutance",
+                                "subtitle": "DL Acutance via DeadLeaves",
+                                "instruction": MyLabel("load 一張 dxo_dead_leaves的照片，會自動偵測ROI計算\n但很容易偵測失敗"),
+                                "widget": DXO_DLWidget(),
+                            },
+                            {
+                                "title": "ISP Metrics Calculator",
+                                "subtitle": "Calculate sharpness and noise values",
+                                "instruction": MyLabel("sharpness/noise"),
+                                "widget": SharpnessWidget(),
+                            },
+                            {
+                                "title": "Perceptual Distance",
+                                "subtitle": "Compute perceputal distance",
+                                "instruction": PerceptualDistancekIntro(),
+                                "widget": PerceptualDistancekWidget(),
+                            },
+                            {
+                                "title": "Keyword ISO Sorter",
+                                "subtitle": "Rename, sort by keyword ISO",
+                                "instruction": MTK_KeywordISOSorterIntro(),
+                                "widget": MTK_KeywordISOSorterWidget(),
+                            },
+                        ],
+                    }
                 }
             }
-        }
