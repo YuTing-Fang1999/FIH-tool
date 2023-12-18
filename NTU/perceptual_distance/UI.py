@@ -73,7 +73,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_parent.addLayout(self.horizontalLayout_medium)
 
         self.horizontalLayout_lower = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_lower.addItem(spacerItem)
+        # self.horizontalLayout_lower.addItem(spacerItem)
         self.name = ["distance"]
         for i in range(4):
             # create the frame object.
@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
             label = QtWidgets.QLabel(MainWindow)
             self.filename.append(label)
             label.setText("PIC"+str(i+1))
-            gridLayout.addWidget(label, 0, 0)
+            gridLayout.addWidget(label, 0, 0, 2, 3)
             score = []
             for j in range(len(self.name)):
                 label = QtWidgets.QLabel(MainWindow)
@@ -96,7 +96,7 @@ class Ui_MainWindow(object):
             self.score_region.append(gridLayout_wrapper)
             self.horizontalLayout_lower.addWidget(gridLayout_wrapper)
             gridLayout_wrapper.hide()
-        self.horizontalLayout_lower.addItem(spacerItem)
+        # self.horizontalLayout_lower.addItem(spacerItem)
         self.verticalLayout_parent.addLayout(self.horizontalLayout_lower)
 
         MainWindow.setStyleSheet(

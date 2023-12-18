@@ -68,7 +68,7 @@ class ImageViewer(QtWidgets.QGraphicsView):
             #     size = int(self.pixmap.height()/30)
 
             # size = max(int(self.pixmap.height()/30), int(self.pixmap.width()/30))
-            size = 20
+            size = 12
             pos = self.mapToScene(0,0).toPoint()
             self.textItem.setPos(pos)
             
