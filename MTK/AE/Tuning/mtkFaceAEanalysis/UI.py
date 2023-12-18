@@ -9,8 +9,39 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt, pyqtSignal, QTimer
+from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QVBoxLayout, QLabel, QToolTip
+from myPackage.DXO_deadleaves import ResizeWithAspectRatio
+# from .MyWidget import HoverButton
+        
+        
+class HoverButton(QPushButton):
+    show_img_signal = pyqtSignal(str)
+    hide_img_signal = pyqtSignal()
+    def __init__(self, text, img_path):
+        super().__init__(text)
+        self.img_path = img_path
+        
+        self.hover_timer = QTimer(self)
+        self.hover_timer.timeout.connect(self.on_hover_timer_timeout)
+        self.hover_timer.setInterval(100)  # 1000 milliseconds = 1 second
+        self.is_hovered = False
+        
+    def enterEvent(self, event):
+        if not self.is_hovered:
+            self.is_hovered = True
+            self.hover_timer.start()
 
+    def leaveEvent(self, event):
+        self.is_hovered = False
+        self.hover_timer.stop()
+        self.hide_img_signal.emit()
 
+    def on_hover_timer_timeout(self):
+        # This method will be called after 1 second of hovering
+        self.show_img_signal.emit(self.img_path)
+        
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -24,9 +55,11 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1364, 322))
+        self.scrollAreaWidgetContents.setGeometry(
+            QtCore.QRect(0, 0, 1364, 322))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(
+            self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -308,7 +341,7 @@ class Ui_Form(object):
         self.label_23 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_23.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_23.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_23.setAlignment(QtCore.Qt.AlignCenter)
         self.label_23.setObjectName("label_23")
         self.link_normal_grid.addWidget(self.label_23, 1, 0, 1, 1)
@@ -443,10 +476,12 @@ class Ui_Form(object):
         self.label_12.setObjectName("label_12")
         self.link_normal_grid.addWidget(self.label_12, 4, 4, 1, 1)
         self.label_17 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.label_17.sizePolicy().hasHeightForWidth())
         self.label_17.setSizePolicy(sizePolicy)
         self.label_17.setAlignment(QtCore.Qt.AlignCenter)
         self.label_17.setObjectName("label_17")
@@ -460,7 +495,7 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                 "color: black;")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.link_normal_grid.addWidget(self.label, 4, 0, 1, 1)
@@ -486,7 +521,7 @@ class Ui_Form(object):
         self.label_24 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_24.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_24.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_24.setAlignment(QtCore.Qt.AlignCenter)
         self.label_24.setObjectName("label_24")
         self.link_normal_grid.addWidget(self.label_24, 2, 0, 1, 1)
@@ -503,7 +538,7 @@ class Ui_Form(object):
         self.label_22.setMinimumSize(QtCore.QSize(0, 30))
         self.label_22.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_22.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_22.setAlignment(QtCore.Qt.AlignCenter)
         self.label_22.setObjectName("label_22")
         self.link_normal_grid.addWidget(self.label_22, 0, 0, 1, 11)
@@ -882,10 +917,12 @@ class Ui_Form(object):
         self.lineEdit_216.setObjectName("lineEdit_216")
         self.link_low_grid.addWidget(self.lineEdit_216, 13, 5, 1, 1)
         self.label_41 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_41.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.label_41.sizePolicy().hasHeightForWidth())
         self.label_41.setSizePolicy(sizePolicy)
         self.label_41.setAlignment(QtCore.Qt.AlignCenter)
         self.label_41.setObjectName("label_41")
@@ -893,7 +930,7 @@ class Ui_Form(object):
         self.label_40 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_40.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_40.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_40.setAlignment(QtCore.Qt.AlignCenter)
         self.label_40.setObjectName("label_40")
         self.link_low_grid.addWidget(self.label_40, 4, 0, 1, 1)
@@ -917,7 +954,7 @@ class Ui_Form(object):
         self.label_46 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_46.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_46.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_46.setAlignment(QtCore.Qt.AlignCenter)
         self.label_46.setObjectName("label_46")
         self.link_low_grid.addWidget(self.label_46, 2, 0, 1, 1)
@@ -977,7 +1014,7 @@ class Ui_Form(object):
         self.label_48.setMinimumSize(QtCore.QSize(0, 30))
         self.label_48.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_48.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_48.setAlignment(QtCore.Qt.AlignCenter)
         self.label_48.setObjectName("label_48")
         self.link_low_grid.addWidget(self.label_48, 0, 0, 1, 11)
@@ -990,7 +1027,7 @@ class Ui_Form(object):
         self.label_47 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_47.setCursor(QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.label_47.setStyleSheet("background:rgb(248, 203, 173); \n"
-"color: black;")
+                                    "color: black;")
         self.label_47.setAlignment(QtCore.Qt.AlignCenter)
         self.label_47.setObjectName("label_47")
         self.link_low_grid.addWidget(self.label_47, 1, 0, 1, 1)
@@ -1007,63 +1044,87 @@ class Ui_Form(object):
         self.del_btn = QtWidgets.QPushButton(Form)
         self.del_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.del_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                   "background:rgb(68, 114, 196); \n"
+                                   "color:rgb(255, 255, 255);")
         self.del_btn.setObjectName("del_btn")
-        self.horizontalLayout_2.addWidget(self.del_btn)
-        self.load_exif_btn = QtWidgets.QPushButton(Form)
+        # self.horizontalLayout_2.addWidget(self.del_btn)
+        self.load_exif_btn = HoverButton(
+            "Import data folder",
+            "MTK/AE/Tuning/mtkFaceAEanalysis/legend_MTK_FaceAETuner_filenameExifsetting.jpg")
+        self.load_exif_btn.setEnabled(True)
         self.load_exif_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_exif_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                         "background:rgb(68, 114, 196); \n"
+                                         "color:rgb(255, 255, 255);")
         self.load_exif_btn.setObjectName("load_exif_btn")
-        self.horizontalLayout_2.addWidget(self.load_exif_btn)
+        # self.horizontalLayout_2.addWidget(self.load_exif_btn)
         self.load_code_btn = QtWidgets.QPushButton(Form)
         self.load_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_code_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                         "background:rgb(68, 114, 196); \n"
+                                         "color:rgb(255, 255, 255);")
         self.load_code_btn.setObjectName("load_code_btn")
-        self.horizontalLayout_2.addWidget(self.load_code_btn)
+        # self.horizontalLayout_2.addWidget(self.load_code_btn)
         self.open_excel_btn = QtWidgets.QPushButton(Form)
         self.open_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.open_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                          "color:rgb(255, 255, 255);")
         self.open_excel_btn.setObjectName("open_excel_btn")
-        self.horizontalLayout_2.addWidget(self.open_excel_btn)
+        # self.horizontalLayout_2.addWidget(self.open_excel_btn)
         self.load_excel_btn = QtWidgets.QPushButton(Form)
         self.load_excel_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.load_excel_btn.setStyleSheet("background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                          "color:rgb(255, 255, 255);")
         self.load_excel_btn.setObjectName("load_excel_btn")
-        self.horizontalLayout_2.addWidget(self.load_excel_btn)
+        # self.horizontalLayout_2.addWidget(self.load_excel_btn)
         self.optimize_btn = QtWidgets.QPushButton(Form)
         self.optimize_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.optimize_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                        "background:rgb(68, 114, 196); \n"
+                                        "color:rgb(255, 255, 255);")
         self.optimize_btn.setObjectName("optimize_btn")
-        self.horizontalLayout_2.addWidget(self.optimize_btn)
+        # self.horizontalLayout_2.addWidget(self.optimize_btn)
         self.restore_btn = QtWidgets.QPushButton(Form)
         self.restore_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.restore_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                       "background:rgb(68, 114, 196); \n"
+                                       "color:rgb(255, 255, 255);")
         self.restore_btn.setObjectName("restore_btn")
-        self.horizontalLayout_2.addWidget(self.restore_btn)
+        # self.horizontalLayout_2.addWidget(self.restore_btn)
         self.export_code_btn = QtWidgets.QPushButton(Form)
         self.export_code_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
         self.export_code_btn.setStyleSheet("text-align:center;\n"
-"background:rgb(68, 114, 196); \n"
-"color:rgb(255, 255, 255);")
+                                           "background:rgb(68, 114, 196); \n"
+                                           "color:rgb(255, 255, 255);")
         self.export_code_btn.setObjectName("export_code_btn")
+        # self.horizontalLayout_2.addWidget(self.export_code_btn)
+        self.name_btn = QtWidgets.QPushButton(Form)
+        self.name_btn.setCursor(QtGui.QCursor(QtCore.Qt.OpenHandCursor))
+        self.name_btn.setStyleSheet("text-align:center;\n"
+                                    "background:rgb(68, 114, 196); \n"
+                                    "color:rgb(255, 255, 255);")
+        self.name_btn.setObjectName("name_btn")
+        # self.horizontalLayout_2.addWidget(self.name_btn)
+        
+        ### 2023.12.05 Change btn position ###
+        self.horizontalLayout_2.addWidget(self.del_btn)
+        self.horizontalLayout_2.addWidget(self.load_code_btn)
+        self.horizontalLayout_2.addWidget(self.load_exif_btn)
+        self.horizontalLayout_2.addWidget(self.optimize_btn)
+        self.horizontalLayout_2.addWidget(self.restore_btn)
+        self.horizontalLayout_2.addWidget(self.open_excel_btn)
+        self.horizontalLayout_2.addWidget(self.load_excel_btn)
         self.horizontalLayout_2.addWidget(self.export_code_btn)
+        self.horizontalLayout_2.addWidget(self.name_btn)
+        
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.exif_table = QtWidgets.QTableWidget(Form)
         self.exif_table.setTabKeyNavigation(False)
         self.exif_table.setProperty("showDropIndicator", False)
-        self.exif_table.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerItem)
-        self.exif_table.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.exif_table.setVerticalScrollMode(
+            QtWidgets.QAbstractItemView.ScrollPerItem)
+        self.exif_table.setHorizontalScrollMode(
+            QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.exif_table.setObjectName("exif_table")
         self.exif_table.setColumnCount(20)
         self.exif_table.setRowCount(0)
@@ -1113,7 +1174,14 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.exif_table)
         self.verticalLayout.setStretch(0, 2)
         self.verticalLayout.setStretch(2, 3)
-
+        
+        ######################\    
+        self.hover_img = QtWidgets.QLabel(Form)
+        self.hover_img.setGeometry(QtCore.QRect(590, 10, 931, 651))
+        self.hover_img.setText("")
+        self.hover_img.setObjectName("hover_img")
+        ########################
+        
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -1143,7 +1211,8 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "BV / DR"))
         self.label_19.setText(_translate("Form", "#"))
         self.label_24.setText(_translate("Form", " DR"))
-        self.label_22.setText(_translate("Form", "Face Link Target (Normal light)"))
+        self.label_22.setText(_translate(
+            "Form", "Face Link Target (Normal light)"))
         self.label_29.setText(_translate("Form", "#"))
         self.label_27.setText(_translate("Form", "#"))
         self.label_37.setText(_translate("Form", "#"))
@@ -1166,16 +1235,24 @@ class Ui_Form(object):
         self.label_44.setText(_translate("Form", "#"))
         self.label_46.setText(_translate("Form", " DR"))
         self.label_45.setText(_translate("Form", "#"))
-        self.label_48.setText(_translate("Form", "Face Link Target (Low light)"))
+        self.label_48.setText(_translate(
+            "Form", "Face Link Target (Low light)"))
         self.label_47.setText(_translate("Form", "   BV  "))
-        self.del_btn.setText(_translate("Form", "刪除勾選的照片"))
-        self.load_exif_btn.setText(_translate("Form", "Load exif、照片資料夾"))
-        self.load_code_btn.setText(_translate("Form", "Load code"))
-        self.open_excel_btn.setText(_translate("Form", "Open Excel"))
-        self.load_excel_btn.setText(_translate("Form", "Load Excel"))
-        self.optimize_btn.setText(_translate("Form", "最佳化"))
-        self.restore_btn.setText(_translate("Form", "歸零"))
-        self.export_code_btn.setText(_translate("Form", "Export code"))
+        self.del_btn.setText(_translate("Form", "Delete"))
+        self.del_btn.setToolTip("<font color='black'><b>刪除勾選項目(預設勾選FDStable = 0)</b></font>")
+        
+        
+        self.load_code_btn.setText(_translate("Form", "Import AE.cpp"))
+        self.open_excel_btn.setText(_translate("Form", "Open excel"))
+        self.load_excel_btn.setText(_translate("Form", "Import excel"))
+        self.load_excel_btn.setToolTip("<font color='black'><b>匯入軟體生成的excel</b></font>")
+        self.optimize_btn.setText(_translate("Form", "Optimize"))
+        self.optimize_btn.setToolTip("<font color='black'><b>優化可按數次結果可能不同</b></font>")
+        self.restore_btn.setText(_translate("Form", "Reset"))
+        self.restore_btn.setToolTip("<font color='black'><b>回到Optimize前狀態</b></font>")
+        self.export_code_btn.setText(_translate("Form", "Export AE.cpp"))
+        self.name_btn.setText(_translate("Form", "#NAME"))
+        self.name_btn.setToolTip("<font color='black'><b>點擊進入server解決數值異常問題</b></font>")
         item = self.exif_table.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Delete"))
         item = self.exif_table.horizontalHeaderItem(1)
@@ -1216,6 +1293,16 @@ class Ui_Form(object):
         item.setText(_translate("Form", "After\\nTHD diff"))
         item = self.exif_table.horizontalHeaderItem(19)
         item.setText(_translate("Form", "Target_TH"))
+    
+    def show_tooltip(self, event):
+        self.tooltip.setGeometry(self.mapToGlobal(self.button.pos()).x(), 
+                                 self.mapToGlobal(self.button.pos()).y() + self.button.height(),
+                                 self.tooltip.width(),
+                                 self.tooltip.height())
+        self.tooltip.show()
+
+    def hide_tooltip(self, event):
+        self.tooltip.hide()
 
 
 if __name__ == "__main__":

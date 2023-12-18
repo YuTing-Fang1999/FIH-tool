@@ -12,3 +12,5 @@ tqdm
 pulp
 openpyxl-image-loader
 lpips
+PyQtWebEngine
+beautifulsoup4

@@ -22,7 +22,7 @@ class StyleBytton(QPushButton):
         super().__init__()
         self.title = title
         self.subtitle = subtitle
-        self.setFixedSize(250, 80)
+        self.setFixedSize(250, 60)
         self.setCursor(QCursor(Qt.OpenHandCursor))
         
         
@@ -157,7 +157,7 @@ class BtnPage(QWidget):
             btn = StyleBytton(widget_config["title"], widget_config["subtitle"])
             btn.setCheckable(True)
             if i==0: btn.setChecked(True)
-            if i!=0: self.addRightArowLabel()
+            # if i!=0: self.addRightArowLabel()
             self.total_btn_group.addButton(btn)
             btn.clicked.connect(lambda checked, i=i: self.display_stack(i))
             self.addBtn(btn)
@@ -200,6 +200,7 @@ class FunctionList(QListWidget):
 
     def __init__(self, config) -> None:
         super().__init__()
+        self.setFixedSize(160, 150)
         # # 設定自訂的 ItemDelegate
         itemDelegate = CustomItemDelegate()
         self.setItemDelegate(itemDelegate)
@@ -215,6 +216,15 @@ class FunctionList(QListWidget):
         for i, key in enumerate(config):
             self.addItem(key)
             action_list = ActionList(config[key])
+            ###################
+            # action_list.setGeometry(1000, 100, 150,150)
+            
+            # size_policy = action_list.sizePolicy()
+            # size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            # size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            # action_list.setSizePolicy(size_policy)
+            # action_list.setFixedSize(160, 150)
+            ####################
             self.action_stack.addWidget(action_list)
             self.pipeline_stack.addWidget(action_list.pipeline_stack)
             self.instruction_stack.addWidget(action_list.instruction_stack)
@@ -233,6 +243,7 @@ class FunctionList(QListWidget):
 class ActionList(QListWidget):
     def __init__(self, config) -> None:
         super().__init__()
+        self.setFixedSize(160, 150)
         # # 設定自訂的 ItemDelegate
         itemDelegate = CustomItemDelegate()
         self.setItemDelegate(itemDelegate)
@@ -287,6 +298,7 @@ class StyleSplitter(QSplitter):
 class ToolSelection(QWidget):
     def __init__(self):
         super().__init__()
+        self.setFixedHeight(220)
         self.function_stack = QStackedWidget()
         self.action_stack = QStackedWidget()
         self.pipeline_stack = QStackedWidget()
@@ -304,7 +316,7 @@ class ToolSelection(QWidget):
         HLayout.addWidget(self.pipeline_stack)
         HLayout.setStretch(0,1)
         HLayout.setStretch(1,1)
-        HLayout.setStretch(2,10)
+        HLayout.setStretch(2,30)
         
         main_layout.addLayout(Vplatform_layout)
         main_layout.addLayout(HLayout)
@@ -324,45 +336,14 @@ class WidgetDisplay(QWidget):
         self.splitter.setOrientation(Qt.Vertical)
         self.splitter.addWidget(self.widget_stack)
         self.splitter.addWidget(self.instruction_stack)
-        # splitter.setStretchFactor(0,1)
-        # splitter.setStretchFactor(1,1)
+        # self.splitter.setStretchFactor(0,1)
+        # self.splitter.setStretchFactor(1,1)
         main_layout.addWidget(self.splitter)
         # main_layout.addWidget(self.widget_stack)
-        # main_layout.addWidget(FoldMenu2(self.instruction_stack))
         
     def display_widget(self, i):
         self.instruction_stack.setCurrentIndex(i)
         self.widget_stack.setCurrentIndex(i)
-
-class FoldMenu2(QWidget): # 方向與FoldMenu相反
-    def __init__(self, widget):
-        super().__init__()
-        vLayout = QVBoxLayout(self)
-
-        # # Create the QHBoxLayout
-        # btn_layout = QHBoxLayout()
-        # self.btn_toggle_open = ButtonToggleOpen()
-        # self.btn_toggle_open.setArrowType(Qt.DownArrow)
-        # btn_layout.addWidget(self.btn_toggle_open)
-        # btn_layout.setAlignment(Qt.AlignRight)
-
-        # vLayout.addLayout(btn_layout)
-        # vLayout.addWidget(HLine())
-        vLayout.addWidget(widget)
-        self.widget = widget
-
-        self.widget.setMinimumHeight(300)
-        
-        self.btn_toggle_open.clicked.connect(self.toggle_open)
-        
-    def toggle_open(self):
-        if self.btn_toggle_open.isChecked():
-            self.widget.hide()
-            self.btn_toggle_open.setArrowType(Qt.UpArrow)
-
-        else:
-            self.widget.show()
-            self.btn_toggle_open.setArrowType(Qt.DownArrow)
 
         
 class FoldMenu(QWidget):
@@ -380,6 +361,8 @@ class FoldMenu(QWidget):
         vLayout.addLayout(btn_layout)
         vLayout.addWidget(HLine())
         vLayout.setContentsMargins(0,0,0,0)
+        vLayout.setStretch(0,1)
+        vLayout.setStretch(1,100)
         
         self.btn_toggle_open.clicked.connect(self.toggle_open)
         
@@ -394,6 +377,7 @@ class FoldMenu(QWidget):
 class PlatFormBtn(QPushButton):
     def __init__(self, name):
         super().__init__(name)
+        self.setFixedWidth(160)
         self.setCursor(QCursor(Qt.OpenHandCursor))
 
         palette = self.palette()
@@ -420,6 +404,15 @@ class MainWindow(QWidget):
             if i==0: button.setChecked(True)
             self.tool_selection.platform_btn_group.addButton(button)
             function_list = FunctionList(main_config[key])
+            ############################
+            # function_list.setGeometry(1000, 100, 150, 150)
+            # print("f")
+            # size_policy = function_list.sizePolicy()
+            # size_policy.setHorizontalPolicy(QSizePolicy.Fixed)
+            # size_policy.setVerticalPolicy(QSizePolicy.Fixed)
+            # function_list.setSizePolicy(size_policy)
+            # function_list.setFixedSize(160, 150)
+            #############################
             self.tool_selection.function_stack.addWidget(function_list)
             self.tool_selection.action_stack.addWidget(function_list.action_stack)
             self.tool_selection.pipeline_stack.addWidget(function_list.pipeline_stack)
@@ -439,7 +432,7 @@ class MainWindow(QWidget):
         # main_layout.addWidget(splitter)
         main_layout.addWidget(FoldMenu(self.tool_selection))
         main_layout.addWidget(self.widget_display)
-        main_layout.setStretch(0, 1)
+        main_layout.setStretch(0, 0)
         main_layout.setStretch(1, 100)
 
         self.set_style()

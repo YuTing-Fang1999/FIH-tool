@@ -7,16 +7,18 @@ class Intro(QTextBrowser):
     def __init__(self):
         super().__init__()
         markdown_content = """
-1. 將 exif、參考機照片、tuning 手機照片放入同一資料夾內  
-2. 點”load code”選擇AE.cpp  
-3. 點”Load exif、照片資料夾“按鈕選擇放置 exif、參考機照片、tuning 手機照片  
-4. 若下方照片資訊從Before Day欄位開始至最右側的Target_TH欄位的數值出現異常(例如: 數值大小異常，正常數值大小是數百左右)，一般是受office版本影響，需修改excel中XLOOKUP公式的部分參考解法:下載XLOOKUPs.xla，點”open excel”按鈕，excel 檔案>選項>進階，在一般欄位的”啟動時，開啟所有檔案於”輸入XLOOKUPs.xla所在的資料夾位置，並將excel內所有_xlfn.XLOOKUP公式替換成XLOOKUPs，公式修改後檢查excel數值顯示是否恢復正常，若仍舊異常表示excel可能有額外讀取其他檔案，必須要去一般資料夾開啟excel，讓excel重新讀取，若excel數值顯示正常，就儲存並關閉excel，點”load excel”按鈕刷新整合tool介面資訊  
-5. 勾選不要列入計算的照片，點”刪除勾選的照片”按鈕將照片和對應資料刪除  
-6. 按下”最佳化”按鈕  
-7. 觀察THD diff是否足夠小  
-8. 若不滿意可多按幾次”最佳化”按鈕或是手動微調face link target(normal light)、 face link target(low light)  
-9. 如果需要想將參數回復到最初狀態點”歸零”按鈕  
-10. 調整完畢點”export code”按鈕，選擇儲存AE.cpp位置  
+1.「Delete」刪除勾選項目 (預設勾選FDStable = 0)  
+2.「Import AE.cpp」匯入相應調教檔。  
+3.「Import data folder」須包含測試機照片、測試機exif、參考機照片(檔名範例:1_SX3, 1_SX3.exif, 1_E7.jpg)，開啟後即運算， 該按鈕和CMD可查看進度。  
+4. 觀察“Before Day”、“Before NS”、“Before Total”等之數值是否異常(正常為數百)，若異常則進行步驟9。  
+5.「Optimize」最佳化參數(可按數次結果可能不同)。  
+6.「Reset」回到最佳化前之狀態。  
+7.「Open excel」打開計算結果檔案可查看詳細資訊(會存在data folder)，並檢查是否有"#NAME"錯誤。  
+8.「Import excel」匯入軟體生成的excel。  
+9.「#NAME」excel若有”#NAME”錯誤，點擊按鈕進入server路徑，複製"XLOOKUPs.xla"至本機並依附圖設定，再按「Import excel」更新。  
+10.「Expore AE.cpp」匯出調教檔。  
+11.推入手機後拍照測試是否如預期。  
+12.如否回第1步。  
 
 """
         html = markdown.markdown(markdown_content)
