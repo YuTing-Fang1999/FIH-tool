@@ -5,6 +5,11 @@ from NTU.ML.CMDRunner import CMDRunner
 from .UI import Ui_Form
 from NTU.ML.MLISPSimulator.SimulatorConfig import SimulatorConfig
 from NTU.ML.MLISPSimulator.SimulatorProjectManager import SimulatorProjectManager
+from scipy.stats import qmc
+from scipy.stats import uniform
+import numpy as np
+import time
+import shutil
 
 import os
 import numpy as np
@@ -53,7 +58,7 @@ class MyWidget(ParentWidget):
         self.set_path("project_name", path.split('/')[-1])
         
     def set_saved_dir(self):
-        path = QFileDialog.getExistingDirectory(self,"選擇儲存資料夾", self.get_path("saved_folder"))
+        path = QFileDialog.getExistingDirectory(self,"選擇儲存資料夾", self.get_path("saved_dir") )
         if path == "": return
         self.ui.saved_dir.setText(path)
         
@@ -72,11 +77,15 @@ class MyWidget(ParentWidget):
     
     def run(self):
         if self.ui.start_btn.text() == 'Start':
-            self.start()
+            if len(os.listdir(self.get_path("saved_dir"))) == 0:
+                self.start()
+            else:
+                QMessageBox.about(self, "Notice", "資料夾不為空，請清空資料夾後再執行")
         else:
             self.finish()
         
     def start_gen(self):
+        start_time = time.time()
         bounds = None
         units = None
         for ISP_key in self.config["ISP"]:
@@ -92,6 +101,7 @@ class MyWidget(ParentWidget):
                     
         print('範圍設定\n', bounds)
         print('單位設定\n', units)
+        print(len(bounds), len(units))
         # self.finish()
         # return
         self.ui.progressBar.setMaximum(self.config["gen_num"])
@@ -111,15 +121,10 @@ class MyWidget(ParentWidget):
         dir_name = self.setting["saved_dir"].split('/')[-1]
         with open(self.setting["saved_dir"]+'/cmd.txt', 'w') as f:
             f.write('# Train\n')
-            f.write(f'python train.py --is_recommand False --kimg 50 --resume places.pkl --img_data=datasets/'+dir_name+' --outdir=training_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 20 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
+            f.write(f'python train.py --is_recommand False --kimg 500 --resume pretrain.pkl --dataset_paths=datasets/'+dir_name+' --outdir=training_run/'+dir_name+' --batch 16 --input_param_dims '+str(len(bounds))+' --resolution 256 --lr 1e-3 --snap 20 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
             f.write('\n')
             f.write('# Recommand\n')
-            f.write(f'python train.py --is_recommand True --kimg 10 --resume training_run/'+dir_name+'/Model.pkl --img_data=datasets/'+dir_name+' --outdir=target_run/'+dir_name+' --batch 16 --input_param_dim '+str(len(bounds))+' --lr 1e-3 --snap 1 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
-        
-        self.projectMgr.set_isp_enable(0)
-        self.projectMgr.set_param_value([0]*len(bounds))
-        self.projectMgr.build_and_push()
-        os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/unprocessed.jpg")
+            f.write(f'python train.py --is_recommand True --kimg 10 --resume training_run/'+dir_name+'/Model.pkl --dataset_paths=datasets/'+dir_name+' --outdir=target_run/'+dir_name+' --batch 16 --input_param_dims '+str(len(bounds))+' --resolution 256 --lr 1e-3 --snap 1 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
         
         self.projectMgr.set_isp_enable(1)
         for  i, param in enumerate(tqdm(param_denorm)):
@@ -127,8 +132,11 @@ class MyWidget(ParentWidget):
             param = [float(x) for x in param]
             self.projectMgr.set_param_value(param)
             self.projectMgr.build_and_push()
-            os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{i}.jpg")
+            os.replace(self.setting["project_path"] + "/iso1600/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{i}.jpg")
 
+        shutil.copyfile(self.setting["saved_dir"] + f"/0.jpg", self.setting["saved_dir"] + f"/unprocessed.jpg")
+        end_time = time.time()
+        print(f'total time: {end_time-start_time}')
         self.finish()
         
     def start(self):

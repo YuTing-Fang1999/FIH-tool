@@ -69,6 +69,7 @@ class MainWindow_controller(QWidget):
         self.set_all_enable_by_case("done")
 
     def setup_controller(self):
+        self.ui.tabWidget.setTabEnabled(1, True)
         ########## trigger ##########
         #############################
 

@@ -129,7 +129,8 @@ class MyWidget(ParentWidget):
         self.projectMgr.set_isp_enable(1)
         self.projectMgr.set_param_value(param_denorm)
         self.projectMgr.build_and_push()
-        os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{self.img_name}")
+        # os.replace(self.setting["project_path"] + "/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{self.img_name}")
+        os.replace(self.setting["project_path"] + "/iso1600/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg", self.setting["saved_dir"] + f"/{self.img_name}")
         self.finish()
         
     def start(self):

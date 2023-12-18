@@ -76,6 +76,7 @@ class SimulatorProjectManager(ProjectManager):
                 if "bounds" not in ISP_block["tag"][tag_key]: continue
                 param_num = len(ISP_block["tag"][tag_key]["bounds"])
                 p = np.array(param_value[i:i+param_num])
+                
                 if tag_key == "layer_1_gain_positive_lut":
                     ISP_block["tag"][tag_key]["value"] = self.gen_gain_lut_tab(p[0], p[1], p[2])
                     ISP_block["tag"]["layer_1_gain_negative_lut"]["value"] = ISP_block["tag"][tag_key]["value"] + 0.3
@@ -109,6 +110,10 @@ class SimulatorProjectManager(ProjectManager):
                 elif tag_key == "layer_2_clamp_ul":
                         ISP_block["tag"][tag_key]["value"] = p
                         ISP_block["tag"]["layer_2_clamp_ll"]["value"] = -p
+                        
+                elif ISP_key == "ANR":
+                    ISP_block["tag"][tag_key]["value"] = [p]*17
+                    
                 else:
                     ISP_block["tag"][tag_key]["value"] = p
                         
@@ -132,15 +137,21 @@ class SimulatorProjectManager(ProjectManager):
                 tree.find(tag).text = str(self.isp_enable)
             
             for tag_key in ISP_block["tag"]:
-                node = tree
-                for path in ISP_block["tag"][tag_key]["path"]:
-                    print(node)
-                    node = node.find(path)
+                node1 = tree
+                node2 = tree
+                path = ISP_block["tag"][tag_key]["path"]
+                for i in range(0, len(path), 2):
+                    print(node1, 'find', path[i], path[i+1])
+                    node1 = node1.findall(path[i])[path[i+1]]
+                    node2 = node2.findall(path[i])[path[i+1]+1]
+                    
                 param_value_new = ISP_block["tag"][tag_key]["value"]
-                param_value_new = [str(x) for x in param_value_new]
+                print(param_value_new)
+                param_value_new = [str(int(x)) if float(x).is_integer() else str(x) for x in param_value_new]
                 param_value_new = ' '.join(param_value_new)
-                node.text = param_value_new
-                print(tag_key, node.text)
+                node1.text = param_value_new
+                node2.text = param_value_new
+                print(tag_key, node1.text)
                 print()
 
             # write the xml file
@@ -150,7 +161,8 @@ class SimulatorProjectManager(ProjectManager):
 
     def build_and_push(self):
         origin_dir = os.getcwd()
-        os.chdir(self.setting["project_path"]+"/MMFBlend")
+        # os.chdir(self.setting["project_path"]+"/MMFBlend")
+        os.chdir(self.setting["project_path"]+"/iso1600/MMFBlend")
         self.cmd.run("runsimulator.bat", show_detail=True)
         os.chdir(origin_dir)
         
