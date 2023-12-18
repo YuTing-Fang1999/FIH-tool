@@ -7,8 +7,8 @@ from .explain1 import Ui_Form_explain1
 from .explain2 import Ui_Form_explain2
 from time import sleep
 from myPackage.ParentWidget import ParentWidget
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from bs4 import BeautifulSoup
+# from PyQt5.QtWebEngineWidgets import QWebEngineView
+# from bs4 import BeautifulSoup
 from openpyxl import Workbook, load_workbook
 from urllib.request import urlopen
 import requests

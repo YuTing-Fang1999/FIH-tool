@@ -32,6 +32,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_upper.addItem(spacerItem)
         for i in range(4):
             open_img_btn = QtWidgets.QPushButton(MainWindow)
+            open_img_btn.setCursor(QtCore.Qt.PointingHandCursor)
             if i==0:
                 open_img_btn.setText("Load Ref Pic")
             else:
@@ -41,11 +42,13 @@ class Ui_MainWindow(object):
             self.horizontalLayout_upper.addWidget(open_img_btn)
             
         self.btn_compute = QtWidgets.QPushButton(MainWindow)
+        self.btn_compute.setCursor(QtCore.Qt.PointingHandCursor)
         self.btn_compute.setText("Compute(直接裁切成相同大小)")
         self.btn_compute.setToolTip("直接以左上角為原點做裁減，適合用於有一致解析度的情況")
         self.horizontalLayout_upper.addWidget(self.btn_compute)
 
         self.btn_compute_resize = QtWidgets.QPushButton(MainWindow)
+        self.btn_compute_resize.setCursor(QtCore.Qt.PointingHandCursor)
         self.btn_compute_resize.setText("Compute (resize成相同大小)")
         self.btn_compute_resize.setToolTip("會先將Ref與Pic resize成同等長再做裁減，適合用於兩隻不同手機做比較")
         self.horizontalLayout_upper.addWidget(self.btn_compute_resize)
