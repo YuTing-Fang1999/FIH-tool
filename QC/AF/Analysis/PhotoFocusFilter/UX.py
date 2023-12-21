@@ -93,7 +93,7 @@ class MyWidget(ParentWidget):
         low_name, low_score = lowest_score[0]  
         
         low_name = 'Fail_'+low_name
-        low_img_path = path+'/Fail_'+low_name
+        low_img_path = path+'/'+low_name
         high_img_path = path+'/'+high_name
 
         self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
