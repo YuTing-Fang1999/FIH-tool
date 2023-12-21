@@ -93,13 +93,13 @@ class MyWidget(ParentWidget):
 
     # need test
     def do_download1(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具'
+        url = r'\\10.57.55.72\Camera_ImageQuality\Tuning\5.Tool_工具'
         # QDesktopServices.openUrl(QUrl(url)) # 有些未知情況會不能跑
         subprocess.run(["explorer", url])
 
     # change code after download1 is done
     def do_download2(self):
-        url = 'http://10.57.55.72/Camera_ImageQuality/Tuning/5.Tool_工具/#NAME'
+        url = r'\\10.57.55.72\Camera_ImageQuality\Tuning\5.Tool_工具\#NAME'
         # Direct to the url
         # QDesktopServices.openUrl(QUrl(url)) # 有些未知情況會不能跑
         subprocess.run(["explorer", url])
