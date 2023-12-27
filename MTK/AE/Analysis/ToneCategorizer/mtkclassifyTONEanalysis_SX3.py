@@ -8,6 +8,7 @@ import numpy as np
 from tkinter import filedialog
 import shutil
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 
 def atoi(text):
@@ -51,6 +52,7 @@ def classify(LVnum, LV, DR, DR_region, yourPath):
 
 def create_xls(file_path):
     fn = './MTK/AE/Analysis/ToneCategorizer/mtkTONEanalysis_SX3.xlsm'
+    # fn = 'mtkTONEanalysis_SX3.xlsm'
     wb = openpyxl.load_workbook(fn, read_only=False, keep_vba=True)
     wb.active = 0
     ws = wb.active
@@ -160,7 +162,7 @@ def classify_xls(yourPath, file_path):
             wb.active = 0
             ws = wb.active
 
-        print(base)
+        print(base) # file name
 
         checkP50 = 0
         checkO50 = 0
@@ -274,29 +276,53 @@ def classify_xls(yourPath, file_path):
                 anchor_name = "F" + str(23+(5*(i % 20)))
                 save_img.anchor = anchor_name
                 ws.add_image(save_img)
-
+                # plt.imshow(np.array(save_img.image))
+                # plt.show()
+                
+                if j % 2 == 0:
+                    path_name_jpg2 = yourPath + "/" + allFileList_jpg[j+1]
+                else:
+                    path_name_jpg2 = yourPath + "/" + allFileList_jpg[j-1]
+                
+                
+                save_img2 = openpyxl.drawing.image.Image(path_name_jpg2)
+                save_img2.height = 166
+                save_img2.width = 166 * width / height
+                anchor_name = "C" + str(23+(5*(i%20)))
+                save_img2.anchor = anchor_name
+                ws.add_image(save_img2)
+               
+            
         if i == len(allFileList_exif)-1:
+            # LVregion = yourPath.split("/")[1].split("_")[0]
+            # DRregion = yourPath.split("/")[2].split("_")[0]
             localtime = time.localtime()
             clock = str(60*60*localtime[3] + 60*localtime[4] + localtime[5])
-            LVregion = yourPath.split("/")[1].split("_")[0]
-            DRregion = yourPath.split("/")[2].split("_")[0]
-
+            
             path_segments = yourPath.split("/")
             for segment in path_segments:
                 if segment.startswith('LV'):
                     LVregion = segment.split("_")[0]
                 elif segment.startswith('DR'):
                     DRregion = segment.split("_")[0]
-
+            # print(LVregion)
+            # print(DRregion)
             file = "mtkTONEanalysis_SX3_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(
                 localtime[2]) + "_" + clock + "_" + LVregion + "_" + DRregion + ".xlsm"
             wb.active = 0
+            print(yourPath)
             wb.save(yourPath+'/'+file)
+            # wb.save(file)
+            # print("3")
+
 
 
 def main(yourPath, file_path, LV_region, DR_region):
     print("mtkclassifyTONEanalysis is runing...")
-
+    # print(yourPath)
+    # print(file_path)
+    # print(LV_region)
+    # print(DR_region)
     root = tk.Tk()
     root.withdraw()
 
@@ -367,4 +393,12 @@ def main(yourPath, file_path, LV_region, DR_region):
         classify_xls(item, file_path)
 
     print("mtkclassifyTONEanalysis is ok!")
-    os.system("pause")
+    # os.system("pause")
+
+
+
+# yoruPath='C:/Users/cvlab/Desktop/zhou/F_test/ToneCategorizer/Exif'
+# file_path='C:/Users/cvlab/Desktop/zhou/F_test/ToneCategorizer/TONE.cpp'
+# LV = [25, 55, 85, 115, 135, 180]
+# DR = [50, 250, 450, 650, 1000]
+# main(yoruPath, file_path, LV, DR)
