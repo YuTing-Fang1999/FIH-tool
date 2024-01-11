@@ -4,6 +4,7 @@ from myPackage.ParentWidget import ParentWidget
 from .ML_ROI_window import ROI_tune_window
 import numpy as np
 import cv2
+import json
 
 class MyWidget(ParentWidget):
     def __init__(self):
@@ -28,23 +29,28 @@ class MyWidget(ParentWidget):
     def load_img(self):
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
-                                                         self.get_path("QC_filefolder"),  # start path
+                                                         self.get_path("SelectROI_filefolder"),  # start path
                                                          'Image Files(*.png *.jpg *.jpeg *.bmp)')
         if filepath == "": return
         
         self.ui.img_path.setText(filepath)
         self.set_path("img_path", filepath)
+        self.set_path("SelectROI_filefolder", '/'.join(filepath.split('/')[:-1]))
         
     def select(self):
         img = cv2.imdecode(np.fromfile(file=self.get_path("img_path"), dtype=np.uint8), cv2.IMREAD_COLOR)
-        self.select_ROI_window.tune(-1, img)
+        if(self.ui.ROI_text.toPlainText()!=""):
+            ROI_arr = json.loads(self.ui.ROI_text.toPlainText())
+        else:
+            ROI_arr = []
+        self.select_ROI_window.tune(-1, img, ROI_arr)
         
     def get_ROI_coordinate(self, idx, roi_coordinate):
         text = ""
         for roi in roi_coordinate:
             text += f"[{roi[0]}, {roi[1]}],"
         text = "[" + text[:-1] + "]"
-        self.ui.ROI_label.setText(text)
+        self.ui.ROI_text.setPlainText(text)
         
 if __name__ == "__main__":
     import sys

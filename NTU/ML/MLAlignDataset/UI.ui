@@ -58,8 +58,8 @@ font-weight: bold;</string>
          <item row="2" column="2">
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>如果選擇資料集，預設會直接選擇0.jpg做為目標對齊照片，之後所有的照片都要對齊0.jpg，包括競品機。
-不一定要用0.jpg做對齊，但不管是資料集或是競品機照片，一定要有一個共同的目標對齊照片。</string>
+            <string>資料夾裡的所有照片都會對齊到與目標照片同個位置
+請以Simulator生成的照片作為目標照片</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -72,7 +72,7 @@ font-weight: bold;</string>
          <item row="2" column="0">
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>請將要對齊的照片都存到一個資料夾，或是直接選擇生成完的資料集，之後會對資料夾裡所有的照片都做對齊後覆蓋原檔。</string>
+            <string>請將要對齊的照片都存到一個資料夾，或是直接選擇生成完的資料集，之後會對資料夾裡所有的照片都做對齊後覆蓋原檔，如有需要請記得備份。</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>

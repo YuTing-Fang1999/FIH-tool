@@ -70,17 +70,15 @@ class MyWidget(ParentWidget):
             return False
         
         if self.get_path("saved_dir") == "./":
-            QMessageBox.about(self, "Notice", "儲存路徑未填")
+            QMessageBox.about(self, "Notice", "儲存路徑未填或是未存在")
             return False
         
         return True
     
     def run(self):
         if self.ui.start_btn.text() == 'Start':
-            if len(os.listdir(self.get_path("saved_dir"))) == 0:
-                self.start()
-            else:
-                QMessageBox.about(self, "Notice", "資料夾不為空，請清空資料夾後再執行")
+            self.start()
+                
         else:
             self.finish()
         
@@ -88,7 +86,7 @@ class MyWidget(ParentWidget):
         start_time = time.time()
         bounds = None
         units = None
-        for ISP_key in self.config["ISP"]:
+        for ISP_key in self.config["tune_key"]:
             ISP_block = self.config["ISP"][ISP_key]
             for tag_key in ISP_block["tag"]:
                 if "bounds" not in ISP_block["tag"][tag_key]: continue
@@ -108,27 +106,38 @@ class MyWidget(ParentWidget):
         self.ui.progressBar.setValue(0)
         self.ui.progressBar.show()
         
-        param_generater = ParamGenerater(bounds=bounds, gen_num=self.config["gen_num"])
-        param_norm = param_generater.gen_param()
-        param_norm[0] = [0]*len(bounds)
-        param_norm[1] = [1]*len(bounds)
-        param_denorm = param_generater.denorm_param(param_norm, units=units)
-        param_norm = param_generater.norm_param(param_denorm)
+        if len(os.listdir(self.get_path("saved_dir"))) == 0:
+            assert self.RELOAD == False
+            param_generater = ParamGenerater(bounds=bounds, gen_num=self.config["gen_num"])
+            param_norm = param_generater.gen_param()
+            param_norm[0] = [0]*len(bounds)
+            param_norm[1] = [1]*len(bounds)
+            param_denorm = param_generater.denorm_param(param_norm, units=units)
+            param_norm = param_generater.norm_param(param_denorm)
+            
+            print('save_to_csv')
+            param_generater.save_to_csv(self.get_path("saved_dir")+'/param_norm.csv', param_norm)
+            param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
+        else:
+            assert self.RELOAD == True
+            print('detect param is exist, load param')
+            with open(self.get_path("saved_dir")+'/param_norm.csv', 'r') as f:
+                param_norm = np.loadtxt(f, delimiter=',')
+            with open(self.get_path("saved_dir")+'/param_denorm.csv', 'r') as f:
+                param_denorm = np.loadtxt(f, delimiter=',')
+            
+            print(param_norm[0])
+            print(param_denorm[0])
         
-        param_generater.save_to_csv(self.get_path("saved_dir")+'/param_norm.csv', param_norm)
-        param_generater.save_to_csv(self.get_path("saved_dir")+'/param_denorm.csv', param_denorm)
-        
-        dir_name = self.setting["saved_dir"].split('/')[-1]
-        with open(self.setting["saved_dir"]+'/cmd.txt', 'w') as f:
-            f.write('# Train\n')
-            f.write(f'python train.py --is_recommand False --kimg 500 --resume pretrain.pkl --dataset_paths=datasets/'+dir_name+' --outdir=training_run/'+dir_name+' --batch 16 --input_param_dims '+str(len(bounds))+' --resolution 256 --lr 1e-3 --snap 20 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
-            f.write('\n')
-            f.write('# Recommand\n')
-            f.write(f'python train.py --is_recommand True --kimg 10 --resume training_run/'+dir_name+'/Model.pkl --dataset_paths=datasets/'+dir_name+' --outdir=target_run/'+dir_name+' --batch 16 --input_param_dims '+str(len(bounds))+' --resolution 256 --lr 1e-3 --snap 1 --gpus 1 --gamma 10 --aug noaug --metrics True --eval_img_data None \n')
-        
+        if os.path.exists(self.setting["project_path"] + "/iso1600/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg"):
+            os.remove(self.setting["project_path"] + "/iso1600/Output/Out_0_0_POSTFILT_ipeout_pps_display_FULL.jpg")
+            
         self.projectMgr.set_isp_enable(1)
         for  i, param in enumerate(tqdm(param_denorm)):
-            self.ui.progressBar.setValue(i+1)
+            if os.path.exists(self.setting["saved_dir"] + f"/{i}.jpg"):
+                continue
+            
+            self.ui.progressBar.setValue(i)
             param = [float(x) for x in param]
             self.projectMgr.set_param_value(param)
             self.projectMgr.build_and_push()
@@ -141,6 +150,10 @@ class MyWidget(ParentWidget):
         
     def start(self):
         if self.check_setting() == False: return
+        self.RELOAD = False
+        if len(os.listdir(self.get_path("saved_dir"))) != 0:
+            QMessageBox.about(self, "Notice", "偵測到已有資料，將會接續上次的資料繼續產生")
+            self.RELOAD = True
         self.ui.start_btn.setText('Stop')
         
         # 建立一個子執行緒

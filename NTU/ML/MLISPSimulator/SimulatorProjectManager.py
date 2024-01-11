@@ -29,14 +29,8 @@ class SimulatorProjectManager(ProjectManager):
         self.cmd = cmd
         self.isp_enable = 1
         
-    # def read_config(self, config_path):
-    #     assert os.path.exists(config_path)
-    #     with open(config_path, 'r') as f:
-    #         config = json.load(f)
-
-        # return config
     def is_project(self):
-        for ISP_key in self.config["ISP"]:
+        for ISP_key in self.config["modify_key"]:
             ISP_block = self.config["ISP"][ISP_key]
             file_path = self.get_file_path(ISP_block["file_path"])
             if not os.path.exists(file_path):
@@ -68,14 +62,22 @@ class SimulatorProjectManager(ProjectManager):
         return (1-(np.exp(-(x/detail)**3.96))*(1-noise))*0.996
                 
     def update_config(self, param_value):
+        print("param_value:", param_value)
         # update to config
         i = 0
-        for ISP_key in self.config["ISP"]:
+        for ISP_key in self.config["modify_key"]:
             ISP_block = self.config["ISP"][ISP_key]
             for tag_key in ISP_block["tag"]:
                 if "bounds" not in ISP_block["tag"][tag_key]: continue
-                param_num = len(ISP_block["tag"][tag_key]["bounds"])
-                p = np.array(param_value[i:i+param_num])
+                if ISP_key in self.config["tune_key"]:
+                    param_num = len(ISP_block["tag"][tag_key]["bounds"])
+                    p = np.array(param_value[i:i+param_num])
+                    i += param_num
+                else:
+                    # disable value
+                    p = np.zeros(len(ISP_block["tag"][tag_key]["bounds"]))
+                
+                print(tag_key, p)
                 
                 if tag_key == "layer_1_gain_positive_lut":
                     ISP_block["tag"][tag_key]["value"] = self.gen_gain_lut_tab(p[0], p[1], p[2])
@@ -117,7 +119,7 @@ class SimulatorProjectManager(ProjectManager):
                 else:
                     ISP_block["tag"][tag_key]["value"] = p
                         
-                i += param_num
+                
                 
     def set_isp_enable(self, enable):
         self.isp_enable = enable
@@ -125,7 +127,7 @@ class SimulatorProjectManager(ProjectManager):
     def set_param_value(self, param_value):
         self.update_config(param_value)
         
-        for ISP_key in self.config["ISP"]:
+        for ISP_key in self.config["modify_key"]:
             ISP_block = self.config["ISP"][ISP_key]
             print('set_param_value:', ISP_key)
             file_path = self.get_file_path(ISP_block["file_path"])
@@ -137,22 +139,19 @@ class SimulatorProjectManager(ProjectManager):
                 tree.find(tag).text = str(self.isp_enable)
             
             for tag_key in ISP_block["tag"]:
-                node1 = tree
-                node2 = tree
-                path = ISP_block["tag"][tag_key]["path"]
-                for i in range(0, len(path), 2):
-                    print(node1, 'find', path[i], path[i+1])
-                    node1 = node1.findall(path[i])[path[i+1]]
-                    node2 = node2.findall(path[i])[path[i+1]+1]
+                for path in ISP_block["tag"][tag_key]["path"]:
+                    node = tree
+                    for i in range(0, len(path), 2):
+                        # print(node, 'find', path[i], path[i+1])
+                        node = node.findall(path[i])[path[i+1]]
                     
-                param_value_new = ISP_block["tag"][tag_key]["value"]
-                print(param_value_new)
-                param_value_new = [str(int(x)) if float(x).is_integer() else str(x) for x in param_value_new]
-                param_value_new = ' '.join(param_value_new)
-                node1.text = param_value_new
-                node2.text = param_value_new
-                print(tag_key, node1.text)
-                print()
+                    param_value_new = ISP_block["tag"][tag_key]["value"]
+                    # print(param_value_new)
+                    param_value_new = [str(int(x)) if float(x).is_integer() else str(x) for x in param_value_new]
+                    param_value_new = ' '.join(param_value_new)
+                    node.text = param_value_new
+                    # print(tag_key, node.text)
+                    # print()
 
             # write the xml file
             tree.write(file_path, encoding='UTF-8', xml_declaration=True)

@@ -170,9 +170,14 @@ class ROI_tune_window(QtWidgets.QWidget):
         if event.key() == Qt.Key_Control:
             self.viewer.setDragMode(self.viewer.RubberBandDrag)
             
-    def tune(self, tab_idx, img):
+    def tune(self, tab_idx, img, ROI_arr=[]):
         self.tab_idx = tab_idx
         self.viewer.setPhoto(img)
+        if len(ROI_arr) > 0:
+            self.viewer.delete_all_item()
+            for ROI in ROI_arr:
+                item = GraphicItem(ROI[1]+2, ROI[0]+2, 256)  # pixel座標
+                self.viewer._scene.addItem(item)
         self.showMaximized()
 
     def get_roi_coordinate(self):

@@ -28,8 +28,8 @@ font-weight: bold;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>818</width>
-        <height>455</height>
+        <width>808</width>
+        <height>445</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -69,32 +69,7 @@ font-weight: bold;</string>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="ROI_label">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="cursor">
-          <cursorShape>IBeamCursor</cursorShape>
-         </property>
-         <property name="mouseTracking">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>ROI:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-         </property>
-        </widget>
+        <widget class="QPlainTextEdit" name="ROI_text"/>
        </item>
       </layout>
      </widget>

@@ -30,7 +30,7 @@ class ConputeThread(QThread):
                 if self.roi_img[i] is None:
                     scores.append(None)
                 else:
-                    score = get_perceptual_distance(self.ref_roi_img,  self.roi_img[i])
+                    score = get_perceptual_distance(self.ref_roi_img[i],  self.roi_img[i])
                     scores.append(score)
             self.finish_signal.emit(scores)
         except Exception as error:
@@ -106,7 +106,7 @@ class MainWindow_controller(ParentWidget):
             return False
 
         # print(value)
-        self.compute_thread.ref_roi_img = None
+        self.compute_thread.ref_roi_img = []
         self.compute_thread.roi_img = []
         for i in range(4):
             if self.ui.img_block[i].img is not None:
@@ -122,14 +122,16 @@ class MainWindow_controller(ParentWidget):
 
                 ref_roi_img = ref_roi_img[:h, :w]
                 roi_img = roi_img[:h, :w]
+                print('ref_roi_img', ref_roi_img.shape, 'roi_img', roi_img.shape)
                 # cv2.imshow("roi_img"+str(i), roi_img)
                 # cv2.waitKey(0)
                 self.ui.img_block[0].setPhoto(ref_roi_img, self.ui.img_block[0].filename)
                 self.ui.img_block[i].setPhoto(roi_img, self.ui.img_block[i].filename)
                 
-                self.compute_thread.ref_roi_img = ref_roi_img
+                self.compute_thread.ref_roi_img.append(ref_roi_img)
                 self.compute_thread.roi_img.append(roi_img)
             else:
+                self.compute_thread.ref_roi_img.append(None)
                 self.compute_thread.roi_img.append(None)
                 
             self.compute_thread.start()

@@ -53,7 +53,7 @@ class MyWidget(ParentWidget):
         self.set_path("project_name", path.split('/')[-1])
         
     def set_saved_dir(self):
-        path = QFileDialog.getExistingDirectory(self,"選擇儲存資料夾", self.get_path("saved_folder"))
+        path = QFileDialog.getExistingDirectory(self,"選擇儲存資料夾", self.get_path("saved_dir"))
         if path == "": return
         self.ui.saved_dir.setText(path)
         
@@ -107,7 +107,7 @@ class MyWidget(ParentWidget):
     def start_gen(self):
         bounds = None
         units = None
-        for ISP_key in self.config["ISP"]:
+        for ISP_key in self.config["tune_key"]:
             ISP_block = self.config["ISP"][ISP_key]
             for tag_key in ISP_block["tag"]:
                 if "bounds" not in ISP_block["tag"][tag_key]: continue
