@@ -6,8 +6,6 @@ class SimulatorConfig():
         {
             "c7_config":{
                 "gen_num": 200,
-                "modify_key": ["ANR","ASF"],
-                "tune_key": ["ANR","ASF"],
                 "ISP":{
                     "ANR": {
                         "file_path": "/Chromatix/oem/qcom/tuning/sm8550_shinetech_s5kgnksp03/Scenario.Default/Sensor.0/Usecase.Snapshot/Feature1.None/Feature2.MMFPostFilter/XML/IPE/anr14_ipe_v2.xml",

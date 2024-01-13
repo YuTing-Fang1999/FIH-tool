@@ -107,7 +107,7 @@ class MyWidget(ParentWidget):
     def start_gen(self):
         bounds = None
         units = None
-        for ISP_key in self.config["tune_key"]:
+        for ISP_key in self.config["ISP"]:
             ISP_block = self.config["ISP"][ISP_key]
             for tag_key in ISP_block["tag"]:
                 if "bounds" not in ISP_block["tag"][tag_key]: continue

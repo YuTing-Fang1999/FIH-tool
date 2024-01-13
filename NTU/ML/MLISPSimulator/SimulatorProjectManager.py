@@ -30,7 +30,7 @@ class SimulatorProjectManager(ProjectManager):
         self.isp_enable = 1
         
     def is_project(self):
-        for ISP_key in self.config["modify_key"]:
+        for ISP_key in self.config["ISP"]:
             ISP_block = self.config["ISP"][ISP_key]
             file_path = self.get_file_path(ISP_block["file_path"])
             if not os.path.exists(file_path):
@@ -65,11 +65,11 @@ class SimulatorProjectManager(ProjectManager):
         print("param_value:", param_value)
         # update to config
         i = 0
-        for ISP_key in self.config["modify_key"]:
+        for ISP_key in self.config["ISP"]:
             ISP_block = self.config["ISP"][ISP_key]
             for tag_key in ISP_block["tag"]:
                 if "bounds" not in ISP_block["tag"][tag_key]: continue
-                if ISP_key in self.config["tune_key"]:
+                if ISP_key in self.config["ISP"]:
                     param_num = len(ISP_block["tag"][tag_key]["bounds"])
                     p = np.array(param_value[i:i+param_num])
                     i += param_num
@@ -127,7 +127,7 @@ class SimulatorProjectManager(ProjectManager):
     def set_param_value(self, param_value):
         self.update_config(param_value)
         
-        for ISP_key in self.config["modify_key"]:
+        for ISP_key in self.config["ISP"]:
             ISP_block = self.config["ISP"][ISP_key]
             print('set_param_value:', ISP_key)
             file_path = self.get_file_path(ISP_block["file_path"])
