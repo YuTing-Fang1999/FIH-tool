@@ -44,6 +44,8 @@ from MTK.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as MTK_AFWidget
 from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
 from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
+from MTK.AF.Analysis.FocusFilter_Laplacian.UX import MyWidget as MTK_AFFocusFilterLaplacainWidget
+from MTK.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as MTK_AFFocusFilterLaplacainIntro #Intro needs update
 
 from MTK.ISP.Analysis.KeywordISOSorter.MyWidget import MyWidget as MTK_KeywordISOSorterWidget
 from MTK.ISP.Analysis.KeywordISOSorter.Intro import Intro as MTK_KeywordISOSorterIntro
@@ -237,6 +239,13 @@ class Config():
                                 "subtitle": "Filter for blurry images",
                                 "instruction": MTK_AFPhotoFocusFilterIntro(),
                                 "widget": MTK_AFPhotoFocusFilterWidget(),
+
+                            },
+                            {
+                                "title": "Focus Filter (Laplacian)",
+                                "subtitle": "Filter for blurry images with threshold",
+                                "instruction": MTK_AFFocusFilterLaplacainIntro(),
+                                "widget": MTK_AFFocusFilterLaplacainWidget(),
 
                             },
                         ],
