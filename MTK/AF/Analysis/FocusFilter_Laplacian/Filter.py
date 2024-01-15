@@ -13,6 +13,14 @@ def calculate_focus_score(image):
     focus_score = np.mean(gradient_magnitude)
     return focus_score
 
+def laplacian_var(image, roi):
+    x, y, w, h = roi
+    roi_image = image[y:y+h, x:x+w]
+    gray = cv2.cvtColor(roi_image, cv2.COLOR_BGR2GRAY)
+    ######################
+    lap_score = cv2.Laplacian(gray, cv2.CV_64F).var()
+    return lap_score
+
 
 def main(path, threshold):
     image_folder = path
@@ -32,7 +40,8 @@ def main(path, threshold):
         if image is None:
             print(f"Cannot launch photo {file_name}")
             continue
-        focus_score = calculate_focus_score(image)
+        # focus_score = calculate_focus_score(image)
+        focus_score = laplacian_var(image)
         focus_scores.append((file_name, focus_score))
     # threshold = np.mean([score for _, score in focus_scores]) - \
     #     np.std([score for _, score in focus_scores])
@@ -40,7 +49,7 @@ def main(path, threshold):
     highest_score = []
     lowest_score = []
     high = 0
-    low = 1000
+    low = 4000
     for file_name, focus_score in focus_scores:
         if focus_score < threshold:
             files_to_rename.append(file_name)

@@ -91,14 +91,21 @@ class MyWidget(ParentWidget):
     # Catch the return value after .py executed and files renamed
     def signal_handler(self, highest_score, lowest_score):
         path = self.ui.lineEdit_FolderPath.text()
+        threshold = float(self.ui.lineEdit_Threshold.text())
         
+        # highest_score, lowest_score each contains only one element
         high_name, high_score = highest_score[0]
         low_name, low_score = lowest_score[0]  
         
-        low_name = 'Fail_'+low_name
+        if(low_score < threshold):
+            # Only scores below threshold will renamed
+            low_name = 'Fail_'+low_name
+            
         low_img_path = path+'/'+low_name
         high_img_path = path+'/'+high_name
 
+
+        # 問:如果都沒fail還要show最低分的照片嗎
         self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
         self.ui.img_Pass.setPixmap(QtGui.QPixmap(high_img_path))
         self.ui.img_Fail.show()
