@@ -105,7 +105,7 @@ class MyWidget(ParentWidget):
     
     # show Fial/Pass img
     def compute(self):
-        if (self.ui.lineEdit_FolderPath.text != ''):
+        if (self.ui.lineEdit_FolderPath.text() != ''):
             # Show terminal in the top
             terminal_handle = ctypes.windll.kernel32.GetConsoleWindow()
             ctypes.windll.user32.ShowWindow(terminal_handle, 9)  # SW_RESTORE
@@ -127,7 +127,7 @@ class MyWidget(ParentWidget):
 
 
     def openFolder(self):
-        if (self.ui.lineEdit_FolderPath.text != ''):
+        if (self.ui.lineEdit_FolderPath.text() != ''):
             # open folder
             your_path = self.ui.lineEdit_FolderPath.text()
 
