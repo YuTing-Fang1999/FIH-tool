@@ -97,21 +97,47 @@ class MyWidget(ParentWidget):
         high_name, high_score = highest_score[0]
         low_name, low_score = lowest_score[0]  
         
-        if(low_score < threshold):
-            # Only scores below threshold will renamed
+        # Only scores below threshold will renamed
+        if(high_score < threshold):
+            high_name = 'Fail'+high_name
             low_name = 'Fail_'+low_name
             
-        low_img_path = path+'/'+low_name
-        high_img_path = path+'/'+high_name
+            low_img_path = path+'/'+low_name
+            high_img_path = path+'/'+high_name
 
+            # Show
+            self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
+            # self.ui.img_Pass.setPixmap(QtGui.QPixmap(high_img_path))
+            self.ui.img_Fail.show()
+            # self.ui.img_Pass.show()
+            self.ui.label_lowName.setText(low_name)
+            # self.ui.label_highName.setText(high_name)
+            
+        elif(low_score < threshold and threshold < high_score):
+            low_name = 'Fail_'+low_name
+            
+            low_img_path = path+'/'+low_name
+            high_img_path = path+'/'+high_name
 
-        # 問:如果都沒fail還要show最低分的照片嗎
-        self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
-        self.ui.img_Pass.setPixmap(QtGui.QPixmap(high_img_path))
-        self.ui.img_Fail.show()
-        self.ui.img_Pass.show()
-        self.ui.label_lowName.setText(low_name)
-        self.ui.label_highName.setText(high_name)
+            # Show
+            self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
+            self.ui.img_Pass.setPixmap(QtGui.QPixmap(high_img_path))
+            self.ui.img_Fail.show()
+            self.ui.img_Pass.show()
+            self.ui.label_lowName.setText(low_name)
+            self.ui.label_highName.setText(high_name)
+            
+        else:
+            low_img_path = path+'/'+low_name
+            high_img_path = path+'/'+high_name
+
+            # Show
+            # self.ui.img_Fail.setPixmap(QtGui.QPixmap(low_img_path))
+            self.ui.img_Pass.setPixmap(QtGui.QPixmap(high_img_path))
+            # self.ui.img_Fail.show()
+            self.ui.img_Pass.show()
+            # self.ui.label_lowName.setText(low_name)
+            self.ui.label_highName.setText(high_name)
     
     # show Fial/Pass img
     def compute(self):
