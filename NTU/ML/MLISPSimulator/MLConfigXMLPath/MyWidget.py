@@ -112,6 +112,9 @@ class MyWidget(ParentWidget):
             tree_item.setHidden(False)
             
         if search_query in tree_item.text(0).lower():
+            if search_query == tree_item.text(0).lower():
+                tree_item.setBackground(0, Qt.yellow)
+                tree_item.setForeground(0, Qt.black)
             return True
             
         return can_search
@@ -134,7 +137,6 @@ class MyWidget(ParentWidget):
             return
         xml_path = self.get_xml_path(item)
         self.text_label.setText(str(xml_path))
-        print("XML Path:", xml_path)
 
     def get_xml_path(self, selected_item):
         def item_index(root, selected_item):
