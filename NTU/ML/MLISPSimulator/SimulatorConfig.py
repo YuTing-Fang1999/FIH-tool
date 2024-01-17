@@ -14,48 +14,48 @@ class SimulatorConfig():
                             # FULL PASS
                             "FULL_PASS_luma_filter_detection_thresholds_y_threshold_per_y": {
                                 "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//y_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//y_threshold_per_y", 0],
-                                ],
-                                "units": [1],
-                                "bounds": [[0, 30]]
-                            },
-                            "FULL_PASS_luma_filter_detection_thresholds_u_threshold_per_y": {
-                                "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//u_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//u_threshold_per_y", 0],
-                                ],
-                                "units": [1],
-                                "bounds": [[0, 30]]
-                            },
-                            "FULL_PASS_luma_filter_detection_thresholds_v_threshold_per_y": {
-                                "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//v_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//luma_filter_detection_thresholds", 0 ,".//v_threshold_per_y", 0],
+                                    ['.//y_threshold_per_y', 32],
+                                    ['.//y_threshold_per_y', 40]
                                 ],
                                 "units": [1],
                                 "bounds": [[0, 30]]
                             },
                             "FULL_PASS_chroma_filter_detection_thresholds_y_threshold_per_y": {
                                 "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//y_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//y_threshold_per_y", 0],
+                                    ['.//y_threshold_per_y', 33],
+                                    ['.//y_threshold_per_y', 41]
+                                ],
+                                "units": [1],
+                                "bounds": [[0, 30]]
+                            },
+                            "FULL_PASS_luma_filter_detection_thresholds_u_threshold_per_y": {
+                                "path": [
+                                    ['.//u_threshold_per_y', 32],
+                                    ['.//u_threshold_per_y', 40]
                                 ],
                                 "units": [1],
                                 "bounds": [[0, 30]]
                             },
                             "FULL_PASS_chroma_filter_detection_thresholds_u_threshold_per_y": {
                                 "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//u_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//u_threshold_per_y", 0],
+                                   ['.//u_threshold_per_y', 33],
+                                   ['.//u_threshold_per_y', 41]
+                                ],
+                                "units": [1],
+                                "bounds": [[0, 30]]
+                            },
+                            "FULL_PASS_luma_filter_detection_thresholds_v_threshold_per_y": {
+                                "path": [
+                                   ['.//v_threshold_per_y', 32],
+                                   ['.//v_threshold_per_y', 40]
                                 ],
                                 "units": [1],
                                 "bounds": [[0, 30]]
                             },
                             "FULL_PASS_chroma_filter_detection_thresholds_v_threshold_per_y": {
                                 "path": [
-                                    [".//region", 4, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//v_threshold_per_y", 0],
-                                    [".//region", 5, ".//anr14_rgn_data", 0, ".//chroma_filter_detection_thresholds", 0, ".//v_threshold_per_y", 0],
+                                   ['.//v_threshold_per_y', 33],
+                                   ['.//v_threshold_per_y', 41]
                                 ],
                                 "units": [1],
                                 "bounds": [[0, 30]]
@@ -68,12 +68,12 @@ class SimulatorConfig():
                         "tag": {
                             "layer_1_hpf_symmetric_coeff": {
                                 "path": [
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 4],
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 5],
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 12],
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 13],
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 19],
-                                    [".//layer_1_hpf_symmetric_coeff[1]", 20],
+                                    [".//layer_1_hpf_symmetric_coeff", 4],
+                                    [".//layer_1_hpf_symmetric_coeff", 5],
+                                    [".//layer_1_hpf_symmetric_coeff", 12],
+                                    [".//layer_1_hpf_symmetric_coeff", 13],
+                                    [".//layer_1_hpf_symmetric_coeff", 19],
+                                    [".//layer_1_hpf_symmetric_coeff", 20],
                                 ],
                                 "units": [1],
                                 "bounds": [
@@ -85,12 +85,12 @@ class SimulatorConfig():
                             },
                             "layer_1_gain_positive_lut":{
                                 "path": [
-                                    [".//layer_1_gain_positive_lut[1]", 4],
-                                    [".//layer_1_gain_positive_lut[1]", 5],
-                                    [".//layer_1_gain_positive_lut[1]", 12],
-                                    [".//layer_1_gain_positive_lut[1]", 13],
-                                    [".//layer_1_gain_positive_lut[1]", 19],
-                                    [".//layer_1_gain_positive_lut[1]", 20],
+                                    [".//layer_1_gain_positive_lut", 4],
+                                    [".//layer_1_gain_positive_lut", 5],
+                                    [".//layer_1_gain_positive_lut", 12],
+                                    [".//layer_1_gain_positive_lut", 13],
+                                    [".//layer_1_gain_positive_lut", 19],
+                                    [".//layer_1_gain_positive_lut", 20],
                                 ],
                                 "units": [1, 1, 1],
                                 "bounds": [
@@ -110,22 +110,22 @@ class SimulatorConfig():
                             },
                             "layer_1_gain_negative_lut":{
                                 "path": [
-                                    [".//layer_1_gain_negative_lut[1]", 4],
-                                    [".//layer_1_gain_negative_lut[1]", 5],
-                                    [".//layer_1_gain_negative_lut[1]", 12],
-                                    [".//layer_1_gain_negative_lut[1]", 13],
-                                    [".//layer_1_gain_negative_lut[1]", 19],
-                                    [".//layer_1_gain_negative_lut[1]", 20],
+                                    [".//layer_1_gain_negative_lut", 4],
+                                    [".//layer_1_gain_negative_lut", 5],
+                                    [".//layer_1_gain_negative_lut", 12],
+                                    [".//layer_1_gain_negative_lut", 13],
+                                    [".//layer_1_gain_negative_lut", 19],
+                                    [".//layer_1_gain_negative_lut", 20],
                                 ],
                             },
                             "layer_1_clamp_ul":{
                                 "path": [
-                                    [".//layer_1_clamp_ul[1]", 4],
-                                    [".//layer_1_clamp_ul[1]", 5],
-                                    [".//layer_1_clamp_ul[1]", 12],
-                                    [".//layer_1_clamp_ul[1]", 13],
-                                    [".//layer_1_clamp_ul[1]", 19],
-                                    [".//layer_1_clamp_ul[1]", 20],
+                                    [".//layer_1_clamp_ul", 4],
+                                    [".//layer_1_clamp_ul", 5],
+                                    [".//layer_1_clamp_ul", 12],
+                                    [".//layer_1_clamp_ul", 13],
+                                    [".//layer_1_clamp_ul", 19],
+                                    [".//layer_1_clamp_ul", 20],
                                 ],
                                 "units": [5],
                                 "bounds": [
@@ -137,22 +137,22 @@ class SimulatorConfig():
                             },
                             "layer_1_clamp_ll":{
                                 "path": [
-                                    [".//layer_1_clamp_ll[1]", 4],
-                                    [".//layer_1_clamp_ll[1]", 5],
-                                    [".//layer_1_clamp_ll[1]", 12],
-                                    [".//layer_1_clamp_ll[1]", 13],
-                                    [".//layer_1_clamp_ll[1]", 19],
-                                    [".//layer_1_clamp_ll[1]", 20],
+                                    [".//layer_1_clamp_ll", 4],
+                                    [".//layer_1_clamp_ll", 5],
+                                    [".//layer_1_clamp_ll", 12],
+                                    [".//layer_1_clamp_ll", 13],
+                                    [".//layer_1_clamp_ll", 19],
+                                    [".//layer_1_clamp_ll", 20],
                                 ],
                             },
                             "layer_1_gain_weight_lut":{
                                 "path": [
-                                    [".//layer_1_gain_weight_lut[1]", 4],
-                                    [".//layer_1_gain_weight_lut[1]", 5],
-                                    [".//layer_1_gain_weight_lut[1]", 12],
-                                    [".//layer_1_gain_weight_lut[1]", 13],
-                                    [".//layer_1_gain_weight_lut[1]", 19],
-                                    [".//layer_1_gain_weight_lut[1]", 20],
+                                    [".//layer_1_gain_weight_lut", 4],
+                                    [".//layer_1_gain_weight_lut", 5],
+                                    [".//layer_1_gain_weight_lut", 12],
+                                    [".//layer_1_gain_weight_lut", 13],
+                                    [".//layer_1_gain_weight_lut", 19],
+                                    [".//layer_1_gain_weight_lut", 20],
                                 ],
                                 "units": [1, 0.05],
                                 "bounds": [
@@ -168,12 +168,12 @@ class SimulatorConfig():
                             },
                             "layer_2_gain_positive_lut":{
                                 "path": [
-                                    [".//layer_2_gain_positive_lut[1]", 4],
-                                    [".//layer_2_gain_positive_lut[1]", 5],
-                                    [".//layer_2_gain_positive_lut[1]", 12],
-                                    [".//layer_2_gain_positive_lut[1]", 13],
-                                    [".//layer_2_gain_positive_lut[1]", 19],
-                                    [".//layer_2_gain_positive_lut[1]", 20],
+                                    [".//layer_2_gain_positive_lut", 4],
+                                    [".//layer_2_gain_positive_lut", 5],
+                                    [".//layer_2_gain_positive_lut", 12],
+                                    [".//layer_2_gain_positive_lut", 13],
+                                    [".//layer_2_gain_positive_lut", 19],
+                                    [".//layer_2_gain_positive_lut", 20],
                                 ],
                                 "units": [1, 1, 1],
                                 "bounds": [
@@ -193,22 +193,22 @@ class SimulatorConfig():
                             },
                             "layer_2_gain_negative_lut":{
                                 "path": [
-                                    [".//layer_2_gain_negative_lut[1]", 4],
-                                    [".//layer_2_gain_negative_lut[1]", 5],
-                                    [".//layer_2_gain_negative_lut[1]", 12],
-                                    [".//layer_2_gain_negative_lut[1]", 13],
-                                    [".//layer_2_gain_negative_lut[1]", 19],
-                                    [".//layer_2_gain_negative_lut[1]", 20],
+                                    [".//layer_2_gain_negative_lut", 4],
+                                    [".//layer_2_gain_negative_lut", 5],
+                                    [".//layer_2_gain_negative_lut", 12],
+                                    [".//layer_2_gain_negative_lut", 13],
+                                    [".//layer_2_gain_negative_lut", 19],
+                                    [".//layer_2_gain_negative_lut", 20],
                                 ],
                             },
                             "layer_2_clamp_ul":{
                                 "path": [
-                                    [".//layer_2_clamp_ul[1]", 4],
-                                    [".//layer_2_clamp_ul[1]", 5],
-                                    [".//layer_2_clamp_ul[1]", 12],
-                                    [".//layer_2_clamp_ul[1]", 13],
-                                    [".//layer_2_clamp_ul[1]", 19],
-                                    [".//layer_2_clamp_ul[1]", 20],
+                                    [".//layer_2_clamp_ul", 4],
+                                    [".//layer_2_clamp_ul", 5],
+                                    [".//layer_2_clamp_ul", 12],
+                                    [".//layer_2_clamp_ul", 13],
+                                    [".//layer_2_clamp_ul", 19],
+                                    [".//layer_2_clamp_ul", 20],
                                 ],
                                 "units": [5],
                                 "bounds": [
@@ -220,22 +220,22 @@ class SimulatorConfig():
                             },
                             "layer_2_clamp_ll":{
                                 "path": [
-                                    [".//layer_2_clamp_ll[1]", 4],
-                                    [".//layer_2_clamp_ll[1]", 5],
-                                    [".//layer_2_clamp_ll[1]", 12],
-                                    [".//layer_2_clamp_ll[1]", 13],
-                                    [".//layer_2_clamp_ll[1]", 19],
-                                    [".//layer_2_clamp_ll[1]", 20],
+                                    [".//layer_2_clamp_ll", 4],
+                                    [".//layer_2_clamp_ll", 5],
+                                    [".//layer_2_clamp_ll", 12],
+                                    [".//layer_2_clamp_ll", 13],
+                                    [".//layer_2_clamp_ll", 19],
+                                    [".//layer_2_clamp_ll", 20],
                                 ],
                             },
                             "layer_2_gain_weight_lut":{
                                 "path": [
-                                    [".//layer_2_gain_weight_lut[1]", 4],
-                                    [".//layer_2_gain_weight_lut[1]", 5],
-                                    [".//layer_2_gain_weight_lut[1]", 12],
-                                    [".//layer_2_gain_weight_lut[1]", 13],
-                                    [".//layer_2_gain_weight_lut[1]", 19],
-                                    [".//layer_2_gain_weight_lut[1]", 20],
+                                    [".//layer_2_gain_weight_lut", 4],
+                                    [".//layer_2_gain_weight_lut", 5],
+                                    [".//layer_2_gain_weight_lut", 12],
+                                    [".//layer_2_gain_weight_lut", 13],
+                                    [".//layer_2_gain_weight_lut", 19],
+                                    [".//layer_2_gain_weight_lut", 20],
                                 ],
                                 "units": [1, 0.05],
                                 "bounds": [

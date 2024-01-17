@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QFileDialog, QLabel, QHBoxLayout, QPushButton, QApplication, QMainWindow, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget, QLineEdit
+from PyQt5.QtWidgets import QMenu, QAction, QFileDialog, QLabel, QHBoxLayout, QPushButton, QApplication, QMainWindow, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget, QLineEdit
 from PyQt5.QtXml import QDomDocument
 from PyQt5.QtCore import Qt, QMimeData
 from myPackage.ParentWidget import ParentWidget
@@ -14,7 +14,7 @@ class MyWidget(ParentWidget):
         # Create a QHBoxLayout for loading xml
         load_layout = QHBoxLayout()
         self.load_button = QPushButton('load xml')
-        self.load_button.clicked.connect(self.load_xml)
+        self.load_button.clicked.connect(self.load_xml_path)
         self.path_label = QLabel(self)
         load_layout.addWidget(self.load_button)
         load_layout.addWidget(self.path_label)
@@ -25,6 +25,9 @@ class MyWidget(ParentWidget):
         self.tree_widget.setHeaderLabels(["Element", "Value"])
         self.tree_widget.itemClicked.connect(self.item_clicked)
         self.tree_widget.setColumnWidth(0, 900)  # Width of the first column
+        # Set up connections
+        self.tree_widget.setContextMenuPolicy(3)  # Enable custom context menu
+        self.tree_widget.customContextMenuRequested.connect(self.showContextMenu)
 
         self.search_input = QLineEdit(self)
         self.search_input.setPlaceholderText("Search...")
@@ -33,6 +36,7 @@ class MyWidget(ParentWidget):
         # Create a QHBoxLayout for copying text
         path_layout = QHBoxLayout()
         self.text_label = QLabel(self)
+        self.text_label.setWordWrap(True)  # Enable word wrapping
         self.text_label.setText("XML Path: ")
         self.text_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.copy_button = QPushButton('Copy')
@@ -70,6 +74,7 @@ class MyWidget(ParentWidget):
         self.xml_doc.setContent(file.read())
         file.close()
 
+        self.tree_widget.clear()
         self.root_element = self.xml_doc.documentElement()
         self.populate_tree(self.tree_widget, self.root_element)
         self.tree_widget.expandAll()
@@ -131,26 +136,28 @@ class MyWidget(ParentWidget):
         self.text_label.setText(str(xml_path))
         print("XML Path:", xml_path)
 
-    def get_xml_path(self, item):
-        def item_index(item):
-            if item.parent():
-                tag_name = item.text(0)
-                count = 0
-                for i in range(item.parent().indexOfChild(item)):
-                    sibling = item.parent().child(i)
-                    if sibling.text(0) == tag_name:
-                        count += 1
-                return count
-            return 0
+    def get_xml_path(self, selected_item):
+        def item_index(root, selected_item):
+            if self.item_found:
+                return
+            
+            for i in range(root.childCount()):
+                child = root.child(i)
                 
-        path_list = []
-        parent_item = item
-
-        while parent_item is not None:
-            path_list.insert(0, parent_item.text(0))
-            path_list.insert(1, item_index(parent_item))
-            parent_item = parent_item.parent()
-
+                if child != selected_item:
+                    item_index(child, selected_item)
+                else:
+                    self.item_found = True
+                    break
+                
+                if child.text(0) == selected_item.text(0):
+                    self.tag_count += 1
+                    
+        self.tag_count = 0
+        self.item_found = False
+        item_index(self.tree_widget.invisibleRootItem(), selected_item)
+        path_list = [".//"+selected_item.text(0), self.tag_count]
+        
         return path_list
 
     def copy_text(self):
@@ -161,6 +168,21 @@ class MyWidget(ParentWidget):
         clipboard.setMimeData(mime_data)
         
     
+    def showContextMenu(self, pos):
+        item = self.tree_widget.itemAt(pos)
+        if item is not None:
+            menu = QMenu(self)
+            copyAction = QAction("Copy Text", self)
+            copyAction.triggered.connect(lambda: self.copy_item_text(item))
+            menu.addAction(copyAction)
+            menu.exec_(self.tree_widget.mapToGlobal(pos))
+
+    def copy_item_text(self, item):
+        # Get the text of the clicked item and update the QLabel
+        text = item.text(0)  # Assuming you want to copy the text from the first column
+        # Optionally, you can copy the text to the clipboard
+        clipboard = QApplication.clipboard()
+        clipboard.setText(text)
         
 
 def main():
