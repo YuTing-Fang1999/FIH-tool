@@ -560,11 +560,10 @@ class GenExcelWorkerThread(QThread):
                         img_crop2.anchor = anchor_name
                         ws.add_image(img_crop2)
                         ws.cell(column=19, row=22+real_num).value = brightness(path_name_jpg)
-            endNum = re.sub("[^0-9-,]","", base[0:2])
             ws.cell(column=3, row=1).value = "total image:"
-            ws.cell(column=4, row=1).value = endNum
+            ws.cell(column=4, row=1).value = str(real_num)
 
-            file = self.exif_path+"/mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
+            file = self.exif_path+"/mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + str(real_num) + ".xlsm"
             self.excel_path = os.path.abspath(file)
             wb.active = 0
             wb.save(file)
