@@ -5,6 +5,7 @@ from .UI import Ui_Form
 from time import sleep
 import os
 from .Filter import main as filter_main  
+from .Dump_highest import main as dump_high_main  
 from myPackage.ParentWidget import ParentWidget
 import subprocess
 import ctypes
@@ -29,13 +30,15 @@ class SolverThread(QThread):
     threshold = None
     highest_score = None
     lowest_score = None
+    roi = None
 
     def __init__(self):
         super().__init__()
 
     def run(self):
         try:
-            self.highest_score, self.lowest_score = filter_main(self.path, self.threshold)
+            self.highest_score, self.roi = dump_high_main(self.path)
+            self.highest_score, self.lowest_score = filter_main(self.path, self.threshold, self.roi)
             self.finish_signal.emit(self.highest_score, self.lowest_score)
 
         except Exception as error:
