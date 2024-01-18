@@ -3,6 +3,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt
 # from .UI import Ui_Form
 from myPackage.ParentWidget import ParentWidget
 
+from NTU.ML.MLISPSimulator.MLConfigXMLPath.MyWidget import MyWidget as MLConfigXMLPathWidget
 from NTU.ML.MLISPSimulator.MLGenDataset.MyWidget import MyWidget as MLGenDatasetWidget
 from NTU.ML.MLISPSimulator.MLGenDataset.Intro import Intro as MLGenDatasetIntro
 from NTU.ML.MLAlignDataset.MyWidget import MyWidget as MLAlignDatasetWidget
@@ -22,6 +23,7 @@ class MyWidget(ParentWidget):
         
         self.tabWidget = QTabWidget()
 
+        self.config_xml_path_page = MLConfigXMLPathWidget()
         self.gen_dataset_page = MLGenDatasetWidget()
         self.align_dataset_page = MLAlignDatasetWidget()
         self.select_ROI_page = MLSelectROIWidget()
@@ -29,6 +31,7 @@ class MyWidget(ParentWidget):
         self.recommand_intro_page = MLRecommandIntro()
         self.push_param_page = MLPushParamWidget()
 
+        self.tabWidget.addTab(self.config_xml_path_page, "ConfigXMLPath")
         self.tabWidget.addTab(self.gen_dataset_page, "GenDataset")
         self.tabWidget.addTab(self.align_dataset_page, "AlignDataset")
         self.tabWidget.addTab(self.select_ROI_page, "SelectROI")
