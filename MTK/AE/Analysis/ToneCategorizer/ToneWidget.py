@@ -179,6 +179,7 @@ class MyWidget(ParentWidget):
     # signal
 
     def do_category(self):
+        self.set_all_enable(False)
         error = False
 
         lineEdit_LV1_2 = self.ui.lineEdit_LV1_2.text()
@@ -420,7 +421,7 @@ class MyWidget(ParentWidget):
                 self.solver_thread.start()
                 # mtk_main(your_path,file_path, LV_region, DR_region)
                 # input()
-                sys.exit()
+                # sys.exit()
             elif (your_path == ''):
                 # show the error message
                 QMessageBox.about(
@@ -482,9 +483,21 @@ class MyWidget(ParentWidget):
         QMessageBox.about(self, "Failed", text)
 
     def solver_finish(self):
+        pass
         self.set_all_enable(True)
-        self.statusBar.hide()
+        # self.statusBar.hide()
 
+    def set_all_enable(self, enable):
+        self.ui.btn_Browse_DataFolder.setEnabled(enable)
+        self.ui.btn_Browse_Tonecpp.setEnabled(enable)
+        self.ui.btn_download_1.setEnabled(enable)
+        self.ui.btn_explain_1.setEnabled(enable)
+        self.ui.btn_download_2.setEnabled(enable)
+        self.ui.btn_explain_2.setEnabled(enable)
+        self.ui.btn_Reset.setEnabled(enable)
+        self.ui.btn_Category.setEnabled(enable)
+        self.ui.btn_OpenFolder.setEnabled(enable)
+        self.ui.btn_Update.setEnabled(enable)
 
 if __name__ == "__main__":
     import sys
