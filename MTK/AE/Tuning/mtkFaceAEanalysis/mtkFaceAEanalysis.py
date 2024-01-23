@@ -55,15 +55,9 @@ def faceDetect(img_path):
             faceScale = scale
     return faces
 
-def brightness(img_path):
+def getFDbrightness(img_path):
     im = Image.open(img_path)
-    h, w = im.size
-    center_h = h / 2
-    center_w = w / 2
-    scale_h = h * 0.05
-    scale_w = w * 0.05
-    im_crop = im.crop((center_h-scale_h, center_w-scale_w, center_h+scale_h, center_w+scale_w))
-    stat = ImageStat.Stat(im_crop)
+    stat = ImageStat.Stat(im)
     r,g,b = stat.rms
     return math.sqrt(0.241*(r**2)+0.691*(g**2)+0.068*(b**2))
     
@@ -278,7 +272,7 @@ if __name__ == "__main__":
                 anchor_name = "D" + str(22+real_num)
                 img_crop2.anchor = anchor_name
                 ws.add_image(img_crop2)
-                ws.cell(column=18, row=22+real_num).value = brightness(path_name_jpg)
+                ws.cell(column=18, row=22+real_num).value = getFDbrightness(path_name_jpg)
                 
                 real_num = real_num + 1
             
@@ -293,7 +287,7 @@ if __name__ == "__main__":
                 anchor_name = "E" + str(22+real_num)
                 img_crop2.anchor = anchor_name
                 ws.add_image(img_crop2)
-                ws.cell(column=19, row=22+real_num).value = brightness(path_name_jpg)
+                ws.cell(column=19, row=22+real_num).value = getFDbrightness(path_name_jpg)
 
     endNum = re.sub("[^0-9-,]","", base[0:2])
     file = "mtkFaceAEanalysis_" + str(localtime[0]) + "_" + str(localtime[1]) + "_" + str(localtime[2]) + "_" + clock + "_" + startNum + "_" + endNum + ".xlsm"
@@ -538,7 +532,7 @@ class GenExcelWorkerThread(QThread):
                         anchor_name = "D" + str(22+real_num)
                         img_crop2.anchor = anchor_name
                         ws.add_image(img_crop2)
-                        ws.cell(column=18, row=22+real_num).value = brightness(save_name)
+                        ws.cell(column=18, row=22+real_num).value = getFDbrightness(save_name)
                         
                         real_num = real_num + 1
                     
@@ -559,7 +553,7 @@ class GenExcelWorkerThread(QThread):
                         anchor_name = "E" + str(22+real_num)
                         img_crop2.anchor = anchor_name
                         ws.add_image(img_crop2)
-                        ws.cell(column=19, row=22+real_num).value = brightness(save_name)
+                        ws.cell(column=19, row=22+real_num).value = getFDbrightness(save_name)
             ws.cell(column=3, row=1).value = "total image:"
             ws.cell(column=4, row=1).value = str(real_num)
 
