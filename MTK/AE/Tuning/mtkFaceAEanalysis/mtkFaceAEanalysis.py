@@ -538,7 +538,7 @@ class GenExcelWorkerThread(QThread):
                         anchor_name = "D" + str(22+real_num)
                         img_crop2.anchor = anchor_name
                         ws.add_image(img_crop2)
-                        ws.cell(column=18, row=22+real_num).value = brightness(path_name_jpg)
+                        ws.cell(column=18, row=22+real_num).value = brightness(save_name)
                         
                         real_num = real_num + 1
                     
@@ -559,7 +559,7 @@ class GenExcelWorkerThread(QThread):
                         anchor_name = "E" + str(22+real_num)
                         img_crop2.anchor = anchor_name
                         ws.add_image(img_crop2)
-                        ws.cell(column=19, row=22+real_num).value = brightness(path_name_jpg)
+                        ws.cell(column=19, row=22+real_num).value = brightness(save_name)
             ws.cell(column=3, row=1).value = "total image:"
             ws.cell(column=4, row=1).value = str(real_num)
 
