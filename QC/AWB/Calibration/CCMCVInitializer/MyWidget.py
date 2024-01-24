@@ -277,7 +277,7 @@ class MyWidget(ParentWidget):
             
         self.ui.pic_format_label = HoverLabel(
             "＊ref. & tst pic name msut according to the specifications.\n　Ex: A_1, A_2 ; B_1, B_2...",
-            "QC/AWB/Calibration/CCMCVInitializer/legend_CCMCV_FileNaming.jpg")
+            "QC/AWB/Calibration/CCMCVInitializer/legend_FileNaming-02.jpg")
         self.ui.CCM_label = HoverLabel(
             "CCM",
             "QC/AWB/Calibration/CCMCVInitializer/legend_CCM.jpg")
