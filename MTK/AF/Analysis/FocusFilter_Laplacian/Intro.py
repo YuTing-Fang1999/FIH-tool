@@ -11,10 +11,12 @@ class Intro(QTextBrowser):
 
 說明:  
 1.「Photo Folder」匯入同一區間照片的資料夾。  
-2.「Compute」計算焦點分數，CMD顯示計算過程及結果。  
-3.「Open folder」打開資料夾，低於Threshold照片名稱"Fail_"。  
-4.右欄顯示焦點最低分及最高分照片。  
-※因使用標準差計算，"Fail_"不必然是失焦。  
+2.「Clearest Image」計算出最高焦點分數，CMD顯示計算結果，並顯示ROI Image。  
+3.「Add Blur」拉桿對最清晰照片增加高斯模糊，直至可接受的最低清晰程度，同時計算模糊下的焦點分數當threshold。  
+4.「Compute」計算焦點分數，CMD顯示計算過程及結果。  
+5.「Open folder」打開資料夾，低於Threshold照片名稱"Fail_"。  
+4.右欄顯示焦點低於threshold最高分及最高分照片。  
+※因使用人眼判別，"Fail_"必然是失焦。  
 ※若照片失焦數量過多可能不適用。  
 """
         html = markdown.markdown(markdown_content)

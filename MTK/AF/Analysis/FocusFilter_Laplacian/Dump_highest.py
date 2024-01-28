@@ -48,7 +48,8 @@ def select_roi(image_folder):
     return roi
 
 def main(path):
-    roi = select_roi(path)
+    # roi = select_roi(np.fromfile(file=path, dtype=np.uint8))
+    roi = select_roi(os.path.join(path,''))
     if roi is None:
         print("ROI selection failed.")
         return
@@ -65,8 +66,10 @@ def main(path):
     files_to_rename = []  
     for file_name in image_files:
         image_path = os.path.join(image_folder, file_name)
-        image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
-        print(file_name)
+        # image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
+        # 讀中文檔名
+        image = cv2.imdecode(np.fromfile(file=image_path, dtype=np.uint8), cv2.IMREAD_COLOR)
+        # print(file_name)
         if image is None:
             print(f"Cannot launch photo {file_name}")
             continue

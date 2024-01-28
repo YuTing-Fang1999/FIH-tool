@@ -65,7 +65,9 @@ def main(path, threshold, roi):
     files_to_rename = []  
     for file_name in image_files:
         image_path = os.path.join(image_folder, file_name)
-        image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
+        # image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
+        # 讀中文檔名
+        image = cv2.imdecode(np.fromfile(file=image_path, dtype=np.uint8), cv2.IMREAD_COLOR)
         print(file_name)
         if image is None:
             print(f"Cannot launch photo {file_name}")
