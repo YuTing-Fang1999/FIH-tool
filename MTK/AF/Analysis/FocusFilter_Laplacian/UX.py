@@ -123,6 +123,11 @@ class MyWidget(ParentWidget):
 
     def getROI(self):
         if (self.ui.lineEdit_FolderPath.text() != ''):
+            # Show terminal in the top
+            terminal_handle = ctypes.windll.kernel32.GetConsoleWindow()
+            ctypes.windll.user32.ShowWindow(terminal_handle, 9)  # SW_RESTORE
+            ctypes.windll.user32.SetForegroundWindow(terminal_handle)
+            
             self.roi_thread.path = self.ui.lineEdit_FolderPath.text()
             self.roi_thread.start()
             self.roi_thread.finish_signal.connect(self.roi_show_signal_handler)
@@ -141,15 +146,19 @@ class MyWidget(ParentWidget):
         high_img_path = path+'/'+high_name
 
         print('ROI')
-        print(roi)
+        print(roi) #min_x, min_y, w, h
         # Show
-        image = cv2.imread(high_img_path)
-        roi_image = image[roi[1]:roi[3], roi[0]:roi[2]]
+        pixmap = QtGui.QPixmap(high_img_path)
+        cropped = pixmap.copy(roi[0], roi[1], roi[2], roi[3])
         
-        # self.ui.label_Clearest.setPixmap(QtGui.QPixmap(high_img_path))
-        qimage = QtGui.QImage(roi_image, roi_image.shape[1], roi_image.shape[0], QtGui.QImage.Format_RGB888).rgbSwapped()
-        pixmap = QtGui.QPixmap.fromImage(qimage)
-        self.ui.label_Clearest.setPixmap(pixmap)
+        # cropped.setDevicePixelRatio(pixmap.devicePixelRatio())
+        # cropped.setMask(cropped.createHeuristicMask())
+        # cropped.scaledToWidth(roi[2] - roi[0])
+        # cropped.scaledToHeight(roi[3]- roi[1])
+        
+        cropped.save(path+'/cropped.png')
+        scaled = cropped.scaled(self.ui.label_Clearest.width(), self.ui.label_Clearest.height(), Qt.KeepAspectRatio)
+        self.ui.label_Clearest.setPixmap(scaled)
         self.ui.label_Clearest.show()
 
 
