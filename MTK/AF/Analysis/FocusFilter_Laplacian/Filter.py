@@ -80,8 +80,10 @@ def main(path, threshold, roi):
         
     highest_score = []
     lowest_score = []
+    low_highest_score = []
     high = 0
     low = 4000
+    low_high = 0 # Find the highest score below threshold value
     for file_name, focus_score in focus_scores:
         if focus_score < threshold:
             files_to_rename.append(file_name)
@@ -103,6 +105,15 @@ def main(path, threshold, roi):
                 lowest_score.append((file_name, focus_score))
             else:
                 lowest_score.append((file_name, focus_score))
+                
+        # Find the highest score below threshold value
+        if focus_score > low_high and focus_score < threshold:
+            low_high = focus_score
+            if len(low_highest_score) != 0:
+                low_highest_score.pop()
+                low_highest_score.append((file_name, focus_score))
+            else:
+                low_highest_score.append((file_name, focus_score))
         #############
         
     # Rename
@@ -129,7 +140,7 @@ def main(path, threshold, roi):
     
     #######################
     # Return Fail/Pass img
-    return highest_score, lowest_score
+    return highest_score, lowest_score, low_highest_score
     #######################
 
 
