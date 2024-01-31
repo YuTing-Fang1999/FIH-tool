@@ -89,6 +89,7 @@ class MyWidget(ParentWidget):
         self.ui.btn_Compute.clicked.connect(self.compute)
         # self.ui.btn_Compute.clicked.connect(self.test)
         self.ui.btn_OpenFolder.clicked.connect(self.openFolder)
+        self.ui.slider.valueChanged.connect(self.slider_show_value)
         self.roi_thread.failed_signal.connect(self.thread_failed)
         self.roi_thread.finish_signal.connect(self.thread_finish)
         self.solver_thread.failed_signal.connect(self.thread_failed)
@@ -160,8 +161,12 @@ class MyWidget(ParentWidget):
         scaled = cropped.scaled(self.ui.label_Clearest.width(), self.ui.label_Clearest.height(), Qt.KeepAspectRatio)
         self.ui.label_Clearest.setPixmap(scaled)
         self.ui.label_Clearest.show()
-
-
+ 
+    def slider_show_value(self):
+        value = self.ui.slider.value()
+        value = value*2 + 1
+        
+        self.ui.label_kernel.setText(str(value))
     
     # show Fial/Pass img
     def compute(self):
