@@ -62,7 +62,7 @@ def main(path, threshold, roi):
         return
 
     focus_scores = []
-    files_to_rename = []  
+    files_fail_to_rename = []  
     for file_name in image_files:
         image_path = os.path.join(image_folder, file_name)
         # image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
@@ -75,18 +75,30 @@ def main(path, threshold, roi):
         # focus_score = calculate_focus_score(image)
         focus_score = laplacian_var(image, roi)
         focus_scores.append((file_name, focus_score))
-    # threshold = np.mean([score for _, score in focus_scores]) - \
-    #     np.std([score for _, score in focus_scores])
+
+    
+    # Rename: Rank_Score
+    focus_scores_after_rename = []
+    focus_scores.sort(key=lambda x: x[1], reverse=True)
+    for index, (file_name, focus_score) in enumerate(focus_scores, start=1):
+        old_file_path = os.path.join(path, file_name)
+        rounded_score = round(focus_score, 2)
+        new_file_name = f"{index}_{rounded_score}_{file_name}"
+        new_file_path = os.path.join(path, new_file_name)
+        os.rename(old_file_path, new_file_path)
+        focus_scores_after_rename.append((new_file_name, focus_score))
         
+        
+    # Calculate highest and lowest score to show
     highest_score = []
     lowest_score = []
     low_highest_score = []
     high = 0
     low = 4000
     low_high = 0 # Find the highest score below threshold value
-    for file_name, focus_score in focus_scores:
+    for file_name, focus_score in focus_scores_after_rename:
         if focus_score < threshold:
-            files_to_rename.append(file_name)
+            files_fail_to_rename.append(file_name)
         ############
         # Find highest
         if focus_score > high:
@@ -116,19 +128,19 @@ def main(path, threshold, roi):
                 low_highest_score.append((file_name, focus_score))
         #############
         
-    # Rename
-    if len(files_to_rename) > 0:
-        for file_name in files_to_rename:
+    # Fail to Rename
+    if len(files_fail_to_rename) > 0:
+        for file_name in files_fail_to_rename:
             new_file_name = "Fail_" + file_name
             new_file_path = os.path.join(image_folder, new_file_name)
             old_file_path = os.path.join(image_folder, file_name)
             os.rename(old_file_path, new_file_path)
 
-    focus_scores_only = [score for _,
-                         score in focus_scores]  # �u�O�d focus score
-    num_images = len(focus_scores_only)
+    focus_scores_after_rename_only = [score for _,
+                         score in focus_scores_after_rename]  # �u�O�d focus score
+    num_images = len(focus_scores_after_rename_only)
     num_below_std_deviation = len(
-        [score for score in focus_scores_only if score < threshold])
+        [score for score in focus_scores_after_rename_only if score < threshold])
 
     print("\n------Summary------")
     print(f"Units: {num_images}")
@@ -140,7 +152,7 @@ def main(path, threshold, roi):
     
     #######################
     # Return Fail/Pass img
-    return highest_score, lowest_score, low_highest_score
+    return highest_score, lowest_score, low_highest_score         
     #######################
 
 

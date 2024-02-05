@@ -79,13 +79,6 @@ class Config():
 
                             },
                             {
-                                "title": "AF Log Analyzer",
-                                "subtitle": "Give advice on log analysis",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-
-                            },
-                            {
                                 "title": "Photo Focus Filter",
                                 "subtitle": "Filter for blurry images",
                                 "instruction": QC_AFPhotoFocusFilterIntro(),
@@ -101,13 +94,6 @@ class Config():
                                 "subtitle": "Visualizing lens shading data",
                                 "instruction": LSCIntro(),
                                 "widget": LSCWidget(),
-                            },
-                            {
-                                "title": "AECX Analyzer",
-                                "subtitle": "AE SA values charting",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-
                             },
                             {
                                 "title": "Brightness Comparator",
@@ -145,14 +131,6 @@ class Config():
                         ]
                     },
                     "AWB": {
-                        "Analysis": [
-                            {
-                                "title": "Triangle Gain Optimizer",
-                                "subtitle": "For triangle gain tuning",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-                            },
-                        ],
                         "Calibration": [
                             {
                                 "title": "CCM/CV Initializer",
@@ -228,13 +206,6 @@ class Config():
 
                             },
                             {
-                                "title": "AF Log Analyzer",
-                                "subtitle": "Give advice on log analysis",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-
-                            },
-                            {
                                 "title": "Photo Focus Filter",
                                 "subtitle": "Filter for blurry images",
                                 "instruction": MTK_AFPhotoFocusFilterIntro(),
@@ -271,13 +242,6 @@ class Config():
                                 "instruction": mtkAEanalysisIntro(),
                                 "widget": mtkAEanalysisWidget(),
                             },
-                            {
-                                "title": "Brightness Comparator",
-                                "subtitle": "Compare ratio, histograms & simulate",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-
-                            },
                         ],
                         "Tuning": [
                             {
@@ -290,16 +254,16 @@ class Config():
                         ],
 
                     },
-                    "AWB": {
-                        "Analysis": [
-                            {
-                                "title": "Preference Gain Optimizer",
-                                "subtitle": "For preference gain tuning",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
-                            }
-                        ],
-                    },
+                    # "AWB": {
+                    #     "Analysis": [
+                    #         {
+                    #             "title": "Preference Gain Optimizer",
+                    #             "subtitle": "For preference gain tuning",
+                    #             "instruction": MyLabel(""),
+                    #             "widget": MyLabel(""),
+                    #         }
+                    #     ],
+                    # },
                     "ISP": {
                         "Analysis": [
                             {
