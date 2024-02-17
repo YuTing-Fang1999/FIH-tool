@@ -24,6 +24,8 @@ from QC.AF.Analysis.AFLogFetcher.MyWidget import MyWidget as QC_AFWidget
 from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 from QC.AF.Analysis.PhotoFocusFilter.UX import MyWidget as QC_AFPhotoFocusFilterWidget
 from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilterIntro
+from QC.AF.Analysis.FocusFilter_Laplacian.UX import MyWidget as QC_AFFocusFilterLaplacainWidget
+from QC.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as QC_AFFocusFilterLaplacainIntro 
 
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
 from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
@@ -45,7 +47,7 @@ from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
 from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
 from MTK.AF.Analysis.FocusFilter_Laplacian.UX import MyWidget as MTK_AFFocusFilterLaplacainWidget
-from MTK.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as MTK_AFFocusFilterLaplacainIntro #Intro needs update
+from MTK.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as MTK_AFFocusFilterLaplacainIntro 
 
 from MTK.ISP.Analysis.KeywordISOSorter.MyWidget import MyWidget as MTK_KeywordISOSorterWidget
 from MTK.ISP.Analysis.KeywordISOSorter.Intro import Intro as MTK_KeywordISOSorterIntro
@@ -83,6 +85,13 @@ class Config():
                                 "subtitle": "Filter for blurry images",
                                 "instruction": QC_AFPhotoFocusFilterIntro(),
                                 "widget": QC_AFPhotoFocusFilterWidget(),
+
+                            },
+                                                        {
+                                "title": "Focus Filter (Laplacian)",
+                                "subtitle": "Filter for blurry images with threshold",
+                                "instruction": QC_AFFocusFilterLaplacainIntro(),
+                                "widget": QC_AFFocusFilterLaplacainWidget(),
 
                             },
                         ],
