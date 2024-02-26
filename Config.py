@@ -104,13 +104,13 @@ class Config():
                                 "instruction": LSCIntro(),
                                 "widget": LSCWidget(),
                             },
-                            {
-                                "title": "Brightness Comparator",
-                                "subtitle": "Compare ratio, histograms & simulate",
-                                "instruction": MyLabel(""),
-                                "widget": MyLabel(""),
+                            # {
+                            #     "title": "Brightness Comparator",
+                            #     "subtitle": "Compare ratio, histograms & simulate",
+                            #     "instruction": MyLabel(""),
+                            #     "widget": MyLabel(""),
 
-                            },
+                            # },
                         ],
                         "Calibration": [
                             {
