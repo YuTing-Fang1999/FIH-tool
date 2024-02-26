@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>972</width>
-    <height>545</height>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>958</width>
-        <height>531</height>
+        <width>948</width>
+        <height>499</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="3,1">
@@ -147,21 +147,39 @@ color: black;</string>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="configButton">
-           <property name="cursor">
-            <cursorShape>OpenHandCursor</cursorShape>
-           </property>
-           <property name="mouseTracking">
-            <bool>false</bool>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background:rgb(248, 203, 173); 
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QPushButton" name="writeConfigButton">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <property name="mouseTracking">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background:rgb(248, 203, 173); 
 color: black;</string>
-           </property>
-           <property name="text">
-            <string>寫入設定檔(QC)</string>
-           </property>
-          </widget>
+             </property>
+             <property name="text">
+              <string>寫入設定檔(QC)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="openConfigButton">
+             <property name="cursor">
+              <cursorShape>OpenHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background:rgb(248, 203, 173); 
+color: black;</string>
+             </property>
+             <property name="text">
+              <string>打開設定檔資料夾</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1">
@@ -363,8 +381,8 @@ color: black;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>229</width>
-                <height>240</height>
+                <width>224</width>
+                <height>208</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -404,8 +422,8 @@ color: black;</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>229</width>
-                <height>239</height>
+                <width>224</width>
+                <height>208</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
