@@ -12,7 +12,7 @@ class Intro(QTextBrowser):
 2.擷取關鍵字log及照片對應成組  
 
 #### 操作:  
-1.錄製log－使用Qualcomm DbgCfgTool apk (Log Output Format設定成threadtime)，或是MTK DebugLogger apk（需記錄時間）。  
+1.錄製log－使用Qualcomm DbgCfgTool apk（Log Output Format設定成threadtime），或是MTK DebugLogger apk（需記錄時間）。  
 2.「寫入設定檔」寫入新的設定以便下次可以直接使用相同資訊。  
 3.「打開設定檔資料夾」可直接編輯／刪除設定檔.json（※僅在本機端，若git pull可能會受影響）。  
 4.「選擇圖片資料夾」匯入圖片資料夾。  
