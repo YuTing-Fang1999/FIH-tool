@@ -119,7 +119,6 @@ class MyWidget(ParentWidget):
         self.ui.btn_Browse.clicked.connect(self.browse)
         self.ui.btn_Clearest.clicked.connect(self.getROI)
         self.ui.btn_Compute.clicked.connect(self.compute)
-        # self.ui.btn_Compute.clicked.connect(self.test)
         self.ui.btn_OpenFolder.clicked.connect(self.openFolder)
         self.ui.slider.valueChanged.connect(self.slider_show)
         self.roi_thread.failed_signal.connect(self.thread_failed)

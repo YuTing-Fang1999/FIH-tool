@@ -34,7 +34,8 @@ def select_roi(image_folder):
         print("No JPG files")
         return None
     image_path = os.path.join(image_folder, image_files[0])
-    image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
+    # image = cv2.imread(image_path.encode('utf-8').decode('latin1'))
+    image = cv2.imdecode(np.fromfile(file=image_path, dtype=np.uint8), cv2.IMREAD_COLOR)
     if image is None:
         print("Cannot load the first photo")
         return None
