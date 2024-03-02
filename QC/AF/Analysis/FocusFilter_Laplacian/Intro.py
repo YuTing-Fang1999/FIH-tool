@@ -17,8 +17,6 @@ class Intro(QTextBrowser):
 5. 重新命名原則為: 名次_分數_原檔名，分數低於Threshold照片名稱"Fail_"。  
 6.「Open folder」打開資料夾。  
 7.右欄顯示焦點低於threshold最高分及最高分照片。  
-※因使用人眼判別，"Fail_"必然是失焦。  
-※若照片失焦數量過多可能不適用。  
 """
         html = markdown.markdown(markdown_content)
         self.setHtml(html)

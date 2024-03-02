@@ -35,7 +35,8 @@ class MyWidget(ParentWidget):
         self.detectParserReady()
 
     def controller(self):
-        self.ui.configButton.clicked.connect(self.writeNewConfig)
+        self.ui.writeConfigButton.clicked.connect(self.writeNewConfig)
+        self.ui.openConfigButton.clicked.connect(self.openConfig)
         self.ui.readImagesDirButton.clicked.connect(self.showPhotoFileDialog)
         self.ui.readLogDirButton.clicked.connect(self.showLogFileDialog)
         self.ui.outputDirButton.clicked.connect(self.showOutputFileDialog)
@@ -66,9 +67,9 @@ class MyWidget(ParentWidget):
         # filterKeywordText["fg"] = "#777777"
         # endKeywordEntry["state"] = "disable"
         self.ui.endKeywordEntry.setEnabled(b)
-        # configButton["state"] = "disable"
-        self.ui.configButton.setEnabled(b)
-        self.ui.configButton.setStyleSheet(style)
+        # writeConfigButton["state"] = "disable"
+        self.ui.writeConfigButton.setEnabled(b)
+        self.ui.writeConfigButton.setStyleSheet(style)
         # readImagesDirButton["state"] = "disable"
         self.ui.readImagesDirButton.setEnabled(b)
         self.ui.readImagesDirButton.setStyleSheet(style)
@@ -179,6 +180,9 @@ class MyWidget(ParentWidget):
         self.set_path('QC_AF_output_folder', self.OUTPUT_DIR)
         self.detectParserReady()
 
+    def openConfig(self):
+        os.startfile(self.CONFIG_FOLDER)
+        
     def writeNewConfig(self):
         # global PROJECT_NAME, isConfig
         #set all label bg color as default
@@ -237,16 +241,16 @@ class MyWidget(ParentWidget):
         self.PROJECT_NAME = ""
         self.ui.statusLabel.setText("")
         if len(text) == 0:
-            self.ui.configButton.setEnabled(False)
-            self.ui.configButton.setStyleSheet("QPushButton {background:rgb(150, 150, 150); color: rgb(100, 100, 100);}")
+            self.ui.writeConfigButton.setEnabled(False)
+            self.ui.writeConfigButton.setStyleSheet("QPushButton {background:rgb(150, 150, 150); color: rgb(100, 100, 100);}")
             # filterKeywordText.delete(1.0, 'end-1c')
             # endKeywordEntry.delete(0, tk.END)
             self.ui.filterKeywordText.setText("")
             self.ui.endKeywordEntry.setText("")
         else:
-            # configButton["state"] = tk.NORMAL
-            self.ui.configButton.setEnabled(True)
-            self.ui.configButton.setStyleSheet("background:rgb(248, 203, 173); color: black;")
+            # writeConfigButton["state"] = tk.NORMAL
+            self.ui.writeConfigButton.setEnabled(True)
+            self.ui.writeConfigButton.setStyleSheet("background:rgb(248, 203, 173); color: black;")
         
         # configStatusLabel["text"] = "請先填入專案名稱與相關設定"
         self.ui.configStatusLabel.setText("請先填入專案名稱與相關設定")
