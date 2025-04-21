@@ -1,5 +1,5 @@
 pyqtdarktheme
-pywin32
+pypiwin32
 markdown
 PyQt5
 opencv-python
