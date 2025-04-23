@@ -177,7 +177,8 @@ class MyWidget(ParentWidget):
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         root_folder = os.getcwd()  # Get the current working directory (root folder)
 
-        original_excel = os.path.join(root_folder, "./NTU/Chou/example.xlsx")
+        # original_excel = os.path.join(root_folder, "./NTU/Chou/example.xlsx")
+        original_excel = ".example.xlsx"
         new_excel = os.path.join(photo_folder, f"{current_time}.xlsx")
         EV_ratio = int(self.ui.lineEdit_EV_ratio.text())
         AWB_num_blocks_x = 40
