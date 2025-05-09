@@ -7,6 +7,8 @@ from NTU.fft.controller import MainWindow_controller as FFTWidget
 from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.perceptual_distance.Intro import Intro as PerceptualDistancekIntro
 from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DLWidget
+from NTU.Chou.ex import MyWidget as Chou_Widget
+from NTU.Chou.Intro import Intro as Chou_Intro
 
 from QC.AE.Analysis.LSC.MyWidget import MyWidget as LSCWidget
 from QC.AE.Analysis.LSC.Intro import Intro as LSCIntro
@@ -25,7 +27,7 @@ from QC.AF.Analysis.AFLogFetcher.Intro import Intro as QC_AFIntro
 from QC.AF.Analysis.PhotoFocusFilter.UX import MyWidget as QC_AFPhotoFocusFilterWidget
 from QC.AF.Analysis.PhotoFocusFilter.Intro import Intro as QC_AFPhotoFocusFilterIntro
 from QC.AF.Analysis.FocusFilter_Laplacian.UX import MyWidget as QC_AFFocusFilterLaplacainWidget
-from QC.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as QC_AFFocusFilterLaplacainIntro 
+from QC.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as QC_AFFocusFilterLaplacainIntro
 
 from QC.AWB.Calibration.CCMCVInitializer.MyWidget import MyWidget as CCMCVInitializerWidget
 from QC.AWB.Calibration.CCMCVInitializer.Intro import Intro as CCMCVInitializerIntro
@@ -47,7 +49,7 @@ from MTK.AF.Analysis.AFLogFetcher.Intro import Intro as MTK_AFIntro
 from MTK.AF.Analysis.PhotoFocusFilter.UX import MyWidget as MTK_AFPhotoFocusFilterWidget
 from MTK.AF.Analysis.PhotoFocusFilter.Intro import Intro as MTK_AFPhotoFocusFilterIntro
 from MTK.AF.Analysis.FocusFilter_Laplacian.UX import MyWidget as MTK_AFFocusFilterLaplacainWidget
-from MTK.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as MTK_AFFocusFilterLaplacainIntro 
+from MTK.AF.Analysis.FocusFilter_Laplacian.Intro import Intro as MTK_AFFocusFilterLaplacainIntro
 
 from MTK.ISP.Analysis.KeywordISOSorter.MyWidget import MyWidget as MTK_KeywordISOSorterWidget
 from MTK.ISP.Analysis.KeywordISOSorter.Intro import Intro as MTK_KeywordISOSorterIntro
@@ -87,7 +89,7 @@ class Config():
                                 "widget": QC_AFPhotoFocusFilterWidget(),
 
                             },
-                                                        {
+                            {
                                 "title": "Focus Filter (Laplacian)",
                                 "subtitle": "Filter for blurry images with threshold",
                                 "instruction": QC_AFFocusFilterLaplacainIntro(),
@@ -259,6 +261,12 @@ class Config():
                                 "instruction": mtkFaceAEanalysisIntro(),
                                 "widget": mtkFaceAEanalysisWidget(),
 
+                            },
+                            {
+                                "title": "Chou",
+                                "subtitle": "Chou",
+                                "instruction": Chou_Intro(),
+                                "widget": Chou_Widget(),
                             },
                         ],
 
