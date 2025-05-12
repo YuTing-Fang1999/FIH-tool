@@ -4,7 +4,7 @@ from PyQt5.QtCore import QThread, pyqtSignal, Qt, QUrl
 from datetime import datetime
 import shutil
 from PyQt5.QtGui import QDesktopServices
-from newUI import Ui_Form
+from .newUI import Ui_Form
 
 from time import sleep
 from myPackage.ParentWidget import ParentWidget
@@ -17,7 +17,7 @@ import configparser
 import numpy as np
 import subprocess
 import sys
-from exceloutput_0215 import main as exceloutput_main
+from .exceloutput_0215 import main as exceloutput_main
 import tkinter as tk
 from tkinter import filedialog
 import os
@@ -177,8 +177,8 @@ class MyWidget(ParentWidget):
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
         root_folder = os.getcwd()  # Get the current working directory (root folder)
 
-        # original_excel = os.path.join(root_folder, "./NTU/Chou/example.xlsx")
-        original_excel = ".example.xlsx"
+        original_excel = os.path.join(root_folder, "./NTU/Chou/example.xlsx")
+        # original_excel = ".example.xlsx"
         new_excel = os.path.join(photo_folder, f"{current_time}.xlsx")
         EV_ratio = int(self.ui.lineEdit_EV_ratio.text())
         AWB_num_blocks_x = 40
