@@ -28,6 +28,7 @@ import math
 import tempfile
 from tqdm import tqdm  # Import tqdm for terminal progress bar
 import time
+from openpyxl.styles import PatternFill
 
 
 # ## Function
@@ -476,11 +477,11 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
     # Get list of image files in each folder
     images = sorted(
         [f for f in os.listdir(folder_path) if os.path.isfile(
-            os.path.join(folder_path, f)) and f.lower().endswith(('jpg', 'jpeg'))]
+            os.path.join(folder_path, f)) and f.lower().endswith(('jpg', 'jpeg', 'JPG', 'JPEG'))]
     )
     images_ref = sorted(
         [f for f in os.listdir(folder_path_ref) if os.path.isfile(
-            os.path.join(folder_path_ref, f)) and f.lower().endswith(('jpg', 'jpeg'))]
+            os.path.join(folder_path_ref, f)) and f.lower().endswith(('jpg', 'jpeg', 'JPG', 'JPEG'))]
     )
 
     # Ensure both folders have the same number of files and filenames match
@@ -650,6 +651,16 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
             ae_sheet[f'J{row}'] = diff_group[3]  # +1EV
             ae_sheet[f'K{row}'] = diff_group[4]  # +2EV
 
+            # Insert sum_of_squares and apply color
+            cell = ae_sheet[f'B{row}']
+            cell.value = sum_of_squares
+            if sum_of_squares > 60:
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
+            elif sum_of_squares > 30:
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
+            else:
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
+
             row += 1
             tmp_to_delete.append(temp_img_path)
             tmp_to_delete.append(temp_ref_img_path)
@@ -684,6 +695,21 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
             awb_sheet[f'H{row}'] = RBG_gains[1]  # B gain
             awb_sheet[f'I{row}'] = RBG_gains[2]  # G gain
 
+            r_gain, b_gain, _ = RBG_gains
+            r_dev = abs(r_gain - 1)
+            b_dev = abs(b_gain - 1)
+            total_dev = r_dev + b_dev
+
+            cell = awb_sheet[f'B{row}']
+            cell.value = total_dev  # or f"{total_dev:.3f}" for formatting
+
+            if total_dev >= 0.5:
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
+            elif total_dev >= 0.2:
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
+            else:
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
+
             row += 1
             tmp_to_delete.append(temp_img_path)
             tmp_to_delete.append(temp_ref_img_path)
@@ -699,78 +725,6 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
     print("Complete!")
     print("--------------------------------------------------")
 
-
-# In[115]:
-
-# def find_common_gray_block_roi_relative(image1, image2, num_blocks_x=4, num_blocks_y=4):
-#     """
-#     Finds a block in image2 that is closest to neutral gray and uses its relative location
-#     to select the corresponding block in image1. Ensures relative alignment of blocks.
-#     """
-
-#     h1, w1 = image1.shape[:2]
-#     h2, w2 = image2.shape[:2]
-
-#     best_distance = float("inf")
-#     best_coords_img2 = (0, 0, 0, 0)  # (x1_2, y1_2, x2_2, y2_2)
-
-#     # (A) Iterate over blocks in image2 to find the best gray block
-#     for row in range(num_blocks_y):
-#         for col in range(num_blocks_x):
-#             # (A1) Normalized grid coordinates
-#             x1_norm = col / num_blocks_x
-#             x2_norm = (col + 1) / num_blocks_x
-#             y1_norm = row / num_blocks_y
-#             y2_norm = (row + 1) / num_blocks_y
-
-#             # (A2) Convert to pixel coords in image2
-#             x1_2 = int(np.floor(x1_norm * w2))
-#             x2_2 = int(np.floor(x2_norm * w2))
-#             y1_2 = int(np.floor(y1_norm * h2))
-#             y2_2 = int(np.floor(y2_norm * h2))
-
-#             # Crop block from image2
-#             block2 = image2[y1_2:y2_2, x1_2:x2_2]
-
-#             # Skip empty blocks
-#             if block2.size == 0:
-#                 continue
-
-#             # (A3) Distance from neutral gray for block2
-#             avg_bgr2 = np.mean(block2, axis=(0, 1))  # BGR
-#             G2 = max(avg_bgr2[1], 1e-6)
-#             r_g2 = avg_bgr2[2] / G2
-#             b_g2 = avg_bgr2[0] / G2
-#             dist2 = np.sqrt((r_g2 - 1)**2 + (b_g2 - 1)**2)
-
-#             # (A4) Update best block in image2
-#             if dist2 < best_distance:
-#                 best_distance = dist2
-#                 best_coords_img2 = (x1_2, y1_2, x2_2, y2_2)
-
-#     # (B) Select the corresponding block in image1 based on relative location
-#     x1_2, y1_2, x2_2, y2_2 = best_coords_img2
-#     x1_norm = x1_2 / w2
-#     x2_norm = x2_2 / w2
-#     y1_norm = y1_2 / h2
-#     y2_norm = y2_2 / h2
-
-#     x1_1 = int(np.floor(x1_norm * w1))
-#     x2_1 = int(np.floor(x2_norm * w1))
-#     y1_1 = int(np.floor(y1_norm * h1))
-#     y2_1 = int(np.floor(y2_norm * h1))
-
-#     # Crop the corresponding blocks
-#     roi_source = image1[y1_1:y2_1, x1_1:x2_1]
-#     roi_target = image2[y1_2:y2_2, x1_2:x2_2]
-
-#     # (C) Annotate the rectangles
-#     annotated1 = image1.copy()
-#     annotated2 = image2.copy()
-#     cv2.rectangle(annotated1, (x1_1, y1_1), (x2_1, y2_1), (0, 255, 0), 2)
-#     cv2.rectangle(annotated2, (x1_2, y1_2), (x2_2, y2_2), (0, 255, 0), 2)
-
-#     return roi_source, roi_target, annotated1, annotated2
 
 def find_common_gray_block_roi_relative(image1, image2, num_blocks_x=4, num_blocks_y=4):
     """

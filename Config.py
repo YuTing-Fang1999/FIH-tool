@@ -7,8 +7,8 @@ from NTU.fft.controller import MainWindow_controller as FFTWidget
 from NTU.perceptual_distance.controller import MainWindow_controller as PerceptualDistancekWidget
 from NTU.perceptual_distance.Intro import Intro as PerceptualDistancekIntro
 from NTU.dxo_dead_leaves.controller import MainWindow_controller as DXO_DLWidget
-from NTU.Chou.ex import MyWidget as Chou_Widget
-from NTU.Chou.Intro import Intro as Chou_Intro
+from NTU.Chou.ex import MyWidget as PhotoDiff_Widget
+from NTU.Chou.Intro import Intro as PhotoDiff_Intro
 
 from QC.AE.Analysis.LSC.MyWidget import MyWidget as LSCWidget
 from QC.AE.Analysis.LSC.Intro import Intro as LSCIntro
@@ -254,10 +254,10 @@ class Config():
                                 "widget": mtkAEanalysisWidget(),
                             },
                             {
-                                "title": "Chou",
-                                "subtitle": "Chou",
-                                "instruction": Chou_Intro(),
-                                "widget": Chou_Widget(),
+                                "title": "PhotoDiff",
+                                "subtitle": "Diff in AE and AWB Target",
+                                "instruction": PhotoDiff_Intro(),
+                                "widget": PhotoDiff_Widget(),
                             },
                         ],
                         "Tuning": [
