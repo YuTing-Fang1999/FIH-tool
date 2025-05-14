@@ -21,11 +21,14 @@
     <rect>
      <x>90</x>
      <y>60</y>
-     <width>359</width>
+     <width>361</width>
      <height>261</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout" rowstretch="2,2,2,2,2,0,0,0" rowminimumheight="2,2,2,2,2,0,0,0">
+   <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0" rowminimumheight="0,0,0,0,0,0,0,0">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
     <property name="verticalSpacing">
      <number>-1</number>
     </property>
