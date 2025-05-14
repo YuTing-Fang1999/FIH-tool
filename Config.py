@@ -253,6 +253,12 @@ class Config():
                                 "instruction": mtkAEanalysisIntro(),
                                 "widget": mtkAEanalysisWidget(),
                             },
+                            {
+                                "title": "Chou",
+                                "subtitle": "Chou",
+                                "instruction": Chou_Intro(),
+                                "widget": Chou_Widget(),
+                            },
                         ],
                         "Tuning": [
                             {
@@ -261,12 +267,6 @@ class Config():
                                 "instruction": mtkFaceAEanalysisIntro(),
                                 "widget": mtkFaceAEanalysisWidget(),
 
-                            },
-                            {
-                                "title": "Chou",
-                                "subtitle": "Chou",
-                                "instruction": Chou_Intro(),
-                                "widget": Chou_Widget(),
                             },
                         ],
 

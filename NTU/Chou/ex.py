@@ -127,9 +127,9 @@ class MyWidget(ParentWidget):
     def check_image_num(self, folder_path_ours, folder_path_ref):
         # List all files in the folders
         files_ours = [file for file in os.listdir(folder_path_ours) if file.endswith(
-            ('.jpg', '.jpeg', '.png', '.bmp', '.gif'))]
+            ('.jpg', '.jpeg', '.png', '.bmp', '.gif', 'JPG', 'JPEG'))]
         files_ref = [file for file in os.listdir(folder_path_ref) if file.endswith(
-            ('.jpg', '.jpeg', '.png', '.bmp', '.gif'))]
+            ('.jpg', '.jpeg', '.png', '.bmp', '.gif', 'JPG', 'JPEG'))]
 
         # If the numbers of images in both folders are not equal, show a message box
         if len(files_ours) != len(files_ref):
