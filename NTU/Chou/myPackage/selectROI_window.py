@@ -212,7 +212,7 @@ class SelectROI_window(QtWidgets.QWidget):
         filepath, filetype = QFileDialog.getOpenFileName(self,
                                                          "Open file",
                                                          self.filefolder,  # start path
-                                                         'Image Files(*.png *.jpg *.jpeg *.bmp)')
+                                                         'Image Files(*.png *.jpg *.jpeg *.bmp *.JPG *.JPEG)')
 
         if filepath == '':
             return

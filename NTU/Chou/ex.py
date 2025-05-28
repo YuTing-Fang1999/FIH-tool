@@ -99,7 +99,7 @@ class MyWidget(ParentWidget):
             # Loop through the files to identify valid image files with the specified naming convention
             for file in files:
                 # Check for image files
-                if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
+                if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.JPG', '.JPEG')):
                     parts = file.split('_')
                     # Ensure the filename follows the format 1_{task}_...
                     if len(parts) > 1:
@@ -211,7 +211,7 @@ class MyWidget(ParentWidget):
             total_pairs = 0
             files = os.listdir(photo_folder)
             for file in files:
-                if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif')):
+                if file.endswith(('.jpg', '.jpeg', '.png', '.bmp', '.gif', '.JPG', '.JPEG')):
                     parts = file.split('_')
                     if len(parts) > 1:
                         task = parts[1]
