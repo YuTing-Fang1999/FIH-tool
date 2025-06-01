@@ -461,7 +461,7 @@ def copy_data_to_ae_sheet(file_path):
     wb.save(file_path)
 
 
-def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_excel, EV_ratio, AWB_num_blocks_x=40, AWB_num_blocks_y=40):
+def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, original_excel, new_excel, EV_ratio, AWB_num_blocks_x=40, AWB_num_blocks_y=40):
     # if not os.path.exists(folder_path):
     #     print(f"Error: The folder '{folder_path}' does not exist.")
     #     return
@@ -470,6 +470,8 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
     #     return
 
     print("Success input. Start the process ...")
+    print(f"AE path : {AE_expected_path}")
+    print(f"AWB path : {AWB_expected_path}")
 
     # # Ensure the AWB expected path exists
     # os.makedirs(AWB_expected_path, exist_ok=True)
@@ -507,8 +509,8 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
                     img_index = img.split('_')[0]
 
                     # Paths to the images
-                    image_path = os.path.join(folder_path, img)
-                    image_path_ref = os.path.join(folder_path_ref, img_ref)
+                    image_path = os.path.normpath(os.path.join(folder_path, img))
+                    image_path_ref = os.path.normpath(os.path.join(folder_path_ref, img_ref))
 
                     # Load images
                     # image1 = load_image(image_path)
@@ -532,27 +534,27 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
                     # Calculate RGB gain respectively
                     # _, RBG_gains = color_transfer(folder_path, folder_path_ref, img, img_ref) ## 0122 delete old RGB
                     # 2) Align image1's color to match image2's color in the chosen block
-                    roi_source, roi_target, annotated1, annotated2, aligned_image, RBG_gains = align_image_by_block(
+                    roi_source, roi_target, annotated1, annotated2, modified_image, RBG_gains = align_image_by_block(
                         image1, image2,
                         AWB_num_blocks_x,
                         AWB_num_blocks_y
                     )
 
                     # Show the cropped block
-                    # plt_awb_result(annotated1, annotated2, aligned_image)
+                    # plt_awb_result(annotated1, annotated2, modified_image)
 
                     # RBG_gains = compute_rgb_gains_from_roi(roi_source, roi_target)
 
                     # Save expected AWB image
                     # result_image = color_transfer_for_AWB_expexted_output(folder_path, folder_path_ref, img, img_ref) #####0122 delete old
-                    result_image = aligned_image  # 0122 add
+                    # result_image = modified_image  # 0122 add
                     awb_img = 'AWB_' + img
                     cv2.imwrite(os.path.join(
-                        AWB_expected_path, awb_img), result_image)
+                        AWB_expected_path, awb_img), modified_image)
 
                     # Store the result as a tuple
                     results.append((img_index, sum_of_squares, img, awb_img,
-                                    img_ref, diff_group, RBG_gains))
+                                    img_ref, diff_group, RBG_gains, modified_image))
                 else:
                     print(f"Error: Mismatch in filenames {img} and {img_ref}")
 
@@ -564,8 +566,188 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
         # print('Sorting completed.')
 
         print("Start writing results into Excel ...")
+        # Step 6: Insert sorted results into "AE" worksheet
+        # We will create two separate lists for "AE" and "AWB" and then sort them accordingly
+
+        # Temporary lists for the AE and AWB sorted data
+        ae_results = []
+        awb_results = []
+
+        # Step 5: Collect results
+        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
+            ae_results.append(
+                (img_index, sum_of_squares, img, awb_img, img_ref, diff_group, modified_image))
+            awb_results.append(
+                (img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains, modified_image))
+
+        # Step 6: Sort results for "AE" by the statistic difference of EV values
+        ae_results_sorted = sorted(ae_results, key=lambda x: np.linalg.norm(
+            x[5]), reverse=True)  # Sort by `diff_group`'s statistic difference
+
+        # Step 7: Insert sorted results into "AE" worksheet
+        ae_sheet = workbook['AE']
+        row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
+
+        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, modified_image in ae_results_sorted:
+            # Insert img index
+            ae_sheet[f'C{row}'] = img_index
+
+            # Insert EV values (-2EV, -1EV, 0EV, +1EV, +2EV) into AE worksheet
+            ae_sheet[f'G{row}'] = diff_group[0]  # -2EV
+            ae_sheet[f'H{row}'] = diff_group[1]  # -1EV
+            ae_sheet[f'I{row}'] = diff_group[2]  # 0EV
+            ae_sheet[f'J{row}'] = diff_group[3]  # +1EV
+            ae_sheet[f'K{row}'] = diff_group[4]  # +2EV
+
+            # Insert sum_of_squares and apply color
+            cell = ae_sheet[f'B{row}']
+            cell.value = sum_of_squares
+            
+            # Add severity, Place result images in corresponding folder
+            if sum_of_squares > 60: 
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
+                severity_path = os.path.join(AE_expected_path, "Red")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+            elif sum_of_squares > 30:
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
+                severity_path = os.path.join(AE_expected_path, "Yellow")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+            else:
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
+                severity_path = os.path.join(AE_expected_path, "Green")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+
+            
+            temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
+            temp_awb_img_path = resize_image_to_fit(
+                os.path.join(AWB_expected_path, awb_img))
+            temp_ref_img_path = resize_image_to_fit(
+                os.path.join(folder_path_ref, img_ref))
+            excel_img = Image(temp_img_path)
+            excel_awb_img = Image(temp_awb_img_path)
+            excel_ref_img = Image(temp_ref_img_path)
+
+            image_path = os.path.normpath(os.path.join(folder_path, img))
+            image_path_ref = os.path.normpath(os.path.join(folder_path_ref, img_ref))
+
+            # Insert images into AE worksheet
+            ae_sheet.add_image(excel_img, f'D{row}')
+            ae_sheet.add_image(excel_awb_img, f'E{row}')
+            ae_sheet.add_image(excel_ref_img, f'F{row}')
+
+            row += 1
+            tmp_to_delete.append(temp_img_path)
+            tmp_to_delete.append(temp_ref_img_path)
+
+        print("AE finished.")
+
+        # Step 8: Sort results for "AWB" by the statistic difference of RGB gains
+        awb_results_sorted = sorted(awb_results, key=lambda x: np.linalg.norm(
+            x[5]), reverse=True)  # Sort by `RBG_gains`'s statistic difference
+
+        # Step 9: Insert sorted results into "AWB" worksheet
+        awb_sheet = workbook['AWB']
+        row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
+        for img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains, modified_image in awb_results_sorted:
+            temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
+            temp_awb_img_path = resize_image_to_fit(
+                os.path.join(AWB_expected_path, awb_img))
+            temp_ref_img_path = resize_image_to_fit(
+                os.path.join(folder_path_ref, img_ref))
+            excel_img = Image(temp_img_path)
+            excel_awb_img = Image(temp_awb_img_path)
+            excel_ref_img = Image(temp_ref_img_path)
+
+            image_path = os.path.normpath(os.path.join(folder_path, img))
+            image_path_ref = os.path.normpath(os.path.join(folder_path_ref, img_ref))
+
+            # Insert img index
+            awb_sheet[f'C{row}'] = img_index
+
+            # Insert images into AWB worksheet
+            awb_sheet.add_image(excel_img, f'D{row}')
+            awb_sheet.add_image(excel_awb_img, f'E{row}')
+            awb_sheet.add_image(excel_ref_img, f'F{row}')
+
+            # Insert RGB gains into AWB worksheet
+            awb_sheet[f'G{row}'] = RBG_gains[0]  # R gain
+            awb_sheet[f'H{row}'] = RBG_gains[1]  # B gain
+            awb_sheet[f'I{row}'] = RBG_gains[2]  # G gain
+
+            r_gain, b_gain, _ = RBG_gains
+            r_dev = abs(r_gain - 1)
+            b_dev = abs(b_gain - 1)
+            total_dev = r_dev + b_dev
+
+            cell = awb_sheet[f'B{row}']
+            cell.value = f"{total_dev:.2f}"  # or f"{total_dev:.3f}" for formatting
+
+            if total_dev >= 0.5:
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
+                severity_path = os.path.join(AWB_expected_path, "Red")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+
+                # Add AWB modified image
+                basename, ext = os.path.splitext(img_ref)
+                modified_image_name = basename + "_Modified" + ext
+                cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
+            elif total_dev >= 0.2:
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
+                severity_path = os.path.join(AWB_expected_path, "Yellow")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+
+                # Add AWB modified image
+                basename, ext = os.path.splitext(img_ref)
+                modified_image_name = basename + "_Modified" + ext
+                cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
+            else:
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
+                severity_path = os.path.join(AWB_expected_path, "Green")
+                new_img_path = os.path.join(severity_path, img)
+                new_img_ref_path = os.path.join(severity_path, img_ref)
+
+                # Copy the image
+                shutil.copy(image_path, new_img_path)
+                shutil.copy(image_path_ref, new_img_ref_path)
+
+                # Add AWB modified image
+                basename, ext = os.path.splitext(img_ref)
+                modified_image_name = basename + "_Modified" + ext
+                cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
+
+            row += 1
+            tmp_to_delete.append(temp_img_path)
+            tmp_to_delete.append(temp_ref_img_path)
+
+        print("AWB finished.")
+
         # Step 5: Insert sorted results into Excel
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains in results:
+        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
             temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
             temp_awb_img_path = resize_image_to_fit(
                 os.path.join(AWB_expected_path, awb_img))
@@ -594,121 +776,6 @@ def start(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_e
             sheet[f'L{row}'] = RBG_gains[0]  # R gain
             sheet[f'M{row}'] = RBG_gains[1]  # B gain
             sheet[f'N{row}'] = RBG_gains[2]  # G gain
-
-            row += 1
-            tmp_to_delete.append(temp_img_path)
-            tmp_to_delete.append(temp_ref_img_path)
-
-        # Step 6: Insert sorted results into "AE" worksheet
-        # We will create two separate lists for "AE" and "AWB" and then sort them accordingly
-
-        # Temporary lists for the AE and AWB sorted data
-        ae_results = []
-        awb_results = []
-
-        # Step 5: Collect results
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains in results:
-            # For AE: Store results excluding RGB gains and sort by EV values
-            # Exclude RGB gains
-            ae_results.append(
-                (img_index, sum_of_squares, img, awb_img, img_ref, diff_group))
-
-            # For AWB: Store results excluding EV values and sort by RGB gains
-            # Exclude EV values
-            awb_results.append(
-                (img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains))
-
-        # Step 6: Sort results for "AE" by the statistic difference of EV values
-        ae_results_sorted = sorted(ae_results, key=lambda x: np.linalg.norm(
-            x[5]), reverse=True)  # Sort by `diff_group`'s statistic difference
-
-        # Step 7: Insert sorted results into "AE" worksheet
-        ae_sheet = workbook['AE']
-        row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
-
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group in ae_results_sorted:
-            temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
-            temp_awb_img_path = resize_image_to_fit(
-                os.path.join(AWB_expected_path, awb_img))
-            temp_ref_img_path = resize_image_to_fit(
-                os.path.join(folder_path_ref, img_ref))
-            excel_img = Image(temp_img_path)
-            excel_awb_img = Image(temp_awb_img_path)
-            excel_ref_img = Image(temp_ref_img_path)
-
-            # Insert img index
-            ae_sheet[f'C{row}'] = img_index
-
-            # Insert images into AE worksheet
-            ae_sheet.add_image(excel_img, f'D{row}')
-            ae_sheet.add_image(excel_awb_img, f'E{row}')
-            ae_sheet.add_image(excel_ref_img, f'F{row}')
-
-            # Insert EV values (-2EV, -1EV, 0EV, +1EV, +2EV) into AE worksheet
-            ae_sheet[f'G{row}'] = diff_group[0]  # -2EV
-            ae_sheet[f'H{row}'] = diff_group[1]  # -1EV
-            ae_sheet[f'I{row}'] = diff_group[2]  # 0EV
-            ae_sheet[f'J{row}'] = diff_group[3]  # +1EV
-            ae_sheet[f'K{row}'] = diff_group[4]  # +2EV
-
-            # Insert sum_of_squares and apply color
-            cell = ae_sheet[f'B{row}']
-            cell.value = sum_of_squares
-            if sum_of_squares > 60:
-                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
-            elif sum_of_squares > 30:
-                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
-            else:
-                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
-
-            row += 1
-            tmp_to_delete.append(temp_img_path)
-            tmp_to_delete.append(temp_ref_img_path)
-
-        # Step 8: Sort results for "AWB" by the statistic difference of RGB gains
-        awb_results_sorted = sorted(awb_results, key=lambda x: np.linalg.norm(
-            x[5]), reverse=True)  # Sort by `RBG_gains`'s statistic difference
-
-        # Step 9: Insert sorted results into "AWB" worksheet
-        awb_sheet = workbook['AWB']
-        row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
-        for img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains in awb_results_sorted:
-            temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
-            temp_awb_img_path = resize_image_to_fit(
-                os.path.join(AWB_expected_path, awb_img))
-            temp_ref_img_path = resize_image_to_fit(
-                os.path.join(folder_path_ref, img_ref))
-            excel_img = Image(temp_img_path)
-            excel_awb_img = Image(temp_awb_img_path)
-            excel_ref_img = Image(temp_ref_img_path)
-
-            # Insert img index
-            awb_sheet[f'C{row}'] = img_index
-
-            # Insert images into AWB worksheet
-            awb_sheet.add_image(excel_img, f'D{row}')
-            awb_sheet.add_image(excel_awb_img, f'E{row}')
-            awb_sheet.add_image(excel_ref_img, f'F{row}')
-
-            # Insert RGB gains into AWB worksheet
-            awb_sheet[f'G{row}'] = RBG_gains[0]  # R gain
-            awb_sheet[f'H{row}'] = RBG_gains[1]  # B gain
-            awb_sheet[f'I{row}'] = RBG_gains[2]  # G gain
-
-            r_gain, b_gain, _ = RBG_gains
-            r_dev = abs(r_gain - 1)
-            b_dev = abs(b_gain - 1)
-            total_dev = r_dev + b_dev
-
-            cell = awb_sheet[f'B{row}']
-            cell.value = total_dev  # or f"{total_dev:.3f}" for formatting
-
-            if total_dev >= 0.5:
-                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
-            elif total_dev >= 0.2:
-                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
-            else:
-                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
 
             row += 1
             tmp_to_delete.append(temp_img_path)
@@ -831,12 +898,12 @@ def align_image_by_block(image1, image2, num_blocks_x=4, num_blocks_y=4):
     """
     1) Finds a 'best gray' block in each image using relative grids.
     2) Computes color scaling factors (for B, G, R) to align image1's block to image2's block.
-    3) Applies those factors to the entire image1, producing 'aligned_image'.
+    3) Applies those factors to the entire image1, producing 'modified_image'.
     4) Dynamically handles outdoor images to prevent green dominance.
     5) Returns:
         roi_source, roi_target      -> The chosen blocks
         annotated1, annotated2 -> Annotated images
-        aligned_image   -> The color-aligned version of image1
+        modified_image   -> The color-modified version of image1
     """
     # # Step 0: Handle BGR to RGB if needed
     # # If using OpenCV, images are in BGR format. Convert to RGB for processing.
@@ -866,15 +933,15 @@ def align_image_by_block(image1, image2, num_blocks_x=4, num_blocks_y=4):
     # g_gain = avg_bgr2[1] / avg_bgr1[1] if avg_bgr1[1] != 0 else 1.0  # G
 
     # Step C: Apply gains to the entire image1
-    aligned_image = image1.copy().astype(np.float32)
-    aligned_image[:, :, 2] *= r_gain  # Adjust R
-    aligned_image[:, :, 0] *= b_gain  # Adjust B
-    # aligned_image[:, :, 1] *= 1.0    # Keep G unchanged (exposure reference)
+    modified_image = image1.copy().astype(np.float32)
+    modified_image[:, :, 2] *= r_gain  # Adjust R
+    modified_image[:, :, 0] *= b_gain  # Adjust B
+    # modified_image[:, :, 1] *= 1.0    # Keep G unchanged (exposure reference)
 
     # Step D: Auto-exposure adjustment based on overall brightness
     # Compute overall brightness as the average intensity across all channels
-    # Overall brightness of aligned image
-    brightness1 = np.mean(cv2.cvtColor(aligned_image, cv2.COLOR_BGR2GRAY))
+    # Overall brightness of modified image
+    brightness1 = np.mean(cv2.cvtColor(modified_image, cv2.COLOR_BGR2GRAY))
     # Overall brightness of target image
     brightness2 = np.mean(cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY))
 
@@ -883,10 +950,10 @@ def align_image_by_block(image1, image2, num_blocks_x=4, num_blocks_y=4):
         # Compute exposure adjustment based on brightness
         exposure_adjustment = brightness2 / brightness1
         # Scale all channels equally
-        aligned_image *= exposure_adjustment
+        modified_image *= exposure_adjustment
 
     # Final clip and conversion to uint8
-    aligned_image = np.clip(aligned_image, 0, 255).astype(np.uint8)
+    modified_image = np.clip(modified_image, 0, 255).astype(np.uint8)
 
     # Update r_gain and b_gain with exposure adjustment
     r_gain *= exposure_adjustment
@@ -922,19 +989,19 @@ def align_image_by_block(image1, image2, num_blocks_x=4, num_blocks_y=4):
     # print("Cb dtype:", cb.dtype, "range:", (cb.min(), cb.max()))
 
     # # Merge channels back
-    # aligned_ycrcb = cv2.merge([y, cr, cb])
-    # aligned_image = cv2.cvtColor(aligned_ycrcb, cv2.COLOR_YCrCb2BGR)
+    # modified_ycrcb = cv2.merge([y, cr, cb])
+    # modified_image = cv2.cvtColor(modified_ycrcb, cv2.COLOR_YCrCb2BGR)
     # print("Before return")
     ######################
-    return roi_source, roi_target, annotated1, annotated2, aligned_image, [r_gain, b_gain, 1]
+    return roi_source, roi_target, annotated1, annotated2, modified_image, [r_gain, b_gain, 1]
 
 
-def plt_awb_result(ann1, ann2, aligned):
+def plt_awb_result(ann1, ann2, modified):
     # Instead of cv2.imshow(...), use Matplotlib
     # Convert from BGR (OpenCV) to RGB (Matplotlib) before showing
     ann1_rgb = cv2.cvtColor(ann1, cv2.COLOR_BGR2RGB)
     ann2_rgb = cv2.cvtColor(ann2, cv2.COLOR_BGR2RGB)
-    aligned_rgb = cv2.cvtColor(aligned, cv2.COLOR_BGR2RGB)
+    modified_rgb = cv2.cvtColor(modified, cv2.COLOR_BGR2RGB)
 
     plt.figure(figsize=(15, 5))  # optional: adjust the figure size
 
@@ -950,10 +1017,10 @@ def plt_awb_result(ann1, ann2, aligned):
     plt.title("Chosen Block in Image2")
     plt.axis("off")
 
-    # Show aligned Image1
+    # Show modified Image1
     plt.subplot(1, 3, 3)
-    plt.imshow(aligned)
-    plt.title("Aligned Image1")
+    plt.imshow(modified)
+    plt.title("modified Image1")
     plt.axis("off")
 
     plt.tight_layout()
@@ -1040,12 +1107,12 @@ def compute_rgb_gains_from_roi(roi_source, roi_target):
     # mean_B_source = np.mean(B_source)
 
     # # Adjust R and B channels relative to G
-    # R_aligned = R_source * (mean_G_target / mean_R_source)
-    # B_aligned = B_source * (mean_G_target / mean_B_source)
+    # R_modified = R_source * (mean_G_target / mean_R_source)
+    # B_modified = B_source * (mean_G_target / mean_B_source)
 
     # # Stack adjusted channels
-    # aligned_image = np.stack([R_aligned, G_source, B_aligned], axis=-1)
-    # return np.clip(aligned_image, 0, 255).astype(np.uint8)
+    # modified_image = np.stack([R_modified, G_source, B_modified], axis=-1)
+    # return np.clip(modified_image, 0, 255).astype(np.uint8)
 
 
 # # New Run
@@ -1072,8 +1139,8 @@ def compute_rgb_gains_from_roi(roi_source, roi_target):
 # In[ ]:
 
 
-def main(folder_path, folder_path_ref, AWB_expected_path, original_excel, new_excel, EV_ratio, AWB_num_blocks_x, AWB_num_blocks_y):
-    start(folder_path, folder_path_ref, AWB_expected_path, original_excel,
+def main(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, original_excel, new_excel, EV_ratio, AWB_num_blocks_x, AWB_num_blocks_y):
+    start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, original_excel,
           new_excel, EV_ratio, AWB_num_blocks_x, AWB_num_blocks_y)
 
 

@@ -55,7 +55,7 @@ class SolverThread(QThread):
 
             #         # Update progress bar in the terminal
             #         pbar.update(1)  # Increment progress by 1
-            exceloutput_main(self.data['folder_path_ours'], self.data['folder_path_ref'],
+            exceloutput_main(self.data['folder_path_ours'], self.data['folder_path_ref'], self.data['AE_expected_path'],
                              self.data['AWB_expected_path'], self.data['original_excel'],
                              self.data['new_excel'], self.data['EV_ratio'],
                              self.data['AWB_num_blocks_x'], self.data['AWB_num_blocks_y'],
@@ -162,16 +162,24 @@ class MyWidget(ParentWidget):
         photo_folder = self.ui.lineEdit_photo_folder.text()
         # folder_path_ref = self.ui.lineEdit_folder_path_ref.text()
         # Create AWB_expected_path by concatenating photo_folder and "/AWB"
-        AWB_expected_path = os.path.join(photo_folder, "AWB")
-        AE_expected_path = os.path.join(photo_folder, "AE")
+        AWB_expected_path = os.path.normpath(os.path.join(photo_folder, "AWB"))
+        AE_expected_path = os.path.normpath(os.path.join(photo_folder, "AE"))
 
-        # If the directory does not exist, create it
-        if not os.path.exists(AWB_expected_path):
-            os.makedirs(AWB_expected_path)
+        if os.path.exists(AWB_expected_path):
+            shutil.rmtree(AWB_expected_path)
 
-        # If the directory does not exist, create it
-        if not os.path.exists(AE_expected_path):
-            os.makedirs(AE_expected_path)
+        if os.path.exists(AE_expected_path):
+            shutil.rmtree(AE_expected_path)
+
+
+        os.makedirs(AWB_expected_path)
+        os.makedirs(AE_expected_path)
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Red")))
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Yellow")))
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Green")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Red")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Yellow")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Green")))
 
         # Get the current time and format it as a string
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -230,6 +238,7 @@ class MyWidget(ParentWidget):
                 data = {
                     "folder_path_ours": folder_path_ours,
                     "folder_path_ref": folder_path_ref,
+                    "AE_expected_path": AE_expected_path,
                     "AWB_expected_path": AWB_expected_path,
                     "original_excel": original_excel,
                     "new_excel": new_excel,
