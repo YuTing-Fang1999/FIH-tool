@@ -549,8 +549,10 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                     # result_image = color_transfer_for_AWB_expexted_output(folder_path, folder_path_ref, img, img_ref) #####0122 delete old
                     # result_image = modified_image  # 0122 add
                     awb_img = 'AWB_' + img
-                    cv2.imwrite(os.path.join(
-                        AWB_expected_path, awb_img), modified_image)
+                    awb_path = os.path.join(AWB_expected_path, awb_img)
+                    cv2.imwrite(awb_path, modified_image)
+                    
+                    tmp_to_delete.append(awb_path)
 
                     # Store the result as a tuple
                     results.append((img_index, sum_of_squares, img, awb_img,
@@ -651,8 +653,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             ae_sheet.add_image(excel_ref_img, f'F{row}')
 
             row += 1
-            tmp_to_delete.append(temp_img_path)
-            tmp_to_delete.append(temp_ref_img_path)
+            # tmp_to_delete.append(temp_img_path)
+            # tmp_to_delete.append(temp_ref_img_path)
 
         print("AE finished.")
 
@@ -741,8 +743,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
 
             row += 1
-            tmp_to_delete.append(temp_img_path)
-            tmp_to_delete.append(temp_ref_img_path)
+            # tmp_to_delete.append(temp_img_path)
+            # tmp_to_delete.append(temp_ref_img_path)
 
         print("AWB finished.")
 
@@ -778,12 +780,15 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             sheet[f'N{row}'] = RBG_gains[2]  # G gain
 
             row += 1
-            tmp_to_delete.append(temp_img_path)
-            tmp_to_delete.append(temp_ref_img_path)
+            # tmp_to_delete.append(temp_img_path)
+            # tmp_to_delete.append(temp_ref_img_path)
 
         # Clean up temporary files
         # for tmp_file in tmp_to_delete:
         #     os.remove(tmp_file)
+        for filepath in tmp_to_delete:
+            if os.path.exists(filepath):
+                os.remove(filepath)
 
         # Step 6: Save the modified Excel file
         workbook.save(new_excel)
