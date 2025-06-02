@@ -174,12 +174,12 @@ class MyWidget(ParentWidget):
 
         os.makedirs(AWB_expected_path)
         os.makedirs(AE_expected_path)
-        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Red")))
-        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Yellow")))
-        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "Green")))
-        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Red")))
-        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Yellow")))
-        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "Green")))
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "critical")))
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "serious")))
+        os.makedirs(os.path.normpath(os.path.join(AWB_expected_path, "moderate")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "critical")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "serious")))
+        os.makedirs(os.path.normpath(os.path.join(AE_expected_path, "moderate")))
 
         # Get the current time and format it as a string
         current_time = datetime.now().strftime("%Y%m%d_%H%M%S")

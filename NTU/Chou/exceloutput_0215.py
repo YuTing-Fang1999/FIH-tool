@@ -605,8 +605,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             
             # Add severity, Place result images in corresponding folder
             if sum_of_squares > 60: 
-                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
-                severity_path = os.path.join(AE_expected_path, "Red")
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # critical
+                severity_path = os.path.join(AE_expected_path, "critical")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
@@ -614,8 +614,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 shutil.copy(image_path, new_img_path)
                 shutil.copy(image_path_ref, new_img_ref_path)
             elif sum_of_squares > 30:
-                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
-                severity_path = os.path.join(AE_expected_path, "Yellow")
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # serious
+                severity_path = os.path.join(AE_expected_path, "serious")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
@@ -623,8 +623,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 shutil.copy(image_path, new_img_path)
                 shutil.copy(image_path_ref, new_img_ref_path)
             else:
-                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
-                severity_path = os.path.join(AE_expected_path, "Green")
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # moderate
+                severity_path = os.path.join(AE_expected_path, "moderate")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
@@ -698,8 +698,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             cell.value = f"{total_dev:.2f}"  # or f"{total_dev:.3f}" for formatting
 
             if total_dev >= 0.5:
-                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # Red
-                severity_path = os.path.join(AWB_expected_path, "Red")
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # critical
+                severity_path = os.path.join(AWB_expected_path, "critical")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
@@ -712,8 +712,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
             elif total_dev >= 0.2:
-                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # Yellow
-                severity_path = os.path.join(AWB_expected_path, "Yellow")
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # serious
+                severity_path = os.path.join(AWB_expected_path, "serious")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
@@ -726,8 +726,8 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
             else:
-                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # Green
-                severity_path = os.path.join(AWB_expected_path, "Green")
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")  # moderate
+                severity_path = os.path.join(AWB_expected_path, "moderate")
                 new_img_path = os.path.join(severity_path, img)
                 new_img_ref_path = os.path.join(severity_path, img_ref)
 
