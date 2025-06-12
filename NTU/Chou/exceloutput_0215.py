@@ -497,7 +497,6 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
 
         # Step 2: Load the duplicated Excel file
         workbook = load_workbook(new_excel)
-        sheet = workbook['OverAll']
 
         # Step 3: Process images and calculate sum of squares
         results = []
@@ -525,12 +524,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                     # Adjust weights if needed (example for neutral exposure)
                     if recommand_EV_changes[2] < 0:
                         recommand_EV_changes[2] = recommand_EV_changes[2] * 4
-
-                    # Scale differences and calculate sum of squares
-                    diff_group = [int(x * EV_ratio)
-                                  for x in recommand_EV_changes]
-                    sum_of_squares = sum([x**2 for x in diff_group])
-
+                   
                     # Calculate RGB gain respectively
                     # _, RBG_gains = color_transfer(folder_path, folder_path_ref, img, img_ref) ## 0122 delete old RGB
                     # 2) Align image1's color to match image2's color in the chosen block
@@ -539,6 +533,12 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                         AWB_num_blocks_x,
                         AWB_num_blocks_y
                     )
+
+                    # Scale differences and calculate sum of squares
+                    diff_group = [int(x * EV_ratio)
+                                  for x in recommand_EV_changes]
+                    ae_sum_of_squares = sum([x**2 for x in diff_group])
+
 
                     # Show the cropped block
                     # plt_awb_result(annotated1, annotated2, modified_image)
@@ -555,7 +555,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                     tmp_to_delete.append(awb_path)
 
                     # Store the result as a tuple
-                    results.append((img_index, sum_of_squares, img, awb_img,
+                    results.append((img_index, ae_sum_of_squares, img, awb_img,
                                     img_ref, diff_group, RBG_gains, modified_image))
                 else:
                     print(f"Error: Mismatch in filenames {img} and {img_ref}")
@@ -574,23 +574,43 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
         # Temporary lists for the AE and AWB sorted data
         ae_results = []
         awb_results = []
+        overall_results = []
 
         # Step 5: Collect results
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
+        for img_index, ae_sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
             ae_results.append(
-                (img_index, sum_of_squares, img, awb_img, img_ref, diff_group, modified_image))
+                (img_index, ae_sum_of_squares, img, awb_img, img_ref, diff_group, modified_image))
+            
+            awb_dev = rgb_dev(RBG_gains)
+            
             awb_results.append(
-                (img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains, modified_image))
+                (img_index, awb_dev, img, awb_img, img_ref, RBG_gains, modified_image))
+            
+      
+        ae_vals = np.array([x[1] for x in ae_results])
+        awb_vals = np.array([x[1] for x in awb_results])
+
+        ae_min, ae_max = ae_vals.min(), ae_vals.max()
+        awb_min, awb_max = awb_vals.min(), awb_vals.max()
+            
+        for img_index, ae_sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
+            awb_dev = rgb_dev(RBG_gains)
+            ae_norm = (ae_sum_of_squares - ae_min) / (ae_max - ae_min + 1e-8)
+            awb_norm = (awb_dev - awb_min) / (awb_max - awb_min + 1e-8)
+
+            overall_spec = (ae_norm + awb_norm) / 2
+            overall_results.append(
+                (img_index, overall_spec, img, awb_img, img_ref, diff_group, RBG_gains, modified_image))
 
         # Step 6: Sort results for "AE" by the statistic difference of EV values
         ae_results_sorted = sorted(ae_results, key=lambda x: np.linalg.norm(
-            x[5]), reverse=True)  # Sort by `diff_group`'s statistic difference
+            x[1]), reverse=True)  # Sort by `diff_group`'s statistic difference
 
         # Step 7: Insert sorted results into "AE" worksheet
         ae_sheet = workbook['AE']
         row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
 
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, modified_image in ae_results_sorted:
+        for img_index, ae_sum_of_squares, img, awb_img, img_ref, diff_group, modified_image in ae_results_sorted:
             # Insert img index
             ae_sheet[f'C{row}'] = img_index
 
@@ -601,12 +621,12 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             ae_sheet[f'J{row}'] = diff_group[3]  # +1EV
             ae_sheet[f'K{row}'] = diff_group[4]  # +2EV
 
-            # Insert sum_of_squares and apply color
+            # Insert ae_sum_of_squares and apply color
             cell = ae_sheet[f'B{row}']
-            cell.value = sum_of_squares
+            cell.value = ae_sum_of_squares
             
             # Add severity, Place result images in corresponding folder
-            if sum_of_squares > 60: 
+            if ae_sum_of_squares > 60: 
                 cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # critical
                 severity_path = os.path.join(AE_expected_path, "critical")
                 new_img_path = os.path.join(severity_path, img)
@@ -615,7 +635,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 # Copy the image
                 shutil.copy(image_path, new_img_path)
                 shutil.copy(image_path_ref, new_img_ref_path)
-            elif sum_of_squares > 30:
+            elif ae_sum_of_squares > 30:
                 cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # serious
                 severity_path = os.path.join(AE_expected_path, "serious")
                 new_img_path = os.path.join(severity_path, img)
@@ -660,12 +680,12 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
 
         # Step 8: Sort results for "AWB" by the statistic difference of RGB gains
         awb_results_sorted = sorted(awb_results, key=lambda x: np.linalg.norm(
-            x[5]), reverse=True)  # Sort by `RBG_gains`'s statistic difference
+            x[1]), reverse=True)  # Sort by `RBG_gains`'s statistic difference
 
         # Step 9: Insert sorted results into "AWB" worksheet
         awb_sheet = workbook['AWB']
         row = 3  # Start inserting from row 3 (assuming headers in row 1 and 2)
-        for img_index, sum_of_squares, img, awb_img, img_ref, RBG_gains, modified_image in awb_results_sorted:
+        for img_index, awb_dev, img, awb_img, img_ref, RBG_gains, modified_image in awb_results_sorted:
             temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
             temp_awb_img_path = resize_image_to_fit(
                 os.path.join(AWB_expected_path, awb_img))
@@ -691,15 +711,10 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             awb_sheet[f'H{row}'] = RBG_gains[1]  # B gain
             awb_sheet[f'I{row}'] = RBG_gains[2]  # G gain
 
-            r_gain, b_gain, _ = RBG_gains
-            r_dev = abs(r_gain - 1)
-            b_dev = abs(b_gain - 1)
-            total_dev = r_dev + b_dev
-
             cell = awb_sheet[f'B{row}']
-            cell.value = f"{total_dev:.2f}"  # or f"{total_dev:.3f}" for formatting
+            cell.value = f"{awb_dev:.2f}"  # or f"{awb_dev:.3f}" for formatting
 
-            if total_dev >= 0.5:
+            if awb_dev >= 0.5:
                 cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")  # critical
                 severity_path = os.path.join(AWB_expected_path, "critical")
                 new_img_path = os.path.join(severity_path, img)
@@ -713,7 +728,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 basename, ext = os.path.splitext(img_ref)
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
-            elif total_dev >= 0.2:
+            elif awb_dev >= 0.2:
                 cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")  # serious
                 severity_path = os.path.join(AWB_expected_path, "serious")
                 new_img_path = os.path.join(severity_path, img)
@@ -748,8 +763,13 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
 
         print("AWB finished.")
 
+        overall_results_sorted = sorted(overall_results, key=lambda x: np.linalg.norm(
+            x[1]), reverse=True)
+        
+        overall_sheet = workbook['OverAll']
+        row = 3
         # Step 5: Insert sorted results into Excel
-        for img_index, sum_of_squares, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in results:
+        for img_index, overall_spec, img, awb_img, img_ref, diff_group, RBG_gains, modified_image in overall_results_sorted:
             temp_img_path = resize_image_to_fit(os.path.join(folder_path, img))
             temp_awb_img_path = resize_image_to_fit(
                 os.path.join(AWB_expected_path, awb_img))
@@ -760,24 +780,34 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
             excel_ref_img = Image(temp_ref_img_path)
 
             # Insert img index
-            sheet[f'C{row}'] = img_index
+            overall_sheet[f'C{row}'] = img_index
 
             # Insert images into Excel
-            sheet.add_image(excel_img, f'D{row}')
-            sheet.add_image(excel_awb_img, f'E{row}')
-            sheet.add_image(excel_ref_img, f'F{row}')
+            overall_sheet.add_image(excel_img, f'D{row}')
+            overall_sheet.add_image(excel_awb_img, f'E{row}')
+            overall_sheet.add_image(excel_ref_img, f'F{row}')
 
             # Insert EV values (-2EV, -1EV, 0EV, +1EV, +2EV) into Excel
-            sheet[f'G{row}'] = diff_group[0]  # -2EV
-            sheet[f'H{row}'] = diff_group[1]  # -1EV
-            sheet[f'I{row}'] = diff_group[2]  # 0EV
-            sheet[f'J{row}'] = diff_group[3]  # +1EV
-            sheet[f'K{row}'] = diff_group[4]  # +2EV
+            overall_sheet[f'G{row}'] = diff_group[0]  # -2EV
+            overall_sheet[f'H{row}'] = diff_group[1]  # -1EV
+            overall_sheet[f'I{row}'] = diff_group[2]  # 0EV
+            overall_sheet[f'J{row}'] = diff_group[3]  # +1EV
+            overall_sheet[f'K{row}'] = diff_group[4]  # +2EV
 
             # Insert RGB gains into Excel
-            sheet[f'L{row}'] = RBG_gains[0]  # R gain
-            sheet[f'M{row}'] = RBG_gains[1]  # B gain
-            sheet[f'N{row}'] = RBG_gains[2]  # G gain
+            overall_sheet[f'L{row}'] = RBG_gains[0]  # R gain
+            overall_sheet[f'M{row}'] = RBG_gains[1]  # B gain
+            overall_sheet[f'N{row}'] = RBG_gains[2]  # G gain
+
+            cell = overall_sheet[f'B{row}']
+            if overall_spec >= 0.7:
+                cell.fill = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+            elif overall_spec >= 0.35:
+                cell.fill = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+            else:
+                cell.fill = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")
+
+
 
             row += 1
             # tmp_to_delete.append(temp_img_path)
@@ -797,6 +827,13 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
     print("Complete!")
     print("--------------------------------------------------")
 
+def rgb_dev(RBG_gains):
+    r_gain, b_gain, _ = RBG_gains
+    r_dev = abs(r_gain - 1)
+    b_dev = abs(b_gain - 1)
+    awb_dev = r_dev + b_dev
+
+    return awb_dev
 
 def find_common_gray_block_roi_relative(image1, image2, num_blocks_x=4, num_blocks_y=4):
     """
