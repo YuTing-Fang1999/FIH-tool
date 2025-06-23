@@ -966,76 +966,75 @@ def align_image_by_block(image1, image2, num_blocks_x=4, num_blocks_y=4):
         num_blocks_y
     )
 
-    # Step B: Compute R/G and B/G ratios
+    # Step B: Compute R/G/B ratios for all three channels
     avg_bgr1 = np.mean(roi_source, axis=(0, 1))  # [B, G, R] in image1
     avg_bgr2 = np.mean(roi_target, axis=(0, 1))  # [B, G, R] in image2
 
     r_gain = avg_bgr2[2] / avg_bgr1[2] if avg_bgr1[2] != 0 else 1.0  # R ratio
+    g_gain = avg_bgr2[1] / avg_bgr1[1] if avg_bgr1[1] != 0 else 1.0  # G ratio
     b_gain = avg_bgr2[0] / avg_bgr1[0] if avg_bgr1[0] != 0 else 1.0  # B ratio
-    # g_gain = avg_bgr2[1] / avg_bgr1[1] if avg_bgr1[1] != 0 else 1.0  # G
 
     # Step C: Apply gains to the entire image1
     modified_image = image1.copy().astype(np.float32)
     modified_image[:, :, 2] *= r_gain  # Adjust R
+    modified_image[:, :, 1] *= g_gain  # Adjust G
     modified_image[:, :, 0] *= b_gain  # Adjust B
-    # modified_image[:, :, 1] *= 1.0    # Keep G unchanged (exposure reference)
 
     # Step D: Auto-exposure adjustment based on overall brightness
-    # Compute overall brightness as the average intensity across all channels
-    # Overall brightness of modified image
     brightness1 = np.mean(cv2.cvtColor(modified_image, cv2.COLOR_BGR2GRAY))
-    # Overall brightness of target image
     brightness2 = np.mean(cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY))
 
     exposure_adjustment = 1  # Default: no adjustment
     if brightness1 != 0:
-        # Compute exposure adjustment based on brightness
         exposure_adjustment = brightness2 / brightness1
-        # Scale all channels equally
         modified_image *= exposure_adjustment
 
     # Final clip and conversion to uint8
     modified_image = np.clip(modified_image, 0, 255).astype(np.uint8)
 
-    # Update r_gain and b_gain with exposure adjustment
+    # Update gains with exposure adjustment
     r_gain *= exposure_adjustment
+    g_gain *= exposure_adjustment
     b_gain *= exposure_adjustment
+    
+    return roi_source, roi_target, annotated1, annotated2, modified_image, [r_gain, b_gain, g_gain]
 
-    # Debugging: Print updated gains
-    # 0421
-    # print(f"Updated R Gain (R/G): {r_gain:.2f}")
-    # print(f"Updated B Gain (B/G): {b_gain:.2f}")
-    # print(f"Final G Gain (Exposure): {exposure_adjustment:.2f}")
-    # 0421
+    # # Step B: Compute R/G and B/G ratios
+    # avg_bgr1 = np.mean(roi_source, axis=(0, 1))  # [B, G, R] in image1
+    # avg_bgr2 = np.mean(roi_target, axis=(0, 1))  # [B, G, R] in image2
 
-    #####################
-    # 合理，但輸出幾乎是粉紅色。嘗試YCrCb
-    # r_gain, b_gain, green_exposure_ratio = compute_rgb_gains_from_roi(
-    #     roi_source, roi_target)
-    # # Compute gains
-    # cr_gain, cb_gain, luminance_exposure_ratio = compute_ycrcb_gains_from_roi(
-    #     roi_source, roi_target)
+    # r_gain = avg_bgr2[2] / avg_bgr1[2] if avg_bgr1[2] != 0 else 1.0  # R ratio
+    # b_gain = avg_bgr2[0] / avg_bgr1[0] if avg_bgr1[0] != 0 else 1.0  # B ratio
+    # # g_gain = avg_bgr2[1] / avg_bgr1[1] if avg_bgr1[1] != 0 else 1.0  # G
 
-    # # Apply gains to the source ROI or image
-    # source_ycrcb = cv2.cvtColor(image1, cv2.COLOR_BGR2YCrCb)
-    # y, cr, cb = cv2.split(source_ycrcb)
+    # # Step C: Apply gains to the entire image1
+    # modified_image = image1.copy().astype(np.float32)
+    # modified_image[:, :, 2] *= r_gain  # Adjust R
+    # modified_image[:, :, 0] *= b_gain  # Adjust B
+    # # modified_image[:, :, 1] *= 1.0    # Keep G unchanged (exposure reference)
 
-    # # Adjust channels
-    # y = np.clip(y * luminance_exposure_ratio, 0, 255).astype(np.uint8)
-    # cr = np.clip(cr * cr_gain, 0, 255).astype(np.uint8)
-    # cb = np.clip(cb * cb_gain, 0, 255).astype(np.uint8)
+    # # Step D: Auto-exposure adjustment based on overall brightness
+    # # Compute overall brightness as the average intensity across all channels
+    # # Overall brightness of modified image
+    # brightness1 = np.mean(cv2.cvtColor(modified_image, cv2.COLOR_BGR2GRAY))
+    # # Overall brightness of target image
+    # brightness2 = np.mean(cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY))
 
-    # # Debugging: Check channel properties
-    # print("Y dtype:", y.dtype, "range:", (y.min(), y.max()))
-    # print("Cr dtype:", cr.dtype, "range:", (cr.min(), cr.max()))
-    # print("Cb dtype:", cb.dtype, "range:", (cb.min(), cb.max()))
+    # exposure_adjustment = 1  # Default: no adjustment
+    # if brightness1 != 0:
+    #     # Compute exposure adjustment based on brightness
+    #     exposure_adjustment = brightness2 / brightness1
+    #     # Scale all channels equally
+    #     modified_image *= exposure_adjustment
 
-    # # Merge channels back
-    # modified_ycrcb = cv2.merge([y, cr, cb])
-    # modified_image = cv2.cvtColor(modified_ycrcb, cv2.COLOR_YCrCb2BGR)
-    # print("Before return")
-    ######################
-    return roi_source, roi_target, annotated1, annotated2, modified_image, [r_gain, b_gain, 1]
+    # # Final clip and conversion to uint8
+    # modified_image = np.clip(modified_image, 0, 255).astype(np.uint8)
+
+    # # Update r_gain and b_gain with exposure adjustment
+    # r_gain *= exposure_adjustment
+    # b_gain *= exposure_adjustment
+
+    # return roi_source, roi_target, annotated1, annotated2, modified_image, [r_gain, b_gain, 1]
 
 
 def plt_awb_result(ann1, ann2, modified):
