@@ -725,7 +725,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 shutil.copy(image_path_ref, new_img_ref_path)
 
                 # Add AWB modified image
-                basename, ext = os.path.splitext(img_ref)
+                basename, ext = os.path.splitext(img)
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
             elif awb_dev >= 0.2:
@@ -739,7 +739,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 shutil.copy(image_path_ref, new_img_ref_path)
 
                 # Add AWB modified image
-                basename, ext = os.path.splitext(img_ref)
+                basename, ext = os.path.splitext(img)
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
             else:
@@ -753,7 +753,7 @@ def start(folder_path, folder_path_ref, AE_expected_path, AWB_expected_path, ori
                 shutil.copy(image_path_ref, new_img_ref_path)
 
                 # Add AWB modified image
-                basename, ext = os.path.splitext(img_ref)
+                basename, ext = os.path.splitext(img)
                 modified_image_name = basename + "_Modified" + ext
                 cv2.imwrite(os.path.join(severity_path, modified_image_name), modified_image)
 
